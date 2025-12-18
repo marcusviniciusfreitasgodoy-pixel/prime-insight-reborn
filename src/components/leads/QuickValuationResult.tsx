@@ -92,7 +92,7 @@ const PARECER_FAQ = [
   {
     category: "confianca",
     question: "Vocês têm alguma certificação ou credenciamento?",
-    answer: "Sim. Somos registrados no CRECI-RJ (11841-PJ), seguimos a metodologia NBR 14653-2 da ABNT para avaliações, e utilizamos dados oficiais ITBI da Prefeitura do Rio de Janeiro. Nossos laudos são aceitos por bancos, cartórios e tribunais.",
+    answer: "Sim. Somos registrados no CRECI-RJ (11841-PJ), Perito Avaliador credenciado junto ao Tribunal de Justiça do Rio de Janeiro. Seguimos a metodologia NBR 14653-2 da ABNT para avaliações, e utilizamos dados oficiais ITBI da Prefeitura do Rio de Janeiro. Nossos laudos são aceitos por bancos, cartórios e tribunais.",
   },
   {
     category: "confianca",
