@@ -252,13 +252,22 @@ export default function AvaliacaoPublica() {
                 <p className="text-xs text-[#D4AF37] font-medium">Avaliação Imobiliária Premium</p>
               </div>
             </div>
-            <Button 
-              onClick={scrollToForm}
-              className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-semibold shadow-lg"
-              size="sm"
-            >
-              Consultar Valor
-            </Button>
+            <div className="flex items-center gap-3">
+              <Link 
+                to="/pesquisa"
+                className="hidden sm:flex items-center gap-1.5 text-sm text-white/80 hover:text-white transition-colors"
+              >
+                <FileSearch className="h-4 w-4" />
+                Pesquisar Transações
+              </Link>
+              <Button 
+                onClick={scrollToForm}
+                className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-semibold shadow-lg"
+                size="sm"
+              >
+                Consultar Valor
+              </Button>
+            </div>
           </header>
 
           {/* Hero Content */}
