@@ -1,1 +1,10 @@
 project_id = "hmnyizoihyaqtxnlutvg"
+
+[functions.seed-itbi-data]
+verify_jwt = false
+
+[functions.sync-itbi-daily]
+verify_jwt = false
+
+[functions.send-lead-notification]
+verify_jwt = false
