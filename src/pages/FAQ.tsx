@@ -331,15 +331,20 @@ export default function FAQ() {
                   Fazer Avaliação Gratuita
                 </Button>
               </Link>
-              <Button 
-                variant="outline"
-                size="lg"
-                onClick={() => window.open("https://wa.me/5521964075124?text=Ol%C3%A1!%20Tenho%20d%C3%BAvidas%20sobre%20avalia%C3%A7%C3%A3o%20de%20im%C3%B3veis.", "_blank")}
-                className="border-[#0C2340]/20"
+              <a 
+                href="https://wa.me/5521964075124?text=Ol%C3%A1!%20Tenho%20d%C3%BAvidas%20sobre%20avalia%C3%A7%C3%A3o%20de%20im%C3%B3veis."
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <MessageCircle className="mr-2 h-5 w-5" />
-                Falar com Especialista
-              </Button>
+                <Button 
+                  variant="outline"
+                  size="lg"
+                  className="border-[#0C2340]/20 w-full sm:w-auto"
+                >
+                  <MessageCircle className="mr-2 h-5 w-5" />
+                  Falar com Especialista
+                </Button>
+              </a>
             </div>
           </div>
         </section>
