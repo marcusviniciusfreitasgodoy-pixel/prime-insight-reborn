@@ -3,11 +3,103 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { TrendingUp, TrendingDown, MapPin, Maximize2, Home, Calculator, AlertCircle, Shield, MessageCircle, Phone, Check } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { 
+  TrendingUp, 
+  TrendingDown, 
+  MapPin, 
+  Maximize2, 
+  Home, 
+  Calculator, 
+  AlertCircle, 
+  Shield, 
+  MessageCircle, 
+  Phone, 
+  Check,
+  HelpCircle,
+  Clock,
+  FileText,
+  Users,
+  DollarSign,
+  Award,
+  CalendarCheck,
+  Briefcase,
+  BadgeCheck,
+  Banknote
+} from "lucide-react";
 import { ComparisonTable } from "./ComparisonTable";
 import { PeritEvaluationSection } from "./PeritEvaluationSection";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+
+// FAQ específica sobre o Parecer Técnico
+const PARECER_FAQ = [
+  {
+    category: "servico",
+    question: "O que exatamente é o Parecer Técnico Godoy Prime?",
+    answer: "É uma análise completa e personalizada do seu imóvel, elaborada por Marcus Godoy, perito avaliador com mais de 15 anos de experiência. Inclui visita técnica, análise de 26 características que impactam o valor, comparativo com transações recentes, e um laudo profissional que você pode usar em negociações, financiamentos e processos judiciais.",
+  },
+  {
+    category: "servico",
+    question: "Qual a diferença entre a avaliação gratuita e o Parecer Técnico?",
+    answer: "A avaliação gratuita usa médias estatísticas da região. O Parecer Técnico considera os diferenciais ESPECÍFICOS do seu imóvel: vista, andar, reforma, estado de conservação, posição solar, infraestrutura do condomínio, etc. Essas características podem representar uma diferença de 15% a 30% no valor final.",
+  },
+  {
+    category: "servico",
+    question: "O Parecer Técnico tem validade jurídica?",
+    answer: "Sim. O laudo é assinado por perito avaliador credenciado, seguindo a metodologia NBR 14653-2 da ABNT. Pode ser usado em inventários, divórcios, financiamentos bancários, disputas judiciais e qualquer situação que exija comprovação técnica do valor do imóvel.",
+  },
+  {
+    category: "processo",
+    question: "Como funciona o processo do Parecer Técnico?",
+    answer: "1) Você solicita pelo WhatsApp; 2) Agendamos uma visita técnica ao imóvel (duração: 1-2 horas); 3) Analisamos os dados e comparamos com transações recentes; 4) Em até 5 dias úteis, você recebe o laudo completo em PDF com todos os detalhes da avaliação.",
+  },
+  {
+    category: "processo",
+    question: "Preciso estar presente na visita técnica?",
+    answer: "Recomendamos que você ou alguém de confiança esteja presente para esclarecer dúvidas sobre reformas realizadas, histórico do imóvel e características que não são visíveis. Mas se não for possível, podemos realizar a vistoria com acesso ao imóvel.",
+  },
+  {
+    category: "processo",
+    question: "Quanto tempo leva para receber o laudo?",
+    answer: "O prazo padrão é de 5 dias úteis após a visita técnica. Em casos urgentes (inventários, propostas em andamento), oferecemos opção expressa com entrega em 48 horas mediante taxa adicional.",
+  },
+  {
+    category: "investimento",
+    question: "Quanto custa o Parecer Técnico?",
+    answer: "O investimento varia de acordo com a tipologia e complexidade do imóvel. Apartamentos padrão partem de R$ 1.500. Casas, coberturas e imóveis de alto padrão têm valores específicos. Entre em contato para um orçamento personalizado sem compromisso.",
+  },
+  {
+    category: "investimento",
+    question: "Vale a pena investir no Parecer Técnico?",
+    answer: "Considere: a diferença entre precificar corretamente e errar pode ser de R$ 50.000 a R$ 200.000 ou mais. Clientes que usam nosso parecer economizam em média R$ 67.000 em negociações. O investimento se paga dezenas de vezes.",
+  },
+  {
+    category: "investimento",
+    question: "E se eu não concordar com o valor do Parecer?",
+    answer: "Oferecemos garantia de satisfação. Se você discordar fundamentadamente do valor apresentado, agendamos uma reunião para revisar os critérios. Nossa metodologia é transparente: você vê exatamente como chegamos a cada número. Em casos excepcionais, podemos refazer a análise sem custo adicional.",
+  },
+  {
+    category: "confianca",
+    question: "Quem é Marcus Godoy?",
+    answer: "Marcus Godoy é corretor de imóveis (CRECI 60.703) e perito avaliador com especialização em imóveis de alto padrão na Barra da Tijuca. Com mais de 15 anos de experiência e centenas de avaliações realizadas, é referência no mercado carioca. A Godoy Prime Realty (CRECI 11841-PJ) é sua empresa especializada em consultoria imobiliária premium.",
+  },
+  {
+    category: "confianca",
+    question: "Vocês têm alguma certificação ou credenciamento?",
+    answer: "Sim. Somos registrados no CRECI-RJ (11841-PJ), seguimos a metodologia NBR 14653-2 da ABNT para avaliações, e utilizamos dados oficiais ITBI da Prefeitura do Rio de Janeiro. Nossos laudos são aceitos por bancos, cartórios e tribunais.",
+  },
+  {
+    category: "confianca",
+    question: "Posso ver exemplos de laudos anteriores?",
+    answer: "Por questões de confidencialidade, não compartilhamos laudos de outros clientes. Porém, podemos mostrar a estrutura e o nível de detalhe do documento durante nossa conversa no WhatsApp, para que você veja exatamente o que receberá.",
+  },
+];
 
 interface QuickValuationData {
   bairro: string;
@@ -260,7 +352,123 @@ export function QuickValuationResult({
         </CardContent>
       </Card>
 
-      {/* CTA para Parecer Técnico */}
+      {/* FAQ sobre o Parecer Técnico */}
+      <Card className="border-border">
+        <CardHeader className="text-center pb-4">
+          <div className="mx-auto w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-3">
+            <HelpCircle className="h-6 w-6 text-primary" />
+          </div>
+          <CardTitle className="text-xl">Dúvidas sobre o Parecer Técnico</CardTitle>
+          <p className="text-sm text-muted-foreground mt-2">
+            Entenda como funciona nossa avaliação profissional completa
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Sobre o Serviço */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-7 h-7 rounded-lg bg-[#D4AF37]/20 flex items-center justify-center">
+                <FileText className="h-4 w-4 text-[#D4AF37]" />
+              </div>
+              <h4 className="font-semibold text-sm text-primary">Sobre o Serviço</h4>
+            </div>
+            <Accordion type="single" collapsible className="space-y-1.5">
+              {PARECER_FAQ.filter(f => f.category === "servico").map((faq, index) => (
+                <AccordionItem 
+                  key={`servico-${index}`} 
+                  value={`servico-${index}`}
+                  className="bg-muted/30 rounded-lg border-0 px-3"
+                >
+                  <AccordionTrigger className="hover:no-underline py-3 text-sm">
+                    <span className="text-left font-medium">{faq.question}</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-muted-foreground pb-3">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+
+          {/* Processo */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-7 h-7 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                <CalendarCheck className="h-4 w-4 text-blue-600" />
+              </div>
+              <h4 className="font-semibold text-sm text-primary">Como Funciona</h4>
+            </div>
+            <Accordion type="single" collapsible className="space-y-1.5">
+              {PARECER_FAQ.filter(f => f.category === "processo").map((faq, index) => (
+                <AccordionItem 
+                  key={`processo-${index}`} 
+                  value={`processo-${index}`}
+                  className="bg-muted/30 rounded-lg border-0 px-3"
+                >
+                  <AccordionTrigger className="hover:no-underline py-3 text-sm">
+                    <span className="text-left font-medium">{faq.question}</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-muted-foreground pb-3">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+
+          {/* Investimento */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-7 h-7 rounded-lg bg-green-500/20 flex items-center justify-center">
+                <Banknote className="h-4 w-4 text-green-600" />
+              </div>
+              <h4 className="font-semibold text-sm text-primary">Investimento e Valor</h4>
+            </div>
+            <Accordion type="single" collapsible className="space-y-1.5">
+              {PARECER_FAQ.filter(f => f.category === "investimento").map((faq, index) => (
+                <AccordionItem 
+                  key={`investimento-${index}`} 
+                  value={`investimento-${index}`}
+                  className="bg-muted/30 rounded-lg border-0 px-3"
+                >
+                  <AccordionTrigger className="hover:no-underline py-3 text-sm">
+                    <span className="text-left font-medium">{faq.question}</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-muted-foreground pb-3">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+
+          {/* Confiança */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-7 h-7 rounded-lg bg-amber-500/20 flex items-center justify-center">
+                <BadgeCheck className="h-4 w-4 text-amber-600" />
+              </div>
+              <h4 className="font-semibold text-sm text-primary">Credenciais e Garantias</h4>
+            </div>
+            <Accordion type="single" collapsible className="space-y-1.5">
+              {PARECER_FAQ.filter(f => f.category === "confianca").map((faq, index) => (
+                <AccordionItem 
+                  key={`confianca-${index}`} 
+                  value={`confianca-${index}`}
+                  className="bg-muted/30 rounded-lg border-0 px-3"
+                >
+                  <AccordionTrigger className="hover:no-underline py-3 text-sm">
+                    <span className="text-left font-medium">{faq.question}</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-muted-foreground pb-3">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </CardContent>
+      </Card>
       {parecerRequested ? (
         <Card className="border-green-500/30 bg-green-50">
           <CardContent className="py-8">
