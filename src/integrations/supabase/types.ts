@@ -609,6 +609,22 @@ export type Database = {
           exists_flag: boolean
         }[]
       }
+      check_lead_rate_limit: { Args: { p_email: string }; Returns: boolean }
+      get_itbi_stats_for_evaluation: {
+        Args: { p_bairro: string; p_logradouro?: string; p_uso?: string }
+        Returns: {
+          max_m2: number
+          med_m2: number
+          min_m2: number
+          transaction_count: number
+        }[]
+      }
+      get_street_suggestions: {
+        Args: { p_bairro?: string; p_limit?: number; p_search: string }
+        Returns: {
+          logradouro: string
+        }[]
+      }
       get_vault_secret: { Args: { secret_name: string }; Returns: string }
       has_role: {
         Args: {
