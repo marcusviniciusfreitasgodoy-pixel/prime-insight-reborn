@@ -51,9 +51,22 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  // Verificação de segurança: validar secret header
-  const cronSecret = req.headers.get('x-cron-secret');
+  // Verificação de segurança: validar secret (header ou body)
+  const cronSecretHeader = req.headers.get('x-cron-secret');
+  let cronSecretBody: string | null = null;
+  
+  try {
+    const body = await req.clone().json();
+    cronSecretBody = body?.secret || null;
+  } catch {
+    // Body vazio ou não-JSON, ok
+  }
+  
+  const cronSecret = cronSecretHeader || cronSecretBody;
   const expectedSecret = Deno.env.get('CRON_SECRET');
+  
+  console.log('[SEED] Secret check - received:', cronSecret ? 'yes' : 'no', 'expected:', expectedSecret ? 'yes' : 'no', 'match:', cronSecret === expectedSecret);
+  console.log('[SEED] Received first 5 chars:', cronSecret?.substring(0, 5), 'Expected first 5:', expectedSecret?.substring(0, 5));
   
   if (!expectedSecret || cronSecret !== expectedSecret) {
     console.error('[SEED] Unauthorized: Invalid or missing cron secret');
