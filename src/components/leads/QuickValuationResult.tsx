@@ -42,7 +42,7 @@ const PARECER_FAQ = [
   {
     category: "servico",
     question: "O que exatamente é o Parecer Técnico Godoy Prime?",
-    answer: "É uma análise completa e personalizada do seu imóvel, elaborada por Marcus Godoy, perito avaliador com mais de 15 anos de experiência. Inclui visita técnica, análise de 26 características que impactam o valor, comparativo com transações recentes, e um laudo profissional que você pode usar em negociações, financiamentos e processos judiciais.",
+    answer: "É uma análise completa e personalizada do seu imóvel, elaborada por Marcus Godoy, perito avaliador credenciado pelo Tribunal de Justiça do Rio de Janeiro. Inclui visita técnica, análise de 26 características que impactam o valor, comparativo com transações recentes, e um laudo profissional que você pode usar em negociações, financiamentos e processos judiciais.",
   },
   {
     category: "servico",
@@ -57,7 +57,7 @@ const PARECER_FAQ = [
   {
     category: "processo",
     question: "Como funciona o processo do Parecer Técnico?",
-    answer: "1) Você solicita pelo WhatsApp; 2) Agendamos uma visita técnica ao imóvel (duração: 1-2 horas); 3) Analisamos os dados e comparamos com transações recentes; 4) Em até 5 dias úteis, você recebe o laudo completo em PDF com todos os detalhes da avaliação.",
+    answer: "1) Você solicita pelo WhatsApp; 2) Agendamos uma visita técnica ao imóvel (duração: 1-2 horas); 3) Analisamos os dados e comparamos com transações recentes; 4) Em até 5 dias úteis, você recebe o laudo completo em PDF com todos os detalhes da avaliação, inclusive fotos.",
   },
   {
     category: "processo",
@@ -72,7 +72,7 @@ const PARECER_FAQ = [
   {
     category: "investimento",
     question: "Quanto custa o Parecer Técnico?",
-    answer: "O investimento varia de acordo com a tipologia e complexidade do imóvel. Apartamentos padrão partem de R$ 1.500. Casas, coberturas e imóveis de alto padrão têm valores específicos. Entre em contato para um orçamento personalizado sem compromisso.",
+    answer: "O investimento varia de acordo com a tipologia e complexidade do imóvel. Apartamentos padrão partem de R$ 1.500. Casas, coberturas e imóveis de alto padrão têm valores específicos, em média R$ 5.000,00. Entre em contato para um orçamento personalizado sem compromisso.",
   },
   {
     category: "investimento",
@@ -87,7 +87,7 @@ const PARECER_FAQ = [
   {
     category: "confianca",
     question: "Quem é Marcus Godoy?",
-    answer: "Marcus Godoy é corretor de imóveis (CRECI 60.703) e perito avaliador com especialização em imóveis de alto padrão na Barra da Tijuca. Com mais de 15 anos de experiência e centenas de avaliações realizadas, é referência no mercado carioca. A Godoy Prime Realty (CRECI 11841-PJ) é sua empresa especializada em consultoria imobiliária premium.",
+    answer: "Marcus Godoy é corretor de imóveis (CRECI 80.199) e perito avaliador credenciado pelo Tribunal de Justiça do Rio de Janeiro, com especialização em imóveis de alto padrão na Barra da Tijuca. A Godoy Prime Realty (CRECI 11841-PJ) é sua empresa especializada em consultoria imobiliária premium.",
   },
   {
     category: "confianca",
