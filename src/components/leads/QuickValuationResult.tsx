@@ -310,11 +310,11 @@ export function QuickValuationResult({
                 
                 <Button
                   variant="outline"
-                  onClick={() => window.open("tel:+552140400067", "_self")}
+                  onClick={() => window.open("tel:+5521964075124", "_self")}
                   size="lg"
                 >
                   <Phone className="mr-2 h-5 w-5" />
-                  Ligar: (21) 4040-0067
+                  Ligar: (21) 96407-5124
                 </Button>
               </div>
               
