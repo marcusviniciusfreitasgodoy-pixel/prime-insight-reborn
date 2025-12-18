@@ -331,21 +331,20 @@ export default function FAQ() {
                   Fazer Avaliação Gratuita
                 </Button>
               </Link>
-              <a 
-                href="https://wa.me/5521964075124?text=Ol%C3%A1!%20Tenho%20d%C3%BAvidas%20sobre%20avalia%C3%A7%C3%A3o%20de%20im%C3%B3veis."
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href="tel:+5521964075124">
                 <Button 
                   variant="outline"
                   size="lg"
                   className="border-[#0C2340]/20 w-full sm:w-auto"
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
-                  Falar com Especialista
+                  Ligar: (21) 96407-5124
                 </Button>
               </a>
             </div>
+            <p className="text-xs text-muted-foreground mt-4">
+              WhatsApp: <a href="https://wa.me/5521964075124" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">+55 21 96407-5124</a>
+            </p>
           </div>
         </section>
 
