@@ -24,8 +24,19 @@ import {
   FileSearch,
   Clock,
   Building2,
-  ChevronDown
+  ChevronDown,
+  HelpCircle,
+  Lock,
+  Zap,
+  ThumbsUp,
+  BadgeCheck
 } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import godoyLogo from "@/assets/godoy-logo-symbol.png";
 import heroBackground from "@/assets/hero-barra-luxury.jpg";
 
@@ -101,6 +112,88 @@ const PERSONAS = [
     subtitle: "Quer identificar oportunidades?",
     description: "Compare valores por região e tipologia para encontrar as melhores oportunidades de investimento.",
     cta: "Tome decisões com dados reais",
+  },
+];
+
+// FAQ Data - Perguntas frequentes com objeções e argumentos
+const FAQ_DATA = [
+  {
+    category: "usabilidade",
+    icon: Zap,
+    question: "Como funciona a avaliação? É complicado?",
+    answer: "É muito simples! Você preenche seus dados de contato, informa o bairro, endereço e área do imóvel, e em 30 segundos recebe uma estimativa de valor baseada em transações reais. Não precisa de cadastro complexo, download de aplicativo ou conhecimento técnico.",
+  },
+  {
+    category: "usabilidade",
+    icon: Clock,
+    question: "Quanto tempo leva para receber o resultado?",
+    answer: "O resultado é instantâneo. Assim que você enviar o formulário, nossa tecnologia consulta o banco de dados com mais de 80.000 transações e calcula a estimativa em tempo real. Em menos de 30 segundos você já tem os valores na tela.",
+  },
+  {
+    category: "usabilidade",
+    icon: Calculator,
+    question: "Posso fazer quantas consultas quiser?",
+    answer: "Você pode fazer até 2 consultas gratuitas por email. Isso permite avaliar imóveis diferentes ou testar cenários. Se precisar de mais consultas ou uma análise mais detalhada, oferecemos o Parecer Técnico Godoy Prime com análise completa por um especialista.",
+  },
+  {
+    category: "confianca",
+    icon: Shield,
+    question: "De onde vêm os dados? São confiáveis?",
+    answer: "Usamos dados oficiais de transações ITBI (Imposto de Transmissão de Bens Imóveis) da Prefeitura do Rio de Janeiro. São registros reais de compra e venda, não preços de anúncios inflacionados. São os mesmos dados usados pelo governo para calcular impostos.",
+  },
+  {
+    category: "confianca",
+    icon: BadgeCheck,
+    question: "Por que dados ITBI são melhores que preços de anúncios?",
+    answer: "Anúncios mostram o preço que o vendedor DESEJA receber, não o valor real de venda. Pesquisas mostram que a diferença pode chegar a 20-30%. Já o ITBI registra o valor que efetivamente foi pago na transação, depois de toda negociação. É o valor real de mercado.",
+  },
+  {
+    category: "confianca",
+    icon: Lock,
+    question: "Meus dados estão seguros? Vocês vendem informações?",
+    answer: "Seus dados são protegidos com criptografia e armazenados em servidores seguros. Não vendemos, compartilhamos ou divulgamos suas informações para terceiros. Usamos apenas para enviar sua avaliação e, se você autorizar, informações relevantes sobre o mercado imobiliário.",
+  },
+  {
+    category: "beneficios",
+    icon: TrendingUp,
+    question: "Como essa avaliação me ajuda a vender meu imóvel?",
+    answer: "Conhecendo o valor real de mercado, você pode precificar corretamente seu imóvel desde o início. Imóveis com preço justo vendem em média 3x mais rápido. Você evita perder meses com um preço irrealista e também evita vender abaixo do valor por desconhecimento.",
+  },
+  {
+    category: "beneficios",
+    icon: DollarSign,
+    question: "Como essa avaliação me ajuda a comprar um imóvel?",
+    answer: "Antes de fazer uma proposta, você descobre se o preço pedido está dentro da realidade de mercado. Com dados reais em mãos, você tem argumentos sólidos para negociar e pode economizar dezenas ou centenas de milhares de reais pagando o valor justo.",
+  },
+  {
+    category: "beneficios",
+    icon: Target,
+    question: "Qual a vantagem em relação a outras ferramentas online?",
+    answer: "A maioria das ferramentas usa algoritmos genéricos baseados em preços de anúncios. Nossa ferramenta usa dados oficiais de transações reais, específicos para cada região do Rio de Janeiro, com metodologia transparente. Você vê exatamente quantas transações embasam sua estimativa.",
+  },
+  {
+    category: "objecoes",
+    icon: AlertCircle,
+    question: "É só uma estimativa, não é o valor exato, certo?",
+    answer: "Correto. Esta é uma estimativa preliminar baseada em médias de transações na região. O valor exato depende de características específicas do imóvel (vista, andar, reforma, etc.). Por isso oferecemos o Parecer Técnico Godoy Prime, onde um especialista analisa todos os diferenciais do seu imóvel para um valor preciso.",
+  },
+  {
+    category: "objecoes",
+    icon: HelpCircle,
+    question: "Por que preciso informar meus dados de contato?",
+    answer: "Precisamos do seu contato para enviar o resultado da avaliação e, principalmente, para proteger nosso sistema contra robôs e consultas em massa. Seus dados são usados apenas para comunicação sobre sua avaliação. Você pode cancelar o recebimento a qualquer momento.",
+  },
+  {
+    category: "objecoes",
+    icon: ThumbsUp,
+    question: "E se eu não concordar com o valor apresentado?",
+    answer: "A estimativa é uma referência de mercado, não uma verdade absoluta. Se você acredita que seu imóvel vale mais (ou menos), pode ter razão! Características únicas como vista privilegiada, reforma recente ou localização premium podem justificar valores diferentes. Nesse caso, o Parecer Técnico considera esses fatores.",
+  },
+  {
+    category: "objecoes",
+    icon: MessageCircle,
+    question: "Vocês vão ficar me ligando depois?",
+    answer: "Não praticamos telemarketing agressivo. Você receberá apenas informações relevantes sobre sua avaliação e, ocasionalmente, insights de mercado úteis. Se preferir não receber nada além da avaliação, basta nos avisar. Respeitamos sua privacidade e seu tempo.",
   },
 ];
 
@@ -513,7 +606,153 @@ export default function AvaliacaoPublica() {
           </section>
         )}
 
-        {/* ============ SECTION 7: FOOTER (Navy background) ============ */}
+        {/* ============ SECTION 7: FAQ (White background) ============ */}
+        <section className="py-16 md:py-20 px-4 bg-white">
+          <div className="container mx-auto max-w-4xl">
+            <div className="text-center mb-12">
+              <span className="inline-block px-4 py-1 rounded-full bg-[#0C2340]/10 text-[#0C2340] text-sm font-semibold mb-4">
+                PERGUNTAS FREQUENTES
+              </span>
+              <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">
+                Tire Suas Dúvidas
+              </h3>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Respondemos as principais perguntas sobre a ferramenta, segurança dos dados e como ela pode ajudar você.
+              </p>
+            </div>
+
+            {/* FAQ Categories */}
+            <div className="space-y-8">
+              {/* Usabilidade */}
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 rounded-lg bg-[#D4AF37]/20 flex items-center justify-center">
+                    <Zap className="h-4 w-4 text-[#D4AF37]" />
+                  </div>
+                  <h4 className="font-bold text-lg text-[#0C2340]">Como Usar</h4>
+                </div>
+                <Accordion type="single" collapsible className="space-y-2">
+                  {FAQ_DATA.filter(f => f.category === "usabilidade").map((faq, index) => (
+                    <AccordionItem 
+                      key={`usabilidade-${index}`} 
+                      value={`usabilidade-${index}`}
+                      className="bg-gray-50 rounded-xl border border-gray-100 px-4 data-[state=open]:bg-[#D4AF37]/5 data-[state=open]:border-[#D4AF37]/30"
+                    >
+                      <AccordionTrigger className="hover:no-underline py-4">
+                        <span className="text-left font-medium text-[#0C2340]">{faq.question}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pb-4">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+
+              {/* Confiança */}
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center">
+                    <Shield className="h-4 w-4 text-green-600" />
+                  </div>
+                  <h4 className="font-bold text-lg text-[#0C2340]">Confiança e Segurança</h4>
+                </div>
+                <Accordion type="single" collapsible className="space-y-2">
+                  {FAQ_DATA.filter(f => f.category === "confianca").map((faq, index) => (
+                    <AccordionItem 
+                      key={`confianca-${index}`} 
+                      value={`confianca-${index}`}
+                      className="bg-gray-50 rounded-xl border border-gray-100 px-4 data-[state=open]:bg-green-50 data-[state=open]:border-green-200"
+                    >
+                      <AccordionTrigger className="hover:no-underline py-4">
+                        <span className="text-left font-medium text-[#0C2340]">{faq.question}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pb-4">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+
+              {/* Benefícios */}
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                    <TrendingUp className="h-4 w-4 text-blue-600" />
+                  </div>
+                  <h4 className="font-bold text-lg text-[#0C2340]">Benefícios</h4>
+                </div>
+                <Accordion type="single" collapsible className="space-y-2">
+                  {FAQ_DATA.filter(f => f.category === "beneficios").map((faq, index) => (
+                    <AccordionItem 
+                      key={`beneficios-${index}`} 
+                      value={`beneficios-${index}`}
+                      className="bg-gray-50 rounded-xl border border-gray-100 px-4 data-[state=open]:bg-blue-50 data-[state=open]:border-blue-200"
+                    >
+                      <AccordionTrigger className="hover:no-underline py-4">
+                        <span className="text-left font-medium text-[#0C2340]">{faq.question}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pb-4">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+
+              {/* Objeções */}
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center">
+                    <HelpCircle className="h-4 w-4 text-amber-600" />
+                  </div>
+                  <h4 className="font-bold text-lg text-[#0C2340]">Dúvidas Comuns</h4>
+                </div>
+                <Accordion type="single" collapsible className="space-y-2">
+                  {FAQ_DATA.filter(f => f.category === "objecoes").map((faq, index) => (
+                    <AccordionItem 
+                      key={`objecoes-${index}`} 
+                      value={`objecoes-${index}`}
+                      className="bg-gray-50 rounded-xl border border-gray-100 px-4 data-[state=open]:bg-amber-50 data-[state=open]:border-amber-200"
+                    >
+                      <AccordionTrigger className="hover:no-underline py-4">
+                        <span className="text-left font-medium text-[#0C2340]">{faq.question}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pb-4">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+            </div>
+
+            {/* CTA após FAQ */}
+            <div className="mt-12 text-center">
+              <p className="text-muted-foreground mb-4">Ainda tem dúvidas?</p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Button 
+                  onClick={scrollToForm}
+                  className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-semibold"
+                >
+                  <Calculator className="mr-2 h-4 w-4" />
+                  Fazer Minha Avaliação Gratuita
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => window.open("https://wa.me/5521964075124?text=Ol%C3%A1!%20Tenho%20d%C3%BAvidas%20sobre%20a%20avalia%C3%A7%C3%A3o%20de%20im%C3%B3veis.", "_blank")}
+                  className="border-[#0C2340]/20"
+                >
+                  <MessageCircle className="mr-2 h-4 w-4" />
+                  Falar com Especialista
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ============ SECTION 8: FOOTER (Navy background) ============ */}
         <footer className="py-12 px-4 bg-[#0C2340]">
           <div className="container mx-auto max-w-5xl">
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
