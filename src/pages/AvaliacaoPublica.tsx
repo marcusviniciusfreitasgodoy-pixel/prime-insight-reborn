@@ -538,11 +538,11 @@ export default function AvaliacaoPublica() {
                   Av. das Américas, 10101 - Bloco 2, Sala 316
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center md:justify-end gap-2 sm:gap-4 text-sm">
-                  <a href="tel:+552140400067" className="text-white/80 hover:text-[#D4AF37] transition-colors">
-                    📞 (21) 4040-0067
+                  <a href="tel:+5521964075124" className="text-white/80 hover:text-[#D4AF37] transition-colors">
+                    📞 (21) 96407-5124
                   </a>
                   <a href="https://wa.me/5521964075124" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-[#D4AF37] transition-colors">
-                    💬 (21) 96407-5124
+                    💬 WhatsApp
                   </a>
                 </div>
               </div>
