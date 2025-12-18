@@ -65,9 +65,6 @@ serve(async (req) => {
   const cronSecret = cronSecretHeader || cronSecretBody;
   const expectedSecret = Deno.env.get('CRON_SECRET');
   
-  console.log('[SEED] Secret check - received:', cronSecret ? 'yes' : 'no', 'expected:', expectedSecret ? 'yes' : 'no', 'match:', cronSecret === expectedSecret);
-  console.log('[SEED] Received first 5 chars:', cronSecret?.substring(0, 5), 'Expected first 5:', expectedSecret?.substring(0, 5));
-  
   if (!expectedSecret || cronSecret !== expectedSecret) {
     console.error('[SEED] Unauthorized: Invalid or missing cron secret');
     return new Response(
