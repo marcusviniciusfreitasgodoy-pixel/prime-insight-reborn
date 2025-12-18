@@ -30,7 +30,11 @@ import {
   CalendarCheck,
   Briefcase,
   BadgeCheck,
-  Banknote
+  Banknote,
+  Building2,
+  Scale,
+  Cpu,
+  Target
 } from "lucide-react";
 import { ComparisonTable } from "./ComparisonTable";
 import { PeritEvaluationSection } from "./PeritEvaluationSection";
@@ -39,6 +43,7 @@ import { toast } from "sonner";
 
 // FAQ específica sobre o Parecer Técnico
 const PARECER_FAQ = [
+  // Categoria: Sobre o Serviço
   {
     category: "servico",
     question: "O que exatamente é o Parecer Técnico Godoy Prime?",
@@ -55,6 +60,12 @@ const PARECER_FAQ = [
     answer: "Sim. O laudo é assinado por perito avaliador credenciado, seguindo a metodologia NBR 14653-2 da ABNT. Pode ser usado em inventários, divórcios, financiamentos bancários, disputas judiciais e qualquer situação que exija comprovação técnica do valor do imóvel.",
   },
   {
+    category: "servico",
+    question: "Essa ferramenta substitui uma avaliação técnica tradicional?",
+    answer: "Não completamente, mas é um excelente complemento. A avaliação por ITBI é baseada em transações reais, usa método científico reconhecido e tem custo muito menor. Para imóveis com características únicas, reformas especiais ou localização premium, recomendamos complementar com avaliação técnica presencial.",
+  },
+  // Categoria: Processo
+  {
     category: "processo",
     question: "Como funciona o processo do Parecer Técnico?",
     answer: "1) Você solicita pelo WhatsApp; 2) Agendamos uma visita técnica ao imóvel (duração: 1-2 horas); 3) Analisamos os dados e comparamos com transações recentes; 4) Em até 5 dias úteis, você recebe o laudo completo em PDF com todos os detalhes da avaliação, inclusive fotos.",
@@ -70,6 +81,12 @@ const PARECER_FAQ = [
     answer: "O prazo padrão é de 5 dias úteis após a visita técnica. Em casos urgentes (inventários, propostas em andamento), oferecemos opção expressa com entrega em 48 horas mediante taxa adicional.",
   },
   {
+    category: "processo",
+    question: "Preciso renovar a avaliação periodicamente?",
+    answer: "Depende do uso. Para venda iminente: renove a cada 3-6 meses. Para análise de investimento: anualmente. Para fins de ITBI: no momento da transação. Os dados são atualizados continuamente pela Prefeitura.",
+  },
+  // Categoria: Investimento
+  {
     category: "investimento",
     question: "Quanto custa o Parecer Técnico?",
     answer: "O investimento varia de acordo com a tipologia e complexidade do imóvel. Apartamentos padrão partem de R$ 1.500. Casas, coberturas e imóveis de alto padrão têm valores específicos, em média R$ 5.000,00. Entre em contato para um orçamento personalizado sem compromisso.",
@@ -84,6 +101,7 @@ const PARECER_FAQ = [
     question: "E se eu não concordar com o valor do Parecer?",
     answer: "Oferecemos garantia de satisfação. Se você discordar fundamentadamente do valor apresentado, agendamos uma reunião para revisar os critérios. Nossa metodologia é transparente: você vê exatamente como chegamos a cada número. Em casos excepcionais, podemos refazer a análise sem custo adicional.",
   },
+  // Categoria: Confiança
   {
     category: "confianca",
     question: "Quem é Marcus Godoy?",
@@ -98,6 +116,115 @@ const PARECER_FAQ = [
     category: "confianca",
     question: "Posso ver exemplos de laudos anteriores?",
     answer: "Por questões de confidencialidade, não compartilhamos laudos de outros clientes. Porém, podemos mostrar a estrutura e o nível de detalhe do documento durante nossa conversa no WhatsApp, para que você veja exatamente o que receberá.",
+  },
+  {
+    category: "confianca",
+    question: "Posso auditar os dados e metodologia de vocês?",
+    answer: "Absolutamente. Oferecemos transparência total: você pode solicitar documentação completa da análise, verificar os dados nos portais da Prefeitura, e explicamos passo a passo como chegamos ao valor. Se discordar, podemos reanalisar e ajustar.",
+  },
+  // Categoria: ITBI - O que é e Por que usar
+  {
+    category: "itbi",
+    question: "O que significa ITBI?",
+    answer: "ITBI significa 'Imposto sobre Transmissão de Bens Imóveis'. É um imposto municipal cobrado quando há transferência de propriedade de um imóvel (compra e venda). O ITBI é calculado sobre o valor de mercado do imóvel no momento da transação, tornando esses registros uma fonte extremamente confiável de dados reais.",
+  },
+  {
+    category: "itbi",
+    question: "Por que usar dados de ITBI é melhor que preços de anúncios?",
+    answer: "Porque os dados de ITBI refletem transações reais que se concretizaram. Estudos comprovam que preços anunciados são, em média, 17% a 30% mais altos que o valor efetivamente pago. Os dados de ITBI eliminam especulação e representam exatamente o que o mercado pagou. Enquanto um anúncio é uma expectativa, um registro de ITBI é um fato comprovado.",
+  },
+  {
+    category: "itbi",
+    question: "Como vocês calculam o valor usando dados de ITBI?",
+    answer: "Utilizamos dados de transações reais registradas junto à Prefeitura do Rio de Janeiro. Identificamos imóveis similares ao seu (mesmo bairro, rua ou micro-região), consideramos as variações de metragem e tipo de imóvel, e aplicamos fórmulas estatísticas para estimar o valor atual. Esse método garante que a avaliação reflete o que o mercado realmente está pagando.",
+  },
+  {
+    category: "itbi",
+    question: "Vocês usam a mesma avaliação do IPTU para calcular o valor?",
+    answer: "Não. O IPTU usa fórmulas genéricas que resultam em valores frequentemente defasados. Já o ITBI reflete transações individualizadas e reais. A diferença entre ITBI e IPTU é normal e esperada. Inclusive, o STJ confirmou que as bases de cálculo são independentes e não devem ser confundidas.",
+  },
+  {
+    category: "itbi",
+    question: "Por que o IPTU é tão diferente do ITBI?",
+    answer: "Porque o IPTU usa 'lançamento em massa' - fórmulas padronizadas que não acompanham a dinâmica real do mercado. O ITBI incide apenas sobre transações específicas, com valor efetivamente negociado. O STJ foi claro: 'se existe distorção, ela ocorre no IPTU, não no ITBI'.",
+  },
+  {
+    category: "itbi",
+    question: "Qual a confiabilidade dos dados de ITBI?",
+    answer: "Altíssima. São registros fiscais oficiais documentados em cartório, baseiam-se em fatos comprovados, eliminam vieses emocionais, e seguem critérios tecnicamente reconhecidos (normas ABNT NBR 14653). A margem de erro é muito menor comparada a avaliações baseadas em anúncios.",
+  },
+  {
+    category: "itbi",
+    question: "Os dados de ITBI podem ser manipulados?",
+    answer: "Praticamente não. Declarar valor diferente gera risco legal (autuação da Prefeitura), risco bancário (banco não aprova financiamento) e risco para o vendedor. Em imóveis de alto padrão, os valores registrados em ITBI refletem fielmente a realidade das transações.",
+  },
+  {
+    category: "itbi",
+    question: "Qual a diferença entre avaliação por ITBI e tradicional?",
+    answer: "A avaliação tradicional examina características físicas do imóvel e usa comparáveis do mercado. A avaliação por ITBI usa dados estatísticos de transações reais, eliminando vieses. Ambas são complementares: ITBI fornece a base de mercado, avaliações tradicionais ajustam particularidades específicas.",
+  },
+  // Categoria: Uso Prático
+  {
+    category: "uso",
+    question: "Posso usar essa avaliação para financiamento bancário?",
+    answer: "Nossa avaliação por ITBI é um excelente ponto de partida e justificativa. Bancos fazem avaliação própria, mas você pode apresentar nossa análise como fundamentação. Para financiamento, você precisará de avaliação técnica feita por avaliador credenciado pelo banco, mas nossa análise ajuda a negociar se houver diferença.",
+  },
+  {
+    category: "uso",
+    question: "Posso usar para contrato ou negociação imobiliária?",
+    answer: "Sim, absolutamente. Nossa avaliação é útil para: definir preço de venda, negociações com argumentação fundamentada, contestar cobranças de ITBI acima do valor da escritura, análise de investimento, e como suporte técnico em processos administrativos ou judiciais.",
+  },
+  {
+    category: "uso",
+    question: "Estou comprando um imóvel. Como essa avaliação me ajuda?",
+    answer: "Excelente uso: você não paga demais, tem argumentação técnica para negociação, pode apresentar ao banco para aprovação de financiamento, e sabe exatamente quanto está pagando em relação ao mercado real.",
+  },
+  {
+    category: "uso",
+    question: "Estou vendendo um imóvel. Como me ajuda?",
+    answer: "Fundamental: precifica corretamente (nem muito alto nem muito baixo), oferece defesa perante Prefeitura se cobrar ITBI acima do declarado, atrai mais compradores com preço correto, e justifica tecnicamente o valor do imóvel nas negociações.",
+  },
+  {
+    category: "uso",
+    question: "A avaliação é aceita por cartórios e órgãos públicos?",
+    answer: "Sim. Cartórios usam para referência, a Prefeitura aceita como suporte em contestações, o Poder Judiciário aceita como prova técnica, e bancos aceitam como complemento. É especialmente útil para argumentar e justificar valores perante essas instituições.",
+  },
+  // Categoria: Aspectos Legais
+  {
+    category: "legal",
+    question: "Se a Prefeitura cobrar ITBI diferente do que declarei, o que faço?",
+    answer: "Você tem direitos claros. Dentro de 30 dias, impugne administrativamente usando a decisão do STJ (Tema 1.113) que estabelece que o valor da escritura presume-se correto. Apresente documentação (contrato, negociação, justificativas). Nossa avaliação pode ser usada como suporte técnico no processo.",
+  },
+  {
+    category: "legal",
+    question: "Se eu vender abaixo da avaliação, terei problemas?",
+    answer: "Em princípio, não - desde que a diferença seja justificada. O valor declarado presume-se correto (STJ, Tema 1.113). Pode haver razões legítimas (urgência, negociação). A Prefeitura só pode arbitrar se instaurar processo administrativo específico com contraditório.",
+  },
+  {
+    category: "legal",
+    question: "Por que o preço anunciado é tão diferente do ITBI?",
+    answer: "O preço anunciado é o ponto de partida para negociação, não o final. Em média, é 17% a 30% mais alto que o valor pago. Exemplo: anúncio R$ 2.000.000, após negociação (-15%), valor final (ITBI) R$ 1.700.000. O anúncio reflete expectativa, o ITBI reflete a realidade.",
+  },
+  // Categoria: Tecnologia
+  {
+    category: "tecnologia",
+    question: "Como vocês acessam os dados de ITBI?",
+    answer: "Os dados não são confidenciais. A Prefeitura publica relatórios com valores médios por m² por trecho de logradouro, disponíveis no portal 'Carioca Digital' e Secretaria Municipal de Fazenda. Compilamos esses dados públicos e os cruzamos com informações de mercado para análises mais precisas.",
+  },
+  {
+    category: "tecnologia",
+    question: "Vocês usam inteligência artificial?",
+    answer: "Sim. Usamos tecnologia avançada: integração com bases públicas de ITBI, algoritmos para identificar imóveis similares, modelos de regressão para estimar valores, validação com múltiplas fontes, e dashboards interativos. Toda metodologia é transparente e explicável - não é uma 'caixa preta'.",
+  },
+  {
+    category: "tecnologia",
+    question: "Com qual frequência os dados são atualizados?",
+    answer: "Dados de ITBI são atualizados continuamente pela Secretaria Municipal de Fazenda. Consolidamos mensalmente os dados mais recentes, indicamos a data de atualização em cada análise, e mantemos séries históricas para análise de tendências.",
+  },
+  {
+    category: "tecnologia",
+    question: "Qual é o nível de precisão dessa avaliação?",
+    answer: "Margem de erro típica: ±10% a 15% (excelente para real estate). Comparação: preços de anúncio têm margem de ~20-30%, dados ITBI ~10-15%, e avaliação técnica detalhada ~5%. Nossa ferramenta oferece precisão muito superior aos anúncios e é economicamente mais viável que avaliação técnica.",
   },
 ];
 
@@ -455,6 +582,110 @@ export function QuickValuationResult({
                 <AccordionItem 
                   key={`confianca-${index}`} 
                   value={`confianca-${index}`}
+                  className="bg-muted/30 rounded-lg border-0 px-3"
+                >
+                  <AccordionTrigger className="hover:no-underline py-3 text-sm">
+                    <span className="text-left font-medium">{faq.question}</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-muted-foreground pb-3">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+
+          {/* ITBI - Dados e Metodologia */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-7 h-7 rounded-lg bg-purple-500/20 flex items-center justify-center">
+                <Building2 className="h-4 w-4 text-purple-600" />
+              </div>
+              <h4 className="font-semibold text-sm text-primary">Sobre Dados de ITBI</h4>
+            </div>
+            <Accordion type="single" collapsible className="space-y-1.5">
+              {PARECER_FAQ.filter(f => f.category === "itbi").map((faq, index) => (
+                <AccordionItem 
+                  key={`itbi-${index}`} 
+                  value={`itbi-${index}`}
+                  className="bg-muted/30 rounded-lg border-0 px-3"
+                >
+                  <AccordionTrigger className="hover:no-underline py-3 text-sm">
+                    <span className="text-left font-medium">{faq.question}</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-muted-foreground pb-3">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+
+          {/* Uso Prático */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-7 h-7 rounded-lg bg-cyan-500/20 flex items-center justify-center">
+                <Target className="h-4 w-4 text-cyan-600" />
+              </div>
+              <h4 className="font-semibold text-sm text-primary">Uso Prático da Avaliação</h4>
+            </div>
+            <Accordion type="single" collapsible className="space-y-1.5">
+              {PARECER_FAQ.filter(f => f.category === "uso").map((faq, index) => (
+                <AccordionItem 
+                  key={`uso-${index}`} 
+                  value={`uso-${index}`}
+                  className="bg-muted/30 rounded-lg border-0 px-3"
+                >
+                  <AccordionTrigger className="hover:no-underline py-3 text-sm">
+                    <span className="text-left font-medium">{faq.question}</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-muted-foreground pb-3">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+
+          {/* Aspectos Legais */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-7 h-7 rounded-lg bg-red-500/20 flex items-center justify-center">
+                <Scale className="h-4 w-4 text-red-600" />
+              </div>
+              <h4 className="font-semibold text-sm text-primary">Aspectos Legais e Tributários</h4>
+            </div>
+            <Accordion type="single" collapsible className="space-y-1.5">
+              {PARECER_FAQ.filter(f => f.category === "legal").map((faq, index) => (
+                <AccordionItem 
+                  key={`legal-${index}`} 
+                  value={`legal-${index}`}
+                  className="bg-muted/30 rounded-lg border-0 px-3"
+                >
+                  <AccordionTrigger className="hover:no-underline py-3 text-sm">
+                    <span className="text-left font-medium">{faq.question}</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-muted-foreground pb-3">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+
+          {/* Tecnologia */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-7 h-7 rounded-lg bg-indigo-500/20 flex items-center justify-center">
+                <Cpu className="h-4 w-4 text-indigo-600" />
+              </div>
+              <h4 className="font-semibold text-sm text-primary">Tecnologia e Dados</h4>
+            </div>
+            <Accordion type="single" collapsible className="space-y-1.5">
+              {PARECER_FAQ.filter(f => f.category === "tecnologia").map((faq, index) => (
+                <AccordionItem 
+                  key={`tecnologia-${index}`} 
+                  value={`tecnologia-${index}`}
                   className="bg-muted/30 rounded-lg border-0 px-3"
                 >
                   <AccordionTrigger className="hover:no-underline py-3 text-sm">
