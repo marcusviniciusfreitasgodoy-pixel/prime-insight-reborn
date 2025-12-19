@@ -1,4 +1,5 @@
-import { MapPin, Phone, MessageCircle } from "lucide-react";
+import { MapPin, Phone, MessageCircle, Lock } from "lucide-react";
+import { Link } from "react-router-dom";
 import logoSymbol from "@/assets/godoy-logo-symbol.png";
 import { Button } from "@/components/ui/button";
 
@@ -61,17 +62,27 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-accent/20 flex flex-col items-center gap-2 sm:gap-3 text-[9px] sm:text-xs text-primary-foreground/60 text-center">
           <p>© 2025 GODOY PRIME REALTY. CRECI 11841 - PJ.</p>
-          <p>
-            Desenvolvido por{" "}
-            <a 
-              href="https://lovable.dev" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-accent hover:underline font-medium"
+          <div className="flex items-center gap-3">
+            <p>
+              Desenvolvido por{" "}
+              <a 
+                href="https://lovable.dev" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-accent hover:underline font-medium"
+              >
+                Lovable
+              </a>
+            </p>
+            <span className="text-accent/30">|</span>
+            <Link 
+              to="/auth" 
+              className="flex items-center gap-1 text-primary-foreground/40 hover:text-accent transition-colors"
             >
-              Lovable
-            </a>
-          </p>
+              <Lock className="h-3 w-3" />
+              <span>Admin</span>
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
