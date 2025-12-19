@@ -20,6 +20,18 @@ const SUGGESTED_QUESTIONS = [
   { icon: Clock, text: "Qual o prazo de entrega do parecer?" },
 ];
 
+// Helper function to get greeting based on time of day
+const getGreeting = (): { text: string; emoji: string } => {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12) {
+    return { text: "Bom dia", emoji: "☀️" };
+  } else if (hour >= 12 && hour < 18) {
+    return { text: "Boa tarde", emoji: "🌤️" };
+  } else {
+    return { text: "Boa noite", emoji: "🌙" };
+  }
+};
+
 export function PublicSofiaAssistant() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -278,7 +290,7 @@ export function PublicSofiaAssistant() {
               <div className="text-center py-3">
                 <img src={sofiaAvatar} alt="Sofia" className="w-16 h-16 mx-auto mb-2 rounded-full border-4 border-[#D4AF37]/20" />
                 <h4 className="font-semibold text-[#0C2340] text-base">
-                  Olá! 👋
+                  {getGreeting().text}! {getGreeting().emoji}
                 </h4>
                 <p className="text-sm text-gray-600 mt-1">
                   Sou a Sofia, posso esclarecer suas dúvidas sobre nossos serviços.
