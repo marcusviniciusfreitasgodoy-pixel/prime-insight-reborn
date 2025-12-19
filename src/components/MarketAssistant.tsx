@@ -311,7 +311,7 @@ export function MarketAssistant() {
       <Button
         onClick={() => setIsOpen(true)}
         className={cn(
-          "fixed bottom-4 right-4 z-50 h-14 w-14 rounded-full shadow-lg p-0 overflow-hidden",
+          "fixed bottom-20 right-4 z-50 h-14 w-14 rounded-full shadow-lg p-0 overflow-hidden",
           "bg-accent hover:bg-accent/90",
           "transition-all duration-300 hover:scale-110",
           isOpen && "scale-0 opacity-0"
@@ -324,7 +324,7 @@ export function MarketAssistant() {
       {/* Chat Panel */}
       <div
         className={cn(
-          "fixed bottom-4 right-4 z-50 w-[380px] max-w-[calc(100vw-2rem)]",
+          "fixed bottom-20 right-4 z-50 w-[380px] max-w-[calc(100vw-2rem)]",
           "bg-background border border-border rounded-xl shadow-2xl",
           "flex flex-col overflow-hidden",
           "transition-all duration-300 ease-out",
