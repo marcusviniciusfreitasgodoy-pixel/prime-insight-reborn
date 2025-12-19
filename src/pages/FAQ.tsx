@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/accordion";
 import { 
   Building2, 
-  Scale, 
   Cpu, 
   Target,
   ArrowLeft,
@@ -100,22 +99,6 @@ const FAQ_DATA = [
     question: "Essa ferramenta substitui uma avaliação técnica tradicional?",
     answer: "Não completamente, mas é um excelente complemento. A avaliação por ITBI é baseada em transações reais, usa método científico reconhecido e tem custo muito menor. Para imóveis com características únicas, reformas especiais ou localização premium, recomendamos complementar com avaliação técnica presencial.",
   },
-  // Categoria: Aspectos Legais
-  {
-    category: "legal",
-    question: "Se a Prefeitura cobrar ITBI diferente do que declarei, o que faço?",
-    answer: "Você tem direitos claros. Dentro de 30 dias, impugne administrativamente usando a decisão do STJ (Tema 1.113) que estabelece que o valor da escritura presume-se correto. Apresente documentação (contrato, negociação, justificativas). Nossa avaliação pode ser usada como suporte técnico no processo.",
-  },
-  {
-    category: "legal",
-    question: "Se eu vender abaixo da avaliação, terei problemas?",
-    answer: "Em princípio, não - desde que a diferença seja justificada. O valor declarado presume-se correto (STJ, Tema 1.113). Pode haver razões legítimas (urgência, negociação). A Prefeitura só pode arbitrar se instaurar processo administrativo específico com contraditório.",
-  },
-  {
-    category: "legal",
-    question: "Por que o preço anunciado é tão diferente do ITBI?",
-    answer: "O preço anunciado é o ponto de partida para negociação, não o final. Em média, é 17% a 30% mais alto que o valor pago. Exemplo: anúncio R$ 2.000.000, após negociação (-15%), valor final (ITBI) R$ 1.700.000. O anúncio reflete expectativa, o ITBI reflete a realidade.",
-  },
   // Categoria: Tecnologia
   {
     category: "tecnologia",
@@ -153,13 +136,6 @@ const CATEGORY_CONFIG = [
     description: "Como utilizar nossa avaliação em diferentes situações",
     icon: Target,
     color: "cyan",
-  },
-  {
-    id: "legal",
-    title: "Aspectos Legais e Tributários",
-    description: "Questões jurídicas relacionadas a avaliações e ITBI",
-    icon: Scale,
-    color: "red",
   },
   {
     id: "tecnologia",
