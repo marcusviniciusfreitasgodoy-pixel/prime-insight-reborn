@@ -512,6 +512,27 @@ export default function AvaliacaoPublica() {
                 "Estudos mostram que <strong className="text-[#0C2340]">mais da metade dos imóveis à venda está anunciada acima do valor real de mercado</strong>, prejudicando vendedores que perdem tempo e compradores que pagam mais do que deviam."
               </p>
             </div>
+
+            {/* Mini CTA */}
+            <div className="mt-12 text-center animate-fade-in [animation-delay:600ms]">
+              <div className="bg-gradient-to-r from-[#0C2340] to-[#1a3a5c] rounded-2xl p-6 md:p-8 shadow-xl">
+                <h4 className="text-xl md:text-2xl font-bold text-white mb-3">
+                  Não Deixe o Preço Errado Custar Caro
+                </h4>
+                <p className="text-white/80 mb-6 max-w-lg mx-auto">
+                  Descubra agora o valor real do seu imóvel com nossa avaliação gratuita baseada em dados oficiais.
+                </p>
+                <Button 
+                  onClick={scrollToForm}
+                  size="lg"
+                  className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-bold shadow-lg px-8"
+                >
+                  <Calculator className="h-5 w-5 mr-2" />
+                  Avaliar Meu Imóvel Grátis
+                  <ArrowRight className="h-5 w-5 ml-2" />
+                </Button>
+              </div>
+            </div>
           </div>
         </section>
 
