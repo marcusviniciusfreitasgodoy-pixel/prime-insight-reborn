@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, memo } from "react";
 import { Helmet } from "react-helmet-async";
 import { QuickValuationForm, QuickValuationData } from "@/components/leads/QuickValuationForm";
 import { QuickValuationResult } from "@/components/leads/QuickValuationResult";
@@ -316,10 +316,15 @@ export default function AvaliacaoPublica() {
       <div className="min-h-screen bg-background">
         {/* ============ SECTION 1: HERO (Navy with background image) ============ */}
         <section className="relative text-white overflow-hidden">
-          {/* Background image with overlay */}
-          <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
-          backgroundImage: `url(${heroBackground})`
-        }} />
+          {/* Background image with overlay - optimized with lazy loading */}
+          <img 
+            src={heroBackground} 
+            alt="" 
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            className="absolute inset-0 w-full h-full object-cover object-center"
+          />
           <div className="absolute inset-0 bg-gradient-to-br from-[#0C2340]/95 via-[#0C2340]/90 to-[#1a3a5c]/85" />
           
           {/* Decorative elements */}
@@ -331,7 +336,15 @@ export default function AvaliacaoPublica() {
           {/* Header */}
           <header className="relative z-10 container mx-auto px-4 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <img src={godoyLogo} alt="Godoy Prime" className="h-10 md:h-12 w-auto drop-shadow-lg" />
+              <img 
+                src={godoyLogo} 
+                alt="Godoy Prime" 
+                loading="eager"
+                decoding="async"
+                width={48}
+                height={48}
+                className="h-10 md:h-12 w-auto drop-shadow-lg" 
+              />
               <div className="hidden sm:block">
                 <h1 className="font-semibold text-base md:text-lg tracking-tight">Godoy Prime Realty</h1>
                 <p className="text-xs text-[#D4AF37] font-medium">Avaliação Imobiliária Premium</p>
@@ -816,7 +829,15 @@ export default function AvaliacaoPublica() {
               {/* Logo and info */}
               <div className="text-center md:text-left">
                 <div className="flex items-center gap-3 justify-center md:justify-start mb-4">
-                  <img src={godoyLogo} alt="Godoy Prime" className="h-10 w-auto" />
+                  <img 
+                    src={godoyLogo} 
+                    alt="Godoy Prime" 
+                    loading="lazy"
+                    decoding="async"
+                    width={40}
+                    height={40}
+                    className="h-10 w-auto" 
+                  />
                   <div>
                     <h4 className="font-semibold text-white">Godoy Prime Realty</h4>
                     <p className="text-xs text-[#D4AF37]">CRECI 11841-PJ</p>
