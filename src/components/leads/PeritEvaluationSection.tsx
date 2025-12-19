@@ -198,7 +198,7 @@ export function PeritEvaluationSection() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4">
           <div className="bg-white/60 rounded-lg p-3">
             <p className="text-xs text-muted-foreground">Valor</p>
-            <p className="text-base sm:text-lg font-bold text-foreground">A partir de R$ 5.000</p>
+            <p className="text-base sm:text-lg font-bold text-foreground">A partir de R$ 1.500</p>
           </div>
           <div className="bg-white/60 rounded-lg p-3">
             <p className="text-xs text-muted-foreground">Economia Média</p>
