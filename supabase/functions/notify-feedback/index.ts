@@ -72,6 +72,105 @@ const answerLabels: Record<string, string> = {
   nao: "❌ Não",
 };
 
+// Send confirmation email to user with consultation details
+async function sendUserConfirmationEmail(feedback: FeedbackNotification) {
+  if (!feedback.email) {
+    console.log("No email provided, skipping user confirmation");
+    return null;
+  }
+
+  const userName = feedback.nome || "Participante";
+
+  try {
+    const response = await resend.emails.send({
+      from: "Godoy Prime Realty <onboarding@resend.dev>",
+      to: [feedback.email],
+      subject: "🎉 Sua consultoria gratuita está garantida! - Godoy Prime Realty",
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </head>
+        <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f5f5;">
+          <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+            
+            <!-- Header -->
+            <div style="background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%); padding: 40px 30px; text-align: center;">
+              <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 600;">
+                Obrigado, ${userName}! 🎉
+              </h1>
+              <p style="color: #d4e5f7; margin: 15px 0 0 0; font-size: 16px;">
+                Sua participação é muito valiosa para nós
+              </p>
+            </div>
+            
+            <!-- Main Content -->
+            <div style="padding: 40px 30px;">
+              
+              <!-- Reward Section -->
+              <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 12px; padding: 25px; margin-bottom: 30px; border: 1px solid #f59e0b;">
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                  <span style="font-size: 32px; margin-right: 15px;">🎁</span>
+                  <h2 style="color: #92400e; margin: 0; font-size: 20px;">Sua Recompensa Exclusiva</h2>
+                </div>
+                <p style="color: #78350f; margin: 0 0 15px 0; font-size: 16px; line-height: 1.6;">
+                  Como agradecimento pela sua participação, você ganhou uma <strong>consultoria gratuita de 15 minutos</strong> com Marcus Godoy!
+                </p>
+                <ul style="color: #78350f; margin: 0; padding-left: 20px; line-height: 1.8;">
+                  <li>Análise personalizada do seu imóvel</li>
+                  <li>Dúvidas sobre o mercado imobiliário do Rio</li>
+                  <li>Orientação profissional sem compromisso</li>
+                </ul>
+              </div>
+              
+              <!-- How to Schedule -->
+              <div style="background-color: #f8fafc; border-radius: 12px; padding: 25px; margin-bottom: 30px;">
+                <h3 style="color: #1e3a5f; margin: 0 0 15px 0; font-size: 18px;">📅 Como agendar sua consultoria</h3>
+                <p style="color: #64748b; margin: 0 0 20px 0; font-size: 14px; line-height: 1.6;">
+                  Clique no botão abaixo para entrar em contato pelo WhatsApp e agendar o melhor horário para você:
+                </p>
+                <a href="https://wa.me/5521999880101?text=Olá! Sou ${encodeURIComponent(userName)} e completei a pesquisa de validação. Gostaria de agendar minha consultoria gratuita de 15 minutos." 
+                   style="display: inline-block; background-color: #25D366; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: 600; font-size: 16px;">
+                  💬 Agendar pelo WhatsApp
+                </a>
+              </div>
+              
+              <!-- About Marcus -->
+              <div style="border-top: 1px solid #e2e8f0; padding-top: 25px;">
+                <h3 style="color: #1e3a5f; margin: 0 0 15px 0; font-size: 18px;">👤 Sobre Marcus Godoy</h3>
+                <p style="color: #64748b; margin: 0; font-size: 14px; line-height: 1.7;">
+                  Marcus é corretor de imóveis especializado no mercado do Rio de Janeiro, com ampla experiência em avaliações e negociações imobiliárias. Na sua consultoria, você terá orientação profissional personalizada para suas necessidades.
+                </p>
+              </div>
+              
+            </div>
+            
+            <!-- Footer -->
+            <div style="background-color: #1e3a5f; padding: 25px 30px; text-align: center;">
+              <p style="color: #94a3b8; margin: 0 0 10px 0; font-size: 12px;">
+                Godoy Prime Realty - Inteligência Imobiliária
+              </p>
+              <p style="color: #64748b; margin: 0; font-size: 11px;">
+                Este email foi enviado porque você participou da nossa pesquisa de validação.
+              </p>
+            </div>
+            
+          </div>
+        </body>
+        </html>
+      `,
+    });
+
+    console.log("User confirmation email sent successfully:", response);
+    return response;
+  } catch (error) {
+    console.error("Error sending user confirmation email:", error);
+    return null;
+  }
+}
+
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -106,7 +205,8 @@ const handler = async (req: Request): Promise<Response> => {
       `;
     }
 
-    const emailResponse = await resend.emails.send({
+    // Send notification to admin
+    const adminEmailResponse = await resend.emails.send({
       from: "Godoy Prime Realty <onboarding@resend.dev>",
       to: ["marcusvgodoy@gmail.com"],
       subject: `Novo Feedback: ${tipoLabels[feedback.tipo_feedback] || feedback.tipo_feedback}`,
@@ -153,9 +253,14 @@ const handler = async (req: Request): Promise<Response> => {
       `,
     });
 
-    console.log("Feedback notification sent:", emailResponse);
+    console.log("Admin notification sent:", adminEmailResponse);
 
-    return new Response(JSON.stringify(emailResponse), {
+    // Send confirmation email to user (if email provided)
+    if (feedback.tipo_feedback === "pesquisa_validacao" && feedback.email) {
+      await sendUserConfirmationEmail(feedback);
+    }
+
+    return new Response(JSON.stringify(adminEmailResponse), {
       status: 200,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
