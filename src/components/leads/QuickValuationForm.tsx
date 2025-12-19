@@ -436,10 +436,10 @@ export function QuickValuationForm({ onComplete }: QuickValuationFormProps) {
                 Rua / Condomínio
               </Label>
               <div className="relative">
-                <Input
+              <Input
                   ref={inputRef}
                   id="logradouro"
-                  placeholder="Digite o nome da rua ou condomínio..."
+                  placeholder="Somente nome da Rua ou Avenida sem número"
                   value={logradouro}
                   onChange={(e) => {
                     setLogradouro(e.target.value);
