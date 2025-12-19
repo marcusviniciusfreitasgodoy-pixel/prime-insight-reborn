@@ -12,9 +12,11 @@ import { Footer } from "@/components/Footer";
 import { QuestionCard } from "@/components/feedback/QuestionCard";
 import { SurveyProgress } from "@/components/feedback/SurveyProgress";
 import { surveyQuestions } from "@/components/feedback/surveyQuestions";
+import { OnboardingStep } from "@/components/feedback/OnboardingStep";
 
 const Feedback = () => {
   const { toast } = useToast();
+  const [step, setStep] = useState<"onboarding" | "survey">("onboarding");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [nome, setNome] = useState("");
@@ -139,6 +141,9 @@ const Feedback = () => {
       </header>
 
       <main className="flex-1 py-8 md:py-12 px-4">
+        {step === "onboarding" ? (
+          <OnboardingStep onStart={() => setStep("survey")} />
+        ) : (
         <div className="container max-w-2xl mx-auto space-y-8">
           {/* Hero Section */}
           <div className="text-center space-y-4">
@@ -146,7 +151,7 @@ const Feedback = () => {
               <Sparkles className="w-8 h-8 text-primary" />
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-foreground">
-              Você está testando algo novo!
+              Pesquisa de Validação
             </h1>
             <p className="text-muted-foreground text-lg max-w-md mx-auto">
               Sua opinião conta muito. Responda algumas perguntas rápidas para nos ajudar a melhorar.
@@ -284,7 +289,11 @@ const Feedback = () => {
           </form>
 
           {/* Back Link */}
-          <div className="text-center">
+          <div className="text-center flex gap-4 justify-center">
+            <Button variant="ghost" onClick={() => setStep("onboarding")}>
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Voltar às instruções
+            </Button>
             <Button variant="ghost" asChild>
               <Link to="/">
                 <ArrowLeft className="w-4 h-4 mr-2" />
@@ -293,6 +302,7 @@ const Feedback = () => {
             </Button>
           </div>
         </div>
+        )}
       </main>
 
       <Footer />
