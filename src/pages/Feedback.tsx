@@ -130,7 +130,7 @@ const Feedback = () => {
                 <ul className="text-sm text-muted-foreground space-y-1">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span><strong>15 minutos</strong> de consultoria personalizada</span>
+                    <span>Consultoria personalizada com Marcus Godoy</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
@@ -156,7 +156,7 @@ const Feedback = () => {
                   className="w-full bg-green-600 hover:bg-green-700"
                 >
                   <a 
-                    href="https://wa.me/5521999880101?text=Olá! Completei a pesquisa de validação e gostaria de agendar minha consultoria gratuita de 15 minutos." 
+                    href="https://wa.me/5521999880101?text=Olá! Completei a pesquisa de validação e gostaria de agendar minha consultoria gratuita." 
                     target="_blank"
                     rel="noopener noreferrer"
                   >
