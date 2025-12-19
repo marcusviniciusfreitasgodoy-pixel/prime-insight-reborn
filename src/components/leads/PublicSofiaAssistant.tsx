@@ -421,6 +421,21 @@ export function PublicSofiaAssistant() {
           </div>
         </form>
       </div>
+
+      {/* Floating WhatsApp Button - hidden when chat is open */}
+      <a 
+        href="https://wa.me/5521964075124?text=Ol%C3%A1!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20avalia%C3%A7%C3%A3o%20de%20im%C3%B3veis." 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className={cn(
+          "fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] hover:bg-[#20BA5C] text-white px-4 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 animate-fade-in group",
+          isOpen && "opacity-0 pointer-events-none scale-0"
+        )} 
+        aria-label="Contato via WhatsApp"
+      >
+        <MessageSquare className="h-6 w-6" />
+        <span className="font-medium text-sm hidden sm:inline group-hover:inline">Fale Conosco</span>
+      </a>
     </>
   );
 }
