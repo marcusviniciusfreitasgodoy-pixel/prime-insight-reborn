@@ -122,6 +122,10 @@ export function PeritEvaluationSection() {
               src={marcusGodoyImg} 
               alt="Marcus Godoy - Perito Avaliador" 
               className="w-full h-auto rounded-xl object-cover"
+              loading="lazy"
+              decoding="async"
+              width={400}
+              height={500}
             />
           </div>
           
