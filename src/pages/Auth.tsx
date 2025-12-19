@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +20,14 @@ export default function Auth() {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user, isAdmin, isLoading: authLoading } = useAuthContext();
+
+  // Redirecionar se já estiver logado
+  useEffect(() => {
+    if (!authLoading && user) {
+      navigate(isAdmin ? "/leads" : "/");
+    }
+  }, [user, isAdmin, authLoading, navigate]);
 
   const formatPhone = (value: string) => {
     const numbers = value.replace(/\D/g, "");
@@ -59,7 +68,7 @@ export default function Auth() {
         title: "Login realizado!",
         description: "Bem-vindo à plataforma Godoy Prime.",
       });
-      navigate("/");
+      navigate("/leads");
     } catch (error) {
       toast({
         title: "Erro",
@@ -121,7 +130,7 @@ export default function Auth() {
         title: "Cadastro realizado!",
         description: "Você já pode acessar a plataforma.",
       });
-      navigate("/");
+      navigate("/leads");
     } catch (error) {
       toast({
         title: "Erro",
