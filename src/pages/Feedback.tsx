@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
-import { MessageSquareHeart, Star, Send, ArrowLeft, CheckCircle, Sparkles } from "lucide-react";
+import { MessageSquareHeart, Star, Send, ArrowLeft, CheckCircle, Sparkles, Gift, Phone } from "lucide-react";
 import godoyLogo from "@/assets/godoy-logo-pdf.png";
 import { Footer } from "@/components/Footer";
 import { QuestionCard } from "@/components/feedback/QuestionCard";
@@ -104,15 +104,70 @@ const Feedback = () => {
         </header>
 
         <main className="flex-1 flex items-center justify-center p-4">
-          <div className="text-center space-y-6 max-w-md">
-            <div className="w-20 h-20 mx-auto bg-green-100 rounded-full flex items-center justify-center">
-              <CheckCircle className="w-10 h-10 text-green-600" />
+          <div className="text-center space-y-6 max-w-lg">
+            <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+              <CheckCircle className="w-10 h-10 text-green-600 dark:text-green-400" />
             </div>
-            <h1 className="text-3xl font-bold text-foreground">Obrigado!</h1>
+            <h1 className="text-3xl font-bold text-foreground">Muito obrigado!</h1>
             <p className="text-muted-foreground text-lg">
-              Sua opinião foi recebida com sucesso. Cada resposta nos ajuda a criar algo realmente útil para você.
+              Sua opinião foi recebida com sucesso e é muito valiosa para nós.
             </p>
-            <Button asChild size="lg">
+
+            {/* Reward Card */}
+            <div className="bg-gradient-to-r from-amber-500/10 via-yellow-500/10 to-amber-500/10 p-6 rounded-2xl border border-amber-500/30 text-left space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-amber-500/20 rounded-full flex items-center justify-center">
+                  <Gift className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                </div>
+                <div>
+                  <p className="font-semibold text-foreground">Sua recompensa está garantida!</p>
+                  <p className="text-sm text-muted-foreground">Consultoria gratuita com Marcus Godoy</p>
+                </div>
+              </div>
+              
+              <div className="bg-background/50 p-4 rounded-xl space-y-2">
+                <p className="text-sm font-medium text-foreground">O que você ganha:</p>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span><strong>15 minutos</strong> de consultoria personalizada</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span>Análise do seu imóvel ou dúvidas sobre o mercado</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span>Orientação profissional sem compromisso</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="pt-2">
+                <p className="text-sm text-muted-foreground mb-3">
+                  {email ? (
+                    <>Entraremos em contato pelo email <strong className="text-foreground">{email}</strong> para agendar.</>
+                  ) : (
+                    <>Entre em contato pelo WhatsApp para agendar sua consultoria:</>
+                  )}
+                </p>
+                <Button 
+                  asChild 
+                  className="w-full bg-green-600 hover:bg-green-700"
+                >
+                  <a 
+                    href="https://wa.me/5521999880101?text=Olá! Completei a pesquisa de validação e gostaria de agendar minha consultoria gratuita de 15 minutos." 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Phone className="w-4 h-4 mr-2" />
+                    Agendar pelo WhatsApp
+                  </a>
+                </Button>
+              </div>
+            </div>
+
+            <Button asChild variant="outline" size="lg">
               <Link to="/">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Voltar ao início
