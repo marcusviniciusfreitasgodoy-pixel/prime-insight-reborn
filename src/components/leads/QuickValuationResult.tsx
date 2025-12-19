@@ -35,10 +35,7 @@ import {
   BadgeCheck,
   Banknote,
   ExternalLink,
-  MessageSquareHeart,
-  Gift,
-  X,
-  Clock
+  MessageSquareHeart
 } from "lucide-react";
 import { ComparisonTable } from "./ComparisonTable";
 import { PeritEvaluationSection } from "./PeritEvaluationSection";
@@ -275,27 +272,17 @@ export function QuickValuationResult({
         <DialogContent className="sm:max-w-md">
           <DialogHeader className="text-center">
             <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4">
-              <Gift className="h-8 w-8 text-primary" />
+              <MessageSquareHeart className="h-8 w-8 text-primary" />
             </div>
             <DialogTitle className="text-xl">
-              Ganhe uma consultoria gratuita! 🎁
+              Sua opinião é importante!
             </DialogTitle>
             <DialogDescription className="text-base pt-2">
-              Sua opinião é muito valiosa para nós. Responda nossa pesquisa rápida de <strong>2 minutos</strong> e ganhe uma consultoria personalizada com Marcus Godoy.
+              Ajude-nos a melhorar! Responda nossa pesquisa rápida de <strong>2 minutos</strong> e contribua para o aprimoramento da plataforma.
             </DialogDescription>
           </DialogHeader>
           
           <div className="space-y-4 pt-4">
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 flex items-start gap-3">
-              <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
-                <Clock className="h-5 w-5 text-amber-600" />
-              </div>
-              <div className="text-sm">
-                <p className="font-medium text-amber-800">Leva apenas 2 minutos</p>
-                <p className="text-amber-700">E você ganha orientação profissional gratuita</p>
-              </div>
-            </div>
-            
             <div className="flex flex-col gap-2">
               <Button 
                 onClick={handleFeedbackAccept}
@@ -422,23 +409,22 @@ export function QuickValuationResult({
         </CardContent>
       </Card>
 
-      {/* Convite para Pesquisa de Feedback - Posição destacada */}
-      <Card className="border-primary/20 bg-gradient-to-r from-primary/5 via-background to-accent/5 animate-fade-in">
+      {/* Convite para Pesquisa de Feedback - Com animação */}
+      <Card className="border-primary/30 bg-gradient-to-r from-primary/10 via-background to-accent/10 shadow-lg animate-fade-in hover:shadow-xl transition-all duration-500 hover:scale-[1.01] hover:border-primary/50">
         <CardContent className="py-6">
           <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-            <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 animate-pulse">
               <MessageSquareHeart className="h-7 w-7 text-primary" />
             </div>
             <div className="flex-1 space-y-1">
-              <h4 className="font-semibold text-foreground flex items-center justify-center sm:justify-start gap-2">
-                Sua opinião vale uma consultoria gratuita!
-                <Gift className="h-4 w-4 text-amber-500" />
+              <h4 className="font-semibold text-foreground">
+                Sua opinião é importante para nós!
               </h4>
               <p className="text-sm text-muted-foreground">
-                Responda nossa pesquisa rápida (2 min) e ganhe uma consultoria personalizada com Marcus Godoy.
+                Responda nossa pesquisa rápida (2 min) e ajude-nos a melhorar a plataforma.
               </p>
             </div>
-            <Button asChild className="bg-primary hover:bg-primary/90">
+            <Button asChild className="bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg transition-all">
               <Link to="/feedback">
                 Participar da Pesquisa
               </Link>
