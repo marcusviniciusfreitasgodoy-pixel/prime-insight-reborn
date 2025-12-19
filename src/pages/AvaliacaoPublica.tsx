@@ -393,70 +393,7 @@ export default function AvaliacaoPublica() {
           </div>
         </section>
 
-        {/* ============ SECTION 2: PROBLEM (White background) ============ */}
-        <section className="py-16 md:py-20 px-4 bg-white">
-          <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-12">
-              <span className="inline-block px-4 py-1 rounded-full bg-destructive/10 text-destructive text-sm font-semibold mb-4">
-                O PROBLEMA
-              </span>
-              <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">
-                Por Que Você Está Negociando no Escuro?
-              </h3>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                A diferença entre o preço pedido e o valor real pode chegar a <strong className="text-[#D4AF37]">R$ 200.000</strong> ou mais.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              {PROBLEMS.map((problem, index) => <div key={index} className="bg-gray-50 rounded-2xl p-6 border border-gray-100 hover:border-[#D4AF37]/30 hover:shadow-lg transition-all duration-300">
-                  <div className="w-12 h-12 rounded-xl bg-destructive/10 flex items-center justify-center mb-4">
-                    <problem.icon className="h-6 w-6 text-destructive" />
-                  </div>
-                  <h4 className="font-bold text-lg text-[#0C2340] mb-2">{problem.title}</h4>
-                  <p className="text-muted-foreground text-sm">{problem.description}</p>
-                </div>)}
-            </div>
-          </div>
-        </section>
-
-        {/* ============ SECTION 3: SOLUTION (Light gray background) ============ */}
-        <section className="py-16 md:py-20 px-4 bg-gray-50">
-          <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-12">
-              <span className="inline-block px-4 py-1 rounded-full bg-[#D4AF37]/10 text-[#D4AF37] text-sm font-semibold mb-4">
-                A SOLUÇÃO
-              </span>
-              <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">
-                A Solução Que Muda Tudo
-              </h3>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Avaliação baseada em dados reais da Prefeitura, não em achismos ou algoritmos genéricos.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              {SOLUTIONS.map((solution, index) => <div key={index} className="bg-white rounded-2xl p-6 border-2 border-[#D4AF37]/20 hover:border-[#D4AF37]/50 shadow-sm hover:shadow-xl transition-all duration-300">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#D4AF37]/20 to-[#D4AF37]/5 border border-[#D4AF37]/30 flex items-center justify-center mb-4">
-                    <solution.icon className="h-6 w-6 text-[#D4AF37]" />
-                  </div>
-                  <h4 className="font-bold text-lg text-[#0C2340] mb-2">{solution.title}</h4>
-                  <p className="text-muted-foreground text-sm mb-4">{solution.description}</p>
-                  <div className="flex items-center gap-2 text-xs bg-[#D4AF37]/10 text-[#0C2340] rounded-lg px-3 py-2">
-                    <CheckCircle className="h-4 w-4 text-[#D4AF37]" />
-                    {solution.highlight}
-                  </div>
-                </div>)}
-            </div>
-
-            {/* Social proof */}
-            <div className="mt-12 text-center">
-              
-            </div>
-          </div>
-        </section>
-
-        {/* ============ SECTION 3.5: WRONG PRICE IMPACTS (White background) ============ */}
+        {/* ============ SECTION 2: WRONG PRICE IMPACTS - ATENÇÃO (White background) ============ */}
         <section className="py-16 md:py-20 px-4 bg-white">
           <div className="container mx-auto max-w-5xl">
             <div className="text-center mb-12 animate-fade-in">
@@ -574,6 +511,64 @@ export default function AvaliacaoPublica() {
               <p className="text-sm text-muted-foreground italic max-w-2xl mx-auto">
                 "Estudos mostram que <strong className="text-[#0C2340]">mais da metade dos imóveis à venda está anunciada acima do valor real de mercado</strong>, prejudicando vendedores que perdem tempo e compradores que pagam mais do que deviam."
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ============ SECTION 3: PROBLEM (Gray background) ============ */}
+        <section className="py-16 md:py-20 px-4 bg-gray-50">
+          <div className="container mx-auto max-w-5xl">
+            <div className="text-center mb-12">
+              <span className="inline-block px-4 py-1 rounded-full bg-destructive/10 text-destructive text-sm font-semibold mb-4">
+                O PROBLEMA
+              </span>
+              <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">
+                Por Que Você Está Negociando no Escuro?
+              </h3>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                A diferença entre o preço pedido e o valor real pode chegar a <strong className="text-[#D4AF37]">R$ 200.000</strong> ou mais.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {PROBLEMS.map((problem, index) => <div key={index} className="bg-white rounded-2xl p-6 border border-gray-100 hover:border-[#D4AF37]/30 hover:shadow-lg transition-all duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-destructive/10 flex items-center justify-center mb-4">
+                    <problem.icon className="h-6 w-6 text-destructive" />
+                  </div>
+                  <h4 className="font-bold text-lg text-[#0C2340] mb-2">{problem.title}</h4>
+                  <p className="text-muted-foreground text-sm">{problem.description}</p>
+                </div>)}
+            </div>
+          </div>
+        </section>
+
+        {/* ============ SECTION 4: SOLUTION (White background) ============ */}
+        <section className="py-16 md:py-20 px-4 bg-white">
+          <div className="container mx-auto max-w-5xl">
+            <div className="text-center mb-12">
+              <span className="inline-block px-4 py-1 rounded-full bg-[#D4AF37]/10 text-[#D4AF37] text-sm font-semibold mb-4">
+                A SOLUÇÃO
+              </span>
+              <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">
+                A Solução Que Muda Tudo
+              </h3>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Avaliação baseada em dados reais da Prefeitura, não em achismos ou algoritmos genéricos.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {SOLUTIONS.map((solution, index) => <div key={index} className="bg-gray-50 rounded-2xl p-6 border-2 border-[#D4AF37]/20 hover:border-[#D4AF37]/50 shadow-sm hover:shadow-xl transition-all duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#D4AF37]/20 to-[#D4AF37]/5 border border-[#D4AF37]/30 flex items-center justify-center mb-4">
+                    <solution.icon className="h-6 w-6 text-[#D4AF37]" />
+                  </div>
+                  <h4 className="font-bold text-lg text-[#0C2340] mb-2">{solution.title}</h4>
+                  <p className="text-muted-foreground text-sm mb-4">{solution.description}</p>
+                  <div className="flex items-center gap-2 text-xs bg-[#D4AF37]/10 text-[#0C2340] rounded-lg px-3 py-2">
+                    <CheckCircle className="h-4 w-4 text-[#D4AF37]" />
+                    {solution.highlight}
+                  </div>
+                </div>)}
             </div>
           </div>
         </section>
