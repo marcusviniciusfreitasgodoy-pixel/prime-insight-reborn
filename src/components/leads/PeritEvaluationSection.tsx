@@ -236,8 +236,8 @@ export function PeritEvaluationSection() {
 
         <div className="text-center space-y-4">
           <p className="text-white/80 text-sm">
-            <strong className="text-[#D4AF37]">A Diferença Matemática:</strong> Compradores que usam Personal Shopper 
-            economizam em média 8-15% no valor final + evitam 100% dos vícios ocultos.
+            <strong className="text-[#D4AF37]">A Diferença Matemática:</strong> Compradores que usam Personal Shopper Imobiliário 
+            economizam em média 8-15% no valor final, economizam tempo e evitam surpresas futuras.
           </p>
           
           <Button 
