@@ -158,7 +158,7 @@ export function QuickValuationResult({
     
     const timer = setTimeout(() => {
       setShowFeedbackModal(true);
-    }, 5000);
+    }, 20000);
 
     return () => clearTimeout(timer);
   }, [feedbackDismissed]);
