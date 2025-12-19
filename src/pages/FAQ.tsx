@@ -343,7 +343,15 @@ export default function FAQ() {
               </a>
             </div>
             <p className="text-xs text-muted-foreground mt-4">
-              WhatsApp: <a href="https://wa.me/5521964075124" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">+55 21 96407-5124</a>
+              WhatsApp:{" "}
+              <a
+                href="https://wa.me/5521964075124"
+                target="_top"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
+                +55 21 96407-5124
+              </a>
             </p>
           </div>
         </section>
@@ -374,7 +382,12 @@ export default function FAQ() {
                   <a href="tel:+5521964075124" className="text-white/80 hover:text-[#D4AF37] transition-colors">
                     📞 (21) 96407-5124
                   </a>
-                  <a href="https://wa.me/5521964075124" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-[#D4AF37] transition-colors">
+                  <a
+                    href="https://wa.me/5521964075124"
+                    target="_top"
+                    rel="noopener noreferrer"
+                    className="text-white/80 hover:text-[#D4AF37] transition-colors"
+                  >
                     💬 WhatsApp
                   </a>
                 </div>
@@ -401,7 +414,7 @@ export default function FAQ() {
         {/* Floating WhatsApp Button */}
         <a
           href="https://wa.me/5521964075124?text=Ol%C3%A1!%20Tenho%20d%C3%BAvidas%20sobre%20avalia%C3%A7%C3%A3o%20de%20im%C3%B3veis."
-          target="_blank"
+          target="_top"
           rel="noopener noreferrer"
           className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] hover:bg-[#20BA5C] text-white px-4 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
           aria-label="Contato via WhatsApp"
