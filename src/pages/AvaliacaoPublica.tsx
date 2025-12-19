@@ -525,11 +525,11 @@ export default function AvaliacaoPublica() {
                 <Button 
                   onClick={scrollToForm}
                   size="lg"
-                  className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-bold shadow-lg px-8"
+                  className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-bold shadow-lg px-4 sm:px-8 py-3 sm:py-4 text-sm sm:text-base w-full sm:w-auto max-w-xs sm:max-w-none"
                 >
-                  <Calculator className="h-5 w-5 mr-2" />
-                  Avaliar Meu Imóvel Grátis
-                  <ArrowRight className="h-5 w-5 ml-2" />
+                  <Calculator className="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2 flex-shrink-0" />
+                  <span className="truncate">Avaliar Meu Imóvel Grátis</span>
+                  <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-1.5 sm:ml-2 flex-shrink-0" />
                 </Button>
               </div>
             </div>
