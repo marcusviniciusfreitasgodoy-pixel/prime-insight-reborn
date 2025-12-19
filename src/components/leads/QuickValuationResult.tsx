@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -29,7 +36,9 @@ import {
   Banknote,
   ExternalLink,
   MessageSquareHeart,
-  Gift
+  Gift,
+  X,
+  Clock
 } from "lucide-react";
 import { ComparisonTable } from "./ComparisonTable";
 import { PeritEvaluationSection } from "./PeritEvaluationSection";
@@ -140,8 +149,33 @@ export function QuickValuationResult({
   data, 
   onNewValuation 
 }: QuickValuationResultProps) {
+  const navigate = useNavigate();
   const [parecerRequested, setParecerRequested] = useState(false);
   const [isRequesting, setIsRequesting] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [feedbackDismissed, setFeedbackDismissed] = useState(false);
+
+  // Show feedback modal after 5 seconds
+  useEffect(() => {
+    if (feedbackDismissed) return;
+    
+    const timer = setTimeout(() => {
+      setShowFeedbackModal(true);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [feedbackDismissed]);
+
+  const handleFeedbackAccept = () => {
+    setShowFeedbackModal(false);
+    setFeedbackDismissed(true);
+    navigate('/feedback');
+  };
+
+  const handleFeedbackDismiss = () => {
+    setShowFeedbackModal(false);
+    setFeedbackDismissed(true);
+  };
 
   const formatCurrency = (value: number, compact = false) => {
     if (compact && value >= 1000000) {
@@ -236,6 +270,53 @@ export function QuickValuationResult({
 
   return (
     <div className="space-y-8">
+      {/* Modal de Feedback Automático */}
+      <Dialog open={showFeedbackModal} onOpenChange={setShowFeedbackModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader className="text-center">
+            <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4">
+              <Gift className="h-8 w-8 text-primary" />
+            </div>
+            <DialogTitle className="text-xl">
+              Ganhe uma consultoria gratuita! 🎁
+            </DialogTitle>
+            <DialogDescription className="text-base pt-2">
+              Sua opinião é muito valiosa para nós. Responda nossa pesquisa rápida de <strong>2 minutos</strong> e ganhe uma consultoria personalizada com Marcus Godoy.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 pt-4">
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 flex items-start gap-3">
+              <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+                <Clock className="h-5 w-5 text-amber-600" />
+              </div>
+              <div className="text-sm">
+                <p className="font-medium text-amber-800">Leva apenas 2 minutos</p>
+                <p className="text-amber-700">E você ganha orientação profissional gratuita</p>
+              </div>
+            </div>
+            
+            <div className="flex flex-col gap-2">
+              <Button 
+                onClick={handleFeedbackAccept}
+                className="w-full bg-primary hover:bg-primary/90"
+                size="lg"
+              >
+                <MessageSquareHeart className="mr-2 h-5 w-5" />
+                Participar da Pesquisa
+              </Button>
+              <Button 
+                variant="ghost" 
+                onClick={handleFeedbackDismiss}
+                className="w-full text-muted-foreground"
+              >
+                Talvez depois
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Lead Info Badge */}
       <div className="bg-green-50 border border-green-200 rounded-xl p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
