@@ -3,27 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
-import { MessageSquareHeart, Star, Send, ArrowLeft, CheckCircle } from "lucide-react";
+import { MessageSquareHeart, Star, Send, ArrowLeft, CheckCircle, Sparkles } from "lucide-react";
 import godoyLogo from "@/assets/godoy-logo-pdf.png";
 import { Footer } from "@/components/Footer";
-
-const tiposFeedback = [
-  { value: "sugestao", label: "💡 Sugestão" },
-  { value: "bug", label: "🐛 Bug/Problema" },
-  { value: "elogio", label: "👏 Elogio" },
-  { value: "critica", label: "📝 Crítica construtiva" },
-  { value: "outro", label: "📌 Outro" },
-];
+import { QuestionCard } from "@/components/feedback/QuestionCard";
+import { SurveyProgress } from "@/components/feedback/SurveyProgress";
+import { surveyQuestions } from "@/components/feedback/surveyQuestions";
 
 const Feedback = () => {
   const { toast } = useToast();
@@ -31,18 +19,25 @@ const Feedback = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
-  const [tipoFeedback, setTipoFeedback] = useState("sugestao");
   const [avaliacao, setAvaliacao] = useState(0);
   const [mensagem, setMensagem] = useState("");
   const [hoveredStar, setHoveredStar] = useState(0);
+  const [respostas, setRespostas] = useState<Record<string, string>>({});
+
+  const handleSelectAnswer = (questionId: string, value: string) => {
+    setRespostas((prev) => ({ ...prev, [questionId]: value }));
+  };
+
+  const answeredCount = Object.keys(respostas).length;
+  const totalQuestions = surveyQuestions.length;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (mensagem.trim().length < 10) {
+    if (answeredCount < 3) {
       toast({
-        title: "Mensagem muito curta",
-        description: "Por favor, escreva pelo menos 10 caracteres.",
+        title: "Responda mais perguntas",
+        description: "Por favor, responda pelo menos 3 perguntas da pesquisa.",
         variant: "destructive",
       });
       return;
@@ -54,32 +49,34 @@ const Feedback = () => {
       const { error } = await supabase.from("feedbacks").insert({
         nome: nome.trim() || null,
         email: email.trim() || null,
-        tipo_feedback: tipoFeedback,
+        tipo_feedback: "pesquisa_validacao",
         avaliacao: avaliacao || null,
-        mensagem: mensagem.trim(),
+        mensagem: mensagem.trim() || "Apenas respondeu o questionário",
         pagina_origem: window.location.pathname,
+        respostas_questionario: respostas,
       });
 
       if (error) throw error;
 
-      // Send email notification (fire and forget)
+      // Send email notification with survey responses
       supabase.functions.invoke("notify-feedback", {
         body: {
           nome: nome.trim() || null,
           email: email.trim() || null,
-          tipo_feedback: tipoFeedback,
+          tipo_feedback: "pesquisa_validacao",
           avaliacao: avaliacao || null,
-          mensagem: mensagem.trim(),
+          mensagem: mensagem.trim() || "Apenas respondeu o questionário",
+          respostas_questionario: respostas,
         },
       }).catch(console.error);
 
       setIsSubmitted(true);
       toast({
-        title: "Feedback enviado!",
+        title: "Pesquisa enviada!",
         description: "Muito obrigado pela sua contribuição.",
       });
     } catch (error: any) {
-      console.error("Erro ao enviar feedback:", error);
+      console.error("Erro ao enviar pesquisa:", error);
       toast({
         title: "Erro ao enviar",
         description: "Tente novamente em alguns instantes.",
@@ -111,7 +108,7 @@ const Feedback = () => {
             </div>
             <h1 className="text-3xl font-bold text-foreground">Obrigado!</h1>
             <p className="text-muted-foreground text-lg">
-              Seu feedback foi recebido com sucesso. Sua opinião é muito importante para continuarmos melhorando nossa plataforma.
+              Sua opinião foi recebida com sucesso. Cada resposta nos ajuda a criar algo realmente útil para você.
             </p>
             <Button asChild size="lg">
               <Link to="/">
@@ -141,69 +138,50 @@ const Feedback = () => {
         </div>
       </header>
 
-      <main className="flex-1 py-12 px-4">
+      <main className="flex-1 py-8 md:py-12 px-4">
         <div className="container max-w-2xl mx-auto space-y-8">
           {/* Hero Section */}
           <div className="text-center space-y-4">
             <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
-              <MessageSquareHeart className="w-8 h-8 text-primary" />
+              <Sparkles className="w-8 h-8 text-primary" />
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-foreground">
-              Sua opinião é importante!
+              Você está testando algo novo!
             </h1>
             <p className="text-muted-foreground text-lg max-w-md mx-auto">
-              Ajude-nos a melhorar. Compartilhe sua experiência, sugestões ou reporte problemas.
+              Sua opinião conta muito. Responda algumas perguntas rápidas para nos ajudar a melhorar.
             </p>
           </div>
 
-          {/* Feedback Form */}
-          <form onSubmit={handleSubmit} className="space-y-6 bg-card p-6 md:p-8 rounded-2xl border border-border shadow-sm">
-            {/* Nome e Email */}
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="nome">Nome (opcional)</Label>
-                <Input
-                  id="nome"
-                  placeholder="Seu nome"
-                  value={nome}
-                  onChange={(e) => setNome(e.target.value)}
-                  maxLength={100}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email (opcional)</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="seu@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <p className="text-xs text-muted-foreground">Para receber resposta</p>
-              </div>
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {/* Progress Bar */}
+            <div className="bg-card p-4 rounded-xl border border-border">
+              <SurveyProgress answered={answeredCount} total={totalQuestions} />
             </div>
 
-            {/* Tipo de Feedback */}
-            <div className="space-y-2">
-              <Label>Tipo de feedback</Label>
-              <Select value={tipoFeedback} onValueChange={setTipoFeedback}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Selecione o tipo" />
-                </SelectTrigger>
-                <SelectContent>
-                  {tiposFeedback.map((tipo) => (
-                    <SelectItem key={tipo.value} value={tipo.value}>
-                      {tipo.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            {/* Survey Questions */}
+            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border shadow-sm space-y-8">
+              <div className="flex items-center gap-2 text-primary">
+                <MessageSquareHeart className="w-5 h-5" />
+                <h2 className="font-semibold">Pesquisa Rápida</h2>
+              </div>
+
+              {surveyQuestions.map((q, index) => (
+                <QuestionCard
+                  key={q.id}
+                  question={q.question}
+                  options={q.options}
+                  selectedValue={respostas[q.id] || null}
+                  onSelect={(value) => handleSelectAnswer(q.id, value)}
+                  questionNumber={index + 1}
+                />
+              ))}
             </div>
 
-            {/* Avaliação por Estrelas */}
-            <div className="space-y-2">
-              <Label>Como avalia sua experiência?</Label>
-              <div className="flex gap-1">
+            {/* Star Rating */}
+            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border shadow-sm space-y-4">
+              <Label className="text-lg font-medium">Avaliação geral da experiência</Label>
+              <div className="flex gap-1 justify-center">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
                     key={star}
@@ -214,7 +192,7 @@ const Feedback = () => {
                     className="p-1 transition-transform hover:scale-110"
                   >
                     <Star
-                      className={`w-8 h-8 transition-colors ${
+                      className={`w-10 h-10 transition-colors ${
                         star <= (hoveredStar || avaliacao)
                           ? "fill-yellow-400 text-yellow-400"
                           : "text-muted-foreground/30"
@@ -224,7 +202,7 @@ const Feedback = () => {
                 ))}
               </div>
               {avaliacao > 0 && (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-center text-muted-foreground">
                   {avaliacao === 1 && "Muito ruim"}
                   {avaliacao === 2 && "Ruim"}
                   {avaliacao === 3 && "Regular"}
@@ -234,41 +212,75 @@ const Feedback = () => {
               )}
             </div>
 
-            {/* Mensagem */}
-            <div className="space-y-2">
-              <Label htmlFor="mensagem">
-                Sua mensagem <span className="text-destructive">*</span>
+            {/* Additional Comments */}
+            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border shadow-sm space-y-4">
+              <Label htmlFor="mensagem" className="text-lg font-medium">
+                Comentários adicionais (opcional)
               </Label>
               <Textarea
                 id="mensagem"
-                placeholder="Conte-nos sua experiência, sugestões ou problemas encontrados..."
+                placeholder="Quer compartilhar algo mais? Sugestões, críticas, ideias..."
                 value={mensagem}
                 onChange={(e) => setMensagem(e.target.value)}
-                rows={5}
+                rows={4}
                 maxLength={2000}
-                required
               />
               <p className="text-xs text-muted-foreground text-right">
-                {mensagem.length}/2000 caracteres (mínimo 10)
+                {mensagem.length}/2000 caracteres
               </p>
+            </div>
+
+            {/* Contact Info */}
+            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border shadow-sm space-y-4">
+              <Label className="text-lg font-medium">Identificação (opcional)</Label>
+              <p className="text-sm text-muted-foreground">
+                Se quiser receber novidades ou conversar sobre suas ideias, deixe seu contato.
+              </p>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="nome">Nome</Label>
+                  <Input
+                    id="nome"
+                    placeholder="Seu nome"
+                    value={nome}
+                    onChange={(e) => setNome(e.target.value)}
+                    maxLength={100}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="seu@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+              </div>
             </div>
 
             {/* Submit */}
             <Button
               type="submit"
               size="lg"
-              className="w-full"
-              disabled={isSubmitting || mensagem.trim().length < 10}
+              className="w-full py-6 text-lg"
+              disabled={isSubmitting || answeredCount < 3}
             >
               {isSubmitting ? (
                 "Enviando..."
               ) : (
                 <>
-                  <Send className="w-4 h-4 mr-2" />
-                  Enviar Feedback
+                  <Send className="w-5 h-5 mr-2" />
+                  Enviar Pesquisa
                 </>
               )}
             </Button>
+            {answeredCount < 3 && (
+              <p className="text-center text-sm text-muted-foreground">
+                Responda pelo menos 3 perguntas para enviar
+              </p>
+            )}
           </form>
 
           {/* Back Link */}
