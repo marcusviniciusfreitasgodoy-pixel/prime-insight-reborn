@@ -459,7 +459,7 @@ export default function AvaliacaoPublica() {
         {/* ============ SECTION 3.5: WRONG PRICE IMPACTS (White background) ============ */}
         <section className="py-16 md:py-20 px-4 bg-white">
           <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-12">
+            <div className="text-center mb-12 animate-fade-in">
               <span className="inline-block px-4 py-1 rounded-full bg-destructive/10 text-destructive text-sm font-semibold mb-4">
                 ATENÇÃO
               </span>
@@ -475,7 +475,7 @@ export default function AvaliacaoPublica() {
             <div className="grid md:grid-cols-2 gap-8 mb-12">
               {/* Seller Column */}
               <div className="space-y-4">
-                <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center gap-3 mb-6 animate-fade-in">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500/20 to-red-500/10 border border-orange-500/30 flex items-center justify-center">
                     <Home className="h-6 w-6 text-orange-600" />
                   </div>
@@ -488,7 +488,8 @@ export default function AvaliacaoPublica() {
                 {WRONG_PRICE_SELLER.map((item, index) => (
                   <div 
                     key={index} 
-                    className="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl p-4 border border-orange-200/50 hover:border-orange-300 transition-all duration-300"
+                    className="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl p-4 border border-orange-200/50 hover:border-orange-300 hover:shadow-md transition-all duration-300 animate-fade-in"
+                    style={{ animationDelay: `${(index + 1) * 100}ms` }}
                   >
                     <div className="flex items-start gap-3">
                       <div className="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center shrink-0">
@@ -505,7 +506,7 @@ export default function AvaliacaoPublica() {
 
               {/* Buyer Column */}
               <div className="space-y-4">
-                <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center gap-3 mb-6 animate-fade-in [animation-delay:150ms]">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/10 border border-blue-500/30 flex items-center justify-center">
                     <Users className="h-6 w-6 text-blue-600" />
                   </div>
@@ -518,7 +519,8 @@ export default function AvaliacaoPublica() {
                 {WRONG_PRICE_BUYER.map((item, index) => (
                   <div 
                     key={index} 
-                    className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200/50 hover:border-blue-300 transition-all duration-300"
+                    className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200/50 hover:border-blue-300 hover:shadow-md transition-all duration-300 animate-fade-in"
+                    style={{ animationDelay: `${(index + 1) * 100 + 150}ms` }}
                   >
                     <div className="flex items-start gap-3">
                       <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
@@ -535,7 +537,7 @@ export default function AvaliacaoPublica() {
             </div>
 
             {/* Conclusion Card */}
-            <div className="bg-gradient-to-r from-[#D4AF37]/10 via-[#D4AF37]/5 to-[#D4AF37]/10 rounded-2xl p-6 md:p-8 border-2 border-[#D4AF37]/30">
+            <div className="bg-gradient-to-r from-[#D4AF37]/10 via-[#D4AF37]/5 to-[#D4AF37]/10 rounded-2xl p-6 md:p-8 border-2 border-[#D4AF37]/30 animate-fade-in [animation-delay:500ms]">
               <div className="text-center mb-6">
                 <h4 className="text-xl md:text-2xl font-bold text-[#0C2340] mb-2">
                   Informação é Poder dos Dois Lados
