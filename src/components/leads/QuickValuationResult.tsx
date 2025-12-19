@@ -27,7 +27,9 @@ import {
   CalendarCheck,
   BadgeCheck,
   Banknote,
-  ExternalLink
+  ExternalLink,
+  MessageSquareHeart,
+  Gift
 } from "lucide-react";
 import { ComparisonTable } from "./ComparisonTable";
 import { PeritEvaluationSection } from "./PeritEvaluationSection";
@@ -550,6 +552,31 @@ export function QuickValuationResult({
           </CardContent>
         </Card>
       )}
+
+      {/* Convite para Pesquisa de Feedback */}
+      <Card className="border-primary/20 bg-gradient-to-r from-primary/5 via-background to-accent/5">
+        <CardContent className="py-6">
+          <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+            <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <MessageSquareHeart className="h-7 w-7 text-primary" />
+            </div>
+            <div className="flex-1 space-y-1">
+              <h4 className="font-semibold text-foreground flex items-center justify-center sm:justify-start gap-2">
+                Sua opinião vale uma consultoria gratuita!
+                <Gift className="h-4 w-4 text-amber-500" />
+              </h4>
+              <p className="text-sm text-muted-foreground">
+                Responda nossa pesquisa rápida (2 min) e ganhe uma consultoria personalizada com Marcus Godoy.
+              </p>
+            </div>
+            <Button asChild className="bg-primary hover:bg-primary/90">
+              <Link to="/feedback">
+                Participar da Pesquisa
+              </Link>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Botão Nova Avaliação */}
       {!parecerRequested && (
