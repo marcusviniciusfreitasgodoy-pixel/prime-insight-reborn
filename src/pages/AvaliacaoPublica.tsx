@@ -353,13 +353,6 @@ export default function AvaliacaoPublica() {
                 <HelpCircle className="h-4 w-4" />
                 FAQ
               </Link>
-              <Link 
-                to="/pesquisa"
-                className="hidden sm:flex items-center gap-1.5 text-sm text-white/80 hover:text-white transition-colors"
-              >
-                <FileSearch className="h-4 w-4" />
-                Pesquisar Transações
-              </Link>
               <Button
                 onClick={scrollToForm}
                 className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-semibold shadow-lg"
