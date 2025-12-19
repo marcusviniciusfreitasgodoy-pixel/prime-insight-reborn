@@ -78,7 +78,7 @@ export const OnboardingStep = ({ onStart }: OnboardingStepProps) => {
           <span className="font-semibold">Recompensa Exclusiva</span>
         </div>
         <p className="text-foreground font-medium">
-          Ganhe uma <strong>consultoria gratuita de 15 minutos</strong> com Marcus Godoy
+          Ganhe uma <strong>consultoria gratuita</strong> com Marcus Godoy
         </p>
         <p className="text-sm text-muted-foreground">
           Análise personalizada do seu imóvel ou dúvidas sobre o mercado imobiliário do Rio

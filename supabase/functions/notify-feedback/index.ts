@@ -116,7 +116,7 @@ async function sendUserConfirmationEmail(feedback: FeedbackNotification) {
                   <h2 style="color: #92400e; margin: 0; font-size: 20px;">Sua Recompensa Exclusiva</h2>
                 </div>
                 <p style="color: #78350f; margin: 0 0 15px 0; font-size: 16px; line-height: 1.6;">
-                  Como agradecimento pela sua participação, você ganhou uma <strong>consultoria gratuita de 15 minutos</strong> com Marcus Godoy!
+                  Como agradecimento pela sua participação, você ganhou uma <strong>consultoria gratuita</strong> com Marcus Godoy!
                 </p>
                 <ul style="color: #78350f; margin: 0; padding-left: 20px; line-height: 1.8;">
                   <li>Análise personalizada do seu imóvel</li>
@@ -131,7 +131,7 @@ async function sendUserConfirmationEmail(feedback: FeedbackNotification) {
                 <p style="color: #64748b; margin: 0 0 20px 0; font-size: 14px; line-height: 1.6;">
                   Clique no botão abaixo para entrar em contato pelo WhatsApp e agendar o melhor horário para você:
                 </p>
-                <a href="https://wa.me/5521999880101?text=Olá! Sou ${encodeURIComponent(userName)} e completei a pesquisa de validação. Gostaria de agendar minha consultoria gratuita de 15 minutos." 
+                <a href="https://wa.me/5521999880101?text=Olá! Sou ${encodeURIComponent(userName)} e completei a pesquisa de validação. Gostaria de agendar minha consultoria gratuita." 
                    style="display: inline-block; background-color: #25D366; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: 600; font-size: 16px;">
                   💬 Agendar pelo WhatsApp
                 </a>
