@@ -43,7 +43,7 @@ interface QuickValuationFormProps {
   onComplete: (data: QuickValuationData) => void;
 }
 
-const MAX_FREE_EVALUATIONS = 2;
+const MAX_FREE_EVALUATIONS = 5;
 
 const BAIRROS_POPULARES = [
   "BARRA DA TIJUCA",
@@ -340,7 +340,7 @@ export function QuickValuationForm({ onComplete }: QuickValuationFormProps) {
           Informe seus dados e os dados do imóvel para receber uma estimativa de valor de mercado.
         </CardDescription>
         <Badge variant="secondary" className="mx-auto mt-2 bg-accent/10 text-accent">
-          2 consultas gratuitas por email
+          5 consultas gratuitas por email
         </Badge>
       </CardHeader>
       <CardContent>
