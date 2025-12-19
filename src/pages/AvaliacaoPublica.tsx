@@ -857,6 +857,11 @@ export default function AvaliacaoPublica() {
                 <span className="text-white/40 text-xs">
                   Desenvolvido por Godoy Prime Realty
                 </span>
+                <span className="text-white/20">|</span>
+                <Link to="/auth" className="text-white/30 text-xs hover:text-[#D4AF37] transition-colors flex items-center gap-1">
+                  <Lock className="h-3 w-3" />
+                  Admin
+                </Link>
               </div>
             </div>
           </div>
