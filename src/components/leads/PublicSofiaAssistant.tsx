@@ -180,27 +180,41 @@ export function PublicSofiaAssistant() {
   return (
     <>
       {/* Floating Button - positioned on the left with pulse animation */}
-      <Button
-        onClick={() => setIsOpen(true)}
-        className={cn(
-          "fixed bottom-6 left-4 z-40 h-14 w-14 rounded-full shadow-lg p-0 overflow-hidden",
-          "bg-[#D4AF37] hover:bg-[#c9a432]",
-          "transition-all duration-300 hover:scale-110",
-          "animate-fade-in",
-          !isOpen && "animate-pulse-ring",
-          isOpen && "scale-0 opacity-0"
-        )}
-        size="icon"
-        title="Dúvidas? Fale com Sofia"
-      >
-        <img 
-          src={sofiaAvatar} 
-          alt="Sofia" 
-          loading="lazy"
-          decoding="async"
-          className="w-full h-full object-cover" 
-        />
-      </Button>
+      <div className={cn(
+        "fixed bottom-6 left-4 z-40",
+        isOpen && "scale-0 opacity-0 pointer-events-none",
+        "transition-all duration-300"
+      )}>
+        <Button
+          onClick={() => setIsOpen(true)}
+          className={cn(
+            "h-14 w-14 rounded-full shadow-lg p-0 overflow-hidden",
+            "bg-[#D4AF37] hover:bg-[#c9a432]",
+            "transition-all duration-300 hover:scale-110",
+            "animate-fade-in"
+          )}
+          size="icon"
+          title="Dúvidas? Fale com Sofia"
+        >
+          <img 
+            src={sofiaAvatar} 
+            alt="Sofia" 
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover" 
+          />
+        </Button>
+        
+        {/* Notification badge */}
+        <div className="absolute -top-1 -right-1 flex items-center justify-center">
+          <span className="relative flex h-5 w-5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-5 w-5 bg-green-500 items-center justify-center">
+              <span className="text-[8px] font-bold text-white">1</span>
+            </span>
+          </span>
+        </div>
+      </div>
 
       {/* Pulse ring effect */}
       {!isOpen && (
