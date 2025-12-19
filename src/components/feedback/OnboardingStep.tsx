@@ -104,7 +104,7 @@ export const OnboardingStep = ({ onStart }: OnboardingStepProps) => {
             <ul className="space-y-2 text-sm">
               <li className="flex items-start gap-2">
                 <span className="text-primary mt-0.5">•</span>
-                <span>Se eu estivesse vendendo meu apartamento, essa avaliação me ajudaria a definir o preço?</span>
+                <span>Se eu estivesse vendendo meu imóvel, essa avaliação me ajudaria a definir o preço?</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-primary mt-0.5">•</span>
