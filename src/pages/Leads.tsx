@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
@@ -27,7 +27,8 @@ import {
   CheckCircle,
   Clock,
   LogOut,
-  ArrowLeft
+  ArrowLeft,
+  MessageSquareHeart
 } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -219,6 +220,12 @@ export default function Leads() {
               </p>
             </div>
             <div className="flex gap-2">
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/admin/feedbacks">
+                  <MessageSquareHeart className="h-4 w-4 mr-2" />
+                  Feedbacks
+                </Link>
+              </Button>
               <Button variant="outline" size="sm" onClick={() => refetch()}>
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Atualizar

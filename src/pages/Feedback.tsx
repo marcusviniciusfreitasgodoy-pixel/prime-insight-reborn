@@ -62,6 +62,17 @@ const Feedback = () => {
 
       if (error) throw error;
 
+      // Send email notification (fire and forget)
+      supabase.functions.invoke("notify-feedback", {
+        body: {
+          nome: nome.trim() || null,
+          email: email.trim() || null,
+          tipo_feedback: tipoFeedback,
+          avaliacao: avaliacao || null,
+          mensagem: mensagem.trim(),
+        },
+      }).catch(console.error);
+
       setIsSubmitted(true);
       toast({
         title: "Feedback enviado!",
