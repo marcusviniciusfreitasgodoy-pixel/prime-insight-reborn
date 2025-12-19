@@ -162,32 +162,6 @@ export const OnboardingStep = ({ onStart }: OnboardingStepProps) => {
           colegas que possam ter interesse em imóveis no Rio.
         </p>
         <div className="flex flex-wrap gap-3">
-          <Button
-            asChild
-            className="bg-green-600 hover:bg-green-700 text-white gap-2"
-          >
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <MessageCircle className="h-4 w-4" />
-              WhatsApp
-            </a>
-          </Button>
-          <Button variant="outline" onClick={handleCopy}>
-            {copied ? (
-              <>
-                <Check className="w-4 h-4 mr-2" />
-                Copiado!
-              </>
-            ) : (
-              <>
-                <Copy className="w-4 h-4 mr-2" />
-                Copiar mensagem
-              </>
-            )}
-          </Button>
           <Button variant="outline" onClick={handleShare}>
             <Share2 className="w-4 h-4 mr-2" />
             Compartilhar
