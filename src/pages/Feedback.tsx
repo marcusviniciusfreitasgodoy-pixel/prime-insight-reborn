@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
-import { MessageSquareHeart, Star, Send, ArrowLeft, CheckCircle, Sparkles, Gift, Phone } from "lucide-react";
+import { MessageSquareHeart, Star, Send, ArrowLeft, CheckCircle, Sparkles, AlertCircle, Info } from "lucide-react";
 import godoyLogo from "@/assets/godoy-logo-pdf.png";
 import { Footer } from "@/components/Footer";
 import { QuestionCard } from "@/components/feedback/QuestionCard";
@@ -25,6 +25,12 @@ const Feedback = () => {
   const [mensagem, setMensagem] = useState("");
   const [hoveredStar, setHoveredStar] = useState(0);
   const [respostas, setRespostas] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+
+  // Validation helpers
+  const emailRegex = /^[^@]+@[^@]+\.[^@]+$/;
+  const isEmailValid = !email.trim() || emailRegex.test(email.trim());
+  const isNomeValid = !nome.trim() || nome.trim().length <= 100;
 
   const handleSelectAnswer = (questionId: string, value: string) => {
     setRespostas((prev) => ({ ...prev, [questionId]: value }));
@@ -35,6 +41,17 @@ const Feedback = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate email format if provided
+    if (email.trim() && !emailRegex.test(email.trim())) {
+      toast({
+        title: "Email inválido",
+        description: "Por favor, insira um email válido ou deixe o campo em branco.",
+        variant: "destructive",
+      });
+      setTouched(prev => ({ ...prev, email: true }));
+      return;
+    }
 
     if (answeredCount < 3) {
       toast({
@@ -161,9 +178,18 @@ const Feedback = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-8">
-            {/* Progress Bar */}
-            <div className="bg-card p-4 rounded-xl border border-border">
+            {/* Progress Bar with requirement hint */}
+            <div className="bg-card p-4 rounded-xl border border-border space-y-2">
               <SurveyProgress answered={answeredCount} total={totalQuestions} />
+              <div className={`flex items-center gap-2 text-sm ${answeredCount >= 3 ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>
+                <Info className="w-4 h-4" />
+                <span>
+                  {answeredCount >= 3 
+                    ? `✓ Mínimo de 3 perguntas atingido! (${answeredCount}/${totalQuestions} respondidas)`
+                    : `Responda pelo menos 3 perguntas para enviar (${answeredCount}/${totalQuestions})`
+                  }
+                </span>
+              </div>
             </div>
 
             {/* Survey Questions */}
@@ -239,30 +265,56 @@ const Feedback = () => {
 
             {/* Contact Info */}
             <div className="bg-card p-6 md:p-8 rounded-2xl border border-border shadow-sm space-y-4">
-              <Label className="text-lg font-medium">Identificação (opcional)</Label>
+              <div className="flex items-center gap-2">
+                <Label className="text-lg font-medium">Identificação (opcional)</Label>
+                <span className="text-xs bg-muted text-muted-foreground px-2 py-0.5 rounded-full">Opcional</span>
+              </div>
               <p className="text-sm text-muted-foreground">
                 Se quiser receber novidades ou conversar sobre suas ideias, deixe seu contato.
               </p>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="nome">Nome</Label>
+                  <Label htmlFor="nome" className="flex items-center gap-1">
+                    Nome
+                    <span className="text-xs text-muted-foreground">(máx. 100 caracteres)</span>
+                  </Label>
                   <Input
                     id="nome"
                     placeholder="Seu nome"
                     value={nome}
                     onChange={(e) => setNome(e.target.value)}
+                    onBlur={() => setTouched(prev => ({ ...prev, nome: true }))}
                     maxLength={100}
+                    className={touched.nome && !isNomeValid ? "border-destructive focus-visible:ring-destructive" : ""}
                   />
+                  {touched.nome && !isNomeValid && (
+                    <p className="text-xs text-destructive flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3" />
+                      Nome deve ter no máximo 100 caracteres
+                    </p>
+                  )}
+                  <p className="text-xs text-muted-foreground text-right">{nome.length}/100</p>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email" className="flex items-center gap-1">
+                    Email
+                    <span className="text-xs text-muted-foreground">(formato válido)</span>
+                  </Label>
                   <Input
                     id="email"
                     type="email"
                     placeholder="seu@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    onBlur={() => setTouched(prev => ({ ...prev, email: true }))}
+                    className={touched.email && !isEmailValid ? "border-destructive focus-visible:ring-destructive" : ""}
                   />
+                  {touched.email && !isEmailValid && (
+                    <p className="text-xs text-destructive flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3" />
+                      Formato de email inválido
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
