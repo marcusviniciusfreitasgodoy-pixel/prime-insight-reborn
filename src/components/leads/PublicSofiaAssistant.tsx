@@ -220,7 +220,7 @@ export function PublicSofiaAssistant() {
       {/* Chat Panel - fullscreen on mobile, positioned on left for desktop */}
       <div
         className={cn(
-          "fixed z-50 bg-white border border-gray-200 shadow-2xl flex flex-col overflow-hidden transition-all duration-300 ease-out",
+          "fixed z-[60] bg-white border border-gray-200 shadow-2xl flex flex-col overflow-hidden transition-all duration-300 ease-out",
           // Mobile: fullscreen
           "inset-0 sm:inset-auto",
           // Desktop: positioned on left
