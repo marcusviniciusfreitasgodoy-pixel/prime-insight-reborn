@@ -8,6 +8,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import AvaliacaoPublica from "./pages/AvaliacaoPublica";
 import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 import FAQ from "./pages/FAQ";
+import Feedback from "./pages/Feedback";
 import Auth from "./pages/Auth";
 import Leads from "./pages/Leads";
 
@@ -25,6 +26,7 @@ const App = () => {
               <Route path="/" element={<AvaliacaoPublica />} />
               <Route path="/avaliacao" element={<AvaliacaoPublica />} />
               <Route path="/faq" element={<FAQ />} />
+              <Route path="/feedback" element={<Feedback />} />
               <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
               <Route path="/auth" element={<Auth />} />
               <Route 

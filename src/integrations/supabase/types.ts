@@ -47,6 +47,39 @@ export type Database = {
         }
         Relationships: []
       }
+      feedbacks: {
+        Row: {
+          avaliacao: number | null
+          created_at: string
+          email: string | null
+          id: string
+          mensagem: string
+          nome: string | null
+          pagina_origem: string | null
+          tipo_feedback: string
+        }
+        Insert: {
+          avaliacao?: number | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          mensagem: string
+          nome?: string | null
+          pagina_origem?: string | null
+          tipo_feedback?: string
+        }
+        Update: {
+          avaliacao?: number | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          mensagem?: string
+          nome?: string | null
+          pagina_origem?: string | null
+          tipo_feedback?: string
+        }
+        Relationships: []
+      }
       ia_valuation_weights: {
         Row: {
           category: string | null

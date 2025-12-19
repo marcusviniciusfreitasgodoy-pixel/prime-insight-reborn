@@ -1,4 +1,4 @@
-import { MapPin, Phone, MessageCircle, Lock } from "lucide-react";
+import { MapPin, Phone, MessageCircle, Lock, MessageSquareHeart } from "lucide-react";
 import { Link } from "react-router-dom";
 import logoSymbol from "@/assets/godoy-logo-symbol.png";
 import { Button } from "@/components/ui/button";
@@ -74,6 +74,14 @@ export function Footer() {
                 Lovable
               </a>
             </p>
+            <span className="text-accent/30">|</span>
+            <Link 
+              to="/feedback" 
+              className="flex items-center gap-1 text-primary-foreground/60 hover:text-accent transition-colors"
+            >
+              <MessageSquareHeart className="h-3 w-3" />
+              <span>Feedback</span>
+            </Link>
             <span className="text-accent/30">|</span>
             <Link 
               to="/auth" 
