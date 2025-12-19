@@ -339,9 +339,6 @@ export function QuickValuationForm({ onComplete }: QuickValuationFormProps) {
         <CardDescription className="text-base">
           Informe seus dados e os dados do imóvel para receber uma estimativa de valor de mercado.
         </CardDescription>
-        <Badge variant="secondary" className="mx-auto mt-2 bg-accent/10 text-accent">
-          5 consultas gratuitas por email
-        </Badge>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-5">
