@@ -47,12 +47,12 @@ const FAQ_DATA = [
   {
     category: "itbi",
     question: "Vocês usam a mesma avaliação do IPTU para calcular o valor?",
-    answer: "Não. O IPTU usa fórmulas genéricas que resultam em valores frequentemente defasados. Já o ITBI reflete transações individualizadas e reais. A diferença entre ITBI e IPTU é normal e esperada. Inclusive, o STJ confirmou que as bases de cálculo são independentes e não devem ser confundidas.",
+    answer: "Não. O IPTU usa fórmulas genéricas que resultam em valores frequentemente defasados. Já o ITBI reflete transações individualizadas e reais. A diferença entre ITBI e IPTU é normal e esperada.",
   },
   {
     category: "itbi",
     question: "Por que o IPTU é tão diferente do ITBI?",
-    answer: "Porque o IPTU usa 'lançamento em massa' - fórmulas padronizadas que não acompanham a dinâmica real do mercado. O ITBI incide apenas sobre transações específicas, com valor efetivamente negociado. O STJ foi claro: 'se existe distorção, ela ocorre no IPTU, não no ITBI'.",
+    answer: "Porque o IPTU usa 'lançamento em massa' - fórmulas padronizadas que não acompanham a dinâmica real do mercado. O ITBI incide apenas sobre transações específicas, com valor efetivamente negociado.",
   },
   {
     category: "itbi",
@@ -125,7 +125,7 @@ const FAQ_DATA = [
   {
     category: "tecnologia",
     question: "Vocês usam inteligência artificial?",
-    answer: "Sim. Usamos tecnologia avançada: integração com bases públicas de ITBI, algoritmos para identificar imóveis similares, modelos de regressão para estimar valores, validação com múltiplas fontes, e dashboards interativos. Toda metodologia é transparente e explicável - não é uma 'caixa preta'.",
+    answer: "Sim. Usamos tecnologia avançada: integração com bases públicas de ITBI, algoritmos para identificar imóveis similares, modelos de regressão para estimar valores, validação com múltiplas fontes, e dashboards interativos.",
   },
   {
     category: "tecnologia",
@@ -136,11 +136,6 @@ const FAQ_DATA = [
     category: "tecnologia",
     question: "Qual é o nível de precisão dessa avaliação?",
     answer: "Margem de erro típica: ±10% a 15% (excelente para real estate). Comparação: preços de anúncio têm margem de ~20-30%, dados ITBI ~10-15%, e avaliação técnica detalhada ~5%. Nossa ferramenta oferece precisão muito superior aos anúncios e é economicamente mais viável que avaliação técnica.",
-  },
-  {
-    category: "tecnologia",
-    question: "Preciso renovar a avaliação periodicamente?",
-    answer: "Depende do uso. Para venda iminente: renove a cada 3-6 meses. Para análise de investimento: anualmente. Para fins de ITBI: no momento da transação. Os dados são atualizados continuamente pela Prefeitura.",
   },
 ];
 
