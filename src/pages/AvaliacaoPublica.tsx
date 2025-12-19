@@ -560,7 +560,7 @@ export default function AvaliacaoPublica() {
                 Por Que Você Está Negociando no Escuro?
               </h3>
               <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
-                A diferença entre o preço pedido e o valor real pode chegar a <strong className="text-[#D4AF37]">R$ 200.000</strong> ou mais.
+                A diferença entre o preço anunciado e o valor real de venda pode chegar a <strong className="text-[#D4AF37]">30%</strong>, isto significa diferenças de até <strong className="text-[#D4AF37]">R$ 400.000</strong> ou mais.
               </p>
             </div>
 
