@@ -113,59 +113,6 @@ const Feedback = () => {
               Sua opinião foi recebida com sucesso e é muito valiosa para nós.
             </p>
 
-            {/* Reward Card */}
-            <div className="bg-gradient-to-r from-amber-500/10 via-yellow-500/10 to-amber-500/10 p-6 rounded-2xl border border-amber-500/30 text-left space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-amber-500/20 rounded-full flex items-center justify-center">
-                  <Gift className="w-6 h-6 text-amber-600 dark:text-amber-400" />
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground">Sua recompensa está garantida!</p>
-                  <p className="text-sm text-muted-foreground">Consultoria gratuita com Marcus Godoy</p>
-                </div>
-              </div>
-              
-              <div className="bg-background/50 p-4 rounded-xl space-y-2">
-                <p className="text-sm font-medium text-foreground">O que você ganha:</p>
-                <ul className="text-sm text-muted-foreground space-y-1">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span>Consultoria personalizada com Marcus Godoy</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span>Análise do seu imóvel ou dúvidas sobre o mercado</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span>Orientação profissional sem compromisso</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="pt-2">
-                <p className="text-sm text-muted-foreground mb-3">
-                  {email ? (
-                    <>Entraremos em contato pelo email <strong className="text-foreground">{email}</strong> para agendar.</>
-                  ) : (
-                    <>Entre em contato pelo WhatsApp para agendar sua consultoria:</>
-                  )}
-                </p>
-                <Button 
-                  asChild 
-                  className="w-full bg-green-600 hover:bg-green-700"
-                >
-                  <a 
-                    href="https://wa.me/5521999880101?text=Olá! Completei a pesquisa de validação e gostaria de agendar minha consultoria gratuita." 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Phone className="w-4 h-4 mr-2" />
-                    Agendar pelo WhatsApp
-                  </a>
-                </Button>
-              </div>
-            </div>
 
             <Button asChild variant="outline" size="lg">
               <Link to="/">
