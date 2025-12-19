@@ -377,11 +377,11 @@ export default function AvaliacaoPublica() {
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-3 gap-4 md:gap-8 pt-8 border-t border-white/10 mt-8 animate-fade-in [animation-delay:600ms]">
+              <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-8 pt-6 sm:pt-8 border-t border-white/10 mt-6 sm:mt-8 animate-fade-in [animation-delay:600ms]">
                 {HERO_STATS.map((stat, index) => <div key={index} className="text-center">
-                    <stat.icon className="h-5 w-5 md:h-6 md:w-6 text-[#D4AF37] mx-auto mb-2" />
-                    <p className="text-xl md:text-3xl font-bold">{stat.value}</p>
-                    <p className="text-xs md:text-sm text-white/60">{stat.label}</p>
+                    <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-[#D4AF37] mx-auto mb-1 sm:mb-2" />
+                    <p className="text-lg sm:text-xl md:text-3xl font-bold">{stat.value}</p>
+                    <p className="text-[10px] sm:text-xs md:text-sm text-white/60 leading-tight">{stat.label}</p>
                   </div>)}
               </div>
             </div>
@@ -400,10 +400,10 @@ export default function AvaliacaoPublica() {
               <span className="inline-block px-4 py-1 rounded-full bg-destructive/10 text-destructive text-sm font-semibold mb-4">
                 ATENÇÃO
               </span>
-              <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">
+              <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">
                 O Preço Errado Prejudica Todo Mundo
               </h3>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
                 Seja vendedor ou comprador, negociar sem dados reais custa tempo, dinheiro e oportunidades.
               </p>
             </div>
@@ -411,30 +411,30 @@ export default function AvaliacaoPublica() {
             {/* Two columns: Sellers and Buyers */}
             <div className="grid md:grid-cols-2 gap-8 mb-12">
               {/* Seller Column */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 mb-6 animate-fade-in">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500/20 to-red-500/10 border border-orange-500/30 flex items-center justify-center">
-                    <Home className="h-6 w-6 text-orange-600" />
+              <div className="space-y-3 sm:space-y-4">
+                <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 animate-fade-in">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-orange-500/20 to-red-500/10 border border-orange-500/30 flex items-center justify-center flex-shrink-0">
+                    <Home className="h-5 w-5 sm:h-6 sm:w-6 text-orange-600" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-lg text-[#0C2340]">Para Quem Vende</h4>
-                    <p className="text-sm text-muted-foreground">Impactos de precificar errado</p>
+                    <h4 className="font-bold text-base sm:text-lg text-[#0C2340]">Para Quem Vende</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Impactos de precificar errado</p>
                   </div>
                 </div>
                 
                 {WRONG_PRICE_SELLER.map((item, index) => (
                   <div 
                     key={index} 
-                    className="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl p-4 border border-orange-200/50 hover:border-orange-300 hover:shadow-md transition-all duration-300 animate-fade-in"
+                    className="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl p-3 sm:p-4 border border-orange-200/50 hover:border-orange-300 hover:shadow-md transition-all duration-300 animate-fade-in"
                     style={{ animationDelay: `${(index + 1) * 100}ms` }}
                   >
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center shrink-0">
-                        <item.icon className="h-5 w-5 text-orange-600" />
+                    <div className="flex items-start gap-2 sm:gap-3">
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-orange-500/10 flex items-center justify-center shrink-0">
+                        <item.icon className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600" />
                       </div>
-                      <div>
-                        <h5 className="font-semibold text-[#0C2340] mb-1">{item.title}</h5>
-                        <p className="text-sm text-muted-foreground">{item.description}</p>
+                      <div className="min-w-0">
+                        <h5 className="font-semibold text-sm sm:text-base text-[#0C2340] mb-0.5 sm:mb-1">{item.title}</h5>
+                        <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{item.description}</p>
                       </div>
                     </div>
                   </div>
@@ -442,30 +442,30 @@ export default function AvaliacaoPublica() {
               </div>
 
               {/* Buyer Column */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 mb-6 animate-fade-in [animation-delay:150ms]">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/10 border border-blue-500/30 flex items-center justify-center">
-                    <Users className="h-6 w-6 text-blue-600" />
+              <div className="space-y-3 sm:space-y-4">
+                <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 animate-fade-in [animation-delay:150ms]">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/10 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
+                    <Users className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-lg text-[#0C2340]">Para Quem Compra</h4>
-                    <p className="text-sm text-muted-foreground">Riscos de negociar sem dados</p>
+                    <h4 className="font-bold text-base sm:text-lg text-[#0C2340]">Para Quem Compra</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Riscos de negociar sem dados</p>
                   </div>
                 </div>
                 
                 {WRONG_PRICE_BUYER.map((item, index) => (
                   <div 
                     key={index} 
-                    className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200/50 hover:border-blue-300 hover:shadow-md transition-all duration-300 animate-fade-in"
+                    className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-3 sm:p-4 border border-blue-200/50 hover:border-blue-300 hover:shadow-md transition-all duration-300 animate-fade-in"
                     style={{ animationDelay: `${(index + 1) * 100 + 150}ms` }}
                   >
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
-                        <item.icon className="h-5 w-5 text-blue-600" />
+                    <div className="flex items-start gap-2 sm:gap-3">
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
+                        <item.icon className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
                       </div>
-                      <div>
-                        <h5 className="font-semibold text-[#0C2340] mb-1">{item.title}</h5>
-                        <p className="text-sm text-muted-foreground">{item.description}</p>
+                      <div className="min-w-0">
+                        <h5 className="font-semibold text-sm sm:text-base text-[#0C2340] mb-0.5 sm:mb-1">{item.title}</h5>
+                        <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{item.description}</p>
                       </div>
                     </div>
                   </div>
@@ -474,32 +474,32 @@ export default function AvaliacaoPublica() {
             </div>
 
             {/* Conclusion Card */}
-            <div className="bg-gradient-to-r from-[#D4AF37]/10 via-[#D4AF37]/5 to-[#D4AF37]/10 rounded-2xl p-6 md:p-8 border-2 border-[#D4AF37]/30 animate-fade-in [animation-delay:500ms]">
-              <div className="text-center mb-6">
-                <h4 className="text-xl md:text-2xl font-bold text-[#0C2340] mb-2">
+            <div className="bg-gradient-to-r from-[#D4AF37]/10 via-[#D4AF37]/5 to-[#D4AF37]/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border-2 border-[#D4AF37]/30 animate-fade-in [animation-delay:500ms]">
+              <div className="text-center mb-4 sm:mb-6">
+                <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-[#0C2340] mb-1 sm:mb-2">
                   Informação é Poder dos Dois Lados
                 </h4>
-                <p className="text-muted-foreground">
+                <p className="text-xs sm:text-sm text-muted-foreground px-2">
                   Preço certo desde o início significa menos desgaste e mais dinheiro no bolso.
                 </p>
               </div>
               
-              <div className="grid md:grid-cols-3 gap-4 text-center">
-                <div className="flex items-center justify-center gap-2 bg-white/60 rounded-lg py-3 px-4">
-                  <CheckCircle className="h-5 w-5 text-[#D4AF37]" />
-                  <span className="text-sm font-medium text-[#0C2340]">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 text-center">
+                <div className="flex items-center justify-center gap-2 bg-white/60 rounded-lg py-2 sm:py-3 px-3 sm:px-4">
+                  <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-[#D4AF37] flex-shrink-0" />
+                  <span className="text-xs sm:text-sm font-medium text-[#0C2340]">
                     <strong>Vendedor:</strong> Venda mais rápida
                   </span>
                 </div>
-                <div className="flex items-center justify-center gap-2 bg-white/60 rounded-lg py-3 px-4">
-                  <CheckCircle className="h-5 w-5 text-[#D4AF37]" />
-                  <span className="text-sm font-medium text-[#0C2340]">
+                <div className="flex items-center justify-center gap-2 bg-white/60 rounded-lg py-2 sm:py-3 px-3 sm:px-4">
+                  <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-[#D4AF37] flex-shrink-0" />
+                  <span className="text-xs sm:text-sm font-medium text-[#0C2340]">
                     <strong>Comprador:</strong> Economia real
                   </span>
                 </div>
-                <div className="flex items-center justify-center gap-2 bg-white/60 rounded-lg py-3 px-4">
-                  <CheckCircle className="h-5 w-5 text-[#D4AF37]" />
-                  <span className="text-sm font-medium text-[#0C2340]">
+                <div className="flex items-center justify-center gap-2 bg-white/60 rounded-lg py-2 sm:py-3 px-3 sm:px-4">
+                  <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-[#D4AF37] flex-shrink-0" />
+                  <span className="text-xs sm:text-sm font-medium text-[#0C2340]">
                     <strong>Ambos:</strong> Menos tempo perdido
                   </span>
                 </div>
@@ -537,57 +537,57 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ SECTION 3: PROBLEM (Gray background) ============ */}
-        <section className="py-16 md:py-20 px-4 bg-gray-50">
+        <section className="py-12 sm:py-16 md:py-20 px-4 bg-gray-50">
           <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-12">
-              <span className="inline-block px-4 py-1 rounded-full bg-destructive/10 text-destructive text-sm font-semibold mb-4">
+            <div className="text-center mb-8 sm:mb-12">
+              <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-destructive/10 text-destructive text-xs sm:text-sm font-semibold mb-3 sm:mb-4">
                 O PROBLEMA
               </span>
-              <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">
+              <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">
                 Por Que Você Está Negociando no Escuro?
               </h3>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
                 A diferença entre o preço pedido e o valor real pode chegar a <strong className="text-[#D4AF37]">R$ 200.000</strong> ou mais.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
-              {PROBLEMS.map((problem, index) => <div key={index} className="bg-white rounded-2xl p-6 border border-gray-100 hover:border-[#D4AF37]/30 hover:shadow-lg transition-all duration-300">
-                  <div className="w-12 h-12 rounded-xl bg-destructive/10 flex items-center justify-center mb-4">
-                    <problem.icon className="h-6 w-6 text-destructive" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+              {PROBLEMS.map((problem, index) => <div key={index} className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-100 hover:border-[#D4AF37]/30 hover:shadow-lg transition-all duration-300">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-destructive/10 flex items-center justify-center mb-3 sm:mb-4">
+                    <problem.icon className="h-5 w-5 sm:h-6 sm:w-6 text-destructive" />
                   </div>
-                  <h4 className="font-bold text-lg text-[#0C2340] mb-2">{problem.title}</h4>
-                  <p className="text-muted-foreground text-sm">{problem.description}</p>
+                  <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-1 sm:mb-2">{problem.title}</h4>
+                  <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">{problem.description}</p>
                 </div>)}
             </div>
           </div>
         </section>
 
         {/* ============ SECTION 4: SOLUTION (White background) ============ */}
-        <section className="py-16 md:py-20 px-4 bg-white">
+        <section className="py-12 sm:py-16 md:py-20 px-4 bg-white">
           <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-12">
-              <span className="inline-block px-4 py-1 rounded-full bg-[#D4AF37]/10 text-[#D4AF37] text-sm font-semibold mb-4">
+            <div className="text-center mb-8 sm:mb-12">
+              <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-[#D4AF37]/10 text-[#D4AF37] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">
                 A SOLUÇÃO
               </span>
-              <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">
+              <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">
                 A Solução Que Muda Tudo
               </h3>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
                 Avaliação baseada em dados reais da Prefeitura, não em achismos ou algoritmos genéricos.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
-              {SOLUTIONS.map((solution, index) => <div key={index} className="bg-gray-50 rounded-2xl p-6 border-2 border-[#D4AF37]/20 hover:border-[#D4AF37]/50 shadow-sm hover:shadow-xl transition-all duration-300">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#D4AF37]/20 to-[#D4AF37]/5 border border-[#D4AF37]/30 flex items-center justify-center mb-4">
-                    <solution.icon className="h-6 w-6 text-[#D4AF37]" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+              {SOLUTIONS.map((solution, index) => <div key={index} className="bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border-2 border-[#D4AF37]/20 hover:border-[#D4AF37]/50 shadow-sm hover:shadow-xl transition-all duration-300">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-[#D4AF37]/20 to-[#D4AF37]/5 border border-[#D4AF37]/30 flex items-center justify-center mb-3 sm:mb-4">
+                    <solution.icon className="h-5 w-5 sm:h-6 sm:w-6 text-[#D4AF37]" />
                   </div>
-                  <h4 className="font-bold text-lg text-[#0C2340] mb-2">{solution.title}</h4>
-                  <p className="text-muted-foreground text-sm mb-4">{solution.description}</p>
-                  <div className="flex items-center gap-2 text-xs bg-[#D4AF37]/10 text-[#0C2340] rounded-lg px-3 py-2">
-                    <CheckCircle className="h-4 w-4 text-[#D4AF37]" />
-                    {solution.highlight}
+                  <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-1 sm:mb-2">{solution.title}</h4>
+                  <p className="text-muted-foreground text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed">{solution.description}</p>
+                  <div className="flex items-center gap-2 text-[10px] sm:text-xs bg-[#D4AF37]/10 text-[#0C2340] rounded-lg px-2 sm:px-3 py-1.5 sm:py-2">
+                    <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-[#D4AF37] flex-shrink-0" />
+                    <span className="leading-tight">{solution.highlight}</span>
                   </div>
                 </div>)}
             </div>
@@ -595,27 +595,27 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ SECTION 4: PARA QUEM É (Gray background) ============ */}
-        <section className="py-16 md:py-20 px-4 bg-gray-50">
+        <section className="py-12 sm:py-16 md:py-20 px-4 bg-gray-50">
           <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-12">
-              <span className="inline-block px-4 py-1 rounded-full bg-[#0C2340]/10 text-[#0C2340] text-sm font-semibold mb-4">
+            <div className="text-center mb-8 sm:mb-12">
+              <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-[#0C2340]/10 text-[#0C2340] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">
                 PARA QUEM É
               </span>
-              <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">
+              <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">
                 Para Quem É Esta Avaliação?
               </h3>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
-              {PERSONAS.map((persona, index) => <div key={index} className="bg-gray-50 rounded-2xl p-6 border border-gray-100 hover:border-[#D4AF37]/30 hover:shadow-lg transition-all duration-300 text-center">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0C2340] to-[#1a3a5c] flex items-center justify-center mx-auto mb-4">
-                    <persona.icon className="h-8 w-8 text-[#D4AF37]" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+              {PERSONAS.map((persona, index) => <div key={index} className="bg-white sm:bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-100 hover:border-[#D4AF37]/30 hover:shadow-lg transition-all duration-300 text-center">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#0C2340] to-[#1a3a5c] flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                    <persona.icon className="h-6 w-6 sm:h-8 sm:w-8 text-[#D4AF37]" />
                   </div>
-                  <h4 className="font-bold text-xl text-[#0C2340] mb-1">{persona.title}</h4>
-                  <p className="text-[#D4AF37] font-medium text-sm mb-3">{persona.subtitle}</p>
-                  <p className="text-muted-foreground text-sm mb-4">{persona.description}</p>
-                  <div className="inline-flex items-center gap-2 text-xs bg-[#D4AF37]/10 text-[#0C2340] rounded-full px-4 py-2 font-medium">
-                    <CheckCircle className="h-3.5 w-3.5 text-[#D4AF37]" />
+                  <h4 className="font-bold text-lg sm:text-xl text-[#0C2340] mb-0.5 sm:mb-1">{persona.title}</h4>
+                  <p className="text-[#D4AF37] font-medium text-xs sm:text-sm mb-2 sm:mb-3">{persona.subtitle}</p>
+                  <p className="text-muted-foreground text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed">{persona.description}</p>
+                  <div className="inline-flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs bg-[#D4AF37]/10 text-[#0C2340] rounded-full px-3 sm:px-4 py-1.5 sm:py-2 font-medium">
+                    <CheckCircle className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-[#D4AF37] flex-shrink-0" />
                     {persona.cta}
                   </div>
                 </div>)}
@@ -624,12 +624,12 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ SECTION 5: FINAL CTA (Gold background) ============ */}
-        <section className="py-16 md:py-20 px-4 bg-gradient-to-br from-[#D4AF37] to-[#c9a432]">
-          <div className="container mx-auto max-w-3xl text-center">
-            <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">
+        <section className="py-12 sm:py-16 md:py-20 px-4 bg-gradient-to-br from-[#D4AF37] to-[#c9a432]">
+          <div className="container mx-auto max-w-3xl text-center px-2">
+            <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">
               Pronto para Descobrir o Valor Real?
             </h3>
-            <p className="text-[#0C2340]/80 text-lg mb-8">
+            <p className="text-[#0C2340]/80 text-sm sm:text-lg mb-6 sm:mb-8">
               Comece agora – leva apenas 30 segundos.
             </p>
             <Button onClick={scrollToForm} size="lg" className="bg-[#0C2340] hover:bg-[#0a1d33] text-white font-bold shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 text-sm sm:text-base px-6 sm:px-10 py-3 sm:py-4 w-full sm:w-auto max-w-xs sm:max-w-none">
