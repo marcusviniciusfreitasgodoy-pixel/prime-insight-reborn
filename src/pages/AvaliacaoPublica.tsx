@@ -342,7 +342,7 @@ export default function AvaliacaoPublica() {
                 <HelpCircle className="h-4 w-4" />
                 FAQ
               </Link>
-              <Button onClick={scrollToForm} className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-semibold shadow-lg" size="sm">
+              <Button onClick={scrollToForm} className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-semibold shadow-lg hover:scale-105 active:scale-95 transition-all duration-200" size="sm">
                 Consultar Valor
               </Button>
             </div>
@@ -370,9 +370,9 @@ export default function AvaliacaoPublica() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 animate-fade-in [animation-delay:450ms]">
-                <Button onClick={scrollToForm} size="lg" className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-bold shadow-xl hover:shadow-2xl transition-all duration-300 text-base px-8">
-                  Descobrir Valor Real Agora
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                <Button onClick={scrollToForm} size="lg" className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-bold shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto">
+                  <span className="truncate">Descobrir Valor Real Agora</span>
+                  <ArrowRight className="ml-1.5 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
                 </Button>
               </div>
 
@@ -525,7 +525,7 @@ export default function AvaliacaoPublica() {
                 <Button 
                   onClick={scrollToForm}
                   size="lg"
-                  className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-bold shadow-lg px-4 sm:px-8 py-3 sm:py-4 text-sm sm:text-base w-full sm:w-auto max-w-xs sm:max-w-none"
+                  className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-bold shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 px-4 sm:px-8 py-3 sm:py-4 text-sm sm:text-base w-full sm:w-auto max-w-xs sm:max-w-none"
                 >
                   <Calculator className="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2 flex-shrink-0" />
                   <span className="truncate">Avaliar Meu Imóvel Grátis</span>
@@ -632,9 +632,9 @@ export default function AvaliacaoPublica() {
             <p className="text-[#0C2340]/80 text-lg mb-8">
               Comece agora – leva apenas 30 segundos.
             </p>
-            <Button onClick={scrollToForm} size="lg" className="bg-[#0C2340] hover:bg-[#0a1d33] text-white font-bold shadow-xl hover:shadow-2xl transition-all duration-300 text-base px-10">
-              Consultar Valor Real
-              <ArrowRight className="ml-2 h-5 w-5" />
+            <Button onClick={scrollToForm} size="lg" className="bg-[#0C2340] hover:bg-[#0a1d33] text-white font-bold shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 text-sm sm:text-base px-6 sm:px-10 py-3 sm:py-4 w-full sm:w-auto max-w-xs sm:max-w-none">
+              <span className="truncate">Consultar Valor Real</span>
+              <ArrowRight className="ml-1.5 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
             </Button>
           </div>
         </section>
@@ -796,13 +796,13 @@ export default function AvaliacaoPublica() {
             <div className="mt-12 text-center">
               <p className="text-muted-foreground mb-4">Ainda tem dúvidas?</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button onClick={scrollToForm} className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-semibold">
-                  <Calculator className="mr-2 h-4 w-4" />
-                  Fazer Minha Avaliação Gratuita
+                <Button onClick={scrollToForm} className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-semibold hover:scale-105 active:scale-95 transition-all duration-200 text-sm sm:text-base px-4 sm:px-6 w-full sm:w-auto">
+                  <Calculator className="mr-1.5 sm:mr-2 h-4 w-4 flex-shrink-0" />
+                  <span className="truncate">Fazer Minha Avaliação Gratuita</span>
                 </Button>
-                <Button variant="outline" onClick={() => window.open("https://wa.me/5521964075124?text=Ol%C3%A1!%20Tenho%20d%C3%BAvidas%20sobre%20a%20avalia%C3%A7%C3%A3o%20de%20im%C3%B3veis.", "_blank")} className="border-[#0C2340]/20">
-                  <MessageCircle className="mr-2 h-4 w-4" />
-                  Falar com Especialista
+                <Button variant="outline" onClick={() => window.open("https://wa.me/5521964075124?text=Ol%C3%A1!%20Tenho%20d%C3%BAvidas%20sobre%20a%20avalia%C3%A7%C3%A3o%20de%20im%C3%B3veis.", "_blank")} className="border-[#0C2340]/20 hover:scale-105 active:scale-95 transition-all duration-200 text-sm sm:text-base px-4 sm:px-6 w-full sm:w-auto">
+                  <MessageCircle className="mr-1.5 sm:mr-2 h-4 w-4 flex-shrink-0" />
+                  <span className="truncate">Falar com Especialista</span>
                 </Button>
               </div>
             </div>
