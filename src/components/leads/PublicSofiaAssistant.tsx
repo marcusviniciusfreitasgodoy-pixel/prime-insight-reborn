@@ -179,11 +179,11 @@ export function PublicSofiaAssistant() {
 
   return (
     <>
-      {/* Floating Button - positioned above WhatsApp */}
+      {/* Floating Button - positioned on the left to avoid WhatsApp overlap */}
       <Button
         onClick={() => setIsOpen(true)}
         className={cn(
-          "fixed bottom-24 right-6 z-40 h-14 w-14 rounded-full shadow-lg p-0 overflow-hidden",
+          "fixed bottom-6 left-4 z-40 h-14 w-14 rounded-full shadow-lg p-0 overflow-hidden",
           "bg-[#D4AF37] hover:bg-[#c9a432]",
           "transition-all duration-300 hover:scale-110",
           "animate-fade-in",
@@ -192,21 +192,27 @@ export function PublicSofiaAssistant() {
         size="icon"
         title="Dúvidas? Fale com Sofia"
       >
-        <img src={sofiaAvatar} alt="Sofia" className="w-full h-full object-cover" />
+        <img 
+          src={sofiaAvatar} 
+          alt="Sofia" 
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover" 
+        />
       </Button>
 
-      {/* Label tooltip */}
+      {/* Label tooltip - positioned to the right of the button */}
       {!isOpen && (
-        <div className="fixed bottom-[6.5rem] right-[5.5rem] z-40 bg-[#0C2340] text-white text-xs px-3 py-1.5 rounded-lg shadow-lg animate-fade-in hidden sm:block">
+        <div className="fixed bottom-[1.75rem] left-[4.5rem] z-40 bg-[#0C2340] text-white text-xs px-3 py-1.5 rounded-lg shadow-lg animate-fade-in hidden sm:block">
           Dúvidas? Pergunte à Sofia
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1 w-0 h-0 border-t-4 border-b-4 border-l-4 border-transparent border-l-[#0C2340]" />
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-[#0C2340]" />
         </div>
       )}
 
-      {/* Chat Panel */}
+      {/* Chat Panel - opens on the left side */}
       <div
         className={cn(
-          "fixed bottom-4 right-4 z-50 w-[360px] max-w-[calc(100vw-2rem)]",
+          "fixed bottom-4 left-4 z-50 w-[360px] max-w-[calc(100vw-2rem)]",
           "bg-white border border-gray-200 rounded-xl shadow-2xl",
           "flex flex-col overflow-hidden",
           "transition-all duration-300 ease-out",
