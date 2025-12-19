@@ -179,7 +179,7 @@ export function PublicSofiaAssistant() {
 
   return (
     <>
-      {/* Floating Button - positioned on the left to avoid WhatsApp overlap */}
+      {/* Floating Button - positioned on the left with pulse animation */}
       <Button
         onClick={() => setIsOpen(true)}
         className={cn(
@@ -187,6 +187,7 @@ export function PublicSofiaAssistant() {
           "bg-[#D4AF37] hover:bg-[#c9a432]",
           "transition-all duration-300 hover:scale-110",
           "animate-fade-in",
+          !isOpen && "animate-pulse-ring",
           isOpen && "scale-0 opacity-0"
         )}
         size="icon"
@@ -201,6 +202,13 @@ export function PublicSofiaAssistant() {
         />
       </Button>
 
+      {/* Pulse ring effect */}
+      {!isOpen && (
+        <div className="fixed bottom-6 left-4 z-30 h-14 w-14 rounded-full pointer-events-none">
+          <div className="absolute inset-0 rounded-full bg-[#D4AF37]/40 animate-ping" />
+        </div>
+      )}
+
       {/* Label tooltip - positioned to the right of the button */}
       {!isOpen && (
         <div className="fixed bottom-[1.75rem] left-[4.5rem] z-40 bg-[#0C2340] text-white text-xs px-3 py-1.5 rounded-lg shadow-lg animate-fade-in hidden sm:block">
@@ -209,22 +217,33 @@ export function PublicSofiaAssistant() {
         </div>
       )}
 
-      {/* Chat Panel - opens on the left side */}
+      {/* Chat Panel - fullscreen on mobile, positioned on left for desktop */}
       <div
         className={cn(
-          "fixed bottom-4 left-4 z-50 w-[360px] max-w-[calc(100vw-2rem)]",
-          "bg-white border border-gray-200 rounded-xl shadow-2xl",
-          "flex flex-col overflow-hidden",
-          "transition-all duration-300 ease-out",
-          isOpen ? "h-[500px] max-h-[70vh] opacity-100 scale-100" : "h-0 opacity-0 scale-95 pointer-events-none"
+          "fixed z-50 bg-white border border-gray-200 shadow-2xl flex flex-col overflow-hidden transition-all duration-300 ease-out",
+          // Mobile: fullscreen
+          "inset-0 sm:inset-auto",
+          // Desktop: positioned on left
+          "sm:bottom-4 sm:left-4 sm:w-[360px] sm:max-w-[calc(100vw-2rem)] sm:rounded-xl",
+          // Mobile: no rounded corners when fullscreen
+          "rounded-none sm:rounded-xl",
+          isOpen 
+            ? "h-full sm:h-[500px] sm:max-h-[70vh] opacity-100 scale-100" 
+            : "h-0 opacity-0 scale-95 pointer-events-none"
         )}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b bg-[#0C2340] text-white">
+        {/* Header - safe area padding for mobile */}
+        <div className="flex items-center justify-between p-4 pt-[max(1rem,env(safe-area-inset-top))] border-b bg-[#0C2340] text-white">
           <div className="flex items-center gap-3">
-            <img src={sofiaAvatar} alt="Sofia" className="h-10 w-10 rounded-full border-2 border-[#D4AF37]" />
+            <img 
+              src={sofiaAvatar} 
+              alt="Sofia" 
+              loading="lazy"
+              decoding="async"
+              className="h-10 w-10 rounded-full border-2 border-[#D4AF37]" 
+            />
             <div>
-              <h3 className="font-semibold text-sm">Sofia</h3>
+              <h3 className="font-semibold text-sm sm:text-base">Sofia</h3>
               <p className="text-xs text-[#D4AF37]">Tire suas dúvidas</p>
             </div>
           </div>
@@ -232,9 +251,9 @@ export function PublicSofiaAssistant() {
             variant="ghost"
             size="icon"
             onClick={() => setIsOpen(false)}
-            className="h-8 w-8 text-white hover:bg-white/10"
+            className="h-10 w-10 sm:h-8 sm:w-8 text-white hover:bg-white/10"
           >
-            <X className="h-4 w-4" />
+            <X className="h-5 w-5 sm:h-4 sm:w-4" />
           </Button>
         </div>
 
@@ -328,8 +347,8 @@ export function PublicSofiaAssistant() {
           )}
         </ScrollArea>
 
-        {/* Input */}
-        <form onSubmit={handleSubmit} className="p-3 border-t bg-gray-50">
+        {/* Input - safe area padding for mobile */}
+        <form onSubmit={handleSubmit} className="p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] border-t bg-gray-50">
           {/* Voice recording indicator with audio waves */}
           {isListening && (
             <div className="flex flex-col items-center justify-center gap-1.5 mb-2">
@@ -370,7 +389,7 @@ export function PublicSofiaAssistant() {
               onChange={(e) => setInput(e.target.value)}
               placeholder={isListening ? "Ouvindo..." : "Digite ou fale sua dúvida..."}
               disabled={isLoading || isListening}
-              className="flex-1 text-sm h-9 bg-white"
+              className="flex-1 text-sm sm:text-sm h-11 sm:h-9 bg-white"
             />
             
             {/* Microphone button */}
@@ -381,13 +400,13 @@ export function PublicSofiaAssistant() {
                 onClick={isListening ? stopListening : startListening}
                 disabled={isLoading}
                 className={cn(
-                  "h-9 w-9 transition-colors",
+                  "h-11 w-11 sm:h-9 sm:w-9 transition-colors flex-shrink-0",
                   isListening 
                     ? "bg-red-500 hover:bg-red-600 text-white" 
                     : "bg-gray-200 hover:bg-gray-300 text-gray-700"
                 )}
               >
-                {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                {isListening ? <MicOff className="h-5 w-5 sm:h-4 sm:w-4" /> : <Mic className="h-5 w-5 sm:h-4 sm:w-4" />}
               </Button>
             )}
             
@@ -395,9 +414,9 @@ export function PublicSofiaAssistant() {
               type="submit" 
               size="icon"
               disabled={!input.trim() || isLoading || isListening}
-              className="h-9 w-9 bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340]"
+              className="h-11 w-11 sm:h-9 sm:w-9 bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] flex-shrink-0"
             >
-              {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+              {isLoading ? <Loader2 className="h-5 w-5 sm:h-4 sm:w-4 animate-spin" /> : <Send className="h-5 w-5 sm:h-4 sm:w-4" />}
             </Button>
           </div>
         </form>
