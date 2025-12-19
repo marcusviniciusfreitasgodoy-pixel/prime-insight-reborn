@@ -56,6 +56,7 @@ export type Database = {
           mensagem: string
           nome: string | null
           pagina_origem: string | null
+          respostas_questionario: Json | null
           tipo_feedback: string
         }
         Insert: {
@@ -66,6 +67,7 @@ export type Database = {
           mensagem: string
           nome?: string | null
           pagina_origem?: string | null
+          respostas_questionario?: Json | null
           tipo_feedback?: string
         }
         Update: {
@@ -76,6 +78,7 @@ export type Database = {
           mensagem?: string
           nome?: string | null
           pagina_origem?: string | null
+          respostas_questionario?: Json | null
           tipo_feedback?: string
         }
         Relationships: []
