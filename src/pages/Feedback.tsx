@@ -108,9 +108,9 @@ const Feedback = () => {
             <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
               <CheckCircle className="w-10 h-10 text-green-600 dark:text-green-400" />
             </div>
-            <h1 className="text-3xl font-bold text-foreground">Muito obrigado!</h1>
+            <h1 className="text-3xl font-bold text-foreground">Obrigado pelo seu feedback!</h1>
             <p className="text-muted-foreground text-lg">
-              Sua opinião foi recebida com sucesso e é muito valiosa para nós.
+              Suas respostas nos ajudam a melhorar continuamente nossos serviços.
             </p>
 
 
