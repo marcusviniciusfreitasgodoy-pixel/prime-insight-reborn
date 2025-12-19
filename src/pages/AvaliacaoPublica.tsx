@@ -6,7 +6,7 @@ import { PublicSofiaAssistant } from "@/components/leads/PublicSofiaAssistant";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useUTMTracking } from "@/hooks/useUTMTracking";
-import { ArrowRight, Shield, TrendingUp, Award, CheckCircle, AlertCircle, MessageCircle, Eye, Calculator, Target, Users, Home, DollarSign, BarChart3, FileSearch, Clock, Building2, ChevronDown, HelpCircle, Lock, Zap, ThumbsUp, BadgeCheck } from "lucide-react";
+import { ArrowRight, Shield, TrendingUp, Award, CheckCircle, AlertCircle, MessageCircle, Eye, Calculator, Target, Users, Home, DollarSign, BarChart3, FileSearch, Clock, Building2, ChevronDown, HelpCircle, Lock, Zap, ThumbsUp, BadgeCheck, Timer, Receipt, Ban, Wallet, TrendingDown } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import godoyLogo from "@/assets/godoy-logo-symbol.png";
 import heroBackground from "@/assets/hero-barra-luxury.jpg";
@@ -80,6 +80,43 @@ const PERSONAS = [{
   description: "Compare valores por região e tipologia para encontrar as melhores oportunidades de investimento.",
   cta: "Tome decisões com dados reais"
 }];
+
+// Wrong price impacts - bilateral view for sellers and buyers
+const WRONG_PRICE_SELLER = [
+  {
+    icon: TrendingDown,
+    title: "Menos Visitas e Interesse",
+    description: "Preço acima da curva filtra seu imóvel nos portais, reduzindo cliques e agendamentos de compradores qualificados."
+  },
+  {
+    icon: Timer,
+    title: "Imóvel 'Encalhado'",
+    description: "Semanas ou meses parado criam percepção de problema oculto, queimando seu ativo digitalmente."
+  },
+  {
+    icon: Receipt,
+    title: "Custo de Carregar",
+    description: "IPTU, condomínio, manutenção — cada mês parado é dinheiro saindo do bolso e oportunidade perdida."
+  }
+];
+
+const WRONG_PRICE_BUYER = [
+  {
+    icon: Wallet,
+    title: "Pagar Acima do Mercado",
+    description: "Sem dados reais de transações, você corre o risco de pagar 20-30% acima do valor justo."
+  },
+  {
+    icon: Clock,
+    title: "Oportunidades Perdidas",
+    description: "Enquanto negocia um imóvel supervalorizado, outros compradores fecham as melhores ofertas."
+  },
+  {
+    icon: Ban,
+    title: "Financiamento Travado",
+    description: "Banco financia pelo valor de mercado. Preço inflado exige que você cubra a diferença do próprio bolso."
+  }
+];
 
 // FAQ Data - Perguntas frequentes com objeções e argumentos
 const FAQ_DATA = [{
@@ -419,8 +456,128 @@ export default function AvaliacaoPublica() {
           </div>
         </section>
 
-        {/* ============ SECTION 4: PARA QUEM É (White background) ============ */}
+        {/* ============ SECTION 3.5: WRONG PRICE IMPACTS (White background) ============ */}
         <section className="py-16 md:py-20 px-4 bg-white">
+          <div className="container mx-auto max-w-5xl">
+            <div className="text-center mb-12">
+              <span className="inline-block px-4 py-1 rounded-full bg-destructive/10 text-destructive text-sm font-semibold mb-4">
+                ATENÇÃO
+              </span>
+              <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">
+                O Preço Errado Prejudica Todo Mundo
+              </h3>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Seja vendedor ou comprador, negociar sem dados reais custa tempo, dinheiro e oportunidades.
+              </p>
+            </div>
+
+            {/* Two columns: Sellers and Buyers */}
+            <div className="grid md:grid-cols-2 gap-8 mb-12">
+              {/* Seller Column */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500/20 to-red-500/10 border border-orange-500/30 flex items-center justify-center">
+                    <Home className="h-6 w-6 text-orange-600" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-lg text-[#0C2340]">Para Quem Vende</h4>
+                    <p className="text-sm text-muted-foreground">Impactos de precificar errado</p>
+                  </div>
+                </div>
+                
+                {WRONG_PRICE_SELLER.map((item, index) => (
+                  <div 
+                    key={index} 
+                    className="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl p-4 border border-orange-200/50 hover:border-orange-300 transition-all duration-300"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center shrink-0">
+                        <item.icon className="h-5 w-5 text-orange-600" />
+                      </div>
+                      <div>
+                        <h5 className="font-semibold text-[#0C2340] mb-1">{item.title}</h5>
+                        <p className="text-sm text-muted-foreground">{item.description}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Buyer Column */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/10 border border-blue-500/30 flex items-center justify-center">
+                    <Users className="h-6 w-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-lg text-[#0C2340]">Para Quem Compra</h4>
+                    <p className="text-sm text-muted-foreground">Riscos de negociar sem dados</p>
+                  </div>
+                </div>
+                
+                {WRONG_PRICE_BUYER.map((item, index) => (
+                  <div 
+                    key={index} 
+                    className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200/50 hover:border-blue-300 transition-all duration-300"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
+                        <item.icon className="h-5 w-5 text-blue-600" />
+                      </div>
+                      <div>
+                        <h5 className="font-semibold text-[#0C2340] mb-1">{item.title}</h5>
+                        <p className="text-sm text-muted-foreground">{item.description}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Conclusion Card */}
+            <div className="bg-gradient-to-r from-[#D4AF37]/10 via-[#D4AF37]/5 to-[#D4AF37]/10 rounded-2xl p-6 md:p-8 border-2 border-[#D4AF37]/30">
+              <div className="text-center mb-6">
+                <h4 className="text-xl md:text-2xl font-bold text-[#0C2340] mb-2">
+                  Informação é Poder dos Dois Lados
+                </h4>
+                <p className="text-muted-foreground">
+                  Preço certo desde o início significa menos desgaste e mais dinheiro no bolso.
+                </p>
+              </div>
+              
+              <div className="grid md:grid-cols-3 gap-4 text-center">
+                <div className="flex items-center justify-center gap-2 bg-white/60 rounded-lg py-3 px-4">
+                  <CheckCircle className="h-5 w-5 text-[#D4AF37]" />
+                  <span className="text-sm font-medium text-[#0C2340]">
+                    <strong>Vendedor:</strong> Venda mais rápida
+                  </span>
+                </div>
+                <div className="flex items-center justify-center gap-2 bg-white/60 rounded-lg py-3 px-4">
+                  <CheckCircle className="h-5 w-5 text-[#D4AF37]" />
+                  <span className="text-sm font-medium text-[#0C2340]">
+                    <strong>Comprador:</strong> Economia real
+                  </span>
+                </div>
+                <div className="flex items-center justify-center gap-2 bg-white/60 rounded-lg py-3 px-4">
+                  <CheckCircle className="h-5 w-5 text-[#D4AF37]" />
+                  <span className="text-sm font-medium text-[#0C2340]">
+                    <strong>Ambos:</strong> Menos tempo perdido
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Statistic */}
+            <div className="mt-8 text-center">
+              <p className="text-sm text-muted-foreground italic max-w-2xl mx-auto">
+                "Estudos mostram que <strong className="text-[#0C2340]">mais da metade dos imóveis à venda está anunciada acima do valor real de mercado</strong>, prejudicando vendedores que perdem tempo e compradores que pagam mais do que deviam."
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ============ SECTION 4: PARA QUEM É (Gray background) ============ */}
+        <section className="py-16 md:py-20 px-4 bg-gray-50">
           <div className="container mx-auto max-w-5xl">
             <div className="text-center mb-12">
               <span className="inline-block px-4 py-1 rounded-full bg-[#0C2340]/10 text-[#0C2340] text-sm font-semibold mb-4">
