@@ -423,25 +423,39 @@ export function QuickValuationForm({ onComplete }: QuickValuationFormProps) {
                       onClick={(e) => e.stopPropagation()}
                     />
                   </div>
-                  {(bairros?.filter((b) =>
+                  {(() => {
+                    // Filtrar e ordenar alfabeticamente, limitando a 50 items para performance
+                    const filteredBairros = (bairros || [])
+                      .filter((b) => b.bairro.toLowerCase().includes(bairroSearchFilter.toLowerCase()))
+                      .sort((a, b) => a.bairro.localeCompare(b.bairro, 'pt-BR'))
+                      .slice(0, 50);
+                    
+                    if (filteredBairros.length === 0) {
+                      return (
+                        <div className="py-2 px-2 text-sm text-muted-foreground text-center">
+                          Nenhum bairro encontrado
+                        </div>
+                      );
+                    }
+                    
+                    return filteredBairros.map(({ bairro: b, total_transacoes }) => (
+                      <SelectItem key={b} value={b}>
+                        <span className="flex items-center justify-between w-full gap-2">
+                          <span className="truncate">{b}</span>
+                          <span className="text-xs text-muted-foreground">
+                            ({total_transacoes.toLocaleString("pt-BR")})
+                          </span>
+                        </span>
+                      </SelectItem>
+                    ));
+                  })()}
+                  {bairros && bairros.filter((b) => 
                     b.bairro.toLowerCase().includes(bairroSearchFilter.toLowerCase())
-                  ) || []).length === 0 && (
-                    <div className="py-2 px-2 text-sm text-muted-foreground text-center">
-                      Nenhum bairro encontrado
+                  ).length > 50 && (
+                    <div className="py-2 px-2 text-xs text-muted-foreground text-center border-t">
+                      Digite para filtrar mais bairros...
                     </div>
                   )}
-                  {(bairros?.filter((b) =>
-                    b.bairro.toLowerCase().includes(bairroSearchFilter.toLowerCase())
-                  ) || []).map(({ bairro: b, total_transacoes }) => (
-                    <SelectItem key={b} value={b}>
-                      <span className="flex items-center justify-between w-full gap-2">
-                        <span className="truncate">{b}</span>
-                        <span className="text-xs text-muted-foreground">
-                          ({total_transacoes.toLocaleString("pt-BR")})
-                        </span>
-                      </span>
-                    </SelectItem>
-                  ))}
                 </SelectContent>
               </Select>
             </div>
