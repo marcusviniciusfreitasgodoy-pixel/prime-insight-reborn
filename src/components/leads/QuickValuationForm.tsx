@@ -9,6 +9,7 @@ import { Calculator, MapPin, Maximize2, Home, ArrowRight, Loader2, Building2, Se
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useStreetSuggestions } from "@/hooks/useStreetSuggestions";
+import { useAllBairros } from "@/hooks/useBairroSuggestions";
 import { toast } from "sonner";
 import { LimitExceededScreen } from "./LimitExceededScreen";
 
@@ -45,18 +46,7 @@ interface QuickValuationFormProps {
 
 const MAX_FREE_EVALUATIONS = 5;
 
-const BAIRROS_POPULARES = [
-  "BARRA DA TIJUCA",
-  "RECREIO DOS BANDEIRANTES",
-  "LEBLON",
-  "IPANEMA",
-  "COPACABANA",
-  "BOTAFOGO",
-  "LAGOA",
-  "JARDIM BOTANICO",
-  "GAVEA",
-  "SAO CONRADO",
-];
+// Lista de bairros agora vem do banco de dados via useAllBairros hook
 
 const TIPOLOGIAS = [
   { value: "Apartamento", label: "Apartamento" },
@@ -91,6 +81,8 @@ export function QuickValuationForm({ onComplete }: QuickValuationFormProps) {
   const suggestionsRef = useRef<HTMLDivElement>(null);
 
   const { data: suggestions, isLoading: suggestionsLoading } = useStreetSuggestions(logradouro, bairro);
+  const { data: bairros, isLoading: bairrosLoading } = useAllBairros();
+  const [bairroSearchFilter, setBairroSearchFilter] = useState("");
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -416,14 +408,38 @@ export function QuickValuationForm({ onComplete }: QuickValuationFormProps) {
                 <MapPin className="h-4 w-4 text-accent" />
                 Bairro *
               </Label>
-              <Select value={bairro} onValueChange={setBairro}>
+              <Select value={bairro} onValueChange={setBairro} disabled={bairrosLoading}>
                 <SelectTrigger className="border-primary/20 focus:ring-accent/30">
-                  <SelectValue placeholder="Selecione o bairro" />
+                  <SelectValue placeholder={bairrosLoading ? "Carregando..." : "Selecione o bairro"} />
                 </SelectTrigger>
-                <SelectContent>
-                  {BAIRROS_POPULARES.map((b) => (
+                <SelectContent className="max-h-[300px]">
+                  <div className="flex items-center px-2 pb-2 sticky top-0 bg-popover z-10">
+                    <Search className="h-4 w-4 text-muted-foreground mr-2" />
+                    <Input
+                      placeholder="Buscar bairro..."
+                      value={bairroSearchFilter}
+                      onChange={(e) => setBairroSearchFilter(e.target.value)}
+                      className="h-8 text-sm"
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  </div>
+                  {(bairros?.filter((b) =>
+                    b.bairro.toLowerCase().includes(bairroSearchFilter.toLowerCase())
+                  ) || []).length === 0 && (
+                    <div className="py-2 px-2 text-sm text-muted-foreground text-center">
+                      Nenhum bairro encontrado
+                    </div>
+                  )}
+                  {(bairros?.filter((b) =>
+                    b.bairro.toLowerCase().includes(bairroSearchFilter.toLowerCase())
+                  ) || []).map(({ bairro: b, total_transacoes }) => (
                     <SelectItem key={b} value={b}>
-                      {b}
+                      <span className="flex items-center justify-between w-full gap-2">
+                        <span className="truncate">{b}</span>
+                        <span className="text-xs text-muted-foreground">
+                          ({total_transacoes.toLocaleString("pt-BR")})
+                        </span>
+                      </span>
                     </SelectItem>
                   ))}
                 </SelectContent>
