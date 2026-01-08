@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.geo-itbi-clusters]
 verify_jwt = false
+
+[functions.search-logradouros-prefeitura]
+verify_jwt = false

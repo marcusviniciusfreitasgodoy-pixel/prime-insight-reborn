@@ -1,12 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { contractToAbbreviations, expandAbbreviations } from '@/utils/streetNameNormalizer';
 
 export interface StreetSuggestion {
   logradouro: string;
+  logradouro_oficial?: string;
   total_transacoes: number;
   nome_condominio?: string;
   microbairro?: string;
   padrao_construtivo?: string;
+  source?: 'itbi' | 'prefeitura';
 }
 
 export function useStreetSuggestions(query: string, bairro: string = 'BARRA DA TIJUCA') {
@@ -330,10 +333,12 @@ export function useStreetSuggestions(query: string, bairro: string = 'BARRA DA T
           const condInfo = condominioMap.get(logradouro);
           return {
             logradouro,
+            logradouro_oficial: expandAbbreviations(logradouro),
             total_transacoes,
             nome_condominio: condInfo?.nome,
             microbairro: condInfo?.microbairro,
             padrao_construtivo: condInfo?.padrao,
+            source: 'itbi' as const,
           };
         })
         .sort((a, b) => {
@@ -351,13 +356,37 @@ export function useStreetSuggestions(query: string, bairro: string = 'BARRA DA T
         if (!suggestedLogradouros.has(c.logradouro_padrao) && suggestions.length < 12) {
           suggestions.push({
             logradouro: c.logradouro_padrao,
+            logradouro_oficial: expandAbbreviations(c.logradouro_padrao),
             total_transacoes: 0,
             nome_condominio: c.nome_condominio,
             microbairro: c.microbairro || undefined,
             padrao_construtivo: c.padrao_construtivo || undefined,
+            source: 'itbi' as const,
           });
         }
       });
+
+      // If no ITBI results, try Prefeitura API as fallback
+      if (suggestions.length === 0) {
+        try {
+          const { data: prefeituraData } = await supabase.functions.invoke('search-logradouros-prefeitura', {
+            body: { query: searchTerm, bairro, limit: 10 },
+          });
+
+          if (prefeituraData?.results?.length > 0) {
+            for (const result of prefeituraData.results) {
+              suggestions.push({
+                logradouro: result.logradouro_itbi,
+                logradouro_oficial: result.logradouro_oficial,
+                total_transacoes: 0,
+                source: 'prefeitura' as const,
+              });
+            }
+          }
+        } catch (prefeituraError) {
+          console.warn('Prefeitura API fallback failed:', prefeituraError);
+        }
+      }
 
       return suggestions;
     },
