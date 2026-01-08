@@ -37,12 +37,61 @@ function calculateCentroid(geometry: { paths?: number[][][] }): { lat: number; l
 // Google Maps Geocoding API fallback
 const GOOGLE_MAPS_API_KEY = "AIzaSyAU--MGXjnmv7FRXDrdjdKavYHFMepV6FQ";
 
+// Expand abbreviations for Google Geocoding (more aggressive)
+function expandForGoogle(name: string): string {
+  const abbreviations: Record<string, string> = {
+    "AVN": "AVENIDA",
+    "AV": "AVENIDA",
+    "RUA": "RUA",
+    "R": "RUA",
+    "PR": "PRACA",
+    "PCA": "PRACA",
+    "TRV": "TRAVESSA",
+    "TV": "TRAVESSA",
+    "EST": "ESTRADA",
+    "ETR": "ESTRADA",
+    "AL": "ALAMEDA",
+    "LGO": "LARGO",
+    "BC": "BECO",
+    "LD": "LADEIRA",
+    "PRC": "PRACA",
+    // Title abbreviations - expand for better Google matching
+    "DESEN": "DESENHISTA",
+    "DES": "DESEMBARGADOR",
+    "GAL": "GENERAL",
+    "CEL": "CORONEL",
+    "DR": "DOUTOR",
+    "COMTE": "COMANDANTE",
+    "EMBAIX": "EMBAIXADOR",
+    "JORN": "JORNALISTA",
+    "SEN": "SENADOR",
+    "DEP": "DEPUTADO",
+    "PRES": "PRESIDENTE",
+    "CAP": "CAPITAO",
+    "MAJ": "MAJOR",
+    "TEN": "TENENTE",
+    "SGT": "SARGENTO",
+    "ALM": "ALMIRANTE",
+    "PROF": "PROFESSOR",
+    "ENG": "ENGENHEIRO",
+    "PREF": "PREFEITO",
+    "MONSEN": "MONSENHOR",
+  };
+  
+  return name.split(" ").map(word => {
+    const upper = word.toUpperCase();
+    return abbreviations[upper] || word;
+  }).join(" ");
+}
+
 async function geocodeWithGoogle(logradouro: string, bairro: string): Promise<{ lat: number; lng: number } | null> {
   try {
-    const address = encodeURIComponent(`${logradouro}, ${bairro}, Rio de Janeiro, RJ, Brasil`);
+    // Expand abbreviations for better Google matching
+    const expandedName = expandForGoogle(logradouro.toUpperCase().trim());
+    const address = encodeURIComponent(`${expandedName}, ${bairro}, Rio de Janeiro, RJ, Brasil`);
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GOOGLE_MAPS_API_KEY}&language=pt-BR&region=br`;
     
-    console.log(`Google Geocoding fallback for: ${logradouro}, ${bairro}`);
+    console.log(`Google Geocoding for: ${expandedName} (was: ${logradouro}), ${bairro}`);
     
     const response = await fetch(url);
     if (!response.ok) {
@@ -53,12 +102,28 @@ async function geocodeWithGoogle(logradouro: string, bairro: string): Promise<{ 
     const data = await response.json();
     
     if (data.status === "OK" && data.results && data.results.length > 0) {
-      const location = data.results[0].geometry.location;
-      console.log(`Google Geocoding found: ${location.lat}, ${location.lng}`);
+      const result = data.results[0];
+      const location = result.geometry.location;
+      
+      // Verify that the result is actually in the expected bairro
+      const addressComponents = result.address_components || [];
+      const foundBairro = addressComponents.find((c: any) => 
+        c.types.includes("sublocality") || c.types.includes("sublocality_level_1")
+      );
+      
+      if (foundBairro) {
+        const foundBairroName = foundBairro.long_name.toUpperCase();
+        if (!foundBairroName.includes(bairro.substring(0, 5))) {
+          console.log(`Google returned different bairro: ${foundBairroName} vs ${bairro}`);
+          // Still return but log warning
+        }
+      }
+      
+      console.log(`Google Geocoding found: ${location.lat}, ${location.lng} for ${expandedName}`);
       return { lat: location.lat, lng: location.lng };
     }
     
-    console.log(`Google Geocoding no results for: ${logradouro}, ${bairro}`);
+    console.log(`Google Geocoding no results for: ${expandedName}, ${bairro}`);
     return null;
   } catch (error) {
     console.error(`Google Geocoding error: ${error}`);
@@ -268,9 +333,9 @@ serve(async (req) => {
       }
     }
 
-    // Step 4: Geocode missing logradouros (limit to 10 per request to avoid timeout)
-    const geocodeLimit = Math.min(toGeocode.length, 10);
-    console.log(`Geocoding ${geocodeLimit} new logradouros`);
+    // Step 4: Geocode missing logradouros (increased limit to 25 per request)
+    const geocodeLimit = Math.min(toGeocode.length, 25);
+    console.log(`Geocoding ${geocodeLimit} new logradouros (${toGeocode.length} pending)`);
 
     for (let i = 0; i < geocodeLimit; i++) {
       const logradouro = toGeocode[i];
