@@ -42,7 +42,7 @@ import { PeritEvaluationSection } from "./PeritEvaluationSection";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
-// FAQ específica sobre o Parecer Técnico (perguntas sobre ITBI, uso, legal e tecnologia estão na página /faq)
+// FAQ específica sobre o Parecer Técnico (perguntas sobre dados oficiais, uso, legal e tecnologia estão na página /faq)
 const PARECER_FAQ = [
   // Categoria: Sobre o Serviço
   {
@@ -403,7 +403,7 @@ export function QuickValuationResult({
 
           {/* Aviso */}
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-xs text-amber-800">
-            <strong>Aviso:</strong> Esta é uma estimativa automática baseada em dados históricos de transações ITBI 
+            <strong>Aviso:</strong> Esta é uma estimativa automática baseada em dados históricos de transações oficiais 
             e em regras estatísticas. Para ter certeza do valor real, você precisa de uma análise técnica completa.
           </div>
         </CardContent>
@@ -567,7 +567,7 @@ export function QuickValuationResult({
           <div className="pt-4 border-t border-border">
             <div className="text-center">
               <p className="text-sm text-muted-foreground mb-3">
-                Tem dúvidas sobre ITBI, metodologia ou aspectos legais?
+                Tem dúvidas sobre dados oficiais, metodologia ou aspectos legais?
               </p>
               <Link to="/faq">
                 <Button variant="outline" size="sm" className="gap-2">
