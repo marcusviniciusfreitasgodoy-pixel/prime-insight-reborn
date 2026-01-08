@@ -85,7 +85,7 @@ const PARECER_FAQ = [
   {
     category: "investimento",
     question: "Vale a pena investir no Parecer Técnico?",
-    answer: "Considere: a diferença entre precificar corretamente e errar pode ser de R$ 50.000 a R$ 200.000 ou mais. Clientes que usam nosso parecer economizam em média R$ 67.000 em negociações. O investimento se paga dezenas de vezes.",
+    answer: "Considere: a diferença entre precificar corretamente e errar pode ser de R$ 50.000 a R$ 500.000 ou mais. Clientes que usam nosso parecer garantem economia e argumentos para uma boa negociação. O investimento se paga dezenas de vezes.",
   },
   {
     category: "investimento",
