@@ -396,7 +396,7 @@ export function QuickValuationResult({
                 </div>
               </div>
               <p className="text-[10px] sm:text-xs text-muted-foreground text-center pt-1 sm:pt-2">
-                Baseado em {data.itbiData!.transaction_count} transações dos últimos 12 meses
+                Baseado em {data.itbiData!.transaction_count} transações de imóveis com características semelhantes nos últimos 12 meses
               </p>
             </div>
           </div>
