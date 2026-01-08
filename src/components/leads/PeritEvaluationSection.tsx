@@ -82,7 +82,7 @@ export function PeritEvaluationSection() {
             Parecer Godoy Prime: Seu Escudo Técnico
           </h3>
           <p className="text-primary font-semibold">
-            Contra Prejuízo de R$ 100-300 Mil
+            Compre pelo preço justo e evite prejuízos futuros!
           </p>
         </div>
 
