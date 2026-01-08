@@ -34,13 +34,44 @@ function calculateCentroid(geometry: { paths?: number[][][] }): { lat: number; l
   return sirgasToWGS84(centroidX, centroidY);
 }
 
-// Expand common abbreviations in logradouro names
+// Google Maps Geocoding API fallback
+const GOOGLE_MAPS_API_KEY = "AIzaSyAU--MGXjnmv7FRXDrdjdKavYHFMepV6FQ";
+
+async function geocodeWithGoogle(logradouro: string, bairro: string): Promise<{ lat: number; lng: number } | null> {
+  try {
+    const address = encodeURIComponent(`${logradouro}, ${bairro}, Rio de Janeiro, RJ, Brasil`);
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GOOGLE_MAPS_API_KEY}&language=pt-BR&region=br`;
+    
+    console.log(`Google Geocoding fallback for: ${logradouro}, ${bairro}`);
+    
+    const response = await fetch(url);
+    if (!response.ok) {
+      console.error(`Google Geocoding API error: ${response.status}`);
+      return null;
+    }
+    
+    const data = await response.json();
+    
+    if (data.status === "OK" && data.results && data.results.length > 0) {
+      const location = data.results[0].geometry.location;
+      console.log(`Google Geocoding found: ${location.lat}, ${location.lng}`);
+      return { lat: location.lat, lng: location.lng };
+    }
+    
+    console.log(`Google Geocoding no results for: ${logradouro}, ${bairro}`);
+    return null;
+  } catch (error) {
+    console.error(`Google Geocoding error: ${error}`);
+    return null;
+  }
+}
+
+// Expand common abbreviations in logradouro names - keep original if ambiguous
 function expandLogradouroName(name: string): string {
+  // Only expand unambiguous abbreviations for street types
   const abbreviations: Record<string, string> = {
     "AVN": "AVENIDA",
     "AV": "AVENIDA",
-    "R": "RUA",
-    "RUA": "RUA",
     "PR": "PRACA",
     "PCA": "PRACA",
     "TRV": "TRAVESSA",
@@ -50,41 +81,27 @@ function expandLogradouroName(name: string): string {
     "LGO": "LARGO",
     "BC": "BECO",
     "LD": "LADEIRA",
-    "GAL": "GENERAL",
-    "CEL": "CORONEL",
-    "DR": "DOUTOR",
-    "DESEN": "DESEMBARGADOR",
-    "DES": "DESEMBARGADOR",
-    "COMTE": "COMANDANTE",
-    "EMBAIX": "EMBAIXADOR",
-    "JORN": "JORNALISTA",
-    "SEN": "SENADOR",
-    "DEP": "DEPUTADO",
-    "PRES": "PRESIDENTE",
-    "CAP": "CAPITAO",
-    "MAJ": "MAJOR",
-    "TEN": "TENENTE",
-    "SGT": "SARGENTO",
-    "ALM": "ALMIRANTE",
-    "PROF": "PROFESSOR",
-    "ENG": "ENGENHEIRO",
   };
   
-  // Split and expand each word
-  return name.split(" ").map(word => {
-    const upper = word.toUpperCase();
-    return abbreviations[upper] || word;
-  }).join(" ");
+  // Split and expand only first word (street type prefix)
+  const words = name.split(" ");
+  if (words.length > 0) {
+    const firstWord = words[0].toUpperCase();
+    if (abbreviations[firstWord]) {
+      words[0] = abbreviations[firstWord];
+    }
+  }
+  return words.join(" ");
 }
 
-// Query Prefeitura API for logradouro geometry
+// Query Prefeitura API for logradouro geometry, with Google fallback
 async function fetchLogradouroGeometry(logradouro: string, bairro: string): Promise<{ lat: number; lng: number } | null> {
   try {
-    // Clean and expand abbreviations
+    // Clean and expand abbreviations only for street type prefix
     const searchTerm = expandLogradouroName(logradouro.toUpperCase().trim());
     const bairroTerm = bairro.toUpperCase().trim();
     
-    // Build API query - use contains search for flexibility
+    // Build API query - use the original name for search (without aggressive expansion)
     const whereClause = encodeURIComponent(`completo LIKE '%${searchTerm}%' AND bairro = '${bairroTerm}'`);
     const url = `https://pgeo3.rio.rj.gov.br/arcgis/rest/services/CadLog/Trechos_Logradouros/MapServer/0/query?where=${whereClause}&outFields=*&f=json&returnGeometry=true`;
     
@@ -97,8 +114,8 @@ async function fetchLogradouroGeometry(logradouro: string, bairro: string): Prom
     });
     
     if (!response.ok) {
-      console.error(`API error: ${response.status}`);
-      return null;
+      console.error(`Prefeitura API error: ${response.status}, trying Google fallback`);
+      return geocodeWithGoogle(logradouro, bairro);
     }
     
     const data = await response.json();
@@ -122,16 +139,17 @@ async function fetchLogradouroGeometry(logradouro: string, bairro: string): Prom
         }
       }
       
-      console.log(`No geometry found for: ${searchTerm}, ${bairro}`);
-      return null;
+      // Prefeitura API didn't find it, try Google Geocoding as fallback
+      console.log(`Prefeitura API: no results for "${searchTerm}", trying Google fallback`);
+      return geocodeWithGoogle(logradouro, bairro);
     }
     
     // Get first matching feature
     const feature = data.features[0];
     return calculateCentroid(feature.geometry);
   } catch (error) {
-    console.error(`Error fetching geometry: ${error}`);
-    return null;
+    console.error(`Error fetching geometry: ${error}, trying Google fallback`);
+    return geocodeWithGoogle(logradouro, bairro);
   }
 }
 
