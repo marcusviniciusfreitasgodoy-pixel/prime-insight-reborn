@@ -765,6 +765,7 @@ export default function AvaliacaoPublica() {
                           selectedBairro={selectedBairro}
                           selectedLogradouro={selectedLogradouro}
                           onSelectAddress={handleMapSelectAddress}
+                          onBairroChange={setSelectedBairro}
                         />
                       </Suspense>
                     </div>

@@ -120,7 +120,7 @@ export const MapSearchBox = memo(function MapSearchBox({ bairro, onSelect }: Map
         <Input
           ref={inputRef}
           type="text"
-          placeholder={bairro ? `Buscar rua em ${bairro}...` : "Selecione um bairro primeiro"}
+          placeholder={bairro ? `Buscar rua, avenida em ${bairro}...` : "Primeiro selecione um bairro acima"}
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
@@ -128,7 +128,7 @@ export const MapSearchBox = memo(function MapSearchBox({ bairro, onSelect }: Map
           }}
           onFocus={() => setIsOpen(true)}
           disabled={!bairro}
-          className="pl-9 pr-9 bg-white shadow-lg border-0 focus-visible:ring-[#D4AF37]"
+          className="pl-9 pr-9 bg-white shadow-lg border-0 focus-visible:ring-[#D4AF37] text-sm"
         />
         {query && !isGeocoding && (
           <button
