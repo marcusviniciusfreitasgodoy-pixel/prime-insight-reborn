@@ -158,7 +158,7 @@ export const SyncITBIButton = () => {
           ) : (
             <>
               <Database className="mr-2 h-4 w-4" />
-              Atualizar ITBI
+              Atualizar Dados
             </>
           )}
         </Button>
@@ -175,7 +175,7 @@ export const SyncITBIButton = () => {
             )}
             {stage === 'complete' ? 'Sincronização Concluída' : 
              stage === 'error' ? 'Erro na Sincronização' : 
-             'Sincronizar Dados ITBI'}
+             'Sincronizar Dados Oficiais'}
           </AlertDialogTitle>
           <AlertDialogDescription asChild>
             <div className="space-y-4">
@@ -221,7 +221,7 @@ export const SyncITBIButton = () => {
               {/* Formulário inicial */}
               {stage === 'idle' && (
                 <>
-                  <p>Buscar transações de ITBI da API da Prefeitura do Rio de Janeiro para <strong>todos os bairros</strong>:</p>
+                  <p>Buscar transações oficiais da API da Prefeitura do Rio de Janeiro para <strong>todos os bairros</strong>:</p>
                   
                   <div className="space-y-3">
                     <div className="space-y-2">
@@ -259,7 +259,7 @@ export const SyncITBIButton = () => {
                   </ul>
 
                   <p className="text-xs text-muted-foreground">
-                    Fonte: pgeo3.rio.rj.gov.br/arcgis - API ITBI Prefeitura RJ
+                    Fonte: pgeo3.rio.rj.gov.br/arcgis - API Dados Oficiais Prefeitura RJ
                   </p>
                 </>
               )}

@@ -25,48 +25,48 @@ import {
 } from "lucide-react";
 import godoyLogo from "@/assets/godoy-logo-symbol.png";
 
-// FAQ sobre ITBI, Metodologia, Uso Prático, Aspectos Legais e Tecnologia
+// FAQ sobre Dados Oficiais, Metodologia, Uso Prático, Aspectos Legais e Tecnologia
 const FAQ_DATA = [
-  // Categoria: ITBI - O que é e Por que usar
+  // Categoria: Dados Oficiais - O que é e Por que usar
   {
     category: "itbi",
-    question: "O que significa ITBI?",
-    answer: "ITBI significa 'Imposto sobre Transmissão de Bens Imóveis'. É um imposto municipal cobrado quando há transferência de propriedade de um imóvel (compra e venda). O ITBI é calculado sobre o valor de mercado do imóvel no momento da transação, tornando esses registros uma fonte extremamente confiável de dados reais.",
+    question: "O que são os dados oficiais de transações?",
+    answer: "São registros oficiais de transações imobiliárias da Prefeitura do Rio de Janeiro, baseados no Imposto sobre Transmissão de Bens Imóveis. São coletados quando há transferência de propriedade de um imóvel (compra e venda), calculados sobre o valor de mercado no momento da transação, tornando esses registros uma fonte extremamente confiável de dados reais.",
   },
   {
     category: "itbi",
-    question: "Por que usar dados de ITBI é melhor que preços de anúncios?",
-    answer: "Porque os dados de ITBI refletem transações reais que se concretizaram. Estudos comprovam que preços anunciados são, em média, 17% a 30% mais altos que o valor efetivamente pago. Os dados de ITBI eliminam especulação e representam exatamente o que o mercado pagou. Enquanto um anúncio é uma expectativa, um registro de ITBI é um fato comprovado.",
+    question: "Por que usar dados oficiais é melhor que preços de anúncios?",
+    answer: "Porque os dados oficiais refletem transações reais que se concretizaram. Estudos comprovam que preços anunciados são, em média, 17% a 30% mais altos que o valor efetivamente pago. Os dados oficiais eliminam especulação e representam exatamente o que o mercado pagou. Enquanto um anúncio é uma expectativa, um registro oficial é um fato comprovado.",
   },
   {
     category: "itbi",
-    question: "Como vocês calculam o valor usando dados de ITBI?",
+    question: "Como vocês calculam o valor usando dados oficiais?",
     answer: "Utilizamos dados de transações reais registradas junto à Prefeitura do Rio de Janeiro. Identificamos imóveis similares ao seu (mesmo bairro, rua ou micro-região), consideramos as variações de metragem e tipo de imóvel, e aplicamos fórmulas estatísticas para estimar o valor atual. Esse método garante que a avaliação reflete o que o mercado realmente está pagando.",
   },
   {
     category: "itbi",
     question: "Vocês usam a mesma avaliação do IPTU para calcular o valor?",
-    answer: "Não. O IPTU usa fórmulas genéricas que resultam em valores frequentemente defasados. Já o ITBI reflete transações individualizadas e reais. A diferença entre ITBI e IPTU é normal e esperada.",
+    answer: "Não. O IPTU usa fórmulas genéricas que resultam em valores frequentemente defasados. Já os dados oficiais refletem transações individualizadas e reais. A diferença entre esses valores é normal e esperada.",
   },
   {
     category: "itbi",
-    question: "Por que o IPTU é tão diferente do ITBI?",
-    answer: "Porque o IPTU usa 'lançamento em massa' - fórmulas padronizadas que não acompanham a dinâmica real do mercado. O ITBI incide apenas sobre transações específicas, com valor efetivamente negociado.",
+    question: "Por que o IPTU é tão diferente dos dados oficiais?",
+    answer: "Porque o IPTU usa 'lançamento em massa' - fórmulas padronizadas que não acompanham a dinâmica real do mercado. Os dados oficiais incidem apenas sobre transações específicas, com valor efetivamente negociado.",
   },
   {
     category: "itbi",
-    question: "Qual a confiabilidade dos dados de ITBI?",
+    question: "Qual a confiabilidade dos dados oficiais?",
     answer: "Altíssima. São registros fiscais oficiais documentados em cartório, baseiam-se em fatos comprovados, eliminam vieses emocionais, e seguem critérios tecnicamente reconhecidos (normas ABNT NBR 14653). A margem de erro é muito menor comparada a avaliações baseadas em anúncios.",
   },
   {
     category: "itbi",
-    question: "Os dados de ITBI podem ser manipulados?",
-    answer: "Praticamente não. Declarar valor diferente gera risco legal (autuação da Prefeitura), risco bancário (banco não aprova financiamento) e risco para o vendedor. Em imóveis de alto padrão, os valores registrados em ITBI refletem fielmente a realidade das transações.",
+    question: "Os dados oficiais podem ser manipulados?",
+    answer: "Praticamente não. Declarar valor diferente gera risco legal (autuação da Prefeitura), risco bancário (banco não aprova financiamento) e risco para o vendedor. Em imóveis de alto padrão, os valores registrados oficialmente refletem fielmente a realidade das transações.",
   },
   {
     category: "itbi",
-    question: "Qual a diferença entre avaliação por ITBI e tradicional?",
-    answer: "A avaliação tradicional examina características físicas do imóvel e usa comparáveis do mercado. A avaliação por ITBI usa dados estatísticos de transações reais, eliminando vieses. Ambas são complementares: ITBI fornece a base de mercado, avaliações tradicionais ajustam particularidades específicas.",
+    question: "Qual a diferença entre avaliação por dados oficiais e tradicional?",
+    answer: "A avaliação tradicional examina características físicas do imóvel e usa comparáveis do mercado. A avaliação por dados oficiais usa estatísticas de transações reais, eliminando vieses. Ambas são complementares: dados oficiais fornecem a base de mercado, avaliações tradicionais ajustam particularidades específicas.",
   },
   // Categoria: Uso Prático
   {
@@ -125,7 +125,7 @@ const FAQ_DATA = [
 const CATEGORY_CONFIG = [
   {
     id: "itbi",
-    title: "Sobre Dados de ITBI",
+    title: "Sobre Dados Oficiais de Transações",
     description: "Entenda como funcionam os dados oficiais de transações imobiliárias",
     icon: Building2,
     color: "purple",
@@ -148,8 +148,8 @@ const CATEGORY_CONFIG = [
 
 const SEO_CONFIG = {
   title: "FAQ - Perguntas Frequentes sobre Avaliação Imobiliária | Godoy Prime",
-  description: "Tire suas dúvidas sobre avaliação imobiliária, dados ITBI, metodologia e aspectos legais. Entenda como funciona nossa avaliação baseada em transações reais.",
-  keywords: "FAQ avaliação imobiliária, dúvidas ITBI, como funciona avaliação, dados ITBI, metodologia avaliação",
+  description: "Tire suas dúvidas sobre avaliação imobiliária, dados oficiais, metodologia e aspectos legais. Entenda como funciona nossa avaliação baseada em transações reais.",
+  keywords: "FAQ avaliação imobiliária, dúvidas dados oficiais, como funciona avaliação, transações oficiais, metodologia avaliação",
   canonical: "https://avaliacao.godoyprime.com.br/faq",
 };
 
@@ -216,7 +216,7 @@ export default function FAQ() {
             </h2>
             <p className="text-lg text-white/80 max-w-2xl mx-auto">
               Tire todas as suas dúvidas sobre nossa metodologia de avaliação,
-              dados de ITBI e aspectos legais.
+              dados oficiais e aspectos legais.
             </p>
           </div>
         </section>
@@ -333,7 +333,7 @@ export default function FAQ() {
                 </div>
                 <p className="text-white/60 text-sm max-w-md">
                   Especialistas em imóveis de alto padrão na Barra da Tijuca. 
-                  Avaliações baseadas em dados oficiais ITBI da Prefeitura do Rio de Janeiro.
+                  Avaliações baseadas em dados oficiais de transações registradas na cidade do Rio de Janeiro.
                 </p>
               </div>
 
