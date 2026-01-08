@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
-import { FileDown, Info, HelpCircle, Monitor, FileSpreadsheet, FileText, BarChart3, Search, TrendingUp, MapPin, Database, FileImage, Video } from "lucide-react";
+import { useState, lazy, Suspense } from "react";
+import { FileDown, Info, HelpCircle, Monitor, FileSpreadsheet, FileText, BarChart3, Search, TrendingUp, MapPin, Database, FileImage, Video, Map, Loader2 } from "lucide-react";
 import { MarketAssistant } from "@/components/MarketAssistant";
+
+const PropertyMap = lazy(() => import("@/components/map/PropertyMap").then(m => ({ default: m.PropertyMap })));
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { DashboardKPIs } from "@/components/DashboardKPIs";
@@ -457,6 +459,29 @@ export default function Dashboard() {
 
       <div data-tour="microbairro-evolution">
         <MicrobairroEvolutionChart bairro={selectedBairro} />
+      </div>
+
+      {/* Mapa de Valores Imobiliários */}
+      <div data-tour="property-map" className="rounded-xl border bg-card">
+        <div className="flex items-center gap-2 p-4 border-b">
+          <Map className="h-5 w-5 text-accent" />
+          <h3 className="font-semibold text-foreground">Mapa de Valores</h3>
+          <span className="text-xs text-muted-foreground ml-auto">
+            Clique num ponto para ver detalhes
+          </span>
+        </div>
+        <div className="h-[500px]">
+          <Suspense fallback={
+            <div className="h-full flex items-center justify-center">
+              <Loader2 className="h-8 w-8 animate-spin text-accent" />
+            </div>
+          }>
+            <PropertyMap 
+              selectedBairro={selectedBairro} 
+              className="rounded-b-xl"
+            />
+          </Suspense>
+        </div>
       </div>
 
 
