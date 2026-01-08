@@ -42,6 +42,7 @@ export interface QuickValuationData {
 
 interface QuickValuationFormProps {
   onComplete: (data: QuickValuationData) => void;
+  onBairroChange?: (bairro: string) => void;
 }
 
 const MAX_FREE_EVALUATIONS = 5;
@@ -53,7 +54,7 @@ const TIPOLOGIAS = [
   { value: "Casa", label: "Casa" },
 ];
 
-export function QuickValuationForm({ onComplete }: QuickValuationFormProps) {
+export function QuickValuationForm({ onComplete, onBairroChange }: QuickValuationFormProps) {
   // Lead fields
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -82,6 +83,11 @@ export function QuickValuationForm({ onComplete }: QuickValuationFormProps) {
 
   const { data: suggestions, isLoading: suggestionsLoading } = useStreetSuggestions(logradouro, bairro);
   const { data: bairros, isLoading: bairrosLoading } = useAllBairros();
+
+  // Notify parent when bairro changes
+  useEffect(() => {
+    onBairroChange?.(bairro);
+  }, [bairro, onBairroChange]);
   const [bairroSearchFilter, setBairroSearchFilter] = useState("");
 
   useEffect(() => {
