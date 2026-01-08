@@ -34,18 +34,61 @@ function calculateCentroid(geometry: { paths?: number[][][] }): { lat: number; l
   return sirgasToWGS84(centroidX, centroidY);
 }
 
+// Expand common abbreviations in logradouro names
+function expandLogradouroName(name: string): string {
+  const abbreviations: Record<string, string> = {
+    "AVN": "AVENIDA",
+    "AV": "AVENIDA",
+    "R": "RUA",
+    "RUA": "RUA",
+    "PR": "PRACA",
+    "PCA": "PRACA",
+    "TRV": "TRAVESSA",
+    "TV": "TRAVESSA",
+    "EST": "ESTRADA",
+    "AL": "ALAMEDA",
+    "LGO": "LARGO",
+    "BC": "BECO",
+    "LD": "LADEIRA",
+    "GAL": "GENERAL",
+    "CEL": "CORONEL",
+    "DR": "DOUTOR",
+    "DESEN": "DESEMBARGADOR",
+    "DES": "DESEMBARGADOR",
+    "COMTE": "COMANDANTE",
+    "EMBAIX": "EMBAIXADOR",
+    "JORN": "JORNALISTA",
+    "SEN": "SENADOR",
+    "DEP": "DEPUTADO",
+    "PRES": "PRESIDENTE",
+    "CAP": "CAPITAO",
+    "MAJ": "MAJOR",
+    "TEN": "TENENTE",
+    "SGT": "SARGENTO",
+    "ALM": "ALMIRANTE",
+    "PROF": "PROFESSOR",
+    "ENG": "ENGENHEIRO",
+  };
+  
+  // Split and expand each word
+  return name.split(" ").map(word => {
+    const upper = word.toUpperCase();
+    return abbreviations[upper] || word;
+  }).join(" ");
+}
+
 // Query Prefeitura API for logradouro geometry
 async function fetchLogradouroGeometry(logradouro: string, bairro: string): Promise<{ lat: number; lng: number } | null> {
   try {
-    // Clean and prepare search term
-    const searchTerm = logradouro.toUpperCase().trim();
+    // Clean and expand abbreviations
+    const searchTerm = expandLogradouroName(logradouro.toUpperCase().trim());
     const bairroTerm = bairro.toUpperCase().trim();
     
-    // Build API query
+    // Build API query - use contains search for flexibility
     const whereClause = encodeURIComponent(`completo LIKE '%${searchTerm}%' AND bairro = '${bairroTerm}'`);
     const url = `https://pgeo3.rio.rj.gov.br/arcgis/rest/services/CadLog/Trechos_Logradouros/MapServer/0/query?where=${whereClause}&outFields=*&f=json&returnGeometry=true`;
     
-    console.log(`Fetching geometry for: ${logradouro}, ${bairro}`);
+    console.log(`Fetching geometry for: ${searchTerm} (was: ${logradouro}), ${bairro}`);
     
     const response = await fetch(url, {
       headers: {
@@ -61,7 +104,25 @@ async function fetchLogradouroGeometry(logradouro: string, bairro: string): Prom
     const data = await response.json();
     
     if (!data.features || data.features.length === 0) {
-      console.log(`No geometry found for: ${logradouro}, ${bairro}`);
+      // Try partial match if full name didn't work
+      const words = searchTerm.split(" ").filter(w => w.length > 3);
+      if (words.length >= 2) {
+        const partialSearch = words.slice(-2).join(" ");
+        const partialWhere = encodeURIComponent(`completo LIKE '%${partialSearch}%' AND bairro = '${bairroTerm}'`);
+        const partialUrl = `https://pgeo3.rio.rj.gov.br/arcgis/rest/services/CadLog/Trechos_Logradouros/MapServer/0/query?where=${partialWhere}&outFields=*&f=json&returnGeometry=true`;
+        
+        console.log(`Trying partial search: ${partialSearch}`);
+        
+        const partialResponse = await fetch(partialUrl, { headers: { "Accept": "application/json" } });
+        if (partialResponse.ok) {
+          const partialData = await partialResponse.json();
+          if (partialData.features && partialData.features.length > 0) {
+            return calculateCentroid(partialData.features[0].geometry);
+          }
+        }
+      }
+      
+      console.log(`No geometry found for: ${searchTerm}, ${bairro}`);
       return null;
     }
     
