@@ -1,16 +1,22 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { MessageSquare, X, Send, Loader2, HelpCircle, FileCheck, DollarSign, Shield, Clock, RotateCcw, Mic, MicOff } from "lucide-react";
+import { MessageSquare, X, Send, Loader2, HelpCircle, FileCheck, DollarSign, Shield, Clock, RotateCcw, Mic, MicOff, LogIn, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import sofiaAvatar from "@/assets/sofia-avatar.png";
 import { useWebSpeech } from "@/hooks/useWebSpeech";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { useNavigate } from "react-router-dom";
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
+
+// Limite de perguntas gratuitas
+const SOFIA_FREE_LIMIT = 3;
+const SESSION_KEY = 'sofia_public_questions_count';
 
 const SUGGESTED_QUESTIONS = [
   { icon: HelpCircle, text: "O que é o Personal Shopper Imobiliário?" },
@@ -33,10 +39,16 @@ const getGreeting = (): { text: string; emoji: string } => {
 };
 
 export function PublicSofiaAssistant() {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showLimitModal, setShowLimitModal] = useState(false);
+  const [questionCount, setQuestionCount] = useState(() => {
+    const saved = sessionStorage.getItem(SESSION_KEY);
+    return saved ? parseInt(saved, 10) : 0;
+  });
   const scrollRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -87,10 +99,21 @@ export function PublicSofiaAssistant() {
   const sendMessage = async (messageText: string) => {
     if (!messageText.trim() || isLoading) return;
 
+    // Verificar limite de perguntas gratuitas
+    if (questionCount >= SOFIA_FREE_LIMIT) {
+      setShowLimitModal(true);
+      return;
+    }
+
     const userMessage: Message = { role: 'user', content: messageText };
     setMessages(prev => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
+
+    // Incrementar contador
+    const newCount = questionCount + 1;
+    setQuestionCount(newCount);
+    sessionStorage.setItem(SESSION_KEY, newCount.toString());
 
     let assistantContent = "";
 
@@ -188,6 +211,14 @@ export function PublicSofiaAssistant() {
     setMessages([]);
     setInput("");
   };
+
+  const handleNavigateToAuth = (mode: 'login' | 'signup') => {
+    setShowLimitModal(false);
+    setIsOpen(false);
+    navigate(`/auth?mode=${mode}`);
+  };
+
+  const remainingQuestions = Math.max(0, SOFIA_FREE_LIMIT - questionCount);
 
   return (
     <>
@@ -453,6 +484,50 @@ export function PublicSofiaAssistant() {
         <MessageSquare className="h-6 w-6" />
         <span className="font-medium text-sm hidden sm:inline group-hover:inline">Fale Conosco</span>
       </a>
+
+      {/* Modal de Limite Atingido */}
+      <Dialog open={showLimitModal} onOpenChange={setShowLimitModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader className="text-center">
+            <div className="flex justify-center mb-4">
+              <img 
+                src={sofiaAvatar} 
+                alt="Sofia" 
+                className="w-20 h-20 rounded-full border-4 border-[#D4AF37]/30"
+              />
+            </div>
+            <DialogTitle className="text-xl text-[#0C2340]">
+              Continue conversando com a Sofia! 💬
+            </DialogTitle>
+            <DialogDescription className="text-gray-600 mt-2">
+              Você usou suas <strong>{SOFIA_FREE_LIMIT} perguntas gratuitas</strong>. 
+              Crie uma conta grátis para continuar tirando dúvidas ilimitadas com a Sofia.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="flex flex-col gap-3 mt-4">
+            <Button
+              onClick={() => handleNavigateToAuth('signup')}
+              className="w-full bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-semibold"
+            >
+              <UserPlus className="h-4 w-4 mr-2" />
+              Criar Conta Grátis
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => handleNavigateToAuth('login')}
+              className="w-full border-[#0C2340] text-[#0C2340] hover:bg-[#0C2340]/5"
+            >
+              <LogIn className="h-4 w-4 mr-2" />
+              Já tenho conta
+            </Button>
+          </div>
+          
+          <p className="text-xs text-center text-gray-500 mt-4">
+            Ao criar uma conta, você também terá acesso ao painel completo de dados do mercado.
+          </p>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
