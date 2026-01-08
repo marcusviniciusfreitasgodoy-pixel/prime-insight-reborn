@@ -31,7 +31,7 @@ const FAQ_DATA = [
   {
     category: "itbi",
     question: "O que são os dados oficiais de transações?",
-    answer: "São registros oficiais de transações imobiliárias da Prefeitura do Rio de Janeiro, baseados no Imposto sobre Transmissão de Bens Imóveis. São coletados quando há transferência de propriedade de um imóvel (compra e venda), calculados sobre o valor de mercado no momento da transação, tornando esses registros uma fonte extremamente confiável de dados reais.",
+    answer: "São registros oficiais de transações imobiliárias registradas na cidade do Rio de Janeiro. São coletados quando há transferência de propriedade de um imóvel (compra e venda), calculados sobre o valor de mercado no momento da transação, tornando esses registros uma fonte extremamente confiável de dados reais.",
   },
   {
     category: "itbi",
@@ -41,7 +41,7 @@ const FAQ_DATA = [
   {
     category: "itbi",
     question: "Como vocês calculam o valor usando dados oficiais?",
-    answer: "Utilizamos dados de transações reais registradas junto à Prefeitura do Rio de Janeiro. Identificamos imóveis similares ao seu (mesmo bairro, rua ou micro-região), consideramos as variações de metragem e tipo de imóvel, e aplicamos fórmulas estatísticas para estimar o valor atual. Esse método garante que a avaliação reflete o que o mercado realmente está pagando.",
+    answer: "Utilizamos dados de transações reais oficialmente registradas na cidade do Rio de Janeiro. Identificamos imóveis similares ao seu (mesmo bairro, rua ou micro-região), consideramos as variações de metragem e tipo de imóvel, e aplicamos fórmulas estatísticas para estimar o valor atual. Esse método garante que a avaliação reflete o que o mercado realmente está pagando.",
   },
   {
     category: "itbi",
@@ -103,7 +103,7 @@ const FAQ_DATA = [
   {
     category: "tecnologia",
     question: "Como vocês acessam os dados oficiais de transações?",
-    answer: "Os dados não são confidenciais. A Prefeitura publica relatórios com valores médios por m² por trecho de logradouro, disponíveis no portal 'Carioca Digital' e Secretaria Municipal de Fazenda. Compilamos esses dados públicos e os cruzamos com informações de mercado para análises mais precisas.",
+    answer: "Os dados são públicos e oficiais. Compilamos dados de transações registradas na cidade do Rio de Janeiro, disponíveis em portais públicos, e os cruzamos com informações de mercado para análises mais precisas.",
   },
   {
     category: "tecnologia",
@@ -113,7 +113,7 @@ const FAQ_DATA = [
   {
     category: "tecnologia",
     question: "Com qual frequência os dados são atualizados?",
-    answer: "Os dados oficiais de transações são atualizados continuamente pela Secretaria Municipal de Fazenda. Consolidamos mensalmente os dados mais recentes, indicamos a data de atualização em cada análise, e mantemos séries históricas para análise de tendências.",
+    answer: "Os dados oficiais de transações são atualizados continuamente. Consolidamos mensalmente os dados mais recentes, indicamos a data de atualização em cada análise, e mantemos séries históricas para análise de tendências.",
   },
   {
     category: "tecnologia",

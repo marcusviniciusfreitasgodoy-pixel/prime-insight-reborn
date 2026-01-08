@@ -150,7 +150,7 @@ export function exportDashboardXLSX(data: DashboardExportData) {
     ['METODOLOGIA E FONTES DE DADOS'],
     [],
     ['Fonte dos Dados'],
-    ['Os dados apresentados neste relatório são provenientes de transações oficiais registradas junto à Prefeitura do Rio de Janeiro.'],
+    ['Os dados apresentados neste relatório são provenientes de transações oficiais registradas na cidade do Rio de Janeiro.'],
     [],
     ['Critérios de Filtragem'],
     ['• Percentual de transferência ≥ 90%'],
