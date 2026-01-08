@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { LeadsMetricsDashboard } from "@/components/leads/LeadsMetricsDashboard";
 import { 
   Users, 
   Search, 
@@ -28,7 +30,9 @@ import {
   Clock,
   LogOut,
   ArrowLeft,
-  MessageSquareHeart
+  MessageSquareHeart,
+  BarChart3,
+  List
 } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -236,6 +240,25 @@ export default function Leads() {
               </Button>
             </div>
           </div>
+
+          {/* Tabs: Métricas e Lista */}
+          <Tabs defaultValue="metricas" className="space-y-6">
+            <TabsList className="bg-muted">
+              <TabsTrigger value="metricas" className="flex items-center gap-2">
+                <BarChart3 className="h-4 w-4" />
+                <span className="hidden sm:inline">Métricas</span>
+              </TabsTrigger>
+              <TabsTrigger value="lista" className="flex items-center gap-2">
+                <List className="h-4 w-4" />
+                <span className="hidden sm:inline">Lista de Leads</span>
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="metricas">
+              <LeadsMetricsDashboard />
+            </TabsContent>
+
+            <TabsContent value="lista" className="space-y-6">
 
           {/* Stats Cards */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -551,6 +574,8 @@ export default function Leads() {
               )}
             </CardContent>
           </Card>
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </>
