@@ -3,7 +3,7 @@ import { GoogleMap, useJsApiLoader, Marker, InfoWindow, Circle } from "@react-go
 import { useMapData, getValueColor, MapFeature } from "@/hooks/useMapData";
 import { MapLegend } from "./MapLegend";
 import { MapSearchBox } from "./MapSearchBox";
-import { Loader2, MapPin, Navigation } from "lucide-react";
+import { Loader2, MapPin, Navigation, Eye, Map as MapIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -45,6 +45,17 @@ const mapOptions: google.maps.MapOptions = {
   ],
 };
 
+const streetViewOptions: google.maps.StreetViewPanoramaOptions = {
+  enableCloseButton: false,
+  addressControl: true,
+  fullscreenControl: false,
+  motionTracking: false,
+  motionTrackingControl: false,
+  showRoadLabels: true,
+  zoomControl: true,
+  panControl: true,
+};
+
 export const PropertyMap = memo(function PropertyMap({ 
   selectedBairro, 
   selectedLogradouro,
@@ -52,11 +63,15 @@ export const PropertyMap = memo(function PropertyMap({
   className = "" 
 }: PropertyMapProps) {
   const mapRef = useRef<google.maps.Map | null>(null);
+  const streetViewRef = useRef<google.maps.StreetViewPanorama | null>(null);
   const [selectedFeature, setSelectedFeature] = useState<MapFeature | null>(null);
   const [isLocating, setIsLocating] = useState(false);
   const [userLocation, setUserLocation] = useState<google.maps.LatLngLiteral | null>(null);
   const [searchMarker, setSearchMarker] = useState<{ position: google.maps.LatLngLiteral; logradouro: string } | null>(null);
   const [addressMarker, setAddressMarker] = useState<{ position: google.maps.LatLngLiteral; logradouro: string } | null>(null);
+  const [showStreetView, setShowStreetView] = useState(false);
+  const [streetViewPosition, setStreetViewPosition] = useState<google.maps.LatLngLiteral | null>(null);
+  const [streetViewAvailable, setStreetViewAvailable] = useState(true);
   const [filters, setFilters] = useState<MapFilters>({
     tipologia: ["Apartamento", "Casa"],
     minTransacoes: 1,
@@ -199,6 +214,35 @@ export const PropertyMap = memo(function PropertyMap({
     setSearchMarker(null);
   }, [onSelectAddress]);
 
+  // Check Street View availability and open it
+  const openStreetView = useCallback((position: google.maps.LatLngLiteral) => {
+    const streetViewService = new google.maps.StreetViewService();
+    
+    streetViewService.getPanorama({ location: position, radius: 100 }, (data, status) => {
+      if (status === google.maps.StreetViewStatus.OK && data?.location?.latLng) {
+        setStreetViewPosition({
+          lat: data.location.latLng.lat(),
+          lng: data.location.latLng.lng(),
+        });
+        setStreetViewAvailable(true);
+        setShowStreetView(true);
+      } else {
+        setStreetViewAvailable(false);
+        setShowStreetView(true);
+        setTimeout(() => setShowStreetView(false), 2000);
+      }
+    });
+  }, []);
+
+  const handleStreetViewClick = useCallback((position: google.maps.LatLngLiteral) => {
+    openStreetView(position);
+  }, [openStreetView]);
+
+  const closeStreetView = useCallback(() => {
+    setShowStreetView(false);
+    setStreetViewPosition(null);
+  }, []);
+
   if (loadError) {
     return (
       <div className={`relative w-full h-full min-h-[400px] rounded-xl overflow-hidden bg-gray-100 flex items-center justify-center ${className}`}>
@@ -215,16 +259,43 @@ export const PropertyMap = memo(function PropertyMap({
     );
   }
 
+  // Initialize Street View when position changes
+  useEffect(() => {
+    if (!showStreetView || !streetViewPosition || !streetViewAvailable) return;
+
+    const streetViewContainer = document.getElementById("street-view-container");
+    if (!streetViewContainer) return;
+
+    const panorama = new google.maps.StreetViewPanorama(streetViewContainer, {
+      position: streetViewPosition,
+      ...streetViewOptions,
+    });
+
+    streetViewRef.current = panorama;
+
+    return () => {
+      streetViewRef.current = null;
+    };
+  }, [showStreetView, streetViewPosition, streetViewAvailable]);
+
   return (
     <div className={`relative w-full h-full min-h-[400px] rounded-xl overflow-hidden ${className}`}>
-      <GoogleMap
-        mapContainerStyle={mapContainerStyle}
-        center={DEFAULT_CENTER}
-        zoom={DEFAULT_ZOOM}
-        onLoad={onLoad}
-        onUnmount={onUnmount}
-        options={mapOptions}
-      >
+      {/* Street View Container - hidden when not active */}
+      <div 
+        id="street-view-container" 
+        className={`absolute inset-0 z-10 ${showStreetView && streetViewAvailable ? 'block' : 'hidden'}`}
+      />
+
+      {/* Map Container - hidden when street view is active */}
+      <div className={`absolute inset-0 ${showStreetView && streetViewAvailable ? 'hidden' : 'block'}`}>
+        <GoogleMap
+          mapContainerStyle={mapContainerStyle}
+          center={DEFAULT_CENTER}
+          zoom={DEFAULT_ZOOM}
+          onLoad={onLoad}
+          onUnmount={onUnmount}
+          options={mapOptions}
+        >
         {/* Property markers */}
         {filteredFeatures.map((feature, index) => {
           const color = getValueColor(feature.properties.valor_m2_medio);
@@ -251,7 +322,7 @@ export const PropertyMap = memo(function PropertyMap({
         })}
 
         {/* Selected feature info window */}
-        {selectedFeature && (
+        {selectedFeature && !showStreetView && (
           <InfoWindow
             position={{
               lat: selectedFeature.geometry.coordinates[1],
@@ -282,21 +353,33 @@ export const PropertyMap = memo(function PropertyMap({
                   </div>
                 )}
               </div>
-              <button
-                onClick={() => handleSelectAddress(
-                  selectedFeature.properties.logradouro,
-                  selectedFeature.properties.bairro
-                )}
-                className="mt-3 w-full bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] text-xs font-semibold py-2 px-3 rounded-lg transition-colors"
-              >
-                Avaliar este endereço
-              </button>
+              <div className="flex gap-2 mt-3">
+                <button
+                  onClick={() => handleStreetViewClick({
+                    lat: selectedFeature.geometry.coordinates[1],
+                    lng: selectedFeature.geometry.coordinates[0],
+                  })}
+                  className="flex-1 bg-[#0C2340] hover:bg-[#0C2340]/90 text-white text-xs font-semibold py-2 px-3 rounded-lg transition-colors flex items-center justify-center gap-1"
+                >
+                  <Eye className="h-3 w-3" />
+                  Street View
+                </button>
+                <button
+                  onClick={() => handleSelectAddress(
+                    selectedFeature.properties.logradouro,
+                    selectedFeature.properties.bairro
+                  )}
+                  className="flex-1 bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] text-xs font-semibold py-2 px-3 rounded-lg transition-colors"
+                >
+                  Avaliar
+                </button>
+              </div>
             </div>
           </InfoWindow>
         )}
 
         {/* Search marker */}
-        {searchMarker && (
+        {searchMarker && !showStreetView && (
           <>
             <Marker
               position={searchMarker.position}
@@ -316,19 +399,28 @@ export const PropertyMap = memo(function PropertyMap({
             >
               <div className="p-2">
                 <h4 className="font-bold text-sm text-[#0C2340] mb-2">{searchMarker.logradouro}</h4>
-                <button
-                  onClick={() => handleSelectAddress(searchMarker.logradouro, selectedBairro || "")}
-                  className="w-full bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] text-xs font-semibold py-2 px-3 rounded-lg transition-colors"
-                >
-                  Avaliar este endereço
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleStreetViewClick(searchMarker.position)}
+                    className="flex-1 bg-[#0C2340] hover:bg-[#0C2340]/90 text-white text-xs font-semibold py-2 px-3 rounded-lg transition-colors flex items-center justify-center gap-1"
+                  >
+                    <Eye className="h-3 w-3" />
+                    Street View
+                  </button>
+                  <button
+                    onClick={() => handleSelectAddress(searchMarker.logradouro, selectedBairro || "")}
+                    className="flex-1 bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] text-xs font-semibold py-2 px-3 rounded-lg transition-colors"
+                  >
+                    Avaliar
+                  </button>
+                </div>
               </div>
             </InfoWindow>
           </>
         )}
 
         {/* Address marker from form */}
-        {addressMarker && (
+        {addressMarker && !showStreetView && (
           <>
             <Marker
               position={addressMarker.position}
@@ -349,14 +441,22 @@ export const PropertyMap = memo(function PropertyMap({
                   <span className="text-xs font-semibold text-[#D4AF37]">Endereço do Formulário</span>
                 </div>
                 <h4 className="font-bold text-sm text-[#0C2340]">{addressMarker.logradouro}</h4>
-                <p className="text-xs text-gray-500">{selectedBairro}</p>
+                <p className="text-xs text-gray-500 mb-2">{selectedBairro}</p>
+                <button
+                  onClick={() => handleStreetViewClick(addressMarker.position)}
+                  className="w-full bg-[#0C2340] hover:bg-[#0C2340]/90 text-white text-xs font-semibold py-2 px-3 rounded-lg transition-colors flex items-center justify-center gap-1"
+                >
+                  <Eye className="h-3 w-3" />
+                  Ver Street View
+                </button>
               </div>
             </InfoWindow>
           </>
         )}
 
+
         {/* User location marker */}
-        {userLocation && (
+        {userLocation && !showStreetView && (
           <Marker
             position={userLocation}
             icon={{
@@ -370,40 +470,79 @@ export const PropertyMap = memo(function PropertyMap({
           />
         )}
       </GoogleMap>
-
-      {/* Search box */}
-      <div className="absolute top-3 left-3 right-14 z-10">
-        <MapSearchBox 
-          bairro={selectedBairro} 
-          onSelect={handleSearchSelect}
-        />
       </div>
 
-      {/* Controls */}
-      <div className="absolute top-16 right-3 z-10 flex flex-col gap-2">
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={handleLocateMe}
-          disabled={isLocating}
-          className="bg-white shadow-lg hover:bg-gray-50 w-10 h-10"
-          title="Minha localização"
-        >
-          {isLocating ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <Navigation className="h-4 w-4" />
-          )}
-        </Button>
-      </div>
+      {/* Street View overlay controls */}
+      {showStreetView && streetViewAvailable && (
+        <div className="absolute top-3 left-3 right-3 z-20 flex items-center justify-between">
+          <div className="bg-white/95 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg flex items-center gap-2">
+            <Eye className="h-4 w-4 text-[#0C2340]" />
+            <span className="text-sm font-medium text-[#0C2340]">Street View</span>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={closeStreetView}
+            className="bg-white shadow-lg hover:bg-gray-50"
+          >
+            <MapIcon className="h-4 w-4 mr-2" />
+            Voltar ao Mapa
+          </Button>
+        </div>
+      )}
 
-      {/* Legend with filters */}
-      <div className="absolute bottom-3 left-3 z-10">
-        <MapLegend 
-          filters={filters}
-          onFiltersChange={handleFiltersChange}
-        />
-      </div>
+      {/* Street View not available message */}
+      {showStreetView && !streetViewAvailable && (
+        <div className="absolute inset-0 z-30 bg-black/50 flex items-center justify-center">
+          <div className="bg-white rounded-xl p-6 shadow-xl text-center max-w-sm mx-4">
+            <X className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
+            <h4 className="font-semibold text-[#0C2340] mb-2">Street View indisponível</h4>
+            <p className="text-sm text-muted-foreground">
+              Não há imagens de Street View disponíveis para este local.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Search box - hidden when street view is active */}
+      {!showStreetView && (
+        <div className="absolute top-3 left-3 right-14 z-10">
+          <MapSearchBox 
+            bairro={selectedBairro} 
+            onSelect={handleSearchSelect}
+          />
+        </div>
+      )}
+
+      {/* Controls - hidden when street view is active */}
+      {!showStreetView && (
+        <div className="absolute top-16 right-3 z-10 flex flex-col gap-2">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={handleLocateMe}
+            disabled={isLocating}
+            className="bg-white shadow-lg hover:bg-gray-50 w-10 h-10"
+            title="Minha localização"
+          >
+            {isLocating ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Navigation className="h-4 w-4" />
+            )}
+          </Button>
+        </div>
+      )}
+
+      {/* Legend with filters - hidden when street view is active */}
+      {!showStreetView && (
+        <div className="absolute bottom-3 left-3 z-10">
+          <MapLegend 
+            filters={filters}
+            onFiltersChange={handleFiltersChange}
+          />
+        </div>
+      )}
 
       {/* Loading overlay */}
       {isLoading && (
@@ -416,7 +555,7 @@ export const PropertyMap = memo(function PropertyMap({
       )}
 
       {/* No bairro selected */}
-      {!selectedBairro && !isLoading && (
+      {!selectedBairro && !isLoading && !showStreetView && (
         <div className="absolute inset-0 z-20 bg-gray-50/90 flex items-center justify-center">
           <div className="text-center p-6">
             <MapPin className="h-12 w-12 text-muted-foreground/50 mx-auto mb-3" />
@@ -437,8 +576,8 @@ export const PropertyMap = memo(function PropertyMap({
         </div>
       )}
 
-      {/* Metadata info */}
-      {geoData?.metadata && (
+      {/* Metadata info - hidden when street view is active */}
+      {geoData?.metadata && !showStreetView && (
         <div className="absolute bottom-3 right-3 z-10">
           <div className="bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-lg shadow text-xs text-muted-foreground">
             {filteredFeatures.length} pontos
