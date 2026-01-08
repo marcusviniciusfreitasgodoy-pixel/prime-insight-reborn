@@ -3,6 +3,7 @@ import { GoogleMap, useJsApiLoader, Marker, InfoWindow, Circle } from "@react-go
 import { useMapData, getValueColor, MapFeature } from "@/hooks/useMapData";
 import { MapLegend } from "./MapLegend";
 import { MapSearchBox } from "./MapSearchBox";
+import { MapBairroSelector } from "./MapBairroSelector";
 import { Loader2, MapPin, Navigation, Eye, Map as MapIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,6 +14,7 @@ interface PropertyMapProps {
   selectedBairro: string | null;
   selectedLogradouro?: string | null;
   onSelectAddress?: (logradouro: string, bairro: string) => void;
+  onBairroChange?: (bairro: string) => void;
   className?: string;
 }
 
@@ -60,6 +62,7 @@ export const PropertyMap = memo(function PropertyMap({
   selectedBairro, 
   selectedLogradouro,
   onSelectAddress,
+  onBairroChange,
   className = "" 
 }: PropertyMapProps) {
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -504,9 +507,17 @@ export const PropertyMap = memo(function PropertyMap({
         </div>
       )}
 
-      {/* Search box - hidden when street view is active */}
+      {/* Bairro selector and Search box - hidden when street view is active */}
       {!showStreetView && (
-        <div className="absolute top-3 left-3 right-14 z-10">
+        <div className="absolute top-3 left-3 right-14 z-10 flex flex-col gap-2">
+          {/* Bairro Selector */}
+          {onBairroChange && (
+            <MapBairroSelector
+              selectedBairro={selectedBairro}
+              onBairroChange={onBairroChange}
+            />
+          )}
+          {/* Search Box */}
           <MapSearchBox 
             bairro={selectedBairro} 
             onSelect={handleSearchSelect}
