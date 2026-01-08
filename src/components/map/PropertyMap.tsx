@@ -243,6 +243,25 @@ export const PropertyMap = memo(function PropertyMap({
     setStreetViewPosition(null);
   }, []);
 
+  // Initialize Street View when position changes - MUST be before early returns
+  useEffect(() => {
+    if (!isLoaded || !showStreetView || !streetViewPosition || !streetViewAvailable) return;
+
+    const streetViewContainer = document.getElementById("street-view-container");
+    if (!streetViewContainer) return;
+
+    const panorama = new google.maps.StreetViewPanorama(streetViewContainer, {
+      position: streetViewPosition,
+      ...streetViewOptions,
+    });
+
+    streetViewRef.current = panorama;
+
+    return () => {
+      streetViewRef.current = null;
+    };
+  }, [isLoaded, showStreetView, streetViewPosition, streetViewAvailable]);
+
   if (loadError) {
     return (
       <div className={`relative w-full h-full min-h-[400px] rounded-xl overflow-hidden bg-gray-100 flex items-center justify-center ${className}`}>
@@ -258,25 +277,6 @@ export const PropertyMap = memo(function PropertyMap({
       </div>
     );
   }
-
-  // Initialize Street View when position changes
-  useEffect(() => {
-    if (!showStreetView || !streetViewPosition || !streetViewAvailable) return;
-
-    const streetViewContainer = document.getElementById("street-view-container");
-    if (!streetViewContainer) return;
-
-    const panorama = new google.maps.StreetViewPanorama(streetViewContainer, {
-      position: streetViewPosition,
-      ...streetViewOptions,
-    });
-
-    streetViewRef.current = panorama;
-
-    return () => {
-      streetViewRef.current = null;
-    };
-  }, [showStreetView, streetViewPosition, streetViewAvailable]);
 
   return (
     <div className={`relative w-full h-full min-h-[400px] rounded-xl overflow-hidden ${className}`}>
