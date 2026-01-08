@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { MessageSquare, X, Send, Loader2, TrendingUp, MapPin, DollarSign, BarChart3, Home, Ruler, Paperclip, FileText, Image, Mic, MicOff } from "lucide-react";
+import { MessageSquare, X, Send, Loader2, TrendingUp, MapPin, DollarSign, BarChart3, Home, Ruler, Paperclip, FileText, Image, Mic, MicOff, LogIn, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -10,6 +10,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import sofiaAvatar from "@/assets/sofia-avatar.png";
 import { useWebSpeech } from "@/hooks/useWebSpeech";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { useNavigate } from "react-router-dom";
 
 interface Message {
   role: 'user' | 'assistant';
@@ -21,6 +23,10 @@ interface Message {
   };
 }
 
+// Limite de perguntas gratuitas para usuários não logados
+const SOFIA_FREE_LIMIT = 3;
+const SESSION_KEY = 'sofia_market_questions_count';
+
 const SUGGESTED_QUESTIONS = [
   { icon: Home, text: "Qual o preço médio no condomínio Riserva Golf?" },
   { icon: MapPin, text: "Qual o preço médio na Avenida Lúcio Costa?" },
@@ -31,10 +37,16 @@ const SUGGESTED_QUESTIONS = [
 ];
 
 export function MarketAssistant() {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showLimitModal, setShowLimitModal] = useState(false);
+  const [questionCount, setQuestionCount] = useState(() => {
+    const saved = sessionStorage.getItem(SESSION_KEY);
+    return saved ? parseInt(saved, 10) : 0;
+  });
   const { selectedBairro } = useBairro();
   const { user } = useAuthContext();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -86,10 +98,23 @@ export function MarketAssistant() {
   const sendMessage = async (messageText: string) => {
     if (!messageText.trim() || isLoading) return;
 
+    // Verificar limite apenas para usuários não logados
+    if (!user && questionCount >= SOFIA_FREE_LIMIT) {
+      setShowLimitModal(true);
+      return;
+    }
+
     const userMessage: Message = { role: 'user', content: messageText };
     setMessages(prev => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
+
+    // Incrementar contador apenas para usuários não logados
+    if (!user) {
+      const newCount = questionCount + 1;
+      setQuestionCount(newCount);
+      sessionStorage.setItem(SESSION_KEY, newCount.toString());
+    }
 
     let assistantContent = "";
 
@@ -201,6 +226,14 @@ export function MarketAssistant() {
       sendMessage(transcript);
     }
   }, [autoStopped, transcript]);
+
+  const handleNavigateToAuth = (mode: 'login' | 'signup') => {
+    setShowLimitModal(false);
+    setIsOpen(false);
+    navigate(`/auth?mode=${mode}`);
+  };
+
+  const remainingQuestions = user ? Infinity : Math.max(0, SOFIA_FREE_LIMIT - questionCount);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -499,6 +532,50 @@ export function MarketAssistant() {
           </p>
         </form>
       </div>
+
+      {/* Modal de Limite Atingido */}
+      <Dialog open={showLimitModal} onOpenChange={setShowLimitModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader className="text-center">
+            <div className="flex justify-center mb-4">
+              <img 
+                src={sofiaAvatar} 
+                alt="Sofia" 
+                className="w-20 h-20 rounded-full border-4 border-accent/30"
+              />
+            </div>
+            <DialogTitle className="text-xl">
+              Continue conversando com a Sofia! 💬
+            </DialogTitle>
+            <DialogDescription className="mt-2">
+              Você usou suas <strong>{SOFIA_FREE_LIMIT} perguntas gratuitas</strong>. 
+              Faça login para continuar tirando dúvidas ilimitadas com a Sofia.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="flex flex-col gap-3 mt-4">
+            <Button
+              onClick={() => handleNavigateToAuth('signup')}
+              className="w-full"
+            >
+              <UserPlus className="h-4 w-4 mr-2" />
+              Criar Conta Grátis
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => handleNavigateToAuth('login')}
+              className="w-full"
+            >
+              <LogIn className="h-4 w-4 mr-2" />
+              Já tenho conta
+            </Button>
+          </div>
+          
+          <p className="text-xs text-center text-muted-foreground mt-4">
+            Ao criar uma conta, você terá acesso ilimitado à Sofia e ao painel completo de dados.
+          </p>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
