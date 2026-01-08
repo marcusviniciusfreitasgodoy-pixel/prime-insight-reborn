@@ -76,7 +76,7 @@ export const PropertyMap = memo(function PropertyMap({
   const [streetViewPosition, setStreetViewPosition] = useState<google.maps.LatLngLiteral | null>(null);
   const [streetViewAvailable, setStreetViewAvailable] = useState(true);
   const [filters, setFilters] = useState<MapFilters>({
-    tipologia: ["Apartamento", "Casa"],
+    tipologia: ["Apartamento", "Casa", "Comercial"],
     minTransacoes: 1,
   });
 
