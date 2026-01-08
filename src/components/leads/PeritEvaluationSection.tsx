@@ -43,7 +43,7 @@ const credenciais = [
   { label: "CRECI PJ 11841 RJ | CRECI PF 80199 RJ", icon: CheckCircle },
   { label: "Primeiro Personal Shopper Imobiliário do Rio de Janeiro", icon: Shield },
   { label: "Especialização Exclusiva: Barra da Tijuca", icon: MapPin },
-  { label: "Banco de Dados Proprietário: Transações Reais de Cartório", icon: Database },
+  { label: "Dados reais e oficiais registrados na cidade do Rio de Janeiro", icon: Database },
 ];
 
 const primeBuyerPhases = [
