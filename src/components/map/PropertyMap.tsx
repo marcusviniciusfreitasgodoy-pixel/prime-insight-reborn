@@ -17,6 +17,7 @@ L.Icon.Default.mergeOptions({
 
 interface PropertyMapProps {
   selectedBairro: string | null;
+  selectedLogradouro?: string | null;
   onSelectAddress?: (logradouro: string, bairro: string) => void;
   className?: string;
 }
@@ -84,6 +85,7 @@ function createPopupContent(feature: MapFeature): string {
 
 export const PropertyMap = memo(function PropertyMap({ 
   selectedBairro, 
+  selectedLogradouro,
   onSelectAddress,
   className = "" 
 }: PropertyMapProps) {
@@ -91,6 +93,7 @@ export const PropertyMap = memo(function PropertyMap({
   const mapRef = useRef<L.Map | null>(null);
   const markersLayerRef = useRef<L.LayerGroup | null>(null);
   const searchMarkerRef = useRef<L.Marker | null>(null);
+  const addressMarkerRef = useRef<L.Marker | null>(null);
   const [isLocating, setIsLocating] = useState(false);
   const [filters, setFilters] = useState<MapFilters>({
     tipologia: ["Apartamento", "Casa"],
@@ -190,6 +193,110 @@ export const PropertyMap = memo(function PropertyMap({
       mapRef.current.fitBounds(bounds, { padding: [50, 50] });
     }
   }, [filteredFeatures]);
+
+  // Geocode and show marker for selected logradouro from form
+  useEffect(() => {
+    if (!mapRef.current || !selectedLogradouro || !selectedBairro) {
+      // Remove existing address marker if no logradouro
+      if (addressMarkerRef.current) {
+        addressMarkerRef.current.remove();
+        addressMarkerRef.current = null;
+      }
+      return;
+    }
+
+    // Search for the address in our geocoded data
+    const searchAddress = async () => {
+      try {
+        // First try to find in logradouros_geocoded table
+        const { data } = await import("@/integrations/supabase/client").then(m => 
+          m.supabase
+            .from("logradouros_geocoded")
+            .select("latitude, longitude, logradouro")
+            .eq("bairro", selectedBairro)
+            .ilike("logradouro", `%${selectedLogradouro}%`)
+            .not("latitude", "is", null)
+            .limit(1)
+            .single()
+        );
+
+        if (data?.latitude && data?.longitude) {
+          // Remove previous address marker
+          if (addressMarkerRef.current) {
+            addressMarkerRef.current.remove();
+          }
+
+          // Create pulsing marker icon for the form address
+          const pulsingIcon = L.divIcon({
+            className: "address-marker-pulse",
+            html: `
+              <div style="position: relative;">
+                <div style="
+                  position: absolute;
+                  width: 40px;
+                  height: 40px;
+                  background: rgba(212, 175, 55, 0.3);
+                  border-radius: 50%;
+                  animation: pulse-ring 1.5s ease-out infinite;
+                  left: -4px;
+                  top: -4px;
+                "></div>
+                <div style="
+                  width: 32px;
+                  height: 32px;
+                  background: linear-gradient(135deg, #D4AF37 0%, #c9a432 100%);
+                  border: 3px solid white;
+                  border-radius: 50% 50% 50% 0;
+                  transform: rotate(-45deg);
+                  box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+                "></div>
+                <div style="
+                  position: absolute;
+                  top: 6px;
+                  left: 6px;
+                  width: 20px;
+                  height: 20px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                ">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                </div>
+              </div>
+            `,
+            iconSize: [32, 32],
+            iconAnchor: [16, 32],
+          });
+
+          addressMarkerRef.current = L.marker([data.latitude, data.longitude], { 
+            icon: pulsingIcon,
+            zIndexOffset: 1000 
+          })
+            .addTo(mapRef.current!)
+            .bindPopup(`
+              <div class="p-2">
+                <div class="flex items-center gap-2 mb-2">
+                  <div style="background: #D4AF37; width: 8px; height: 8px; border-radius: 50%;"></div>
+                  <span class="text-xs font-semibold text-[#D4AF37]">Endereço do Formulário</span>
+                </div>
+                <h4 class="font-bold text-sm text-[#0C2340]">${data.logradouro}</h4>
+                <p class="text-xs text-gray-500">${selectedBairro}</p>
+              </div>
+            `, { maxWidth: 250 });
+
+          // Pan to the marker smoothly
+          mapRef.current!.setView([data.latitude, data.longitude], 15, { animate: true });
+        }
+      } catch (error) {
+        console.log("Address not found in geocoded data:", selectedLogradouro);
+      }
+    };
+
+    searchAddress();
+  }, [selectedLogradouro, selectedBairro]);
 
   // Geolocation
   const handleLocateMe = useCallback(() => {
