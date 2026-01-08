@@ -253,7 +253,7 @@ export async function exportVideoScriptPdf() {
   y += 12;
 
   addTitle('DADOS E FONTE', pageNum);
-  addFaqItem(1, 'De onde vêm os dados da plataforma?', 'Os dados são oficiais do ITBI (Imposto de Transmissão de Bens Imóveis) da Prefeitura do Rio de Janeiro, obtidos via API do ArcGIS. Representam transações reais registradas, não preços de anúncios.', pageNum);
+  addFaqItem(1, 'De onde vêm os dados da plataforma?', 'Os dados são transações oficiais registradas na cidade do Rio de Janeiro. Representam transações reais de compra e venda, não preços de anúncios.', pageNum);
   addFaqItem(2, 'Com que frequência os dados são atualizados?', 'A sincronização ocorre mensalmente, no dia 1º de cada mês às 02:00 UTC. Os últimos 2 meses de dados são atualizados em cada sincronização.', pageNum);
   addFaqItem(3, 'Qual o período histórico disponível?', 'Dados desde janeiro de 2020 até o mês atual, permitindo análises de tendência de longo prazo.', pageNum);
   addFaqItem(4, 'Quantos bairros estão cobertos?', 'Todos os 142 bairros do Rio de Janeiro com dados disponíveis no sistema da Prefeitura.', pageNum);

@@ -221,7 +221,7 @@ export const SyncITBIButton = () => {
               {/* Formulário inicial */}
               {stage === 'idle' && (
                 <>
-                  <p>Buscar transações oficiais da API da Prefeitura do Rio de Janeiro para <strong>todos os bairros</strong>:</p>
+                  <p>Buscar transações oficiais registradas na cidade do Rio de Janeiro para <strong>todos os bairros</strong>:</p>
                   
                   <div className="space-y-3">
                     <div className="space-y-2">

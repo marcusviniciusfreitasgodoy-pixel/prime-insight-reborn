@@ -138,7 +138,7 @@ const FAQ_DATA = [{
   category: "confianca",
   icon: Shield,
   question: "De onde vêm os dados? São confiáveis?",
-  answer: "Usamos dados oficiais de transações registradas da Prefeitura do Rio de Janeiro. São registros reais de compra e venda, não preços de anúncios inflacionados. São os mesmos dados usados pelo governo para calcular impostos."
+  answer: "Usamos dados analisados e registrados oficialmente pelas autoridades no Rio de Janeiro. São registros reais de compra e venda, não preços de anúncios inflacionados. Dados 100% oficiais."
 }, {
   category: "confianca",
   icon: BadgeCheck,
@@ -366,7 +366,7 @@ export default function AvaliacaoPublica() {
             <div className="max-w-3xl mx-auto space-y-6">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm font-medium animate-fade-in">
                 <Shield className="h-4 w-4 text-[#D4AF37]" />
-                Dados Oficiais Registrados da Prefeitura do Rio de Janeiro
+                Transações Oficiais da Cidade do Rio de Janeiro
               </div>
 
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight animate-fade-in [animation-delay:150ms]">
@@ -847,7 +847,7 @@ export default function AvaliacaoPublica() {
                 </div>
                 <p className="text-white/60 text-sm max-w-md">
                   Especialistas em imóveis de alto padrão na Barra da Tijuca. 
-                  Avaliações baseadas em dados oficiais de transações da Prefeitura do Rio de Janeiro.
+                  Avaliações baseadas em transações oficiais da cidade do Rio de Janeiro.
                 </p>
               </div>
 

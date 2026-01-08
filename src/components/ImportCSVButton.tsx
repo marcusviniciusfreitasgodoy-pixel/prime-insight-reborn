@@ -141,7 +141,7 @@ export function ImportCSVButton() {
             Importar Dados Oficiais
           </DialogTitle>
           <DialogDescription>
-            Selecione o arquivo CSV da Prefeitura do Rio de Janeiro para importar as transações oficiais registradas.
+            Selecione o arquivo CSV com as transações oficiais registradas na cidade do Rio de Janeiro.
             <span className="block mt-1 text-amber-600 dark:text-amber-400">
               Requer permissão de administrador.
             </span>

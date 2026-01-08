@@ -186,8 +186,8 @@ export async function exportPlatformReportPdf() {
   addParagraph('Plataforma de inteligência imobiliária desenvolvida exclusivamente para profissionais do mercado de alto padrão do Rio de Janeiro. Transforma dados oficiais de transações ITBI em insights estratégicos para tomada de decisão.', pageNum);
 
   addSectionTitle('Diferenciais Competitivos', pageNum);
-  addBenefit('Dados Reais: Baseado em transações ITBI oficiais da Prefeitura, não em preços de anúncios', pageNum);
-  addBenefit('Fonte Oficial: API ArcGIS da Prefeitura do Rio de Janeiro', pageNum);
+  addBenefit('Dados Reais: Baseado em transações oficiais, não em preços de anúncios', pageNum);
+  addBenefit('Fonte Oficial: Transações registradas na cidade do Rio de Janeiro', pageNum);
   addBenefit('Atualização Mensal: Sincronização automática no 1º dia de cada mês', pageNum);
   addBenefit('Cobertura Ampla: 142 bairros do Rio de Janeiro desde 2020', pageNum);
   addBenefit('Histórico de 5 anos: Análise de tendências desde janeiro de 2020', pageNum);
