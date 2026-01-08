@@ -106,6 +106,24 @@ export function QuickValuationForm({ onComplete, onBairroChange }: QuickValuatio
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Listen for address selection from map
+  useEffect(() => {
+    const handleMapSelect = (e: CustomEvent<{ logradouro: string; bairro: string }>) => {
+      const { logradouro: selectedLogradouro, bairro: selectedBairro } = e.detail;
+      if (selectedLogradouro) {
+        setLogradouro(selectedLogradouro);
+      }
+      if (selectedBairro) {
+        setBairro(selectedBairro);
+      }
+      // Scroll form into view on mobile
+      inputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    };
+
+    window.addEventListener("map-select-address", handleMapSelect as EventListener);
+    return () => window.removeEventListener("map-select-address", handleMapSelect as EventListener);
+  }, []);
+
   const handleSelectSuggestion = (suggestion: { logradouro: string; nome_condominio?: string }) => {
     setLogradouro(suggestion.nome_condominio || suggestion.logradouro);
     setShowSuggestions(false);
