@@ -203,6 +203,7 @@ export default function AvaliacaoPublica() {
   const [step, setStep] = useState<Step>("form");
   const [valuationData, setValuationData] = useState<QuickValuationData | null>(null);
   const [selectedBairro, setSelectedBairro] = useState<string | null>(null);
+  const [selectedLogradouro, setSelectedLogradouro] = useState<string | null>(null);
   const [showMap, setShowMap] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
@@ -247,6 +248,7 @@ export default function AvaliacaoPublica() {
   // Handle address selection from map
   const handleMapSelectAddress = (logradouro: string, bairro: string) => {
     setSelectedBairro(bairro);
+    setSelectedLogradouro(logradouro);
     // The QuickValuationForm will need to be updated to accept pre-filled values
     // For now, we just scroll to the form
     scrollToForm();
@@ -693,6 +695,7 @@ export default function AvaliacaoPublica() {
                   <QuickValuationForm 
                     onComplete={handleQuickValuationComplete}
                     onBairroChange={setSelectedBairro}
+                    onLogradouroChange={setSelectedLogradouro}
                   />
 
                   {/* Trust badges */}
@@ -760,6 +763,7 @@ export default function AvaliacaoPublica() {
                       }>
                         <PropertyMap 
                           selectedBairro={selectedBairro}
+                          selectedLogradouro={selectedLogradouro}
                           onSelectAddress={handleMapSelectAddress}
                         />
                       </Suspense>

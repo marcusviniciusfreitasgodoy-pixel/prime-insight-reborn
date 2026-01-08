@@ -43,6 +43,7 @@ export interface QuickValuationData {
 interface QuickValuationFormProps {
   onComplete: (data: QuickValuationData) => void;
   onBairroChange?: (bairro: string) => void;
+  onLogradouroChange?: (logradouro: string) => void;
 }
 
 const MAX_FREE_EVALUATIONS = 5;
@@ -54,7 +55,7 @@ const TIPOLOGIAS = [
   { value: "Casa", label: "Casa" },
 ];
 
-export function QuickValuationForm({ onComplete, onBairroChange }: QuickValuationFormProps) {
+export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroChange }: QuickValuationFormProps) {
   // Lead fields
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -88,6 +89,19 @@ export function QuickValuationForm({ onComplete, onBairroChange }: QuickValuatio
   useEffect(() => {
     onBairroChange?.(bairro);
   }, [bairro, onBairroChange]);
+
+  // Notify parent when logradouro changes (debounced)
+  useEffect(() => {
+    if (logradouro.length >= 3) {
+      const timer = setTimeout(() => {
+        onLogradouroChange?.(logradouro);
+      }, 500);
+      return () => clearTimeout(timer);
+    } else {
+      onLogradouroChange?.("");
+    }
+  }, [logradouro, onLogradouroChange]);
+
   const [bairroSearchFilter, setBairroSearchFilter] = useState("");
 
   useEffect(() => {
