@@ -85,7 +85,7 @@ const checklistSections: ChecklistSection[] = [
   {
     title: "7. MOTOR DE AVALIAÇÃO (5 etapas)",
     items: [
-      "[ ] Etapa 1: Seleção de logradouro com dados ITBI",
+      "[ ] Etapa 1: Seleção de logradouro com dados oficiais",
       "[ ] Etapa 1: Entrada manual de preço anúncios",
       "[ ] Etapa 2: Área e seleção de base de preço",
       "[ ] Etapa 3: 26 características em 5 abas",
@@ -159,13 +159,13 @@ const checklistSections: ChecklistSection[] = [
     items: [
       "[ ] Disclaimer legal visível no Dashboard",
       "[ ] Tooltip metodologia expandível",
-      "[ ] Texto correto sobre fonte ITBI",
+      "[ ] Texto correto sobre fonte de dados oficiais",
     ]
   },
   {
     title: "14. SINCRONIZAÇÃO (ADMIN)",
     items: [
-      "[ ] Botão 'Atualizar ITBI' visível",
+      "[ ] Botão 'Atualizar Dados' visível",
       "[ ] Seletor de ano funciona",
       "[ ] Feedback de sincronização",
     ]

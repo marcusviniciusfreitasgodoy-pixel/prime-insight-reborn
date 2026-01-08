@@ -45,7 +45,7 @@ const PROBLEMS = [{
 // Solutions section data
 const SOLUTIONS = [{
   icon: Shield,
-  title: "Dados Oficiais ITBI",
+  title: "Dados Oficiais de Transações",
   description: "Usamos transações reais registradas na Prefeitura do RJ, não apenas preços de anúncios.",
   highlight: "Fonte governamental confiável"
 }, {

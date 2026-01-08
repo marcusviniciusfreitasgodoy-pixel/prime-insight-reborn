@@ -173,7 +173,7 @@ export function Step5Recommendation({ result, state, combined, onReset }: Props)
                   </span>
                 </p>
                 <p className="text-[10px] sm:text-xs text-muted-foreground">
-                  Diferença anúncios vs ITBI
+                  Diferença anúncios vs dados oficiais
                 </p>
               </div>
             </div>

@@ -56,8 +56,8 @@ export default function Dashboard() {
         const avgValueM2 = data.reduce((sum, r) => sum + (r.valor_m2 || 0), 0) / data.length;
 
         exportToXLSX({
-          filename: `itbi_transacoes_${selectedBairro.toLowerCase().replace(/\s+/g, '_')}`,
-          title: `Transações ITBI - ${selectedBairro}`,
+          filename: `transacoes_oficiais_${selectedBairro.toLowerCase().replace(/\s+/g, '_')}`,
+          title: `Transações Oficiais - ${selectedBairro}`,
           subtitle: 'Godoy Prime Analytics - Inteligência Imobiliária',
           filters: {
             'Bairro': selectedBairro,

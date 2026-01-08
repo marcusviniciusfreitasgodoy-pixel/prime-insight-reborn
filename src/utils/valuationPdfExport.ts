@@ -50,7 +50,7 @@ export function exportValuationEnginePDF(
     
     const disclaimerText = [
       'Este relatório apresenta uma estimativa de valor baseada em:',
-      '• Dados ITBI de transações reais (últimos 12 meses)',
+      '• Dados oficiais de transações registradas (últimos 12 meses)',
       '• Características declaradas do imóvel',
       '• Análise estatística de mercado',
       '',
