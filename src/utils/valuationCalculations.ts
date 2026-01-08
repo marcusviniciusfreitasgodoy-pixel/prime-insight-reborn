@@ -18,12 +18,12 @@ export interface CombinedPrices {
   trend_direction: "UP" | "STABLE" | "DOWN";
 }
 
-// Combina ITBI (70%) + Anúncios (30%)
+// Combina Dados Oficiais (70%) + Anúncios (30%)
 export const calculateCombinedPrices = (
   itbi: ITBIData,
   anuncio?: AnuncioData
 ): CombinedPrices => {
-  // Se não há dados de anúncios, usa 100% ITBI
+  // Se não há dados de anúncios, usa 100% dados oficiais
   if (!anuncio || !anuncio.med_m2) {
     return {
       min_m2: itbi.min_m2,
@@ -38,7 +38,7 @@ export const calculateCombinedPrices = (
   const combined_med = itbi.med_m2 * 0.7 + anuncio.med_m2 * 0.3;
   const combined_max = itbi.max_m2 * 0.7 + anuncio.max_m2 * 0.3;
 
-  // Calcula trend: diferença entre anúncios e ITBI
+  // Calcula trend: diferença entre anúncios e dados oficiais
   const trend_percentage = ((anuncio.med_m2 - itbi.med_m2) / itbi.med_m2) * 100;
   const trend_direction: "UP" | "STABLE" | "DOWN" =
     trend_percentage > 5 ? "UP" : trend_percentage < -5 ? "DOWN" : "STABLE";

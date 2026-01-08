@@ -690,7 +690,7 @@ export function QuickValuationForm({ onComplete }: QuickValuationFormProps) {
           </Button>
 
           <p className="text-xs text-muted-foreground text-center pt-2">
-            ⚡ Resultado instantâneo baseado em transações oficiais ITBI.
+            ⚡ Resultado instantâneo baseado em transações oficiais registradas.
           </p>
         </form>
       </CardContent>

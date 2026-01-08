@@ -138,12 +138,12 @@ const FAQ_DATA = [{
   category: "confianca",
   icon: Shield,
   question: "De onde vêm os dados? São confiáveis?",
-  answer: "Usamos dados oficiais de transações ITBI (Imposto de Transmissão de Bens Imóveis) da Prefeitura do Rio de Janeiro. São registros reais de compra e venda, não preços de anúncios inflacionados. São os mesmos dados usados pelo governo para calcular impostos."
+  answer: "Usamos dados oficiais de transações registradas da Prefeitura do Rio de Janeiro. São registros reais de compra e venda, não preços de anúncios inflacionados. São os mesmos dados usados pelo governo para calcular impostos."
 }, {
   category: "confianca",
   icon: BadgeCheck,
-  question: "Por que dados ITBI são melhores que preços de anúncios?",
-  answer: "Anúncios mostram o preço que o vendedor DESEJA receber, não o valor real de venda. Pesquisas mostram que a diferença pode chegar a 20-30%. Já o ITBI registra o valor que efetivamente foi pago na transação, depois de toda negociação. É o valor real de mercado."
+  question: "Por que dados oficiais são melhores que preços de anúncios?",
+  answer: "Anúncios mostram o preço que o vendedor DESEJA receber, não o valor real de venda. Pesquisas mostram que a diferença pode chegar a 20-30%. Já os dados oficiais registram o valor que efetivamente foi pago na transação, depois de toda negociação. É o valor real de mercado."
 }, {
   category: "confianca",
   icon: Lock,
@@ -189,8 +189,8 @@ const FAQ_DATA = [{
 // SEO meta tags otimizadas para conversão
 const SEO_CONFIG = {
   title: "Avaliação Imobiliária Gratuita | Descubra o Valor Real do Seu Imóvel | Godoy Prime",
-  description: "Descubra o valor real do seu imóvel na Barra da Tijuca em 30 segundos. Avaliação baseada em +80.000 transações oficiais ITBI da Prefeitura do RJ. Gratuito e sem compromisso.",
-  keywords: "avaliação imóvel gratuita, valor imóvel Barra da Tijuca, preço m2 Rio de Janeiro, quanto vale meu apartamento, ITBI, avaliação online, valor real imóvel",
+  description: "Descubra o valor real do seu imóvel na Barra da Tijuca em 30 segundos. Avaliação baseada em +80.000 transações oficiais registradas da Prefeitura do RJ. Gratuito e sem compromisso.",
+  keywords: "avaliação imóvel gratuita, valor imóvel Barra da Tijuca, preço m2 Rio de Janeiro, quanto vale meu apartamento, transações oficiais, avaliação online, valor real imóvel",
   canonical: "https://avaliacao.godoyprime.com.br",
   ogImage: "https://avaliacao.godoyprime.com.br/og-image.jpg"
 };
@@ -269,7 +269,7 @@ export default function AvaliacaoPublica() {
           "@context": "https://schema.org",
           "@type": "RealEstateAgent",
           "name": "Godoy Prime Realty",
-          "description": "Avaliação imobiliária premium baseada em dados oficiais ITBI",
+          "description": "Avaliação imobiliária premium baseada em dados oficiais de transações",
           "url": SEO_CONFIG.canonical,
           "logo": "https://avaliacao.godoyprime.com.br/godoy-logo.png",
           "telephone": "+55-21-96407-5124",
@@ -295,7 +295,7 @@ export default function AvaliacaoPublica() {
           "@context": "https://schema.org",
           "@type": "Service",
           "name": "Avaliação Imobiliária Gratuita",
-          "description": "Descubra o valor real do seu imóvel baseado em +80.000 transações oficiais ITBI",
+          "description": "Descubra o valor real do seu imóvel baseado em +80.000 transações oficiais registradas",
           "provider": {
             "@type": "RealEstateAgent",
             "name": "Godoy Prime Realty"
@@ -366,7 +366,7 @@ export default function AvaliacaoPublica() {
             <div className="max-w-3xl mx-auto space-y-6">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm font-medium animate-fade-in">
                 <Shield className="h-4 w-4 text-[#D4AF37]" />
-                Dados Oficiais ITBI da Prefeitura do Rio de Janeiro
+                Dados Oficiais Registrados da Prefeitura do Rio de Janeiro
               </div>
 
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight animate-fade-in [animation-delay:150ms]">
@@ -692,7 +692,7 @@ export default function AvaliacaoPublica() {
                     <AlertCircle className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />
                     <p className="text-xs text-muted-foreground">
                       <strong className="text-foreground">Aviso:</strong> Esta é uma estimativa automática baseada em dados 
-                      históricos de transações ITBI. Não substitui um laudo técnico assinado por perito avaliador.
+                      históricos de transações oficiais. Não substitui um laudo técnico assinado por perito avaliador.
                     </p>
                   </div>
                 </div>
@@ -847,7 +847,7 @@ export default function AvaliacaoPublica() {
                 </div>
                 <p className="text-white/60 text-sm max-w-md">
                   Especialistas em imóveis de alto padrão na Barra da Tijuca. 
-                  Avaliações baseadas em dados oficiais ITBI da Prefeitura do Rio de Janeiro.
+                  Avaliações baseadas em dados oficiais de transações da Prefeitura do Rio de Janeiro.
                 </p>
               </div>
 
