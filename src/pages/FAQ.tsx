@@ -72,12 +72,12 @@ const FAQ_DATA = [
   {
     category: "uso",
     question: "Posso usar essa avaliação para financiamento bancário?",
-    answer: "Nossa avaliação por ITBI é um excelente ponto de partida e justificativa. Bancos fazem avaliação própria, mas você pode apresentar nossa análise como fundamentação. Para financiamento, você precisará de avaliação técnica feita por avaliador credenciado pelo banco, mas nossa análise ajuda a negociar se houver diferença.",
+    answer: "Nossa avaliação baseada em dados oficiais é um excelente ponto de partida e justificativa. Bancos fazem avaliação própria, mas você pode apresentar nossa análise como fundamentação. Para financiamento, você precisará de avaliação técnica feita por avaliador credenciado pelo banco, mas nossa análise ajuda a negociar se houver diferença.",
   },
   {
     category: "uso",
     question: "Posso usar para contrato ou negociação imobiliária?",
-    answer: "Sim, absolutamente. Nossa avaliação é útil para: definir preço de venda, negociações com argumentação fundamentada, contestar cobranças de ITBI acima do valor da escritura, análise de investimento, e como suporte técnico em processos administrativos ou judiciais.",
+    answer: "Sim, absolutamente. Nossa avaliação é útil para: definir preço de venda, negociações com argumentação fundamentada, contestar cobranças de impostos acima do valor da escritura, análise de investimento, e como suporte técnico em processos administrativos ou judiciais.",
   },
   {
     category: "uso",
@@ -87,7 +87,7 @@ const FAQ_DATA = [
   {
     category: "uso",
     question: "Estou vendendo um imóvel. Como me ajuda?",
-    answer: "Fundamental: precifica corretamente (nem muito alto nem muito baixo), oferece defesa perante Prefeitura se cobrar ITBI acima do declarado, atrai mais compradores com preço correto, e justifica tecnicamente o valor do imóvel nas negociações.",
+    answer: "Fundamental: precifica corretamente (nem muito alto nem muito baixo), oferece defesa perante Prefeitura se cobrar impostos acima do declarado, atrai mais compradores com preço correto, e justifica tecnicamente o valor do imóvel nas negociações.",
   },
   {
     category: "uso",
@@ -97,28 +97,28 @@ const FAQ_DATA = [
   {
     category: "uso",
     question: "Essa ferramenta substitui uma avaliação técnica tradicional?",
-    answer: "Não completamente, mas é um excelente complemento. A avaliação por ITBI é baseada em transações reais, usa método científico reconhecido e tem custo muito menor. Para imóveis com características únicas, reformas especiais ou localização premium, recomendamos complementar com avaliação técnica presencial.",
+    answer: "Não completamente, mas é um excelente complemento. A avaliação baseada em dados oficiais é feita com transações reais, usa método científico reconhecido e tem custo muito menor. Para imóveis com características únicas, reformas especiais ou localização premium, recomendamos complementar com avaliação técnica presencial.",
   },
   // Categoria: Tecnologia
   {
     category: "tecnologia",
-    question: "Como vocês acessam os dados de ITBI?",
+    question: "Como vocês acessam os dados oficiais de transações?",
     answer: "Os dados não são confidenciais. A Prefeitura publica relatórios com valores médios por m² por trecho de logradouro, disponíveis no portal 'Carioca Digital' e Secretaria Municipal de Fazenda. Compilamos esses dados públicos e os cruzamos com informações de mercado para análises mais precisas.",
   },
   {
     category: "tecnologia",
     question: "Vocês usam inteligência artificial?",
-    answer: "Sim. Usamos tecnologia avançada: integração com bases públicas de ITBI, algoritmos para identificar imóveis similares, modelos de regressão para estimar valores, validação com múltiplas fontes, e dashboards interativos.",
+    answer: "Sim. Usamos tecnologia avançada: integração com bases públicas de transações oficiais, algoritmos para identificar imóveis similares, modelos de regressão para estimar valores, validação com múltiplas fontes, e dashboards interativos.",
   },
   {
     category: "tecnologia",
     question: "Com qual frequência os dados são atualizados?",
-    answer: "Dados de ITBI são atualizados continuamente pela Secretaria Municipal de Fazenda. Consolidamos mensalmente os dados mais recentes, indicamos a data de atualização em cada análise, e mantemos séries históricas para análise de tendências.",
+    answer: "Os dados oficiais de transações são atualizados continuamente pela Secretaria Municipal de Fazenda. Consolidamos mensalmente os dados mais recentes, indicamos a data de atualização em cada análise, e mantemos séries históricas para análise de tendências.",
   },
   {
     category: "tecnologia",
     question: "Qual é o nível de precisão dessa avaliação?",
-    answer: "Margem de erro típica: ±10% a 15% (excelente para real estate). Comparação: preços de anúncio têm margem de ~20-30%, dados ITBI ~10-15%, e avaliação técnica detalhada ~5%. Nossa ferramenta oferece precisão muito superior aos anúncios e é economicamente mais viável que avaliação técnica.",
+    answer: "Margem de erro típica: ±10% a 15% (excelente para real estate). Comparação: preços de anúncio têm margem de ~20-30%, dados oficiais ~10-15%, e avaliação técnica detalhada ~5%. Nossa ferramenta oferece precisão muito superior aos anúncios e é economicamente mais viável que avaliação técnica.",
   },
 ];
 
