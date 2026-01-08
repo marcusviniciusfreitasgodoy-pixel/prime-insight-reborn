@@ -36,7 +36,7 @@ export function useMapData(bairro: string | null) {
       }
 
       const { data, error } = await supabase.functions.invoke("geo-itbi-clusters", {
-        body: { bairro, limit: 100 },
+        body: { bairro, limit: 200 },
       });
 
       if (error) {
@@ -52,13 +52,13 @@ export function useMapData(bairro: string | null) {
   });
 }
 
-// Get value color based on price per m2
+// Get value color based on price per m2 - matching legend categories
 export function getValueColor(valorM2: number): string {
-  if (valorM2 < 8000) return "#22c55e"; // green - low
-  if (valorM2 < 12000) return "#84cc16"; // lime - below average
-  if (valorM2 < 16000) return "#eab308"; // yellow - average
-  if (valorM2 < 22000) return "#f97316"; // orange - above average
-  return "#ef4444"; // red - high
+  if (valorM2 < 8000) return "#22c55e"; // green - < R$ 8k/m²
+  if (valorM2 < 12000) return "#eab308"; // yellow - R$ 8k - 12k
+  if (valorM2 < 16000) return "#f97316"; // orange - R$ 12k - 16k
+  if (valorM2 < 20000) return "#ef4444"; // red - R$ 16k - 20k
+  return "#7c3aed"; // purple - > R$ 20k/m²
 }
 
 // Format currency for display
