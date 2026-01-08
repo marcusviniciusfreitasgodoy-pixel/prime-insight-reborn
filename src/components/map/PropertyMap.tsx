@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState, memo } from "react";
+import { useEffect, useRef, useState, memo, useMemo, useCallback } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { useMapData, getValueColor, formatCurrencyShort, MapFeature } from "@/hooks/useMapData";
+import { useMapData, getValueColor, MapFeature } from "@/hooks/useMapData";
 import { MapLegend } from "./MapLegend";
 import { MapSearchBox } from "./MapSearchBox";
-import { Loader2, MapPin, Navigation, Layers } from "lucide-react";
+import { Loader2, MapPin, Navigation } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 // Fix Leaflet default icon issue
@@ -19,6 +19,11 @@ interface PropertyMapProps {
   selectedBairro: string | null;
   onSelectAddress?: (logradouro: string, bairro: string) => void;
   className?: string;
+}
+
+interface MapFilters {
+  tipologia: string[];
+  minTransacoes: number;
 }
 
 // Barra da Tijuca center coordinates
@@ -85,9 +90,34 @@ export const PropertyMap = memo(function PropertyMap({
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const markersLayerRef = useRef<L.LayerGroup | null>(null);
+  const searchMarkerRef = useRef<L.Marker | null>(null);
   const [isLocating, setIsLocating] = useState(false);
+  const [filters, setFilters] = useState<MapFilters>({
+    tipologia: ["Apartamento", "Casa"],
+    minTransacoes: 1,
+  });
 
   const { data: geoData, isLoading, error } = useMapData(selectedBairro);
+
+  // Filter features based on current filters
+  const filteredFeatures = useMemo(() => {
+    if (!geoData?.features) return [];
+    
+    return geoData.features.filter(feature => {
+      const { tipologias, total_transacoes } = feature.properties;
+      
+      // Filter by minimum transactions
+      if (total_transacoes < filters.minTransacoes) return false;
+      
+      // Filter by tipologia (if feature has tipologias, at least one must match)
+      if (tipologias.length > 0) {
+        const hasMatchingTipologia = tipologias.some(t => filters.tipologia.includes(t));
+        if (!hasMatchingTipologia) return false;
+      }
+      
+      return true;
+    });
+  }, [geoData?.features, filters]);
 
   // Initialize map
   useEffect(() => {
@@ -133,19 +163,19 @@ export const PropertyMap = memo(function PropertyMap({
     };
   }, [onSelectAddress]);
 
-  // Update markers when data changes
+  // Update markers when filtered data changes
   useEffect(() => {
-    if (!mapRef.current || !markersLayerRef.current || !geoData) return;
+    if (!mapRef.current || !markersLayerRef.current) return;
 
     // Clear existing markers
     markersLayerRef.current.clearLayers();
 
-    if (geoData.features.length === 0) return;
+    if (filteredFeatures.length === 0) return;
 
     // Add new markers
     const bounds = L.latLngBounds([]);
 
-    for (const feature of geoData.features) {
+    for (const feature of filteredFeatures) {
       const marker = createCircleMarker(feature);
       marker.bindPopup(createPopupContent(feature), {
         maxWidth: 280,
@@ -159,10 +189,10 @@ export const PropertyMap = memo(function PropertyMap({
     if (bounds.isValid()) {
       mapRef.current.fitBounds(bounds, { padding: [50, 50] });
     }
-  }, [geoData]);
+  }, [filteredFeatures]);
 
   // Geolocation
-  const handleLocateMe = () => {
+  const handleLocateMe = useCallback(() => {
     if (!mapRef.current) return;
     
     setIsLocating(true);
@@ -180,13 +210,47 @@ export const PropertyMap = memo(function PropertyMap({
     mapRef.current.once("locationerror", () => {
       setIsLocating(false);
     });
-  };
+  }, []);
 
-  // Handle search result
-  const handleSearchSelect = (lat: number, lng: number, logradouro: string) => {
+  // Handle search result with geocoding
+  const handleSearchSelect = useCallback((lat: number, lng: number, logradouro: string) => {
     if (!mapRef.current) return;
+    
+    // Remove previous search marker
+    if (searchMarkerRef.current) {
+      searchMarkerRef.current.remove();
+    }
+
+    // Add new marker at searched location
+    const searchIcon = L.divIcon({
+      className: "search-marker",
+      html: `<div style="background: #D4AF37; width: 32px; height: 32px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"></div>`,
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+    });
+
+    searchMarkerRef.current = L.marker([lat, lng], { icon: searchIcon })
+      .addTo(mapRef.current)
+      .bindPopup(`
+        <div class="p-2">
+          <h4 class="font-bold text-sm text-[#0C2340] mb-2">${logradouro}</h4>
+          <button 
+            onclick="window.dispatchEvent(new CustomEvent('map-select-address', { detail: { logradouro: '${logradouro.replace(/'/g, "\\'")}', bairro: '${selectedBairro || ""}' } }))"
+            class="w-full bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] text-xs font-semibold py-2 px-3 rounded-lg transition-colors"
+          >
+            Avaliar este endereço
+          </button>
+        </div>
+      `, { maxWidth: 250 })
+      .openPopup();
+
     mapRef.current.setView([lat, lng], 16);
-  };
+  }, [selectedBairro]);
+
+  // Handle filters change
+  const handleFiltersChange = useCallback((newFilters: MapFilters) => {
+    setFilters(newFilters);
+  }, []);
 
   return (
     <div className={`relative w-full h-full min-h-[400px] rounded-xl overflow-hidden ${className}`}>
@@ -209,6 +273,7 @@ export const PropertyMap = memo(function PropertyMap({
           onClick={handleLocateMe}
           disabled={isLocating}
           className="bg-white shadow-lg hover:bg-gray-50 w-10 h-10"
+          title="Minha localização"
         >
           {isLocating ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -218,9 +283,12 @@ export const PropertyMap = memo(function PropertyMap({
         </Button>
       </div>
 
-      {/* Legend */}
+      {/* Legend with filters */}
       <div className="absolute bottom-3 left-3 z-[1000]">
-        <MapLegend />
+        <MapLegend 
+          filters={filters}
+          onFiltersChange={handleFiltersChange}
+        />
       </div>
 
       {/* Loading overlay */}
@@ -256,10 +324,11 @@ export const PropertyMap = memo(function PropertyMap({
       )}
 
       {/* Metadata info */}
-      {geoData?.metadata && geoData.metadata.pending_geocode > 0 && (
+      {geoData?.metadata && (
         <div className="absolute bottom-3 right-3 z-[1000]">
           <div className="bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-lg shadow text-xs text-muted-foreground">
-            {geoData.features.length} pontos • {geoData.metadata.pending_geocode} pendentes
+            {filteredFeatures.length} pontos
+            {geoData.metadata.pending_geocode > 0 && ` • ${geoData.metadata.pending_geocode} pendentes`}
           </div>
         </div>
       )}
