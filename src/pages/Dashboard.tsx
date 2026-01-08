@@ -151,7 +151,7 @@ export default function Dashboard() {
         
         exportToXLSX({
           filename: `backup_completo_transacoes_${new Date().toISOString().split('T')[0]}`,
-          title: 'Backup Completo - Dados Oficiais Prefeitura RJ',
+          title: 'Backup Completo - Dados Oficiais Registrados',
           subtitle: `Godoy Prime Analytics - Exportado em ${new Date().toLocaleDateString('pt-BR')}`,
           filters: {
             'Total de Registros': data.length.toLocaleString('pt-BR'),
