@@ -39,6 +39,7 @@ import {
 } from "lucide-react";
 import { ComparisonTable } from "./ComparisonTable";
 import { PeritEvaluationSection } from "./PeritEvaluationSection";
+import { HistoricalAnalysisChart } from "@/components/valuation/HistoricalAnalysisChart";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -417,6 +418,22 @@ export function QuickValuationResult({
               </div>
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Análise Histórica e Projeção de Valor */}
+      <Card className="border-accent/30 shadow-lg">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg flex items-center gap-2">
+            <TrendingUp className="h-5 w-5 text-primary" />
+            Análise de Mercado (5 Anos)
+          </CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Evolução do mercado imobiliário na região para apoiar sua decisão
+          </p>
+        </CardHeader>
+        <CardContent>
+          <HistoricalAnalysisChart bairro={data.bairro} logradouro={data.logradouro} />
         </CardContent>
       </Card>
 
