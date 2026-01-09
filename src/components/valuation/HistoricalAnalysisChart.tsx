@@ -9,7 +9,9 @@ import {
   AlertTriangle,
   CheckCircle,
   XCircle,
-  Target
+  Target,
+  ChevronDown,
+  ChevronUp
 } from "lucide-react";
 import {
   ComposedChart,
@@ -24,6 +26,14 @@ import {
   ReferenceLine,
 } from "recharts";
 import { useHistoricalAnalysis, type HistoricalAnalysis, type FutureProjection } from "@/hooks/useHistoricalAnalysis";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 interface Props {
   bairro: string;
@@ -61,6 +71,8 @@ const getTrendBadgeVariant = (direction: 'up' | 'down' | 'stable', isPositive: b
 
 export function HistoricalAnalysisChart({ bairro, logradouro, compact = false }: Props) {
   const { data: analysis, isLoading, error } = useHistoricalAnalysis(bairro, logradouro);
+  const isMobile = useIsMobile();
+  const [isExpanded, setIsExpanded] = useState(false);
 
   if (isLoading) {
     return (
@@ -186,6 +198,230 @@ export function HistoricalAnalysisChart({ bairro, logradouro, compact = false }:
           {/* Stats */}
           <div className="flex justify-between text-xs text-muted-foreground">
             <span>{analysis.total_transactions} transações (5 anos)</span>
+            <span>~{analysis.avg_transactions_per_year}/ano</span>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Mobile version with collapsible details
+  if (isMobile) {
+    return (
+      <Card className="bg-muted/30">
+        <CardHeader className="pb-2 px-3">
+          <CardTitle className="text-sm flex items-center gap-2">
+            <BarChart3 className="h-4 w-4 text-primary" />
+            Análise de Mercado (5 Anos)
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3 px-3">
+          {/* Key Metrics - Always visible on mobile */}
+          <div className="grid grid-cols-2 gap-2">
+            <div className="p-2 rounded-lg bg-background border">
+              <div className="flex items-center gap-1.5 mb-1">
+                {getTrendIcon(analysis.transaction_trend.direction)}
+                <span className="text-[10px] font-medium">Liquidez</span>
+              </div>
+              <Badge 
+                variant={getTrendBadgeVariant(analysis.transaction_trend.direction, true)} 
+                className="text-[10px]"
+              >
+                {analysis.transaction_trend.percentage > 0 ? '+' : ''}
+                {analysis.transaction_trend.percentage}%
+              </Badge>
+              <p className="text-[9px] text-muted-foreground mt-1">
+                {analysis.transaction_trend.label}
+              </p>
+            </div>
+
+            <div className="p-2 rounded-lg bg-background border">
+              <div className="flex items-center gap-1.5 mb-1">
+                {getTrendIcon(analysis.price_trend.direction)}
+                <span className="text-[10px] font-medium">Preços</span>
+              </div>
+              <Badge 
+                variant={getTrendBadgeVariant(analysis.price_trend.direction, true)} 
+                className="text-[10px]"
+              >
+                {analysis.price_trend.percentage > 0 ? '+' : ''}
+                {analysis.price_trend.percentage}%
+              </Badge>
+              <p className="text-[9px] text-muted-foreground mt-1">
+                {analysis.price_trend.label}
+              </p>
+            </div>
+          </div>
+
+          {/* Overall Diagnosis - Always visible */}
+          <div className={`p-2.5 rounded-lg border ${
+            analysis.overall_diagnosis.includes('🟢') ? 'bg-emerald-50 border-emerald-200 dark:bg-emerald-950/30' :
+            analysis.overall_diagnosis.includes('🔴') ? 'bg-red-50 border-red-200 dark:bg-red-950/30' :
+            'bg-amber-50 border-amber-200 dark:bg-amber-950/30'
+          }`}>
+            <div className="flex items-start gap-2">
+              <DiagnosisIcon className={`h-4 w-4 shrink-0 mt-0.5 ${diagnosisColor}`} />
+              <p className="text-[10px] leading-relaxed">
+                {analysis.overall_diagnosis}
+              </p>
+            </div>
+          </div>
+
+          {/* Future Projection Summary - Mobile */}
+          {analysis.future_projection && (
+            <div className="p-2.5 rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
+              <div className="flex items-center gap-2 mb-2">
+                <Target className="h-4 w-4 text-primary" />
+                <span className="text-[10px] font-semibold">Projeção 3 Anos</span>
+                <Badge variant={getConfidenceBadgeVariant(analysis.future_projection.confidence_level)} className="text-[8px] ml-auto">
+                  {analysis.future_projection.confidence_level.charAt(0).toUpperCase() + analysis.future_projection.confidence_level.slice(1)}
+                </Badge>
+              </div>
+              
+              {/* Simplified projection for mobile - just show next year */}
+              <div className="grid grid-cols-3 gap-1 text-center">
+                <div className="p-1.5 rounded bg-red-50 dark:bg-red-950/30">
+                  <p className="text-[8px] text-red-600">Pessimista</p>
+                  <p className="text-[10px] font-semibold text-red-700">{formatCurrency(analysis.future_projection.projections[2].pessimista)}</p>
+                </div>
+                <div className="p-1.5 rounded bg-primary/10">
+                  <p className="text-[8px] text-primary">Provável</p>
+                  <p className="text-[10px] font-bold text-primary">{formatCurrency(analysis.future_projection.projections[2].provavel)}</p>
+                </div>
+                <div className="p-1.5 rounded bg-emerald-50 dark:bg-emerald-950/30">
+                  <p className="text-[8px] text-emerald-600">Otimista</p>
+                  <p className="text-[10px] font-semibold text-emerald-700">{formatCurrency(analysis.future_projection.projections[2].otimista)}</p>
+                </div>
+              </div>
+              <p className="text-[8px] text-center text-muted-foreground mt-1.5">
+                Valores projetados para {analysis.future_projection.projections[2].year} (por m²)
+              </p>
+            </div>
+          )}
+
+          {/* Collapsible detailed content for mobile */}
+          <Collapsible open={isExpanded} onOpenChange={setIsExpanded}>
+            <CollapsibleTrigger asChild>
+              <Button variant="ghost" size="sm" className="w-full text-xs h-8">
+                {isExpanded ? (
+                  <>
+                    <ChevronUp className="h-3 w-3 mr-1" />
+                    Ocultar detalhes
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="h-3 w-3 mr-1" />
+                    Ver gráfico e detalhes
+                  </>
+                )}
+              </Button>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="space-y-3 pt-2">
+              {/* Simplified Chart for Mobile */}
+              <div className="h-44">
+                <ResponsiveContainer width="100%" height="100%">
+                  <ComposedChart data={chartData} margin={{ top: 5, right: 5, left: -15, bottom: 0 }}>
+                    <XAxis 
+                      dataKey="year" 
+                      tick={{ fontSize: 9 }} 
+                      tickLine={false}
+                      axisLine={{ stroke: '#e5e7eb' }}
+                    />
+                    <YAxis 
+                      yAxisId="right"
+                      orientation="right"
+                      tick={{ fontSize: 9 }}
+                      tickLine={false}
+                      axisLine={false}
+                      tickFormatter={(v) => formatCurrency(v)}
+                      width={45}
+                    />
+                    <Tooltip 
+                      contentStyle={{ 
+                        fontSize: 10, 
+                        borderRadius: 8,
+                        border: '1px solid #e5e7eb',
+                        padding: '6px 8px'
+                      }}
+                      formatter={(value: number, name: string, props: any) => {
+                        if (name === 'valorM2') {
+                          if (props.payload.isProjection) {
+                            return [formatCurrency(value), 'Projeção'];
+                          }
+                          return [formatCurrency(value), 'Real'];
+                        }
+                        return [formatCurrency(value), name];
+                      }}
+                      labelFormatter={(label) => `${label}`}
+                    />
+                    <ReferenceLine 
+                      x={currentYear.toString()} 
+                      yAxisId="right" 
+                      stroke="hsl(var(--muted-foreground))" 
+                      strokeDasharray="3 3"
+                    />
+                    <Line 
+                      yAxisId="right" 
+                      type="monotone" 
+                      dataKey="valorM2" 
+                      stroke="hsl(var(--chart-1))" 
+                      strokeWidth={2}
+                      dot={{ r: 3, fill: 'hsl(var(--chart-1))' }}
+                      name="valorM2"
+                    />
+                    {analysis.future_projection && (
+                      <Line 
+                        yAxisId="right" 
+                        type="monotone" 
+                        dataKey="provavel" 
+                        stroke="hsl(var(--chart-2))" 
+                        strokeWidth={2}
+                        strokeDasharray="5 5"
+                        dot={{ r: 3, fill: 'hsl(var(--chart-2))' }}
+                        name="provavel"
+                      />
+                    )}
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </div>
+
+              {/* Full projection table for mobile when expanded */}
+              {analysis.future_projection && (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-[10px]">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left py-1.5 font-medium">Ano</th>
+                        <th className="text-right py-1.5 font-medium text-red-600">Pess.</th>
+                        <th className="text-right py-1.5 font-medium text-primary">Prov.</th>
+                        <th className="text-right py-1.5 font-medium text-emerald-600">Otim.</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {analysis.future_projection.projections.map((p) => (
+                        <tr key={p.year} className="border-b border-dashed last:border-0">
+                          <td className="py-1.5 font-medium">{p.year}</td>
+                          <td className="text-right py-1.5 text-red-600">{formatCurrency(p.pessimista)}</td>
+                          <td className="text-right py-1.5 font-semibold text-primary">{formatCurrency(p.provavel)}</td>
+                          <td className="text-right py-1.5 text-emerald-600">{formatCurrency(p.otimista)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              {/* Detailed diagnosis */}
+              <div className="space-y-1.5 text-[10px] text-muted-foreground">
+                <p>{analysis.liquidity_diagnosis}</p>
+                <p>{analysis.price_diagnosis}</p>
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
+
+          {/* Stats */}
+          <div className="flex justify-between text-[10px] text-muted-foreground pt-2 border-t">
+            <span>📊 {analysis.total_transactions} transações</span>
             <span>~{analysis.avg_transactions_per_year}/ano</span>
           </div>
         </CardContent>
