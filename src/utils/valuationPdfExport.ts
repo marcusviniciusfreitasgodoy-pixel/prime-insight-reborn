@@ -390,7 +390,106 @@ export function exportValuationEnginePDF(
     doc.setFontSize(7);
     doc.setTextColor(120, 120, 120);
     doc.text(`Base: ${historicalAnalysis.total_transactions} transações analisadas (~${historicalAnalysis.avg_transactions_per_year}/ano)`, marginLeft, yPos);
-    yPos += 8;
+    yPos += 10;
+
+    // 8.1 PROJEÇÃO DE VALOR FUTURO
+    if (historicalAnalysis.future_projection) {
+      // Check if we need a new page
+      if (yPos > getMaxContentY() - 90) {
+        doc.addPage();
+        yPos = 20;
+      }
+
+      yPos = drawSectionTitle(doc, 'Projeção de Valor (3 Anos)', yPos, marginLeft);
+      
+      // Confidence badge
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...BRAND_COLORS.darkGray);
+      
+      const confidenceLabel = historicalAnalysis.future_projection.confidence_level.charAt(0).toUpperCase() + 
+        historicalAnalysis.future_projection.confidence_level.slice(1);
+      doc.text(`Nível de Confiança: ${confidenceLabel}`, marginLeft + 5, yPos);
+      
+      // Metrics
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      const annualRate = historicalAnalysis.future_projection.annual_growth_rate;
+      const rateText = `Taxa média anual: ${annualRate > 0 ? '+' : ''}${annualRate.toFixed(1)}%`;
+      const volatilityText = `Volatilidade: ${historicalAnalysis.future_projection.volatility.toFixed(1)}%`;
+      doc.text(`${rateText}  |  ${volatilityText}`, marginLeft + 90, yPos);
+      yPos += 8;
+
+      // Projection table
+      doc.setFillColor(240, 247, 255); // Light blue
+      doc.rect(marginLeft, yPos - 3, contentWidth, 7, 'F');
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(60, 60, 60);
+      
+      const projColWidth = contentWidth / 4;
+      doc.text('Ano', marginLeft + 5, yPos + 2);
+      doc.text('Pessimista', marginLeft + projColWidth, yPos + 2);
+      doc.text('Provável', marginLeft + projColWidth * 2, yPos + 2);
+      doc.text('Otimista', marginLeft + projColWidth * 3, yPos + 2);
+      yPos += 8;
+
+      // Projection rows
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      
+      historicalAnalysis.future_projection.projections.forEach((proj) => {
+        doc.setTextColor(60, 60, 60);
+        doc.text(proj.year.toString(), marginLeft + 5, yPos);
+        
+        doc.setTextColor(239, 68, 68); // Red for pessimista
+        doc.text(`R$ ${proj.pessimista.toLocaleString('pt-BR')}/m²`, marginLeft + projColWidth, yPos);
+        
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(...BRAND_COLORS.navy); // Navy for provável
+        doc.text(`R$ ${proj.provavel.toLocaleString('pt-BR')}/m²`, marginLeft + projColWidth * 2, yPos);
+        
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(34, 197, 94); // Green for otimista
+        doc.text(`R$ ${proj.otimista.toLocaleString('pt-BR')}/m²`, marginLeft + projColWidth * 3, yPos);
+        
+        yPos += 5;
+      });
+      
+      yPos += 5;
+
+      // Projection diagnosis box
+      const projDiagnosis = historicalAnalysis.future_projection.projection_diagnosis;
+      const isUpTrend = projDiagnosis.includes('VALORIZAÇÃO');
+      const isDownTrend = projDiagnosis.includes('DESVALORIZAÇÃO');
+      
+      if (isUpTrend) {
+        doc.setFillColor(240, 253, 244); // Light green
+        doc.setDrawColor(34, 197, 94);
+      } else if (isDownTrend) {
+        doc.setFillColor(254, 242, 242); // Light red
+        doc.setDrawColor(239, 68, 68);
+      } else {
+        doc.setFillColor(240, 247, 255); // Light blue
+        doc.setDrawColor(59, 130, 246);
+      }
+      
+      const projDiagnosisSplit = doc.splitTextToSize(projDiagnosis.replace(/^[📈📉➡️]\s*/, ''), contentWidth - 10);
+      const projDiagnosisBoxHeight = 8 + projDiagnosisSplit.length * 4;
+      
+      doc.roundedRect(marginLeft - 5, yPos - 3, contentWidth + 10, projDiagnosisBoxHeight, 2, 2, 'FD');
+      
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(60, 60, 60);
+      doc.text('PROJEÇÃO DE MERCADO', marginLeft, yPos + 3);
+      
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.text(projDiagnosisSplit, marginLeft, yPos + 10);
+      
+      yPos += projDiagnosisBoxHeight + 8;
+    }
   }
 
   // Check if we need a new page for disclaimer
