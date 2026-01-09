@@ -7,12 +7,28 @@ export interface YearlyData {
   avg_valor_m2: number;
   min_valor_m2: number;
   max_valor_m2: number;
+  isProjection?: boolean;
 }
 
 export interface HistoricalTrend {
   direction: 'up' | 'down' | 'stable';
   percentage: number;
   label: string;
+}
+
+export interface FutureProjection {
+  year: number;
+  pessimista: number;
+  provavel: number;
+  otimista: number;
+}
+
+export interface ProjectionAnalysis {
+  projections: FutureProjection[];
+  annual_growth_rate: number;
+  volatility: number;
+  confidence_level: 'alta' | 'media' | 'baixa';
+  projection_diagnosis: string;
 }
 
 export interface HistoricalAnalysis {
@@ -24,6 +40,7 @@ export interface HistoricalAnalysis {
   overall_diagnosis: string;
   total_transactions: number;
   avg_transactions_per_year: number;
+  future_projection: ProjectionAnalysis | null;
 }
 
 // Limites de outliers por bairro
@@ -137,6 +154,110 @@ function generateDiagnosis(
   return { liquidity, price, overall };
 }
 
+function calculateFutureProjection(yearlyData: YearlyData[]): ProjectionAnalysis | null {
+  // Need at least 3 years of data for meaningful projection
+  const validData = yearlyData.filter(y => y.transaction_count > 0 && y.avg_valor_m2 > 0);
+  
+  if (validData.length < 3) {
+    return null;
+  }
+
+  // Calculate year-over-year growth rates
+  const growthRates: number[] = [];
+  for (let i = 1; i < validData.length; i++) {
+    const prevValue = validData[i - 1].avg_valor_m2;
+    const currValue = validData[i].avg_valor_m2;
+    if (prevValue > 0) {
+      const rate = (currValue - prevValue) / prevValue;
+      growthRates.push(rate);
+    }
+  }
+
+  if (growthRates.length === 0) {
+    return null;
+  }
+
+  // Calculate average annual growth rate
+  const avgGrowthRate = growthRates.reduce((sum, r) => sum + r, 0) / growthRates.length;
+
+  // Calculate volatility (standard deviation of growth rates)
+  const variance = growthRates.reduce((sum, r) => sum + Math.pow(r - avgGrowthRate, 2), 0) / growthRates.length;
+  const volatility = Math.sqrt(variance);
+
+  // Determine confidence level based on volatility and data points
+  let confidenceLevel: 'alta' | 'media' | 'baixa';
+  if (volatility < 0.05 && validData.length >= 4) {
+    confidenceLevel = 'alta';
+  } else if (volatility < 0.15 && validData.length >= 3) {
+    confidenceLevel = 'media';
+  } else {
+    confidenceLevel = 'baixa';
+  }
+
+  // Get the most recent value as base
+  const lastValidYear = validData[validData.length - 1];
+  const baseValue = lastValidYear.avg_valor_m2;
+  const currentYear = new Date().getFullYear();
+
+  // Project for the next 3 years
+  const projections: FutureProjection[] = [];
+  
+  for (let i = 1; i <= 3; i++) {
+    const projectionYear = currentYear + i;
+    
+    // Provável: uses average growth rate
+    const provavelRate = avgGrowthRate;
+    const provavel = Math.round(baseValue * Math.pow(1 + provavelRate, i));
+    
+    // Otimista: uses average + half volatility (upper bound)
+    const otimistaRate = avgGrowthRate + volatility * 0.7;
+    const otimista = Math.round(baseValue * Math.pow(1 + otimistaRate, i));
+    
+    // Pessimista: uses average - half volatility (lower bound), but cap at -5% per year
+    const pessimistaRate = Math.max(avgGrowthRate - volatility * 0.7, -0.05);
+    const pessimista = Math.round(baseValue * Math.pow(1 + pessimistaRate, i));
+
+    projections.push({
+      year: projectionYear,
+      pessimista,
+      provavel,
+      otimista,
+    });
+  }
+
+  // Generate projection diagnosis
+  let projectionDiagnosis: string;
+  const threeYearChange = ((projections[2].provavel - baseValue) / baseValue) * 100;
+  
+  if (avgGrowthRate > 0.03) {
+    projectionDiagnosis = `📈 Tendência de VALORIZAÇÃO: Projeção de crescimento de ${threeYearChange.toFixed(1)}% nos próximos 3 anos (cenário provável). ${
+      confidenceLevel === 'alta' ? 'Alta confiabilidade na projeção.' : 
+      confidenceLevel === 'media' ? 'Confiabilidade moderada - mercado apresenta alguma volatilidade.' :
+      'Baixa confiabilidade - dados históricos apresentam alta volatilidade.'
+    }`;
+  } else if (avgGrowthRate < -0.02) {
+    projectionDiagnosis = `📉 Tendência de DESVALORIZAÇÃO: Projeção de queda de ${Math.abs(threeYearChange).toFixed(1)}% nos próximos 3 anos (cenário provável). ${
+      confidenceLevel === 'alta' ? 'Alta confiabilidade na projeção - considere estratégia de precificação agressiva.' : 
+      confidenceLevel === 'media' ? 'Confiabilidade moderada - possibilidade de reversão.' :
+      'Baixa confiabilidade - cenário pode mudar.'
+    }`;
+  } else {
+    projectionDiagnosis = `➡️ Tendência de ESTABILIDADE: Variação projetada de ${threeYearChange > 0 ? '+' : ''}${threeYearChange.toFixed(1)}% nos próximos 3 anos. ${
+      confidenceLevel === 'alta' ? 'Alta previsibilidade do mercado.' : 
+      confidenceLevel === 'media' ? 'Mercado estável com pequenas oscilações esperadas.' :
+      'Dados limitados - monitorar evolução do mercado.'
+    }`;
+  }
+
+  return {
+    projections,
+    annual_growth_rate: avgGrowthRate * 100,
+    volatility: volatility * 100,
+    confidence_level: confidenceLevel,
+    projection_diagnosis: projectionDiagnosis,
+  };
+}
+
 export function useHistoricalAnalysis(bairro: string, logradouro?: string) {
   return useQuery<HistoricalAnalysis | null>({
     queryKey: ['historical-analysis', bairro, logradouro],
@@ -241,6 +362,9 @@ export function useHistoricalAnalysis(bairro: string, logradouro?: string) {
       // Generate diagnosis
       const diagnosis = generateDiagnosis(transactionTrend, priceTrend, avgTransactionsPerYear);
 
+      // Calculate future projection
+      const futureProjection = calculateFutureProjection(validYearlyData);
+
       return {
         yearly_data: yearlyData,
         transaction_trend: transactionTrend,
@@ -250,6 +374,7 @@ export function useHistoricalAnalysis(bairro: string, logradouro?: string) {
         overall_diagnosis: diagnosis.overall,
         total_transactions: totalTransactions,
         avg_transactions_per_year: Math.round(avgTransactionsPerYear),
+        future_projection: futureProjection,
       };
     },
   });
