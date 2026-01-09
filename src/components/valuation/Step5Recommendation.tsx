@@ -21,6 +21,7 @@ import type { ValuationResult, CombinedPrices } from "@/utils/valuationCalculati
 import type { ValuationState } from "@/types/valuation";
 import { exportValuationEnginePDF } from "@/utils/valuationPdfExport";
 import { useAuth } from "@/hooks/useAuth";
+import { useHistoricalAnalysis } from "@/hooks/useHistoricalAnalysis";
 
 interface Props {
   result: ValuationResult;
@@ -33,6 +34,9 @@ export function Step5Recommendation({ result, state, combined, onReset }: Props)
   const navigate = useNavigate();
   const { isAdmin } = useAuth();
   const [decisionMade, setDecisionMade] = useState<"sim" | "nao" | null>(null);
+  
+  // Fetch historical analysis for PDF
+  const { data: historicalAnalysis } = useHistoricalAnalysis(state.bairro, state.logradouro);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -90,7 +94,7 @@ export function Step5Recommendation({ result, state, combined, onReset }: Props)
         ...state,
         tipoAvaliacao: isSimplified ? "simples" : "completa"
       };
-      exportValuationEnginePDF(result, stateWithType, combined);
+      exportValuationEnginePDF(result, stateWithType, combined, historicalAnalysis);
       toast.success("PDF exportado com sucesso!");
     } catch (error) {
       console.error("Erro ao exportar PDF:", error);

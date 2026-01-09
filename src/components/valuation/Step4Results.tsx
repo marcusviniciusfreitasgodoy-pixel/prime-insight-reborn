@@ -5,6 +5,7 @@ import { CheckCircle, AlertTriangle, XCircle, TrendingUp, TrendingDown, Minus, H
 import type { ValuationResult, CombinedPrices } from "@/utils/valuationCalculations";
 import type { ValuationState } from "@/types/valuation";
 import { isCasaType, calculateTerrainBonus } from "@/hooks/useValuationCharacteristics";
+import { HistoricalAnalysisChart } from "./HistoricalAnalysisChart";
 
 interface Props {
   result: ValuationResult;
@@ -287,6 +288,12 @@ export function Step4Results({ result, state, combined }: Props) {
           </div>
         </CardContent>
       </Card>
+
+      {/* Análise Histórica - 5 Anos */}
+      <HistoricalAnalysisChart 
+        bairro={state.bairro} 
+        logradouro={state.logradouro}
+      />
     </div>
   );
 }

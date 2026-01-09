@@ -1,6 +1,7 @@
 import jsPDF from 'jspdf';
 import type { ValuationResult, CombinedPrices } from './valuationCalculations';
 import type { ValuationState } from '@/types/valuation';
+import type { HistoricalAnalysis } from '@/hooks/useHistoricalAnalysis';
 import {
   BRAND_COLORS,
   drawGodoyHeader,
@@ -10,12 +11,14 @@ import {
   applyFootersToAllPages,
   formatCurrencyPDF,
   getMaxContentY,
+  addNewPageWithTemplate,
 } from './pdfTemplate';
 
 export function exportValuationEnginePDF(
   result: ValuationResult,
   state: ValuationState,
-  combined: CombinedPrices | null
+  combined: CombinedPrices | null,
+  historicalAnalysis?: HistoricalAnalysis | null
 ): void {
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
@@ -258,6 +261,137 @@ export function exportValuationEnginePDF(
   doc.text(splitRec, marginLeft, yPos + 12);
   
   yPos += recBoxHeight + 8;
+
+  // 8. ANÁLISE HISTÓRICA (5 ANOS)
+  if (historicalAnalysis && historicalAnalysis.yearly_data.length > 0) {
+    // Check if we need a new page
+    if (yPos > getMaxContentY() - 80) {
+      doc.addPage();
+      yPos = 20;
+    }
+
+    yPos = drawSectionTitle(doc, 'Análise Histórica (5 Anos)', yPos, marginLeft);
+    
+    // Trend badges
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...BRAND_COLORS.darkGray);
+    
+    const transactionTrendText = `Transações: ${historicalAnalysis.transaction_trend.percentage > 0 ? '+' : ''}${historicalAnalysis.transaction_trend.percentage}% (${historicalAnalysis.transaction_trend.label})`;
+    const priceTrendText = `Valor/m²: ${historicalAnalysis.price_trend.percentage > 0 ? '+' : ''}${historicalAnalysis.price_trend.percentage}% (${historicalAnalysis.price_trend.label})`;
+    
+    doc.text(transactionTrendText, marginLeft + 5, yPos);
+    yPos += 5;
+    doc.text(priceTrendText, marginLeft + 5, yPos);
+    yPos += 8;
+
+    // Historical data table
+    const tableData = historicalAnalysis.yearly_data.filter(y => y.transaction_count > 0);
+    if (tableData.length > 0) {
+      // Table header
+      doc.setFillColor(245, 245, 245);
+      doc.rect(marginLeft, yPos - 3, contentWidth, 7, 'F');
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(60, 60, 60);
+      
+      const colWidth = contentWidth / 4;
+      doc.text('Ano', marginLeft + 5, yPos + 2);
+      doc.text('Transações', marginLeft + colWidth, yPos + 2);
+      doc.text('Valor Médio/m²', marginLeft + colWidth * 2, yPos + 2);
+      doc.text('Variação', marginLeft + colWidth * 3, yPos + 2);
+      yPos += 8;
+
+      // Table rows
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      
+      let previousValue = 0;
+      tableData.forEach((yearData, index) => {
+        if (yPos > getMaxContentY() - 20) {
+          doc.addPage();
+          yPos = 20;
+        }
+        
+        const variation = index > 0 && previousValue > 0
+          ? ((yearData.avg_valor_m2 - previousValue) / previousValue * 100)
+          : 0;
+        
+        doc.setTextColor(60, 60, 60);
+        doc.text(yearData.year.toString(), marginLeft + 5, yPos);
+        doc.text(yearData.transaction_count.toString(), marginLeft + colWidth, yPos);
+        doc.text(`R$ ${yearData.avg_valor_m2.toLocaleString('pt-BR')}`, marginLeft + colWidth * 2, yPos);
+        
+        // Color code variation
+        if (variation > 0) {
+          doc.setTextColor(34, 197, 94); // Green
+          doc.text(`+${variation.toFixed(1)}%`, marginLeft + colWidth * 3, yPos);
+        } else if (variation < 0) {
+          doc.setTextColor(239, 68, 68); // Red
+          doc.text(`${variation.toFixed(1)}%`, marginLeft + colWidth * 3, yPos);
+        } else {
+          doc.setTextColor(100, 100, 100);
+          doc.text('-', marginLeft + colWidth * 3, yPos);
+        }
+        
+        previousValue = yearData.avg_valor_m2;
+        yPos += 5;
+      });
+      
+      yPos += 5;
+    }
+
+    // Overall diagnosis box
+    const diagnosisText = historicalAnalysis.overall_diagnosis.replace(/^[🟢🟡🔴]\s*/, '');
+    const isPositive = historicalAnalysis.overall_diagnosis.includes('🟢');
+    const isNegative = historicalAnalysis.overall_diagnosis.includes('🔴');
+    
+    if (isPositive) {
+      doc.setFillColor(240, 253, 244); // Light green
+      doc.setDrawColor(34, 197, 94);
+    } else if (isNegative) {
+      doc.setFillColor(254, 242, 242); // Light red
+      doc.setDrawColor(239, 68, 68);
+    } else {
+      doc.setFillColor(255, 251, 235); // Light yellow
+      doc.setDrawColor(234, 179, 8);
+    }
+    
+    const diagnosisSplit = doc.splitTextToSize(diagnosisText, contentWidth - 10);
+    const diagnosisBoxHeight = 8 + diagnosisSplit.length * 4;
+    
+    doc.roundedRect(marginLeft - 5, yPos - 3, contentWidth + 10, diagnosisBoxHeight, 2, 2, 'FD');
+    
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(60, 60, 60);
+    doc.text('DIAGNÓSTICO DE MERCADO', marginLeft, yPos + 3);
+    
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.text(diagnosisSplit, marginLeft, yPos + 10);
+    
+    yPos += diagnosisBoxHeight + 8;
+
+    // Liquidity and price diagnosis
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(80, 80, 80);
+    
+    const liquiditySplit = doc.splitTextToSize(`Liquidez: ${historicalAnalysis.liquidity_diagnosis}`, contentWidth);
+    doc.text(liquiditySplit, marginLeft, yPos);
+    yPos += liquiditySplit.length * 4 + 3;
+    
+    const priceSplit = doc.splitTextToSize(`Preços: ${historicalAnalysis.price_diagnosis}`, contentWidth);
+    doc.text(priceSplit, marginLeft, yPos);
+    yPos += priceSplit.length * 4 + 5;
+
+    // Stats
+    doc.setFontSize(7);
+    doc.setTextColor(120, 120, 120);
+    doc.text(`Base: ${historicalAnalysis.total_transactions} transações analisadas (~${historicalAnalysis.avg_transactions_per_year}/ano)`, marginLeft, yPos);
+    yPos += 8;
+  }
 
   // Check if we need a new page for disclaimer
   if (yPos > getMaxContentY() - 30) {
