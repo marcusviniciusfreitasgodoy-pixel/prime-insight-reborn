@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LeadsMetricsDashboard } from "@/components/leads/LeadsMetricsDashboard";
+import { FollowUpMetricsDashboard } from "@/components/leads/FollowUpMetricsDashboard";
 import { 
   Users, 
   Search, 
@@ -32,7 +33,7 @@ import {
   ArrowLeft,
   MessageSquareHeart,
   BarChart3,
-  List
+  List,
 } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -248,6 +249,10 @@ export default function Leads() {
                 <BarChart3 className="h-4 w-4" />
                 <span className="hidden sm:inline">Métricas</span>
               </TabsTrigger>
+              <TabsTrigger value="followup" className="flex items-center gap-2">
+                <Mail className="h-4 w-4" />
+                <span className="hidden sm:inline">Follow-up</span>
+              </TabsTrigger>
               <TabsTrigger value="lista" className="flex items-center gap-2">
                 <List className="h-4 w-4" />
                 <span className="hidden sm:inline">Lista de Leads</span>
@@ -256,6 +261,10 @@ export default function Leads() {
 
             <TabsContent value="metricas">
               <LeadsMetricsDashboard />
+            </TabsContent>
+
+            <TabsContent value="followup">
+              <FollowUpMetricsDashboard />
             </TabsContent>
 
             <TabsContent value="lista" className="space-y-6">
