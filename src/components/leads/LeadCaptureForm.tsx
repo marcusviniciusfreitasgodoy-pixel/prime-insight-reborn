@@ -89,6 +89,7 @@ export function LeadCaptureForm({
   onSuccess,
 }: LeadCaptureFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [honeypot, setHoneypot] = useState(""); // Bot detection honeypot
   const { utmParams, getUTMForLead, hasUTM } = useUTMTracking();
   
   // Constrói origem com UTM params se disponíveis
@@ -145,6 +146,13 @@ export function LeadCaptureForm({
   };
 
   const onSubmit = async (data: LeadFormData) => {
+    // Bot detection: if honeypot field is filled, silently reject
+    if (honeypot) {
+      console.log("Bot detected via honeypot");
+      // Pretend success to avoid alerting bots
+      return;
+    }
+    
     setIsSubmitting(true);
     try {
       const normalizedEmail = data.email.trim().toLowerCase();
@@ -300,6 +308,19 @@ export function LeadCaptureForm({
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {/* Honeypot field - hidden from real users, bots will fill it */}
+          <div style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, overflow: 'hidden' }} aria-hidden="true">
+            <label htmlFor="company_website">Company Website</label>
+            <input 
+              type="text" 
+              id="company_website" 
+              name="company_website" 
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
           {/* Nome */}
           <div className="space-y-2">
             <Label htmlFor="nome" className="flex items-center gap-2 text-sm font-medium">

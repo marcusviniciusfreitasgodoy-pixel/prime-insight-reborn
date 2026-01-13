@@ -72,6 +72,9 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
   const [vagas, setVagas] = useState("");
   const [diferenciais, setDiferenciais] = useState("");
   
+  // Honeypot field for bot detection (hidden from users)
+  const [honeypot, setHoneypot] = useState("");
+  
   // UI state
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -165,6 +168,13 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    
+    // Bot detection: if honeypot field is filled, silently reject
+    if (honeypot) {
+      console.log("Bot detected via honeypot");
+      // Pretend success to avoid alerting bots
+      return;
+    }
     
     // Validate lead fields
     if (!nome.trim() || nome.trim().length < 3) {
@@ -378,6 +388,20 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
             <p className="text-xs text-green-700">
               <strong>Privacidade:</strong> Seus dados são criptografados e utilizados exclusivamente para sua análise.
             </p>
+          </div>
+          
+          {/* Honeypot field - hidden from real users, bots will fill it */}
+          <div style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, overflow: 'hidden' }} aria-hidden="true">
+            <label htmlFor="website_url">Website</label>
+            <input 
+              type="text" 
+              id="website_url" 
+              name="website_url" 
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+            />
           </div>
           
           {/* Lead Fields Section */}
