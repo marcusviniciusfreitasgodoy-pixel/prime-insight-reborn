@@ -35,6 +35,217 @@ interface LeadNotificationRequest {
   evaluationNumber?: number;
 }
 
+const formatCurrency = (value: number | undefined) => {
+  if (!value) return "N/A";
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
+};
+
+// Função para enviar e-mail de confirmação ao cliente
+async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
+  if (!data.leadEmail) {
+    console.log("No client email provided, skipping confirmation");
+    return null;
+  }
+
+  const notificationType = data.type || "initial";
+  const isVenda = data.interesse === "venda";
+  
+  let emailSubject: string;
+  let headerTitle: string;
+  let headerSubtitle: string;
+  let mainContent: string;
+  let ctaSection: string;
+
+  const propertyInfo = `
+    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
+      <h4 style="margin: 0 0 10px 0; color: #0C2340;">📍 Imóvel Analisado:</h4>
+      <ul style="margin: 0; padding-left: 20px; color: #555;">
+        ${data.bairro ? `<li><strong>Bairro:</strong> ${data.bairro}</li>` : ""}
+        ${data.tipologia ? `<li><strong>Tipo:</strong> ${data.tipologia}</li>` : ""}
+        ${data.area ? `<li><strong>Área:</strong> ${data.area} m²</li>` : ""}
+        ${data.quartos ? `<li><strong>Quartos:</strong> ${data.quartos}</li>` : ""}
+        ${data.suites ? `<li><strong>Suítes:</strong> ${data.suites}</li>` : ""}
+        ${data.banheiros ? `<li><strong>Banheiros:</strong> ${data.banheiros}</li>` : ""}
+        ${data.vagas ? `<li><strong>Vagas:</strong> ${data.vagas}</li>` : ""}
+      </ul>
+    </div>
+  `;
+
+  const estimativaSection = data.estimativaMin && data.estimativaMed && data.estimativaMax ? `
+    <div style="background: linear-gradient(135deg, #0C2340 0%, #1a365d 100%); padding: 20px; border-radius: 8px; margin: 20px 0; color: white;">
+      <h4 style="margin: 0 0 15px 0; color: #D4AF37; text-align: center;">📊 Sua Estimativa Preliminar</h4>
+      <div style="display: flex; justify-content: space-between; text-align: center;">
+        <div style="flex: 1;">
+          <p style="margin: 0; font-size: 12px; opacity: 0.8;">Mínimo</p>
+          <p style="margin: 5px 0 0 0; font-size: 16px; font-weight: bold;">${formatCurrency(data.estimativaMin)}</p>
+        </div>
+        <div style="flex: 1; border-left: 1px solid rgba(255,255,255,0.2); border-right: 1px solid rgba(255,255,255,0.2);">
+          <p style="margin: 0; font-size: 12px; opacity: 0.8;">Médio</p>
+          <p style="margin: 5px 0 0 0; font-size: 18px; font-weight: bold; color: #D4AF37;">${formatCurrency(data.estimativaMed)}</p>
+        </div>
+        <div style="flex: 1;">
+          <p style="margin: 0; font-size: 12px; opacity: 0.8;">Máximo</p>
+          <p style="margin: 5px 0 0 0; font-size: 16px; font-weight: bold;">${formatCurrency(data.estimativaMax)}</p>
+        </div>
+      </div>
+    </div>
+  ` : "";
+
+  if (notificationType === "initial" || notificationType === "returning") {
+    // E-mail de confirmação de avaliação
+    emailSubject = "📊 Sua Avaliação Preliminar - Godoy Prime Realty";
+    headerTitle = "Sua Avaliação Preliminar está Pronta!";
+    headerSubtitle = "Obrigado por utilizar nossa plataforma de análise de mercado";
+    
+    mainContent = `
+      <p style="color: #555; font-size: 15px;">Olá <strong>${data.leadName}</strong>,</p>
+      
+      <p style="color: #555; font-size: 15px;">
+        Recebemos sua solicitação de avaliação e já processamos uma estimativa preliminar com base nos dados de transações ITBI da região.
+      </p>
+
+      ${estimativaSection}
+
+      ${propertyInfo}
+
+      <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; border-radius: 0 8px 8px 0;">
+        <h4 style="margin: 0 0 10px 0; color: #856404;">⚡ Quer uma Avaliação Mais Precisa?</h4>
+        <p style="margin: 0; color: #856404; font-size: 14px;">
+          A estimativa acima é baseada em dados médios da região. Um <strong>Parecer Técnico Completo</strong> considera os diferenciais específicos do seu imóvel, podendo revelar um valor <strong>15% a 30% superior</strong>.
+        </p>
+      </div>
+    `;
+
+    ctaSection = `
+      <div style="text-align: center; margin: 25px 0;">
+        <a href="https://prime-insight-reborn.lovable.app" style="display: inline-block; background: linear-gradient(135deg, #D4AF37 0%, #b8962f 100%); color: #0C2340; text-decoration: none; padding: 15px 35px; border-radius: 8px; font-weight: bold; font-size: 16px;">
+          📋 Solicitar Parecer Técnico Completo
+        </a>
+        <p style="margin: 15px 0 0 0; color: #888; font-size: 12px;">Análise detalhada com especialista Godoy Prime</p>
+      </div>
+    `;
+
+  } else {
+    // E-mail de confirmação do Parecer Técnico solicitado
+    emailSubject = "✅ Parecer Técnico Solicitado - Godoy Prime Realty";
+    headerTitle = "Recebemos sua Solicitação!";
+    headerSubtitle = "Parecer Técnico em andamento";
+    
+    mainContent = `
+      <p style="color: #555; font-size: 15px;">Olá <strong>${data.leadName}</strong>,</p>
+      
+      <p style="color: #555; font-size: 15px;">
+        <strong>Excelente decisão!</strong> Recebemos sua solicitação de Parecer Técnico Godoy Prime e nossa equipe já está analisando os dados do seu imóvel.
+      </p>
+
+      <div style="background: #d4edda; border-left: 4px solid #28a745; padding: 15px; margin: 20px 0; border-radius: 0 8px 8px 0;">
+        <h4 style="margin: 0 0 10px 0; color: #155724;">✅ Solicitação Confirmada</h4>
+        <p style="margin: 0; color: #155724; font-size: 14px;">
+          Um especialista Godoy Prime entrará em contato em até <strong>24-48 horas úteis</strong> para discutir os detalhes e apresentar a análise completa.
+        </p>
+      </div>
+
+      ${propertyInfo}
+
+      ${estimativaSection}
+
+      <div style="background: #e8f4f8; padding: 15px; border-radius: 8px; margin: 20px 0;">
+        <h4 style="margin: 0 0 10px 0; color: #0C2340;">🎯 O que esperar:</h4>
+        <ul style="margin: 0; padding-left: 20px; color: #555; font-size: 14px;">
+          <li>Análise personalizada considerando diferenciais do imóvel</li>
+          <li>Comparativo com transações recentes da região</li>
+          <li>Orientação estratégica para ${isVenda ? 'venda' : 'compra'}</li>
+          <li>Consultoria sem compromisso</li>
+        </ul>
+      </div>
+    `;
+
+    ctaSection = `
+      <div style="text-align: center; margin: 25px 0;">
+        <a href="https://wa.me/5521999680553" style="display: inline-block; background: #25D366; color: white; text-decoration: none; padding: 15px 35px; border-radius: 8px; font-weight: bold; font-size: 16px;">
+          📱 Falar Agora no WhatsApp
+        </a>
+        <p style="margin: 15px 0 0 0; color: #888; font-size: 12px;">Dúvidas? Estamos à disposição!</p>
+      </div>
+    `;
+  }
+
+  const clientEmailHtml = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background: #f5f5f5; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #0C2340 0%, #1a365d 100%); color: white; padding: 30px 20px; text-align: center; border-radius: 8px 8px 0 0; }
+        .header h1 { margin: 0 0 10px 0; color: #D4AF37; font-size: 24px; }
+        .header p { margin: 0; opacity: 0.9; font-size: 14px; }
+        .content { background: #ffffff; padding: 25px; border: 1px solid #e0e0e0; border-top: none; }
+        .footer { background: #f8f9fa; padding: 20px; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 8px 8px; text-align: center; }
+        .footer p { margin: 5px 0; color: #888; font-size: 12px; }
+        .logo-text { color: #D4AF37; font-weight: bold; font-size: 20px; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <div class="logo-text">🏠 GODOY PRIME REALTY</div>
+          <h1>${headerTitle}</h1>
+          <p>${headerSubtitle}</p>
+        </div>
+        
+        <div class="content">
+          ${mainContent}
+          ${ctaSection}
+        </div>
+        
+        <div class="footer">
+          <p><strong>Godoy Prime Realty</strong> - CRECI-RJ 11841</p>
+          <p>Especialistas em Imóveis de Alto Padrão na Barra da Tijuca</p>
+          <p style="margin-top: 15px;">
+            <a href="https://godoyprime.com.br" style="color: #0C2340; text-decoration: none;">godoyprime.com.br</a> | 
+            <a href="tel:+5521999680553" style="color: #0C2340; text-decoration: none;">(21) 99968-0553</a>
+          </p>
+          <p style="margin-top: 15px; color: #aaa; font-size: 11px;">
+            Este email foi enviado porque você solicitou uma avaliação em nossa plataforma.
+          </p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    console.log("Sending client confirmation email to:", data.leadEmail);
+    
+    const clientEmailResponse = await resend.emails.send({
+      from: "Godoy Prime Realty <marcus@godoyprime.com.br>",
+      to: [data.leadEmail],
+      subject: emailSubject,
+      html: clientEmailHtml,
+    });
+
+    console.log("Client email response:", JSON.stringify(clientEmailResponse, null, 2));
+    
+    if (clientEmailResponse.error) {
+      console.error("Error sending client email:", clientEmailResponse.error);
+      return { success: false, error: clientEmailResponse.error };
+    }
+
+    return { success: true, emailId: clientEmailResponse.data?.id };
+  } catch (error: any) {
+    console.error("Error sending client confirmation email:", error.message);
+    return { success: false, error: error.message };
+  }
+}
+
 const handler = async (req: Request): Promise<Response> => {
   console.log("=== send-lead-notification START ===");
   console.log("Method:", req.method);
@@ -57,16 +268,6 @@ const handler = async (req: Request): Promise<Response> => {
         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
-
-    const formatCurrency = (value: number | undefined) => {
-      if (!value) return "N/A";
-      return new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      }).format(value);
-    };
 
     const isCompra = data.interesse === "compra";
     const notificationType = data.type || "initial";
@@ -202,12 +403,12 @@ const handler = async (req: Request): Promise<Response> => {
       </html>
     `;
 
-    console.log("Sending email to contato@godoyprime.com.br...");
+    console.log("Sending email to marcus@godoyprime.com.br...");
     
-    // Send email notification
+    // Send email notification to the agency
     const emailResponse = await resend.emails.send({
       from: "Godoy Prime <marcus@godoyprime.com.br>",
-      to: ["contato@godoyprime.com.br"],
+      to: ["marcus@godoyprime.com.br"],
       subject: emailSubject,
       html: emailHtml,
     });
@@ -228,7 +429,12 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    console.log("Email sent successfully! ID:", emailResponse.data?.id);
+    console.log("Agency email sent successfully! ID:", emailResponse.data?.id);
+
+    // Send confirmation email to the client
+    const clientEmailResult = await sendClientConfirmationEmail(data);
+    console.log("Client email result:", clientEmailResult);
+
     console.log("=== send-lead-notification END (SUCCESS) ===");
 
     return new Response(
@@ -236,6 +442,8 @@ const handler = async (req: Request): Promise<Response> => {
         success: true, 
         message: "Notificação enviada com sucesso",
         emailId: emailResponse.data?.id,
+        clientEmailSent: clientEmailResult?.success || false,
+        clientEmailId: clientEmailResult?.emailId,
         serviceType,
       }),
       {
