@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -430,6 +431,31 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     console.log("Agency email sent successfully! ID:", emailResponse.data?.id);
+
+    // If this is a "complete" notification, mark lead as having requested parecer
+    if (notificationType === "complete" && data.leadEmail) {
+      try {
+        const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+        const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+        const supabase = createClient(supabaseUrl, supabaseKey);
+        
+        const { error: updateError } = await supabase
+          .from("leads")
+          .update({ 
+            parecer_solicitado: true, 
+            parecer_solicitado_at: new Date().toISOString() 
+          })
+          .eq("email", data.leadEmail.toLowerCase().trim());
+        
+        if (updateError) {
+          console.error("Error updating parecer_solicitado:", updateError);
+        } else {
+          console.log("Lead marked as parecer_solicitado for:", data.leadEmail);
+        }
+      } catch (updateErr: any) {
+        console.error("Error updating lead parecer status:", updateErr.message);
+      }
+    }
 
     // Send confirmation email to the client
     const clientEmailResult = await sendClientConfirmationEmail(data);

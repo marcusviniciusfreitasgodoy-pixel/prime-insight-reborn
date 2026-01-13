@@ -200,12 +200,15 @@ export type Database = {
           email: string
           endereco_imovel_analise: string | null
           evaluation_count: number | null
+          followup_sent_at: string | null
           id: string
           interesse: string | null
           nome: string
           notas: string | null
           objetivo: string | null
           origem: string | null
+          parecer_solicitado: boolean | null
+          parecer_solicitado_at: string | null
           preferencia_contato: string | null
           quartos: number | null
           suites: number | null
@@ -227,12 +230,15 @@ export type Database = {
           email: string
           endereco_imovel_analise?: string | null
           evaluation_count?: number | null
+          followup_sent_at?: string | null
           id?: string
           interesse?: string | null
           nome: string
           notas?: string | null
           objetivo?: string | null
           origem?: string | null
+          parecer_solicitado?: boolean | null
+          parecer_solicitado_at?: string | null
           preferencia_contato?: string | null
           quartos?: number | null
           suites?: number | null
@@ -254,12 +260,15 @@ export type Database = {
           email?: string
           endereco_imovel_analise?: string | null
           evaluation_count?: number | null
+          followup_sent_at?: string | null
           id?: string
           interesse?: string | null
           nome?: string
           notas?: string | null
           objetivo?: string | null
           origem?: string | null
+          parecer_solicitado?: boolean | null
+          parecer_solicitado_at?: string | null
           preferencia_contato?: string | null
           quartos?: number | null
           suites?: number | null
