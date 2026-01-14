@@ -9,10 +9,10 @@ interface MapSearchBoxProps {
   onSelect: (lat: number, lng: number, logradouro: string) => void;
 }
 
-// Geocode a logradouro using Prefeitura API
+// Geocode a logradouro using secure edge function
 async function geocodeLogradouro(logradouro: string, bairro: string): Promise<{ lat: number; lng: number } | null> {
   try {
-    // First check cache
+    // First check cache (read-only access allowed for all users)
     const { data: cached } = await supabase
       .from("logradouros_geocoded")
       .select("latitude, longitude")
@@ -24,45 +24,30 @@ async function geocodeLogradouro(logradouro: string, bairro: string): Promise<{ 
       return { lat: cached.latitude, lng: cached.longitude };
     }
 
-    // Query Prefeitura API directly
-    const searchTerm = logradouro.toUpperCase().trim();
-    const bairroTerm = bairro.toUpperCase().trim();
-    const whereClause = encodeURIComponent(`completo LIKE '%${searchTerm}%' AND bairro = '${bairroTerm}'`);
-    const url = `https://pgeo3.rio.rj.gov.br/arcgis/rest/services/CadLog/Trechos_Logradouros/MapServer/0/query?where=${whereClause}&outFields=*&f=json&returnGeometry=true`;
+    // Use edge function for geocoding (handles cache writes securely)
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
-    const response = await fetch(url);
-    if (!response.ok) return null;
+    const response = await fetch(`${supabaseUrl}/functions/v1/geocode-logradouro`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${supabaseKey}`,
+      },
+      body: JSON.stringify({ logradouro, bairro }),
+    });
+
+    if (!response.ok) {
+      console.error("Geocoding API error:", response.status);
+      return null;
+    }
 
     const data = await response.json();
-    if (!data.features || data.features.length === 0) return null;
-
-    const feature = data.features[0];
-    const geometry = feature.geometry;
-
-    if (!geometry?.paths?.[0]?.length) return null;
-
-    // Calculate centroid
-    const path = geometry.paths[0];
-    let sumX = 0, sumY = 0;
-    for (const point of path) {
-      sumX += point[0];
-      sumY += point[1];
+    if (data.lat && data.lng) {
+      return { lat: data.lat, lng: data.lng };
     }
-    const lat = sumY / path.length;
-    const lng = sumX / path.length;
 
-    // Save to cache
-    await supabase.from("logradouros_geocoded").upsert({
-      logradouro,
-      bairro: bairroTerm,
-      latitude: lat,
-      longitude: lng,
-      hierarquia: feature.attributes?.hierarquia,
-      velocidade_regulamentada: feature.attributes?.velocidade_regulamentada,
-      cod_trecho: feature.attributes?.cod_trecho,
-    }, { onConflict: "logradouro,bairro" });
-
-    return { lat, lng };
+    return null;
   } catch (error) {
     console.error("Geocoding error:", error);
     return null;
