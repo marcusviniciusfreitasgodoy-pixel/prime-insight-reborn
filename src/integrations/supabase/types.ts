@@ -673,6 +673,37 @@ export type Database = {
       }
     }
     Views: {
+      itbi_stats_bairro: {
+        Row: {
+          area_media_m2: number | null
+          bairro: string | null
+          mediana_m2: number | null
+          preco_medio_m2: number | null
+          preco_p10_m2: number | null
+          preco_p90_m2: number | null
+          primeira_transacao: string | null
+          total_transacoes: number | null
+          ultima_transacao: string | null
+          uso: Database["public"]["Enums"]["uso_imovel"] | null
+        }
+        Relationships: []
+      }
+      itbi_stats_public: {
+        Row: {
+          area_media_m2: number | null
+          bairro: string | null
+          logradouro: string | null
+          mediana_m2: number | null
+          preco_max_m2: number | null
+          preco_medio_m2: number | null
+          preco_min_m2: number | null
+          primeira_transacao: string | null
+          total_transacoes: number | null
+          ultima_transacao: string | null
+          uso: Database["public"]["Enums"]["uso_imovel"] | null
+        }
+        Relationships: []
+      }
       view_ranking_microbairros: {
         Row: {
           mediana_m2: number | null
