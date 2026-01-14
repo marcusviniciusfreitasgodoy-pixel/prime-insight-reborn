@@ -34,8 +34,8 @@ function calculateCentroid(geometry: { paths?: number[][][] }): { lat: number; l
   return sirgasToWGS84(centroidX, centroidY);
 }
 
-// Google Maps Geocoding API fallback
-const GOOGLE_MAPS_API_KEY = "AIzaSyAU--MGXjnmv7FRXDrdjdKavYHFMepV6FQ";
+// Google Maps Geocoding API fallback - key loaded from environment
+const GOOGLE_MAPS_API_KEY = Deno.env.get('GOOGLE_MAPS_API_KEY');
 
 // Expand abbreviations for Google Geocoding (more aggressive)
 function expandForGoogle(name: string): string {
@@ -85,6 +85,11 @@ function expandForGoogle(name: string): string {
 }
 
 async function geocodeWithGoogle(logradouro: string, bairro: string): Promise<{ lat: number; lng: number } | null> {
+  if (!GOOGLE_MAPS_API_KEY) {
+    console.error('GOOGLE_MAPS_API_KEY not configured');
+    return null;
+  }
+  
   try {
     // Expand abbreviations for better Google matching
     const expandedName = expandForGoogle(logradouro.toUpperCase().trim());
