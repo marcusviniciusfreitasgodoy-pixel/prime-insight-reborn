@@ -11,7 +11,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import godoyLogo from "@/assets/godoy-logo-symbol.png";
 import heroBackground from "@/assets/hero-barra-luxury.jpg";
 import { useIsMobile } from "@/hooks/use-mobile";
-
 type Step = "form" | "result";
 
 // Stats for hero
@@ -84,41 +83,32 @@ const PERSONAS = [{
 }];
 
 // Wrong price impacts - bilateral view for sellers and buyers
-const WRONG_PRICE_SELLER = [
-  {
-    icon: TrendingDown,
-    title: "Menos Visitas e Interesse",
-    description: "Preço acima da curva filtra seu imóvel nos portais, reduzindo cliques e agendamentos de compradores qualificados."
-  },
-  {
-    icon: Timer,
-    title: "Imóvel 'Encalhado'",
-    description: "Semanas ou meses parado criam percepção de problema oculto, queimando seu ativo digitalmente."
-  },
-  {
-    icon: Receipt,
-    title: "Custo de Carregar",
-    description: "IPTU, condomínio, manutenção — cada mês parado é dinheiro saindo do bolso e oportunidade perdida."
-  }
-];
-
-const WRONG_PRICE_BUYER = [
-  {
-    icon: Wallet,
-    title: "Pagar Acima do Mercado",
-    description: "Sem dados reais de transações, você corre o risco de pagar 20-30% acima do valor justo."
-  },
-  {
-    icon: Clock,
-    title: "Oportunidades Perdidas",
-    description: "Enquanto negocia um imóvel supervalorizado, outros compradores fecham as melhores ofertas."
-  },
-  {
-    icon: Ban,
-    title: "Financiamento Travado",
-    description: "Banco financia pelo valor de mercado. Preço inflado exige que você cubra a diferença do próprio bolso."
-  }
-];
+const WRONG_PRICE_SELLER = [{
+  icon: TrendingDown,
+  title: "Menos Visitas e Interesse",
+  description: "Preço acima da curva filtra seu imóvel nos portais, reduzindo cliques e agendamentos de compradores qualificados."
+}, {
+  icon: Timer,
+  title: "Imóvel 'Encalhado'",
+  description: "Semanas ou meses parado criam percepção de problema oculto, queimando seu ativo digitalmente."
+}, {
+  icon: Receipt,
+  title: "Custo de Carregar",
+  description: "IPTU, condomínio, manutenção — cada mês parado é dinheiro saindo do bolso e oportunidade perdida."
+}];
+const WRONG_PRICE_BUYER = [{
+  icon: Wallet,
+  title: "Pagar Acima do Mercado",
+  description: "Sem dados reais de transações, você corre o risco de pagar 20-30% acima do valor justo."
+}, {
+  icon: Clock,
+  title: "Oportunidades Perdidas",
+  description: "Enquanto negocia um imóvel supervalorizado, outros compradores fecham as melhores ofertas."
+}, {
+  icon: Ban,
+  title: "Financiamento Travado",
+  description: "Banco financia pelo valor de mercado. Preço inflado exige que você cubra a diferença do próprio bolso."
+}];
 
 // FAQ Data - Perguntas frequentes com objeções e argumentos
 const FAQ_DATA = [{
@@ -210,7 +200,6 @@ export default function AvaliacaoPublica() {
     utmParams,
     hasUTM
   } = useUTMTracking();
-  
   const handleQuickValuationComplete = (data: QuickValuationData) => {
     setValuationData(data);
     setStep("result");
@@ -222,7 +211,6 @@ export default function AvaliacaoPublica() {
       });
     }, 100);
   };
-  
   const handleNewValuation = () => {
     setValuationData(null);
     setStep("form");
@@ -233,7 +221,6 @@ export default function AvaliacaoPublica() {
       });
     }, 100);
   };
-  
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({
       behavior: "smooth",
@@ -325,14 +312,7 @@ export default function AvaliacaoPublica() {
         {/* ============ SECTION 1: HERO (Navy with background image) ============ */}
         <section className="relative text-white overflow-hidden">
           {/* Background image with overlay - optimized with lazy loading */}
-          <img 
-            src={heroBackground} 
-            alt="" 
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-            className="absolute inset-0 w-full h-full object-cover object-center"
-          />
+          <img src={heroBackground} alt="" loading="eager" decoding="async" fetchPriority="high" className="absolute inset-0 w-full h-full object-cover object-center" />
           <div className="absolute inset-0 bg-gradient-to-br from-[#0C2340]/95 via-[#0C2340]/90 to-[#1a3a5c]/85" />
           
           {/* Decorative elements */}
@@ -344,15 +324,7 @@ export default function AvaliacaoPublica() {
           {/* Header */}
           <header className="relative z-10 container mx-auto px-4 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <img 
-                src={godoyLogo} 
-                alt="Godoy Prime" 
-                loading="eager"
-                decoding="async"
-                width={48}
-                height={48}
-                className="h-10 md:h-12 w-auto drop-shadow-lg" 
-              />
+              <img src={godoyLogo} alt="Godoy Prime" loading="eager" decoding="async" width={48} height={48} className="h-10 md:h-12 w-auto drop-shadow-lg" />
               <div className="hidden sm:block">
                 <h1 className="font-semibold text-base md:text-lg tracking-tight">Godoy Prime Realty</h1>
                 <p className="text-xs text-[#D4AF37] font-medium">Avaliação Imobiliária Premium</p>
@@ -443,12 +415,9 @@ export default function AvaliacaoPublica() {
                   </div>
                 </div>
                 
-                {WRONG_PRICE_SELLER.map((item, index) => (
-                  <div 
-                    key={index} 
-                    className="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl p-3 sm:p-4 border border-orange-200/50 hover:border-orange-300 hover:shadow-md transition-all duration-300 animate-fade-in"
-                    style={{ animationDelay: `${(index + 1) * 100}ms` }}
-                  >
+                {WRONG_PRICE_SELLER.map((item, index) => <div key={index} className="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl p-3 sm:p-4 border border-orange-200/50 hover:border-orange-300 hover:shadow-md transition-all duration-300 animate-fade-in" style={{
+                animationDelay: `${(index + 1) * 100}ms`
+              }}>
                     <div className="flex items-start gap-2 sm:gap-3">
                       <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-orange-500/10 flex items-center justify-center shrink-0">
                         <item.icon className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600" />
@@ -458,8 +427,7 @@ export default function AvaliacaoPublica() {
                         <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{item.description}</p>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  </div>)}
               </div>
 
               {/* Buyer Column */}
@@ -474,12 +442,9 @@ export default function AvaliacaoPublica() {
                   </div>
                 </div>
                 
-                {WRONG_PRICE_BUYER.map((item, index) => (
-                  <div 
-                    key={index} 
-                    className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-3 sm:p-4 border border-blue-200/50 hover:border-blue-300 hover:shadow-md transition-all duration-300 animate-fade-in"
-                    style={{ animationDelay: `${(index + 1) * 100 + 150}ms` }}
-                  >
+                {WRONG_PRICE_BUYER.map((item, index) => <div key={index} className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-3 sm:p-4 border border-blue-200/50 hover:border-blue-300 hover:shadow-md transition-all duration-300 animate-fade-in" style={{
+                animationDelay: `${(index + 1) * 100 + 150}ms`
+              }}>
                     <div className="flex items-start gap-2 sm:gap-3">
                       <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
                         <item.icon className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
@@ -489,8 +454,7 @@ export default function AvaliacaoPublica() {
                         <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{item.description}</p>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  </div>)}
               </div>
             </div>
 
@@ -540,14 +504,8 @@ export default function AvaliacaoPublica() {
                 <h4 className="text-xl md:text-2xl font-bold text-white mb-3">
                   Não Deixe o Preço Errado Custar Caro
                 </h4>
-                <p className="text-white/80 mb-6 max-w-lg mx-auto">
-                  Descubra agora o valor real do seu imóvel com nossa avaliação gratuita baseada em dados oficiais.
-                </p>
-                <Button 
-                  onClick={scrollToForm}
-                  size="lg"
-                  className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-bold shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 px-4 sm:px-8 py-3 sm:py-4 text-sm sm:text-base w-full sm:w-auto max-w-xs sm:max-w-none"
-                >
+                <p className="text-white/80 mb-6 max-w-lg mx-auto">Descubra agora o valor do seu imóvel com nossa avaliação gratuita baseada em dados oficiais.</p>
+                <Button onClick={scrollToForm} size="lg" className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-bold shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 px-4 sm:px-8 py-3 sm:py-4 text-sm sm:text-base w-full sm:w-auto max-w-xs sm:max-w-none">
                   <Calculator className="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2 flex-shrink-0" />
                   <span className="truncate">Avaliar Meu Imóvel Grátis</span>
                   <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-1.5 sm:ml-2 flex-shrink-0" />
@@ -647,14 +605,12 @@ export default function AvaliacaoPublica() {
         {/* ============ SECTION 5: FINAL CTA (Gold background) ============ */}
         <section className="py-12 sm:py-16 md:py-20 px-4 bg-gradient-to-br from-[#D4AF37] to-[#c9a432]">
           <div className="container mx-auto max-w-3xl text-center px-2">
-            <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">
-              Pronto para Descobrir o Valor Real?
-            </h3>
+            <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Pronto para Descobrir o Valor do seu Imóvel?</h3>
             <p className="text-[#0C2340]/80 text-sm sm:text-lg mb-6 sm:mb-8">
               Comece agora – leva apenas 30 segundos.
             </p>
             <Button onClick={scrollToForm} size="lg" className="bg-[#0C2340] hover:bg-[#0a1d33] text-white font-bold shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 text-sm sm:text-base px-6 sm:px-10 py-3 sm:py-4 w-full sm:w-auto max-w-xs sm:max-w-none">
-              <span className="truncate">Consultar Valor Real</span>
+              <span className="truncate">Quero saber o valor do meu imóvel</span>
               <ArrowRight className="ml-1.5 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
             </Button>
           </div>
@@ -667,28 +623,20 @@ export default function AvaliacaoPublica() {
               <span className="inline-block px-4 py-1 rounded-full bg-[#0C2340]/10 text-[#0C2340] text-sm font-semibold mb-4">
                 AVALIAÇÃO PRELIMINAR
               </span>
-              <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">
-                Consulte o Valor Real
-              </h3>
+              <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">Consulte o Valor Agora</h3>
               <p className="text-muted-foreground">
                 Resultado instantâneo baseado em transações reais • Sem compromisso
               </p>
             </div>
 
-            {step === "form" && (
-              <div className="flex flex-col gap-8">
+            {step === "form" && <div className="flex flex-col gap-8">
                 {/* Form Section */}
                 <div className="max-w-2xl mx-auto w-full space-y-6">
-                  <QuickValuationForm 
-                    onComplete={handleQuickValuationComplete}
-                    onBairroChange={setSelectedBairro}
-                    onLogradouroChange={setSelectedLogradouro}
-                  />
+                  <QuickValuationForm onComplete={handleQuickValuationComplete} onBairroChange={setSelectedBairro} onLogradouroChange={setSelectedLogradouro} />
 
                   {/* Trust badges */}
                   <div className="flex flex-wrap justify-center gap-4 pt-4">
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <Shield className="h-4 w-4 text-[#D4AF37]" />
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">Dados de transações reais e oficiais registradas<Shield className="h-4 w-4 text-[#D4AF37]" />
                       Dados da Prefeitura RJ
                     </div>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -713,8 +661,7 @@ export default function AvaliacaoPublica() {
                   </div>
                 </div>
 
-              </div>
-            )}
+              </div>}
           </div>
         </section>
 
@@ -824,8 +771,7 @@ export default function AvaliacaoPublica() {
             </div>
 
             {/* CTA após FAQ - só mostra se ainda não fez avaliação */}
-            {step === "form" && (
-              <div className="mt-12 text-center">
+            {step === "form" && <div className="mt-12 text-center">
                 <p className="text-muted-foreground mb-4">Ainda tem dúvidas?</p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Button onClick={scrollToForm} className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-semibold hover:scale-105 active:scale-95 transition-all duration-200 text-sm sm:text-base px-4 sm:px-6 w-full sm:w-auto">
@@ -837,8 +783,7 @@ export default function AvaliacaoPublica() {
                     <span className="truncate">Falar com Especialista</span>
                   </Button>
                 </div>
-              </div>
-            )}
+              </div>}
           </div>
         </section>
 
@@ -849,15 +794,7 @@ export default function AvaliacaoPublica() {
               {/* Logo and info */}
               <div className="text-center md:text-left">
                 <div className="flex items-center gap-3 justify-center md:justify-start mb-4">
-                  <img 
-                    src={godoyLogo} 
-                    alt="Godoy Prime" 
-                    loading="lazy"
-                    decoding="async"
-                    width={40}
-                    height={40}
-                    className="h-10 w-auto" 
-                  />
+                  <img src={godoyLogo} alt="Godoy Prime" loading="lazy" decoding="async" width={40} height={40} className="h-10 w-auto" />
                   <div>
                     <h4 className="font-semibold text-white">Godoy Prime Realty</h4>
                     <p className="text-xs text-[#D4AF37]">CRECI 11841-PJ</p>
