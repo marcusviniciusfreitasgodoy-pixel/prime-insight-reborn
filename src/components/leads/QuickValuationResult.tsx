@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -35,13 +35,18 @@ import {
   BadgeCheck,
   Banknote,
   ExternalLink,
-  MessageSquareHeart
+  MessageSquareHeart,
+  Map,
+  Loader2
 } from "lucide-react";
 import { ComparisonTable } from "./ComparisonTable";
 import { PeritEvaluationSection } from "./PeritEvaluationSection";
 import { HistoricalAnalysisChart } from "@/components/valuation/HistoricalAnalysisChart";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+
+// Lazy load the map component
+const PropertyMap = lazy(() => import("@/components/map/PropertyMap").then(m => ({ default: m.PropertyMap })));
 
 // FAQ específica sobre o Parecer Técnico (perguntas sobre dados oficiais, uso, legal e tecnologia estão na página /faq)
 const PARECER_FAQ = [
@@ -417,6 +422,39 @@ export function QuickValuationResult({
                 </p>
               </div>
             </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Mapa de Valores da Região */}
+      <Card className="border-accent/30 shadow-lg overflow-hidden">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-lg flex items-center gap-2">
+            <Map className="h-5 w-5 text-primary" />
+            Mapa de Valores da Região
+          </CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Visualize os valores por m² na região do imóvel avaliado
+          </p>
+        </CardHeader>
+        <CardContent className="p-0">
+          <div className="h-[350px] sm:h-[400px]">
+            <Suspense fallback={
+              <div className="w-full h-full flex items-center justify-center bg-muted/30">
+                <div className="flex flex-col items-center gap-2">
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                  <span className="text-sm text-muted-foreground">Carregando mapa...</span>
+                </div>
+              </div>
+            }>
+              <PropertyMap 
+                selectedBairro={data.bairro}
+                selectedLogradouro={data.logradouro}
+              />
+            </Suspense>
+          </div>
+          <div className="p-3 bg-muted/30 border-t text-xs text-muted-foreground text-center">
+            Os marcadores mostram transações recentes na região. Clique para ver detalhes.
           </div>
         </CardContent>
       </Card>

@@ -262,32 +262,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
         if (insertError) throw insertError;
       }
       
-      // Send notification for EVERY evaluation (new or returning lead)
-      try {
-        await supabase.functions.invoke('send-lead-notification', {
-          body: {
-            type: existingLead ? 'returning' : 'initial',
-            leadId: '',
-            leadName: nome.trim(),
-            leadEmail: normalizedEmail,
-            leadPhone: phoneDigits,
-            interesse: 'compra',
-            bairro,
-            area: areaNum,
-            tipologia,
-            quartos: quartos ? parseInt(quartos) : undefined,
-            banheiros: banheiros ? parseInt(banheiros) : undefined,
-            suites: suites ? parseInt(suites) : undefined,
-            vagas: vagas ? parseInt(vagas) : undefined,
-            evaluationNumber: existingLead ? evaluationCount + 1 : 1,
-          }
-        });
-        console.log(`Lead notification sent (${existingLead ? 'returning' : 'initial'})`);
-      } catch (notificationError) {
-        console.error('Error sending lead notification:', notificationError);
-      }
-      
-      // Step 3: Fetch ITBI data
+      // Step 3: Fetch ITBI data FIRST (before sending notification)
       let query = supabase
         .from("itbi_transactions")
         .select("valor_m2, total_transacoes")
@@ -332,6 +307,36 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
           med: Math.round(med_m2 * areaNum),
           max: Math.round(max_m2 * areaNum),
         };
+      }
+
+      // Step 4: Send notification with valuation results
+      try {
+        await supabase.functions.invoke('send-lead-notification', {
+          body: {
+            type: existingLead ? 'returning' : 'initial',
+            leadId: '',
+            leadName: nome.trim(),
+            leadEmail: normalizedEmail,
+            leadPhone: phoneDigits,
+            interesse: 'compra',
+            bairro,
+            area: areaNum,
+            tipologia,
+            quartos: quartos ? parseInt(quartos) : undefined,
+            banheiros: banheiros ? parseInt(banheiros) : undefined,
+            suites: suites ? parseInt(suites) : undefined,
+            vagas: vagas ? parseInt(vagas) : undefined,
+            evaluationNumber: existingLead ? evaluationCount + 1 : 1,
+            // Include valuation results in notification
+            estimativaMin: estimativa?.min,
+            estimativaMed: estimativa?.med,
+            estimativaMax: estimativa?.max,
+            enderecoImovelAnalise: logradouro.trim() || undefined,
+          }
+        });
+        console.log(`Lead notification sent (${existingLead ? 'returning' : 'initial'}) with valuation data`);
+      } catch (notificationError) {
+        console.error('Error sending lead notification:', notificationError);
       }
 
       onComplete({
