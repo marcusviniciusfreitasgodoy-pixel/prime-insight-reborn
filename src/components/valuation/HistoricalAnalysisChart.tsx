@@ -39,6 +39,7 @@ interface Props {
   bairro: string;
   logradouro?: string;
   compact?: boolean;
+  hideProjection?: boolean;
 }
 
 const formatCurrency = (value: number) => {
@@ -69,7 +70,7 @@ const getTrendBadgeVariant = (direction: 'up' | 'down' | 'stable', isPositive: b
   return "secondary";
 };
 
-export function HistoricalAnalysisChart({ bairro, logradouro, compact = false }: Props) {
+export function HistoricalAnalysisChart({ bairro, logradouro, compact = false, hideProjection = false }: Props) {
   const { data: analysis, isLoading, error } = useHistoricalAnalysis(bairro, logradouro);
   const isMobile = useIsMobile();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -268,7 +269,7 @@ export function HistoricalAnalysisChart({ bairro, logradouro, compact = false }:
           </div>
 
           {/* Future Projection Summary - Mobile */}
-          {analysis.future_projection && (
+          {analysis.future_projection && !hideProjection && (
             <div className="p-2.5 rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
               <div className="flex items-center gap-2 mb-2">
                 <Target className="h-4 w-4 text-primary" />
@@ -386,7 +387,7 @@ export function HistoricalAnalysisChart({ bairro, logradouro, compact = false }:
               </div>
 
               {/* Full projection table for mobile when expanded */}
-              {analysis.future_projection && (
+              {analysis.future_projection && !hideProjection && (
                 <div className="overflow-x-auto">
                   <table className="w-full text-[10px]">
                     <thead>
@@ -623,7 +624,7 @@ export function HistoricalAnalysisChart({ bairro, logradouro, compact = false }:
         </div>
 
         {/* Future Projection Section */}
-        {analysis.future_projection && (
+        {analysis.future_projection && !hideProjection && (
           <div className="p-3 sm:p-4 rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
             <div className="flex items-center gap-2 mb-3">
               <Target className="h-5 w-5 text-primary" />

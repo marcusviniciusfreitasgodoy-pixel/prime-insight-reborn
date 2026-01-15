@@ -293,6 +293,7 @@ export function Step4Results({ result, state, combined }: Props) {
       <HistoricalAnalysisChart 
         bairro={state.bairro} 
         logradouro={state.logradouro}
+        hideProjection={state.tipoAvaliacao === "simples"}
       />
     </div>
   );
