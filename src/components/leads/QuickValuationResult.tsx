@@ -440,10 +440,18 @@ export function QuickValuationResult({
         <CardContent className="p-0">
           <div className="h-[350px] sm:h-[400px]">
             <Suspense fallback={
-              <div className="w-full h-full flex items-center justify-center bg-muted/30">
-                <div className="flex flex-col items-center gap-2">
-                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                  <span className="text-sm text-muted-foreground">Carregando mapa...</span>
+              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-muted/40 to-muted/60">
+                <div className="flex flex-col items-center gap-3 p-6 rounded-xl bg-background/80 backdrop-blur-sm shadow-lg border border-border/50">
+                  <div className="relative">
+                    <div className="absolute inset-0 rounded-full bg-primary/20 animate-ping" />
+                    <div className="relative w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <p className="font-medium text-foreground">Carregando mapa...</p>
+                    <p className="text-xs text-muted-foreground mt-1">Buscando dados da região</p>
+                  </div>
                 </div>
               </div>
             }>
