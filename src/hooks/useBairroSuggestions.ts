@@ -12,21 +12,20 @@ export function useBairroSuggestions(query: string) {
     queryFn: async () => {
       if (!query || query.length < 2) return [];
 
-      // Buscar bairros que correspondem à query
+      // Usar a view pública agregada em vez da tabela protegida
       const { data, error } = await supabase
-        .from("itbi_transactions")
+        .from("itbi_stats_bairro")
         .select("bairro, total_transacoes")
         .not("bairro", "is", null)
-        .ilike("bairro", `%${query}%`)
-        .limit(5000);
+        .ilike("bairro", `%${query}%`);
 
       if (error) throw error;
 
-      // Agrupar por bairro e somar transações
+      // Agrupar por bairro (somando diferentes usos)
       const bairroMap: Record<string, number> = {};
       for (const row of data || []) {
         if (row.bairro) {
-          bairroMap[row.bairro] = (bairroMap[row.bairro] || 0) + (row.total_transacoes || 1);
+          bairroMap[row.bairro] = (bairroMap[row.bairro] || 0) + (row.total_transacoes || 0);
         }
       }
 
@@ -45,19 +44,19 @@ export function useAllBairros() {
   return useQuery<BairroSuggestion[]>({
     queryKey: ["all-bairros"],
     queryFn: async () => {
-      // Usar RPC ou query otimizada para buscar todos os bairros únicos
+      // Usar a view pública agregada em vez da tabela protegida
       const { data, error } = await supabase
-        .from("itbi_transactions")
+        .from("itbi_stats_bairro")
         .select("bairro, total_transacoes")
         .not("bairro", "is", null);
 
       if (error) throw error;
 
-      // Agrupar por bairro e somar transações
+      // Agrupar por bairro (somando diferentes usos: Residencial + Comercial)
       const bairroMap: Record<string, number> = {};
       for (const row of data || []) {
         if (row.bairro) {
-          bairroMap[row.bairro] = (bairroMap[row.bairro] || 0) + (row.total_transacoes || 1);
+          bairroMap[row.bairro] = (bairroMap[row.bairro] || 0) + (row.total_transacoes || 0);
         }
       }
 
