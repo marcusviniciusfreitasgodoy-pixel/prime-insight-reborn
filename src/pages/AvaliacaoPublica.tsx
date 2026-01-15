@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, memo, lazy, Suspense } from "react";
+import { useState, useRef, memo } from "react";
 import { Helmet } from "react-helmet-async";
 import { QuickValuationForm, QuickValuationData } from "@/components/leads/QuickValuationForm";
 import { QuickValuationResult } from "@/components/leads/QuickValuationResult";
@@ -6,14 +6,11 @@ import { PublicSofiaAssistant } from "@/components/leads/PublicSofiaAssistant";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useUTMTracking } from "@/hooks/useUTMTracking";
-import { ArrowRight, Shield, TrendingUp, Award, CheckCircle, AlertCircle, MessageCircle, Eye, Calculator, Target, Users, Home, DollarSign, BarChart3, FileSearch, Clock, Building2, ChevronDown, HelpCircle, Lock, Zap, ThumbsUp, BadgeCheck, Timer, Receipt, Ban, Wallet, TrendingDown, Map, Loader2 } from "lucide-react";
+import { ArrowRight, Shield, TrendingUp, Award, CheckCircle, AlertCircle, MessageCircle, Eye, Calculator, Target, Users, Home, DollarSign, BarChart3, FileSearch, Clock, Building2, ChevronDown, HelpCircle, Lock, Zap, ThumbsUp, BadgeCheck, Timer, Receipt, Ban, Wallet, TrendingDown } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import godoyLogo from "@/assets/godoy-logo-symbol.png";
 import heroBackground from "@/assets/hero-barra-luxury.jpg";
 import { useIsMobile } from "@/hooks/use-mobile";
-
-// Lazy load the map component for better performance
-const PropertyMap = lazy(() => import("@/components/map/PropertyMap").then(m => ({ default: m.PropertyMap })));
 
 type Step = "form" | "result";
 
@@ -204,7 +201,6 @@ export default function AvaliacaoPublica() {
   const [valuationData, setValuationData] = useState<QuickValuationData | null>(null);
   const [selectedBairro, setSelectedBairro] = useState<string | null>(null);
   const [selectedLogradouro, setSelectedLogradouro] = useState<string | null>(null);
-  const [showMap, setShowMap] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
@@ -243,15 +239,6 @@ export default function AvaliacaoPublica() {
       behavior: "smooth",
       block: "start"
     });
-  };
-
-  // Handle address selection from map
-  const handleMapSelectAddress = (logradouro: string, bairro: string) => {
-    setSelectedBairro(bairro);
-    setSelectedLogradouro(logradouro);
-    // The QuickValuationForm will need to be updated to accept pre-filled values
-    // For now, we just scroll to the form
-    scrollToForm();
   };
   return <>
       <Helmet>
@@ -726,67 +713,6 @@ export default function AvaliacaoPublica() {
                   </div>
                 </div>
 
-                {/* Mobile: Toggle Map Button */}
-                {isMobile && (
-                  <Button
-                    variant="outline"
-                    onClick={() => setShowMap(!showMap)}
-                    className="w-full max-w-2xl mx-auto border-[#D4AF37]/30 text-[#0C2340] hover:bg-[#D4AF37]/10"
-                  >
-                    <Map className="mr-2 h-4 w-4" />
-                    {showMap ? "Ocultar Mapa" : "Ver Mapa de Valores"}
-                  </Button>
-                )}
-
-                {/* Map Section - Full width below form */}
-                <div className={`w-full ${isMobile && !showMap ? "hidden" : ""}`}>
-                  <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden h-[400px] lg:h-[500px]">
-                    <div className="p-3 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Map className="h-4 w-4 text-[#D4AF37]" />
-                        <span className="font-medium text-sm text-[#0C2340]">Mapa de Valores</span>
-                      </div>
-                      {selectedBairro && (
-                        <span className="text-xs bg-[#D4AF37]/10 text-[#0C2340] px-2 py-1 rounded-full">
-                          {selectedBairro}
-                        </span>
-                      )}
-                    </div>
-                    <div className="h-[calc(100%-52px)]">
-                      <Suspense fallback={
-                        <div className="w-full h-full flex items-center justify-center bg-gray-50">
-                          <div className="flex flex-col items-center gap-2">
-                            <Loader2 className="h-8 w-8 animate-spin text-[#D4AF37]" />
-                            <span className="text-sm text-muted-foreground">Carregando mapa...</span>
-                          </div>
-                        </div>
-                      }>
-                        <PropertyMap 
-                          selectedBairro={selectedBairro}
-                          selectedLogradouro={selectedLogradouro}
-                          onSelectAddress={handleMapSelectAddress}
-                          onBairroChange={setSelectedBairro}
-                        />
-                      </Suspense>
-                    </div>
-                  </div>
-                  
-                  {/* Map Legend Card */}
-                  <div className="mt-4 bg-white rounded-xl p-4 border border-gray-100 max-w-2xl mx-auto">
-                    <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-[#D4AF37]/20 flex items-center justify-center shrink-0">
-                        <BarChart3 className="h-4 w-4 text-[#D4AF37]" />
-                      </div>
-                      <div>
-                        <h5 className="font-medium text-sm text-[#0C2340] mb-1">Como usar o mapa</h5>
-                        <p className="text-xs text-muted-foreground">
-                          Selecione um bairro no formulário para visualizar os valores por m² na região. 
-                          Clique em um marcador para ver detalhes e preencher o formulário automaticamente.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             )}
           </div>
