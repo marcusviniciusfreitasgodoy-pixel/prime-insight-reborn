@@ -12,6 +12,7 @@ import { useStreetSuggestions } from "@/hooks/useStreetSuggestions";
 import { useAllBairros } from "@/hooks/useBairroSuggestions";
 import { toast } from "sonner";
 import { LimitExceededScreen } from "./LimitExceededScreen";
+import { trackQuickValuation } from "@/utils/metaPixel";
 
 export interface QuickValuationData {
   bairro: string;
@@ -338,6 +339,14 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
       } catch (notificationError) {
         console.error('Error sending lead notification:', notificationError);
       }
+
+      // Track Meta Pixel event
+      trackQuickValuation({
+        bairro,
+        tipologia,
+        area_m2: areaNum,
+        valor_estimado: estimativa?.med,
+      });
 
       onComplete({
         bairro,

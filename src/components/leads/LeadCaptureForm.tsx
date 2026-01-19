@@ -14,6 +14,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { useUTMTracking, formatUTMSource } from "@/hooks/useUTMTracking";
+import { trackLeadCapture } from "@/utils/metaPixel";
 
 const leadSchema = z.object({
   nome: z.string().min(3, "Nome deve ter pelo menos 3 caracteres").max(100),
@@ -264,6 +265,14 @@ export function LeadCaptureForm({
       }
 
       toast.success("Solicitação enviada com sucesso! Entraremos em contato em breve.");
+      
+      // Track Meta Pixel Lead event
+      trackLeadCapture({
+        objetivo: data.objetivo,
+        urgencia: data.urgencia,
+        bairro: bairroInteresse,
+        valor_interesse: valorInteresse,
+      });
       
       onSuccess({
         id: insertedLead.id,
