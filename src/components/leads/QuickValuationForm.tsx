@@ -488,15 +488,22 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                 <SelectTrigger className="border-primary/20 focus:ring-accent/30">
                   <SelectValue placeholder={bairrosLoading ? "Carregando..." : "Selecione o bairro"} />
                 </SelectTrigger>
-                <SelectContent className="max-h-[300px]">
-                  <div className="flex items-center px-2 pb-2 sticky top-0 bg-popover z-10">
-                    <Search className="h-4 w-4 text-muted-foreground mr-2" />
+                <SelectContent 
+                  className="max-h-[300px] z-[100] bg-white"
+                  onCloseAutoFocus={(e) => e.preventDefault()}
+                >
+                  <div className="flex items-center px-2 pb-2 sticky top-0 bg-white z-10 border-b">
+                    <Search className="h-4 w-4 text-muted-foreground mr-2 shrink-0" />
                     <Input
                       placeholder="Buscar bairro..."
                       value={bairroSearchFilter}
-                      onChange={(e) => setBairroSearchFilter(e.target.value)}
+                      onChange={(e) => {
+                        e.stopPropagation();
+                        setBairroSearchFilter(e.target.value);
+                      }}
+                      onKeyDown={(e) => e.stopPropagation()}
+                      onPointerDown={(e) => e.stopPropagation()}
                       className="h-8 text-sm"
-                      onClick={(e) => e.stopPropagation()}
                     />
                   </div>
                   {(() => {
@@ -508,8 +515,8 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     
                     if (filteredBairros.length === 0) {
                       return (
-                        <div className="py-2 px-2 text-sm text-muted-foreground text-center">
-                          Nenhum bairro encontrado
+                        <div className="py-4 px-2 text-sm text-muted-foreground text-center">
+                          {bairrosLoading ? "Carregando bairros..." : "Nenhum bairro encontrado"}
                         </div>
                       );
                     }
