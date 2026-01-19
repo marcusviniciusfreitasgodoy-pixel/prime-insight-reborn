@@ -2,6 +2,7 @@ import { MapPin, Phone, MessageCircle, Lock, MessageSquareHeart } from "lucide-r
 import { Link } from "react-router-dom";
 import logoSymbol from "@/assets/godoy-logo-symbol.png";
 import { Button } from "@/components/ui/button";
+import { trackWhatsAppClick } from "@/utils/metaPixel";
 
 export function Footer() {
   const whatsappNumber = "5521964075124";
@@ -52,6 +53,7 @@ export function Footer() {
               href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackWhatsAppClick({ source: 'footer', phone_number: whatsappNumber })}
             >
               <MessageCircle className="h-4 w-4" />
               Fale pelo WhatsApp
