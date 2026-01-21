@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { Calculator, MapPin, Maximize2, Home, ArrowRight, Loader2, Building2, Search, BedDouble, Bath, Sparkles, Car, Star, User, Mail, Phone, Shield, ChevronDown } from "lucide-react";
+import { Calculator, MapPin, Maximize2, Home, ArrowRight, Loader2, Building2, Search, BedDouble, Bath, Sparkles, Car, Star, User, Mail, Phone, Shield, ChevronDown, AlertCircle, RefreshCw } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useStreetSuggestions } from "@/hooks/useStreetSuggestions";
@@ -91,7 +91,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
   const suggestionsRef = useRef<HTMLDivElement>(null);
 
   const { data: suggestions, isLoading: suggestionsLoading } = useStreetSuggestions(logradouro, bairro);
-  const { data: bairros, isLoading: bairrosLoading } = useAllBairros();
+  const { data: bairros, isLoading: bairrosLoading, isError: bairrosError, refetch: refetchBairros } = useAllBairros();
 
   // Notify parent when bairro changes
   useEffect(() => {
@@ -517,7 +517,26 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     </div>
                   </div>
                   <ScrollArea className="h-[250px]">
-                    {bairrosLoading || !bairros || bairros.length === 0 ? (
+                    {bairrosError ? (
+                      <div className="p-4 text-center space-y-3">
+                        <div className="flex items-center justify-center gap-2 text-destructive">
+                          <AlertCircle className="h-5 w-5" />
+                          <span className="text-sm font-medium">Erro ao carregar bairros</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          Não foi possível carregar a lista de bairros. Verifique sua conexão.
+                        </p>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => refetchBairros()}
+                          className="gap-2"
+                        >
+                          <RefreshCw className="h-3.5 w-3.5" />
+                          Tentar novamente
+                        </Button>
+                      </div>
+                    ) : bairrosLoading || !bairros || bairros.length === 0 ? (
                       <div className="p-4 text-center text-sm text-muted-foreground">
                         <Loader2 className="h-4 w-4 animate-spin inline mr-2" />
                         Carregando bairros...
