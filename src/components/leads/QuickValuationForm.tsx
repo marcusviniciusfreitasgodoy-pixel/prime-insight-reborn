@@ -517,12 +517,13 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     </div>
                   </div>
                   <ScrollArea className="h-[250px]">
-                    {bairrosLoading ? (
+                    {bairrosLoading || !bairros || bairros.length === 0 ? (
                       <div className="p-4 text-center text-sm text-muted-foreground">
+                        <Loader2 className="h-4 w-4 animate-spin inline mr-2" />
                         Carregando bairros...
                       </div>
                     ) : (() => {
-                      const filteredBairros = (bairros || [])
+                      const filteredBairros = bairros
                         .filter((b) => b.bairro.toLowerCase().includes(bairroSearchFilter.toLowerCase()))
                         .sort((a, b) => a.bairro.localeCompare(b.bairro, 'pt-BR'))
                         .slice(0, 50);
@@ -530,16 +531,16 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                       if (filteredBairros.length === 0) {
                         return (
                           <div className="p-4 text-center text-sm text-muted-foreground">
-                            Nenhum bairro encontrado
+                            Nenhum bairro encontrado para "{bairroSearchFilter}"
                           </div>
                         );
                       }
                       
                       return (
                         <div className="p-1">
-                          {filteredBairros.map(({ bairro: b, total_transacoes }) => (
+                          {filteredBairros.map(({ bairro: b, total_transacoes }, index) => (
                             <button
-                              key={b}
+                              key={`${b}-${index}`}
                               onClick={() => {
                                 setBairro(b);
                                 setBairroPopoverOpen(false);
