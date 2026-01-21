@@ -96,7 +96,9 @@ export function useAllBairros() {
         const bairros = await fetchBairrosFromServer();
         
         // Salvar no cache local para uso offline
-        saveBairrosToCache(bairros);
+        if (bairros && bairros.length > 0) {
+          saveBairrosToCache(bairros);
+        }
         
         return bairros;
       } catch (error) {
@@ -113,12 +115,8 @@ export function useAllBairros() {
     },
     staleTime: 5 * 60 * 1000, // 5 minutos
     gcTime: 30 * 60 * 1000, // 30 minutos no garbage collector
-    retry: 2,
-    // Inicializar com cache local enquanto carrega
-    initialData: () => getBairrosFromCache() || undefined,
-    initialDataUpdatedAt: () => {
-      const timestamp = localStorage.getItem(CACHE_TIMESTAMP_KEY);
-      return timestamp ? parseInt(timestamp, 10) : undefined;
-    },
+    retry: 3,
+    retryDelay: 1000,
+    refetchOnWindowFocus: false,
   });
 }
