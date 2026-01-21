@@ -44,6 +44,7 @@ import { PeritEvaluationSection } from "./PeritEvaluationSection";
 import { HistoricalAnalysisChart } from "@/components/valuation/HistoricalAnalysisChart";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { trackParecerSolicitado, trackWhatsAppClick } from "@/utils/metaPixel";
 
 // Lazy load the map component
 const PropertyMap = lazy(() => import("@/components/map/PropertyMap").then(m => ({ default: m.PropertyMap })));
@@ -201,6 +202,12 @@ export function QuickValuationResult({
     setIsRequesting(true);
     
     try {
+      // Track parecer request in Meta Pixel
+      trackParecerSolicitado({
+        bairro: data.bairro,
+        valor_estimado: data.estimativa?.med,
+      });
+
       // Send complete evaluation request notification
       const { data: response, error } = await supabase.functions.invoke('send-lead-notification', {
         body: {
@@ -233,8 +240,13 @@ export function QuickValuationResult({
       
       setParecerRequested(true);
 
-      // Open WhatsApp
+      // Open WhatsApp with tracking
       setTimeout(() => {
+        trackWhatsAppClick({
+          source: 'parecer_request',
+          phone_number: '5521964075124',
+        });
+        
         const whatsappNumber = "5521964075124";
         const message = encodeURIComponent(
           `Olá! Sou ${data.leadName}.\n\nQuero solicitar meu Parecer Técnico Godoy Prime para proteger meu patrimônio.\n\nImóvel analisado: ${data.tipologia} de ${data.area_m2}m² em ${data.bairro}\nEstimativa Preliminar: ${formatCurrency(data.estimativa?.min || 0)} a ${formatCurrency(data.estimativa?.max || 0)}\n\nMeu WhatsApp: ${data.leadPhone}\nMeu email: ${data.leadEmail}`
