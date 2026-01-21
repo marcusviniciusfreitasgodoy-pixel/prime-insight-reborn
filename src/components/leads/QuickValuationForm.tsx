@@ -4,8 +4,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { Calculator, MapPin, Maximize2, Home, ArrowRight, Loader2, Building2, Search, BedDouble, Bath, Sparkles, Car, Star, User, Mail, Phone, Shield } from "lucide-react";
+import { Calculator, MapPin, Maximize2, Home, ArrowRight, Loader2, Building2, Search, BedDouble, Bath, Sparkles, Car, Star, User, Mail, Phone, Shield, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useStreetSuggestions } from "@/hooks/useStreetSuggestions";
@@ -82,6 +84,8 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [limitExceeded, setLimitExceeded] = useState(false);
   const [currentEvaluationCount, setCurrentEvaluationCount] = useState(0);
+  const [bairroPopoverOpen, setBairroPopoverOpen] = useState(false);
+  const [bairroSearchFilter, setBairroSearchFilter] = useState("");
   
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
@@ -105,8 +109,6 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
       onLogradouroChange?.("");
     }
   }, [logradouro, onLogradouroChange]);
-
-  const [bairroSearchFilter, setBairroSearchFilter] = useState("");
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -484,63 +486,90 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                 <MapPin className="h-4 w-4 text-accent" />
                 Bairro *
               </Label>
-              <Select value={bairro} onValueChange={setBairro} disabled={bairrosLoading}>
-                <SelectTrigger className="border-primary/20 focus:ring-accent/30">
-                  <SelectValue placeholder={bairrosLoading ? "Carregando..." : "Selecione o bairro"} />
-                </SelectTrigger>
-                <SelectContent 
-                  className="max-h-[300px] z-[100] bg-white"
-                  onCloseAutoFocus={(e) => e.preventDefault()}
-                >
-                  <div className="flex items-center px-2 pb-2 sticky top-0 bg-white z-10 border-b">
-                    <Search className="h-4 w-4 text-muted-foreground mr-2 shrink-0" />
-                    <Input
-                      placeholder="Buscar bairro..."
-                      value={bairroSearchFilter}
-                      onChange={(e) => {
-                        e.stopPropagation();
-                        setBairroSearchFilter(e.target.value);
-                      }}
-                      onKeyDown={(e) => e.stopPropagation()}
-                      onPointerDown={(e) => e.stopPropagation()}
-                      className="h-8 text-sm"
-                    />
+              <Popover open={bairroPopoverOpen} onOpenChange={setBairroPopoverOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={bairroPopoverOpen}
+                    className="w-full justify-between border-primary/20 focus:ring-accent/30 bg-background"
+                    disabled={bairrosLoading}
+                  >
+                    <div className="flex items-center gap-2 truncate">
+                      <span className="truncate">
+                        {bairrosLoading ? "Carregando..." : bairro || "Selecione o bairro"}
+                      </span>
+                    </div>
+                    <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
+                  <div className="p-2 border-b bg-background">
+                    <div className="relative">
+                      <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        placeholder="Buscar bairro..."
+                        value={bairroSearchFilter}
+                        onChange={(e) => setBairroSearchFilter(e.target.value)}
+                        className="pl-8 h-9"
+                        autoFocus
+                      />
+                    </div>
                   </div>
-                  {(() => {
-                    // Filtrar e ordenar alfabeticamente, limitando a 50 items para performance
-                    const filteredBairros = (bairros || [])
-                      .filter((b) => b.bairro.toLowerCase().includes(bairroSearchFilter.toLowerCase()))
-                      .sort((a, b) => a.bairro.localeCompare(b.bairro, 'pt-BR'))
-                      .slice(0, 50);
-                    
-                    if (filteredBairros.length === 0) {
+                  <ScrollArea className="h-[250px]">
+                    {bairrosLoading ? (
+                      <div className="p-4 text-center text-sm text-muted-foreground">
+                        Carregando bairros...
+                      </div>
+                    ) : (() => {
+                      const filteredBairros = (bairros || [])
+                        .filter((b) => b.bairro.toLowerCase().includes(bairroSearchFilter.toLowerCase()))
+                        .sort((a, b) => a.bairro.localeCompare(b.bairro, 'pt-BR'))
+                        .slice(0, 50);
+                      
+                      if (filteredBairros.length === 0) {
+                        return (
+                          <div className="p-4 text-center text-sm text-muted-foreground">
+                            Nenhum bairro encontrado
+                          </div>
+                        );
+                      }
+                      
                       return (
-                        <div className="py-4 px-2 text-sm text-muted-foreground text-center">
-                          {bairrosLoading ? "Carregando bairros..." : "Nenhum bairro encontrado"}
+                        <div className="p-1">
+                          {filteredBairros.map(({ bairro: b, total_transacoes }) => (
+                            <button
+                              key={b}
+                              onClick={() => {
+                                setBairro(b);
+                                setBairroPopoverOpen(false);
+                                setBairroSearchFilter("");
+                              }}
+                              className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-sm transition-colors ${
+                                bairro === b
+                                  ? "bg-accent/10 text-foreground font-medium"
+                                  : "hover:bg-muted"
+                              }`}
+                            >
+                              <span className="truncate">{b}</span>
+                              <span className="text-xs text-muted-foreground shrink-0 ml-2">
+                                ({total_transacoes.toLocaleString("pt-BR")})
+                              </span>
+                            </button>
+                          ))}
                         </div>
                       );
-                    }
-                    
-                    return filteredBairros.map(({ bairro: b, total_transacoes }) => (
-                      <SelectItem key={b} value={b}>
-                        <span className="flex items-center justify-between w-full gap-2">
-                          <span className="truncate">{b}</span>
-                          <span className="text-xs text-muted-foreground">
-                            ({total_transacoes.toLocaleString("pt-BR")})
-                          </span>
-                        </span>
-                      </SelectItem>
-                    ));
-                  })()}
-                  {bairros && bairros.filter((b) => 
-                    b.bairro.toLowerCase().includes(bairroSearchFilter.toLowerCase())
-                  ).length > 50 && (
-                    <div className="py-2 px-2 text-xs text-muted-foreground text-center border-t">
-                      Digite para filtrar mais bairros...
-                    </div>
-                  )}
-                </SelectContent>
-              </Select>
+                    })()}
+                    {bairros && bairros.filter((b) => 
+                      b.bairro.toLowerCase().includes(bairroSearchFilter.toLowerCase())
+                    ).length > 50 && (
+                      <div className="py-2 px-2 text-xs text-muted-foreground text-center border-t">
+                        Digite para filtrar mais bairros...
+                      </div>
+                    )}
+                  </ScrollArea>
+                </PopoverContent>
+              </Popover>
             </div>
 
             <div className="space-y-2 relative">
