@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import type { ValuationResult, CombinedPrices } from "@/utils/valuationCalculations";
 import type { ValuationState } from "@/types/valuation";
 import { exportValuationEnginePDF } from "@/utils/valuationPdfExport";
+import { trackPDFDownload } from "@/utils/metaPixel";
 import { useAuth } from "@/hooks/useAuth";
 import { useHistoricalAnalysis } from "@/hooks/useHistoricalAnalysis";
 
@@ -95,6 +96,13 @@ export function Step5Recommendation({ result, state, combined, onReset }: Props)
         tipoAvaliacao: isSimplified ? "simples" : "completa"
       };
       exportValuationEnginePDF(result, stateWithType, combined, historicalAnalysis);
+      
+      // Track PDF download in Meta Pixel
+      trackPDFDownload({
+        type: isSimplified ? 'simplificado' : 'completo',
+        bairro: state.bairro,
+      });
+      
       toast.success("PDF exportado com sucesso!");
     } catch (error) {
       console.error("Erro ao exportar PDF:", error);
