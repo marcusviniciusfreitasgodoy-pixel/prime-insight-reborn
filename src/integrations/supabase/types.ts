@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          bairro: string | null
+          created_at: string
+          event_type: string
+          id: string
+          metadata: Json | null
+        }
+        Insert: {
+          bairro?: string | null
+          created_at?: string
+          event_type: string
+          id?: string
+          metadata?: Json | null
+        }
+        Update: {
+          bairro?: string | null
+          created_at?: string
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+        }
+        Relationships: []
+      }
       condominios_mapeamento: {
         Row: {
           created_at: string | null
@@ -673,6 +697,15 @@ export type Database = {
       }
     }
     Views: {
+      analytics_events_daily: {
+        Row: {
+          bairro: string | null
+          dia: string | null
+          event_type: string | null
+          total: number | null
+        }
+        Relationships: []
+      }
       itbi_stats_bairro: {
         Row: {
           area_media_m2: number | null
