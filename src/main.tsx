@@ -6,18 +6,31 @@ import "./index.css";
 
 // PWA: garante que usuários recebam a versão mais recente (evita ficar preso em cache antigo)
 import { registerSW } from "virtual:pwa-register";
+import { toast } from "sonner";
+
+let updateSWFn: ((reloadPage?: boolean) => Promise<void>) | null = null;
 
 const updateSW = registerSW({
   immediate: true,
   onNeedRefresh() {
-    // UI simples e confiável (sem depender de componentes): força atualização quando houver nova versão
-    const shouldUpdate = window.confirm(
-      "Uma nova versão do app está disponível. Atualizar agora?"
-    );
-    if (shouldUpdate) updateSW(true);
+    updateSWFn = updateSW;
+    toast("Nova versão disponível", {
+      description: "Uma atualização está pronta para ser instalada.",
+      duration: Infinity,
+      action: {
+        label: "Atualizar",
+        onClick: () => {
+          if (updateSWFn) updateSWFn(true);
+        },
+      },
+      cancel: {
+        label: "Depois",
+        onClick: () => {},
+      },
+    });
   },
   onOfflineReady() {
-    // opcional: pode ficar silencioso
+    // silencioso
   },
 });
 
