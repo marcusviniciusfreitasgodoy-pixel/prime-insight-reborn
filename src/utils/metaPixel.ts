@@ -1,6 +1,8 @@
 // Meta Pixel Event Tracking Utilities
 // Pixel ID: 926436730063639
 
+import { supabase } from "@/integrations/supabase/client";
+
 declare global {
   interface Window {
     fbq: (
@@ -8,6 +10,27 @@ declare global {
       eventName: string,
       params?: Record<string, unknown>
     ) => void;
+  }
+}
+
+type AnalyticsEventType = 'pdf_download' | 'parecer_solicitado' | 'whatsapp_click' | 'lead_capture' | 'quick_valuation';
+
+/**
+ * Salva evento no banco de dados para analytics interno
+ */
+async function saveAnalyticsEvent(
+  eventType: AnalyticsEventType,
+  bairro?: string,
+  metadata?: Record<string, unknown>
+) {
+  try {
+    await supabase.from("analytics_events").insert([{
+      event_type: eventType,
+      bairro: bairro || null,
+      metadata: metadata ? JSON.parse(JSON.stringify(metadata)) : {},
+    }]);
+  } catch (error) {
+    console.warn("[Analytics] Falha ao salvar evento:", error);
   }
 }
 
@@ -108,6 +131,7 @@ export function trackViewContent(params?: {
 export function trackWhatsAppClick(params?: {
   source?: string;
   phone_number?: string;
+  bairro?: string;
 }) {
   trackContact({
     content_name: 'WhatsApp Click',
@@ -120,6 +144,9 @@ export function trackWhatsAppClick(params?: {
     source: params?.source || 'unknown',
     phone_number: params?.phone_number,
   });
+
+  // Salvar no banco para analytics
+  saveAnalyticsEvent('whatsapp_click', params?.bairro, params);
 }
 
 /**
@@ -143,6 +170,9 @@ export function trackQuickValuation(params?: {
     area_m2: params?.area_m2,
     valor_estimado: params?.valor_estimado,
   });
+
+  // Salvar no banco para analytics
+  saveAnalyticsEvent('quick_valuation', params?.bairro, params);
 }
 
 /**
@@ -172,6 +202,9 @@ export function trackLeadCapture(params?: {
     bairro: params?.bairro,
     valor_interesse: params?.valor_interesse,
   });
+
+  // Salvar no banco para analytics
+  saveAnalyticsEvent('lead_capture', params?.bairro, params);
 }
 
 /**
@@ -186,6 +219,9 @@ export function trackParecerSolicitado(params?: {
     bairro: params?.bairro,
     valor_estimado: params?.valor_estimado,
   });
+
+  // Salvar no banco para analytics
+  saveAnalyticsEvent('parecer_solicitado', params?.bairro, params);
 }
 
 /**
@@ -200,4 +236,7 @@ export function trackPDFDownload(params?: {
     type: params?.type || 'valuation',
     bairro: params?.bairro,
   });
+
+  // Salvar no banco para analytics
+  saveAnalyticsEvent('pdf_download', params?.bairro, params);
 }

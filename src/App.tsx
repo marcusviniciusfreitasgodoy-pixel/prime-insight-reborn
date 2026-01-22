@@ -12,6 +12,7 @@ import Feedback from "./pages/Feedback";
 import Auth from "./pages/Auth";
 import Leads from "./pages/Leads";
 import AdminFeedbacks from "./pages/AdminFeedbacks";
+import AdminAnalytics from "./pages/AdminAnalytics";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,14 @@ const App = () => {
                 element={
                   <ProtectedRoute requireAdmin>
                     <AdminFeedbacks />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/analytics" 
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <AdminAnalytics />
                   </ProtectedRoute>
                 } 
               />
