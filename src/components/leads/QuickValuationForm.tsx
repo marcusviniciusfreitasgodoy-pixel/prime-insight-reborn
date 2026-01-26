@@ -619,10 +619,35 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                 )}
               </div>
 
-              {showSuggestions && suggestions && suggestions.length > 0 && logradouro.length >= 2 && (
+              {/* Skeleton Loading State */}
+              {showSuggestions && logradouro.length >= 2 && suggestionsLoading && (
                 <div 
                   ref={suggestionsRef}
-                  className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-xl max-h-64 overflow-y-auto"
+                  className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-xl overflow-hidden animate-fade-in"
+                >
+                  <div className="p-3 border-b border-border/50 flex items-center gap-2 bg-muted/30">
+                    <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                    <span className="text-xs text-muted-foreground">Buscando endereços...</span>
+                  </div>
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="px-4 py-3 border-b border-border/50 last:border-0">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex-1 space-y-2">
+                          <div className="h-4 bg-muted rounded animate-pulse w-3/4" />
+                          <div className="h-3 bg-muted/70 rounded animate-pulse w-1/2" />
+                        </div>
+                        <div className="h-5 w-16 bg-muted rounded animate-pulse shrink-0" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Results */}
+              {showSuggestions && suggestions && suggestions.length > 0 && logradouro.length >= 2 && !suggestionsLoading && (
+                <div 
+                  ref={suggestionsRef}
+                  className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-xl max-h-64 overflow-y-auto animate-fade-in"
                 >
                   {suggestions.map((suggestion, index) => (
                     <button
@@ -665,9 +690,16 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                 </div>
               )}
 
+              {/* No Results */}
               {showSuggestions && logradouro.length >= 2 && suggestions?.length === 0 && !suggestionsLoading && (
-                <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-xl p-4 text-center text-sm text-muted-foreground">
-                  Nenhum resultado encontrado para "{logradouro}"
+                <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-xl p-4 text-center animate-fade-in">
+                  <Search className="h-8 w-8 text-muted-foreground/50 mx-auto mb-2" />
+                  <p className="text-sm text-muted-foreground">
+                    Nenhum resultado encontrado para "<span className="font-medium">{logradouro}</span>"
+                  </p>
+                  <p className="text-xs text-muted-foreground/70 mt-1">
+                    Tente outro termo ou digite apenas o nome da rua
+                  </p>
                 </div>
               )}
             </div>
