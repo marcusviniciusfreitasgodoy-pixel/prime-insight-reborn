@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { contractToAbbreviations, expandAbbreviations } from '@/utils/streetNameNormalizer';
+import { expandAbbreviations } from '@/utils/streetNameNormalizer';
 
 export interface StreetSuggestion {
   logradouro: string;
@@ -12,6 +12,11 @@ export interface StreetSuggestion {
   source?: 'itbi' | 'prefeitura';
 }
 
+/**
+ * Hook para buscar sugestões de logradouros.
+ * Usa a função RPC do banco get_street_suggestions como fonte primária (mais confiável),
+ * enriquece com dados de condomínios, e usa API da Prefeitura como fallback.
+ */
 export function useStreetSuggestions(query: string, bairro: string = 'BARRA DA TIJUCA') {
   return useQuery<StreetSuggestion[]>({
     queryKey: ['street-suggestions', query, bairro],
@@ -19,9 +24,10 @@ export function useStreetSuggestions(query: string, bairro: string = 'BARRA DA T
       if (!query || query.length < 2) return [];
 
       const searchTerm = query.toUpperCase().trim();
+      const bairroNormalized = bairro.toUpperCase().trim();
       
       // Remove prefixos comuns para buscar pelo nome
-      let cleanedSearch = searchTerm
+      const cleanedSearch = searchTerm
         .replace(/^(AVENIDA|AVN|AV|AV\.|AVENUE)\s*/i, '')
         .replace(/^(RUA|R|R\.)\s*/i, '')
         .replace(/^(PRAÇA|PRC|PRACA)\s*/i, '')
@@ -30,367 +36,295 @@ export function useStreetSuggestions(query: string, bairro: string = 'BARRA DA T
         .replace(/^(TRAVESSA|TV|TV\.)\s*/i, '')
         .trim();
 
-      // Expandir abreviações comuns para busca
-      const abbreviationMap: Record<string, string[]> = {
-        'DESENHISTA': ['DESEN', 'DESENHISTA'],
-        'DESEN': ['DESEN', 'DESENHISTA'],
-        'ALMIRANTE': ['ALMTE', 'ALM', 'ALMIRANTE'],
-        'ALMTE': ['ALMTE', 'ALM', 'ALMIRANTE'],
-        'DOUTOR': ['DR', 'DOUTOR'],
-        'DR': ['DR', 'DOUTOR'],
-        'ENGENHEIRO': ['ENG', 'ENGENHEIRO'],
-        'ENG': ['ENG', 'ENGENHEIRO'],
-        'PROFESSOR': ['PROF', 'PROFESSOR'],
-        'PROF': ['PROF', 'PROFESSOR'],
-        'GENERAL': ['GEN', 'GENERAL'],
-        'GEN': ['GEN', 'GENERAL'],
-        'CORONEL': ['CEL', 'CORONEL'],
-        'CEL': ['CEL', 'CORONEL'],
-        'TENENTE': ['TEN', 'TENENTE'],
-        'TEN': ['TEN', 'TENENTE'],
-        'CAPITAO': ['CAP', 'CAPITAO'],
-        'CAP': ['CAP', 'CAPITAO'],
-        'DEPUTADO': ['DEP', 'DEPUTADO'],
-        'DEP': ['DEP', 'DEPUTADO'],
-        'SENADOR': ['SEN', 'SENADOR'],
-        'SEN': ['SEN', 'SENADOR'],
-        'PREFEITO': ['PREF', 'PREFEITO'],
-        'PREF': ['PREF', 'PREFEITO'],
-        'PROCURADOR': ['PROCUR', 'PROCURADOR'],
-        'PROCUR': ['PROCUR', 'PROCURADOR'],
-        'MARECHAL': ['MAL', 'MARECHAL'],
-        'MAL': ['MAL', 'MARECHAL'],
-        'COMENDADOR': ['COM', 'COMENDADOR'],
-        'COM': ['COM', 'COMENDADOR'],
-      };
+      // Aplicar correções de digitação e acentuação
+      const correctedSearch = applyTypoCorrections(cleanedSearch);
 
-      // Corrigir erros de digitação comuns e acentuação
-      const typoCorrections: Record<string, string> = {
-        // Sobrenomes comuns
-        'GUMARAES': 'GUIMARAES',
-        'GUIMARAIS': 'GUIMARAES',
-        'GIMARAES': 'GUIMARAES',
-        'GUIMARÃES': 'GUIMARAES',
-        'GUIMARAES': 'GUIMARAES',
-        'MACHADO': 'MACHADO',
-        'MACHDO': 'MACHADO',
-        'PEREIRA': 'PEREIRA',
-        'PERIERA': 'PEREIRA',
-        'PERERIRA': 'PEREIRA',
-        'FERREIRA': 'FERREIRA',
-        'FEREIRA': 'FERREIRA',
-        'FERRIERA': 'FERREIRA',
-        'CARDOSO': 'CARDOSO',
-        'CARDOZO': 'CARDOSO',
-        'OLIVEIRA': 'OLIVEIRA',
-        'OLIVIERA': 'OLIVEIRA',
-        'RODRIGUES': 'RODRIGUES',
-        'RODRIGEZ': 'RODRIGUES',
-        'ALMEIDA': 'ALMEIDA',
-        'ALMEYDA': 'ALMEIDA',
-        'ALMEÍDA': 'ALMEIDA',
-        'RIBEIRO': 'RIBEIRO',
-        'RIBERO': 'RIBEIRO',
-        'PINHEIRO': 'PINHEIRO',
-        'PINHERO': 'PINHEIRO',
-        
-        // Sobrenomes com letras duplicadas - variações comuns
-        'ESTELITA': 'ESTELLITA',
-        'ESTELLITA': 'ESTELLITA',
-        'ESTELITÃ': 'ESTELLITA',
-        'ESTRELITA': 'ESTELLITA',
-        'ROSAURO': 'ROSAURO',
-        'ROZAURO': 'ROSAURO',
-        
-        // Locais específicos Barra/RJ
-        'AMERICAS': 'AMERICAS',
-        'AMERCIAS': 'AMERICAS',
-        'AMÉRICAS': 'AMERICAS',
-        'TIJUCA': 'TIJUCA',
-        'TIJUICA': 'TIJUCA',
-        'SERNANBETIBA': 'SERNAMBETIBA',
-        'SERNABETIBA': 'SERNAMBETIBA',
-        'SERNAMETIBA': 'SERNAMBETIBA',
-        'SERNANBITIBA': 'SERNAMBETIBA',
-        'PENINSULA': 'PENINSULA',
-        'PENNINSULA': 'PENINSULA',
-        'OCEÂNICO': 'OCEANICO',
-        'OCEANICO': 'OCEANICO',
-        'OCÊANICO': 'OCEANICO',
-        'RECREIO': 'RECREIO',
-        'RECREIU': 'RECREIO',
-        'BANDEIRANTES': 'BANDEIRANTES',
-        'BANDIERANTES': 'BANDEIRANTES',
-        'BANDEIRANTE': 'BANDEIRANTES',
-        
-        // Nomes próprios com acentuação
-        'LUCIO': 'LUCIO',
-        'LÚCIO': 'LUCIO',
-        'OLEGARIO': 'OLEGARIO',
-        'OLEGÁRIO': 'OLEGARIO',
-        'DULCIDIO': 'DULCIDIO',
-        'DULCÍDIO': 'DULCIDIO',
-        'ERICO': 'ERICO',
-        'ÉRICO': 'ERICO',
-        'VERISSIMO': 'VERISSIMO',
-        'VERÍSSIMO': 'VERISSIMO',
-        'VERISIMO': 'VERISSIMO',
-        'JOSE': 'JOSE',
-        'JOSÉ': 'JOSE',
-        'JOAO': 'JOAO',
-        'JOÃO': 'JOAO',
-        'PAULO': 'PAULO',
-        'PÓLO': 'POLO',
-        'POLO': 'POLO',
-        'MARIA': 'MARIA',
-        'ANTONIO': 'ANTONIO',
-        'ANTÔNIO': 'ANTONIO',
-        'FRANCISCO': 'FRANCISCO',
-        'FRANCISO': 'FRANCISCO',
-        'MANUEL': 'MANUEL',
-        'MANOEL': 'MANOEL',
-        'NELSON': 'NELSON',
-        'NIELSON': 'NELSON',
-        'AYRTON': 'AYRTON',
-        'AIRTON': 'AYRTON',
-        'SENNA': 'SENNA',
-        'SENA': 'SENNA',
-        
-        // Palavras comuns em logradouros
-        'PRACA': 'PRACA',
-        'PRAÇA': 'PRACA',
-        'ESTACAO': 'ESTACAO',
-        'ESTAÇÃO': 'ESTACAO',
-        'JARDIM': 'JARDIM',
-        'JARDIN': 'JARDIM',
-        'PARQUE': 'PARQUE',
-        'PARKE': 'PARQUE',
-        'CONDOMINIO': 'CONDOMINIO',
-        'CONDOMÍNIO': 'CONDOMINIO',
-        'CONDMINIO': 'CONDOMINIO',
-        'RESIDENCIAL': 'RESIDENCIAL',
-        'REZIDENCIAL': 'RESIDENCIAL',
-        'EDIFICIO': 'EDIFICIO',
-        'EDIFÍCIO': 'EDIFICIO',
-        'PREDÍO': 'PREDIO',
-        'PREDIO': 'PREDIO',
-        'SHOPPING': 'SHOPPING',
-        'SHOOPING': 'SHOPPING',
-        'SHOPING': 'SHOPPING',
-        'METROPOLITANO': 'METROPOLITANO',
-        'METROPLITANO': 'METROPOLITANO',
-        'ABELARDO': 'ABELARDO',
-        'ABELRDO': 'ABELARDO',
-        'BUENO': 'BUENO',
-        'BUEÑO': 'BUENO',
-      };
-      
-      // Função para gerar variações com letras duplicadas/simples
-      const generateDuplicateVariations = (word: string): string[] => {
-        const variations: string[] = [word];
-        // Padrões de letras que frequentemente são duplicadas
-        const duplicatePatterns = [
-          { single: 'L', double: 'LL' },
-          { single: 'R', double: 'RR' },
-          { single: 'S', double: 'SS' },
-          { single: 'T', double: 'TT' },
-          { single: 'N', double: 'NN' },
-          { single: 'C', double: 'CC' },
-          { single: 'P', double: 'PP' },
-          { single: 'F', double: 'FF' },
-        ];
-        
-        duplicatePatterns.forEach(({ single, double }) => {
-          // Adicionar variação com letra duplicada
-          if (word.includes(single) && !word.includes(double)) {
-            const withDouble = word.replace(new RegExp(single, 'g'), double);
-            if (!variations.includes(withDouble)) variations.push(withDouble);
-          }
-          // Adicionar variação com letra simples
-          if (word.includes(double)) {
-            const withSingle = word.replace(new RegExp(double, 'g'), single);
-            if (!variations.includes(withSingle)) variations.push(withSingle);
-          }
-        });
-        
-        return variations;
-      };
+      // Gerar variações de busca
+      const searchVariations = generateSearchVariations(cleanedSearch, correctedSearch);
 
-      // Aplicar correções de digitação
-      let correctedSearch = cleanedSearch;
-      Object.entries(typoCorrections).forEach(([typo, correction]) => {
-        correctedSearch = correctedSearch.replace(new RegExp(typo, 'gi'), correction);
+      // 1. Buscar via RPC do banco (mais confiável)
+      const rpcResults = await fetchViaRPC(searchVariations, bairroNormalized);
+
+      // 2. Buscar dados de condomínios para enriquecer
+      const condominioMap = await fetchCondominioData(searchVariations);
+
+      // 3. Combinar resultados com dados de condomínios
+      const suggestions: StreetSuggestion[] = rpcResults.map((logradouro) => {
+        const condInfo = condominioMap.get(logradouro);
+        return {
+          logradouro,
+          logradouro_oficial: expandAbbreviations(logradouro),
+          total_transacoes: 1, // RPC não retorna contagem, assumir 1
+          nome_condominio: condInfo?.nome,
+          microbairro: condInfo?.microbairro,
+          padrao_construtivo: condInfo?.padrao,
+          source: 'itbi' as const,
+        };
       });
 
-      // Gerar variações de busca baseadas em abreviações e letras duplicadas
-      const searchVariations: string[] = [cleanedSearch, correctedSearch];
-      
-      // Adicionar variações com letras duplicadas/simples
-      const duplicateVars = generateDuplicateVariations(cleanedSearch);
-      duplicateVars.forEach(v => {
-        if (!searchVariations.includes(v)) searchVariations.push(v);
-      });
-      
-      const correctedDuplicateVars = generateDuplicateVariations(correctedSearch);
-      correctedDuplicateVars.forEach(v => {
-        if (!searchVariations.includes(v)) searchVariations.push(v);
-      });
-      
-      const words = cleanedSearch.split(/\s+/);
-      
-      words.forEach(word => {
-        const variations = abbreviationMap[word];
-        if (variations) {
-          variations.forEach(variation => {
-            const newSearch = cleanedSearch.replace(new RegExp(`\\b${word}\\b`, 'gi'), variation);
-            if (!searchVariations.includes(newSearch)) {
-              searchVariations.push(newSearch);
-            }
-          });
-        }
-        
-        // Também gerar variações de letras duplicadas para cada palavra
-        const wordDuplicateVars = generateDuplicateVariations(word);
-        wordDuplicateVars.forEach(variation => {
-          if (variation !== word) {
-            const newSearch = cleanedSearch.replace(new RegExp(`\\b${word}\\b`, 'gi'), variation);
-            if (!searchVariations.includes(newSearch)) {
-              searchVariations.push(newSearch);
-            }
-          }
-        });
-      });
+      // Adicionar condomínios que correspondem à busca mas não estão nos resultados ITBI
+      addCondominioSuggestions(suggestions, condominioMap, searchVariations);
 
-      // Também aplicar correções nas variações
-      const correctedWords = correctedSearch.split(/\s+/);
-      correctedWords.forEach(word => {
-        const variations = abbreviationMap[word];
-        if (variations) {
-          variations.forEach(variation => {
-            const newSearch = correctedSearch.replace(new RegExp(`\\b${word}\\b`, 'gi'), variation);
-            if (!searchVariations.includes(newSearch)) {
-              searchVariations.push(newSearch);
-            }
-          });
-        }
-      });
-
-      // 1. Buscar na tabela de mapeamento de condomínios por nome
-      const condominioOrConditions = [
-        ...searchVariations.map(v => `nome_condominio.ilike.%${v}%`),
-        ...searchVariations.map(v => `logradouro_padrao.ilike.%${v}%`),
-      ].join(',');
-
-      const { data: condominios } = await supabase
-        .from('condominios_mapeamento')
-        .select('logradouro_padrao, nome_condominio, microbairro, padrao_construtivo')
-        .or(condominioOrConditions);
-
-      // Criar mapa de logradouros para dados do condomínio
-      const condominioMap = new Map<string, { nome: string; microbairro?: string; padrao?: string }>();
-      (condominios || []).forEach(c => {
-        condominioMap.set(c.logradouro_padrao, {
-          nome: c.nome_condominio,
-          microbairro: c.microbairro || undefined,
-          padrao: c.padrao_construtivo || undefined,
-        });
-      });
-
-      // 2. Buscar transações por logradouro usando todas as variações
-      const condominioLogradouros = (condominios || []).map(c => c.logradouro_padrao);
-      
-      // Construir condições OR para todas as variações de busca
-      let orConditions = searchVariations.map(v => `logradouro.ilike.%${v}%`).join(',');
-      
-      // Adicionar logradouros dos condomínios encontrados
-      if (condominioLogradouros.length > 0) {
-        const condLogConditions = condominioLogradouros.map(l => `logradouro.eq.${l}`).join(',');
-        orConditions += `,${condLogConditions}`;
-      }
-
-      const { data, error } = await supabase
-        .from('itbi_transactions')
-        .select('logradouro')
-        .eq('uso', 'Residencial')
-        .ilike('bairro', bairro)
-        .or(orConditions)
-        .limit(500);
-
-      if (error) throw error;
-
-      // Agrupar por logradouro e contar transações
-      const grouped = (data || []).reduce((acc, t) => {
-        if (!acc[t.logradouro]) {
-          acc[t.logradouro] = 0;
-        }
-        acc[t.logradouro]++;
-        return acc;
-      }, {} as Record<string, number>);
-
-      // Criar sugestões com dados do condomínio quando disponíveis
-      const suggestions: StreetSuggestion[] = Object.entries(grouped)
-        .map(([logradouro, total_transacoes]) => {
-          const condInfo = condominioMap.get(logradouro);
-          return {
-            logradouro,
-            logradouro_oficial: expandAbbreviations(logradouro),
-            total_transacoes,
-            nome_condominio: condInfo?.nome,
-            microbairro: condInfo?.microbairro,
-            padrao_construtivo: condInfo?.padrao,
-            source: 'itbi' as const,
-          };
-        })
-        .sort((a, b) => {
-          // Priorizar resultados com nome de condomínio
-          if (a.nome_condominio && !b.nome_condominio) return -1;
-          if (!a.nome_condominio && b.nome_condominio) return 1;
-          // Depois por quantidade de transações
-          return b.total_transacoes - a.total_transacoes;
-        })
-        .slice(0, 10);
-
-      // Adicionar condomínios sem transações ainda (para permitir descoberta)
-      const suggestedLogradouros = new Set(suggestions.map(s => s.logradouro));
-      (condominios || []).forEach(c => {
-        if (!suggestedLogradouros.has(c.logradouro_padrao) && suggestions.length < 12) {
-          suggestions.push({
-            logradouro: c.logradouro_padrao,
-            logradouro_oficial: expandAbbreviations(c.logradouro_padrao),
-            total_transacoes: 0,
-            nome_condominio: c.nome_condominio,
-            microbairro: c.microbairro || undefined,
-            padrao_construtivo: c.padrao_construtivo || undefined,
-            source: 'itbi' as const,
-          });
-        }
-      });
-
-      // If no ITBI results, try Prefeitura API as fallback
+      // 4. Se não houver resultados, tentar API da Prefeitura como fallback
       if (suggestions.length === 0) {
-        try {
-          const { data: prefeituraData } = await supabase.functions.invoke('search-logradouros-prefeitura', {
-            body: { query: searchTerm, bairro, limit: 10 },
-          });
-
-          if (prefeituraData?.results?.length > 0) {
-            for (const result of prefeituraData.results) {
-              suggestions.push({
-                logradouro: result.logradouro_itbi,
-                logradouro_oficial: result.logradouro_oficial,
-                total_transacoes: 0,
-                source: 'prefeitura' as const,
-              });
-            }
-          }
-        } catch (prefeituraError) {
-          console.warn('Prefeitura API fallback failed:', prefeituraError);
-        }
+        const prefeituraResults = await fetchFromPrefeituraAPI(searchTerm, bairroNormalized);
+        suggestions.push(...prefeituraResults);
       }
 
-      return suggestions;
+      return suggestions.slice(0, 15);
     },
     enabled: query.length >= 2,
     staleTime: 30000,
+    retry: 2,
   });
+}
+
+/**
+ * Busca logradouros via função RPC do banco (mais confiável que queries complexas)
+ */
+async function fetchViaRPC(searchVariations: string[], bairro: string): Promise<string[]> {
+  const allResults = new Set<string>();
+
+  // Buscar para cada variação de pesquisa
+  for (const variation of searchVariations.slice(0, 3)) { // Limitar a 3 variações para performance
+    try {
+      const { data, error } = await supabase.rpc('get_street_suggestions', {
+        p_search: variation,
+        p_bairro: bairro,
+        p_limit: 20,
+      });
+
+      if (!error && data) {
+        data.forEach((row: { logradouro: string }) => {
+          allResults.add(row.logradouro);
+        });
+      }
+    } catch (err) {
+      console.warn('RPC search failed for variation:', variation, err);
+    }
+  }
+
+  return Array.from(allResults);
+}
+
+/**
+ * Busca dados de condomínios para enriquecer sugestões
+ */
+async function fetchCondominioData(searchVariations: string[]): Promise<Map<string, { nome: string; microbairro?: string; padrao?: string }>> {
+  const condominioMap = new Map<string, { nome: string; microbairro?: string; padrao?: string }>();
+
+  try {
+    // Construir condições OR de forma segura
+    const orConditions = searchVariations
+      .slice(0, 3)
+      .flatMap(v => [
+        `nome_condominio.ilike.%${v}%`,
+        `logradouro_padrao.ilike.%${v}%`,
+      ])
+      .join(',');
+
+    const { data: condominios } = await supabase
+      .from('condominios_mapeamento')
+      .select('logradouro_padrao, nome_condominio, microbairro, padrao_construtivo')
+      .or(orConditions)
+      .limit(30);
+
+    (condominios || []).forEach(c => {
+      condominioMap.set(c.logradouro_padrao, {
+        nome: c.nome_condominio,
+        microbairro: c.microbairro || undefined,
+        padrao: c.padrao_construtivo || undefined,
+      });
+    });
+  } catch (err) {
+    console.warn('Condominio search failed:', err);
+  }
+
+  return condominioMap;
+}
+
+/**
+ * Adiciona condomínios que correspondem à busca mas não estão nos resultados
+ */
+function addCondominioSuggestions(
+  suggestions: StreetSuggestion[],
+  condominioMap: Map<string, { nome: string; microbairro?: string; padrao?: string }>,
+  searchVariations: string[]
+): void {
+  const existingLogradouros = new Set(suggestions.map(s => s.logradouro));
+
+  condominioMap.forEach((condInfo, logradouro) => {
+    if (!existingLogradouros.has(logradouro) && suggestions.length < 15) {
+      // Verificar se o nome do condomínio corresponde a alguma variação
+      const matchesSearch = searchVariations.some(v => 
+        condInfo.nome.toUpperCase().includes(v) || logradouro.toUpperCase().includes(v)
+      );
+      
+      if (matchesSearch) {
+        suggestions.push({
+          logradouro,
+          logradouro_oficial: expandAbbreviations(logradouro),
+          total_transacoes: 0,
+          nome_condominio: condInfo.nome,
+          microbairro: condInfo.microbairro,
+          padrao_construtivo: condInfo.padrao,
+          source: 'itbi' as const,
+        });
+      }
+    }
+  });
+}
+
+/**
+ * Fallback para API da Prefeitura
+ */
+async function fetchFromPrefeituraAPI(searchTerm: string, bairro: string): Promise<StreetSuggestion[]> {
+  const results: StreetSuggestion[] = [];
+  
+  try {
+    const { data: prefeituraData } = await supabase.functions.invoke('search-logradouros-prefeitura', {
+      body: { query: searchTerm, bairro, limit: 10 },
+    });
+
+    if (prefeituraData?.results?.length > 0) {
+      for (const result of prefeituraData.results) {
+        results.push({
+          logradouro: result.logradouro_itbi,
+          logradouro_oficial: result.logradouro_oficial,
+          total_transacoes: 0,
+          source: 'prefeitura' as const,
+        });
+      }
+    }
+  } catch (prefeituraError) {
+    console.warn('Prefeitura API fallback failed:', prefeituraError);
+  }
+
+  return results;
+}
+
+/**
+ * Aplica correções de digitação comuns
+ */
+function applyTypoCorrections(search: string): string {
+  const typoCorrections: Record<string, string> = {
+    'GUMARAES': 'GUIMARAES',
+    'GUIMARAIS': 'GUIMARAES',
+    'GIMARAES': 'GUIMARAES',
+    'GUIMARÃES': 'GUIMARAES',
+    'PERIERA': 'PEREIRA',
+    'FERRIERA': 'FERREIRA',
+    'FEREIRA': 'FERREIRA',
+    'CARDOZO': 'CARDOSO',
+    'OLIVIERA': 'OLIVEIRA',
+    'RODRIGEZ': 'RODRIGUES',
+    'ALMEYDA': 'ALMEIDA',
+    'ALMEÍDA': 'ALMEIDA',
+    'RIBERO': 'RIBEIRO',
+    'PINHERO': 'PINHEIRO',
+    'ESTELITA': 'ESTELLITA',
+    'ESTRELITA': 'ESTELLITA',
+    'ROZAURO': 'ROSAURO',
+    'AMERCIAS': 'AMERICAS',
+    'AMÉRICAS': 'AMERICAS',
+    'TIJUICA': 'TIJUCA',
+    'SERNANBETIBA': 'SERNAMBETIBA',
+    'SERNABETIBA': 'SERNAMBETIBA',
+    'SERNAMETIBA': 'SERNAMBETIBA',
+    'PENNINSULA': 'PENINSULA',
+    'OCEÂNICO': 'OCEANICO',
+    'OCÊANICO': 'OCEANICO',
+    'RECREIU': 'RECREIO',
+    'BANDIERANTES': 'BANDEIRANTES',
+    'LÚCIO': 'LUCIO',
+    'OLEGÁRIO': 'OLEGARIO',
+    'DULCÍDIO': 'DULCIDIO',
+    'ÉRICO': 'ERICO',
+    'VERÍSSIMO': 'VERISSIMO',
+    'VERISIMO': 'VERISSIMO',
+    'JOSÉ': 'JOSE',
+    'JOÃO': 'JOAO',
+    'ANTÔNIO': 'ANTONIO',
+    'FRANCISO': 'FRANCISCO',
+    'NIELSON': 'NELSON',
+    'AIRTON': 'AYRTON',
+    'SENA': 'SENNA',
+    'PRAÇA': 'PRACA',
+    'ESTAÇÃO': 'ESTACAO',
+    'JARDIN': 'JARDIM',
+    'CONDOMÍNIO': 'CONDOMINIO',
+    'CONDMINIO': 'CONDOMINIO',
+    'REZIDENCIAL': 'RESIDENCIAL',
+    'EDIFÍCIO': 'EDIFICIO',
+    'SHOOPING': 'SHOPPING',
+    'SHOPING': 'SHOPPING',
+    'METROPLITANO': 'METROPOLITANO',
+    'ABELRDO': 'ABELARDO',
+    'BUEÑO': 'BUENO',
+  };
+
+  let corrected = search;
+  Object.entries(typoCorrections).forEach(([typo, correction]) => {
+    corrected = corrected.replace(new RegExp(typo, 'gi'), correction);
+  });
+
+  return corrected;
+}
+
+/**
+ * Gera variações de busca incluindo abreviações e letras duplicadas
+ */
+function generateSearchVariations(cleanedSearch: string, correctedSearch: string): string[] {
+  const variations = new Set<string>([cleanedSearch]);
+  
+  if (correctedSearch !== cleanedSearch) {
+    variations.add(correctedSearch);
+  }
+
+  // Mapa de abreviações comuns
+  const abbreviationMap: Record<string, string[]> = {
+    'DESENHISTA': ['DESEN', 'DESENHISTA'],
+    'DESEN': ['DESEN', 'DESENHISTA'],
+    'ALMIRANTE': ['ALMTE', 'ALM', 'ALMIRANTE'],
+    'ALMTE': ['ALMTE', 'ALM', 'ALMIRANTE'],
+    'DOUTOR': ['DR', 'DOUTOR'],
+    'DR': ['DR', 'DOUTOR'],
+    'ENGENHEIRO': ['ENG', 'ENGENHEIRO'],
+    'ENG': ['ENG', 'ENGENHEIRO'],
+    'PROFESSOR': ['PROF', 'PROFESSOR'],
+    'PROF': ['PROF', 'PROFESSOR'],
+    'GENERAL': ['GEN', 'GENERAL'],
+    'GEN': ['GEN', 'GENERAL'],
+  };
+
+  // Aplicar variações de abreviações
+  const words = cleanedSearch.split(/\s+/);
+  words.forEach(word => {
+    const wordVariations = abbreviationMap[word];
+    if (wordVariations) {
+      wordVariations.forEach(v => {
+        const newSearch = cleanedSearch.replace(new RegExp(`\\b${word}\\b`, 'gi'), v);
+        variations.add(newSearch);
+      });
+    }
+  });
+
+  // Adicionar variações com/sem letras duplicadas
+  const duplicatePatterns = [
+    { single: 'L', double: 'LL' },
+    { single: 'R', double: 'RR' },
+    { single: 'S', double: 'SS' },
+    { single: 'T', double: 'TT' },
+  ];
+
+  duplicatePatterns.forEach(({ single, double }) => {
+    if (cleanedSearch.includes(single) && !cleanedSearch.includes(double)) {
+      variations.add(cleanedSearch.replace(new RegExp(single, 'g'), double));
+    }
+    if (cleanedSearch.includes(double)) {
+      variations.add(cleanedSearch.replace(new RegExp(double, 'g'), single));
+    }
+  });
+
+  return Array.from(variations);
 }
