@@ -10,6 +10,20 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+/**
+ * Escapes HTML special characters to prevent XSS and HTML injection attacks.
+ * This function sanitizes user-provided strings before embedding them in HTML templates.
+ */
+function escapeHtml(unsafe: string | undefined | null): string {
+  if (unsafe === undefined || unsafe === null) return "";
+  return String(unsafe)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 interface LeadNotificationRequest {
   type: "initial" | "returning" | "complete";
   leadId: string;
@@ -66,8 +80,8 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
     <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
       <h4 style="margin: 0 0 10px 0; color: #0C2340;">📍 Imóvel Analisado:</h4>
       <ul style="margin: 0; padding-left: 20px; color: #555;">
-        ${data.bairro ? `<li><strong>Bairro:</strong> ${data.bairro}</li>` : ""}
-        ${data.tipologia ? `<li><strong>Tipo:</strong> ${data.tipologia}</li>` : ""}
+        ${data.bairro ? `<li><strong>Bairro:</strong> ${escapeHtml(data.bairro)}</li>` : ""}
+        ${data.tipologia ? `<li><strong>Tipo:</strong> ${escapeHtml(data.tipologia)}</li>` : ""}
         ${data.area ? `<li><strong>Área:</strong> ${data.area} m²</li>` : ""}
         ${data.quartos ? `<li><strong>Quartos:</strong> ${data.quartos}</li>` : ""}
         ${data.suites ? `<li><strong>Suítes:</strong> ${data.suites}</li>` : ""}
@@ -104,7 +118,7 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
     headerSubtitle = "Obrigado por utilizar nossa plataforma de análise de mercado";
     
     mainContent = `
-      <p style="color: #555; font-size: 15px;">Olá <strong>${data.leadName}</strong>,</p>
+      <p style="color: #555; font-size: 15px;">Olá <strong>${escapeHtml(data.leadName)}</strong>,</p>
       
       <p style="color: #555; font-size: 15px;">
         Recebemos sua solicitação de avaliação e já processamos uma estimativa preliminar com base nos dados de transações ITBI da região.
@@ -138,7 +152,7 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
     headerSubtitle = "Parecer Técnico em andamento";
     
     mainContent = `
-      <p style="color: #555; font-size: 15px;">Olá <strong>${data.leadName}</strong>,</p>
+      <p style="color: #555; font-size: 15px;">Olá <strong>${escapeHtml(data.leadName)}</strong>,</p>
       
       <p style="color: #555; font-size: 15px;">
         <strong>Excelente decisão!</strong> Recebemos sua solicitação de Parecer Técnico Godoy Prime e nossa equipe já está analisando os dados do seu imóvel.
@@ -286,15 +300,15 @@ const handler = async (req: Request): Promise<Response> => {
 
     const propertyDetails = `
       <ul style="margin: 0; padding-left: 20px;">
-        ${data.bairro ? `<li><strong>Bairro:</strong> ${data.bairro}</li>` : ""}
-        ${data.tipologia ? `<li><strong>Tipologia:</strong> ${data.tipologia}</li>` : ""}
+        ${data.bairro ? `<li><strong>Bairro:</strong> ${escapeHtml(data.bairro)}</li>` : ""}
+        ${data.tipologia ? `<li><strong>Tipologia:</strong> ${escapeHtml(data.tipologia)}</li>` : ""}
         ${data.area ? `<li><strong>Área:</strong> ${data.area} m²</li>` : ""}
         ${data.quartos ? `<li><strong>Quartos:</strong> ${data.quartos}</li>` : ""}
         ${data.suites ? `<li><strong>Suítes:</strong> ${data.suites}</li>` : ""}
         ${data.banheiros ? `<li><strong>Banheiros:</strong> ${data.banheiros}</li>` : ""}
         ${data.vagas ? `<li><strong>Vagas:</strong> ${data.vagas}</li>` : ""}
-        ${data.diferenciais ? `<li><strong>Diferenciais:</strong> ${data.diferenciais}</li>` : ""}
-        ${data.enderecoImovelAnalise ? `<li><strong>Endereço Analisado:</strong> ${data.enderecoImovelAnalise}</li>` : ""}
+        ${data.diferenciais ? `<li><strong>Diferenciais:</strong> ${escapeHtml(data.diferenciais)}</li>` : ""}
+        ${data.enderecoImovelAnalise ? `<li><strong>Endereço Analisado:</strong> ${escapeHtml(data.enderecoImovelAnalise)}</li>` : ""}
         ${data.valorPedidoVendedor ? `<li><strong>Valor Pedido pelo Vendedor:</strong> ${formatCurrency(data.valorPedidoVendedor)}</li>` : ""}
       </ul>
     `;
@@ -311,9 +325,9 @@ const handler = async (req: Request): Promise<Response> => {
     const additionalInfo = data.objetivo || data.urgencia || data.preferencia_contato ? `
       <div style="background: #e8f4f8; padding: 15px; border-radius: 8px; margin: 15px 0;">
         <h4 style="margin: 0 0 10px 0; color: #0C2340;">Informações Adicionais:</h4>
-        ${data.objetivo ? `<p style="margin: 5px 0;"><strong>Objetivo:</strong> ${data.objetivo}</p>` : ""}
-        ${data.urgencia ? `<p style="margin: 5px 0;"><strong>Urgência:</strong> ${data.urgencia}</p>` : ""}
-        ${data.preferencia_contato ? `<p style="margin: 5px 0;"><strong>Preferência de Contato:</strong> ${data.preferencia_contato}</p>` : ""}
+        ${data.objetivo ? `<p style="margin: 5px 0;"><strong>Objetivo:</strong> ${escapeHtml(data.objetivo)}</p>` : ""}
+        ${data.urgencia ? `<p style="margin: 5px 0;"><strong>Urgência:</strong> ${escapeHtml(data.urgencia)}</p>` : ""}
+        ${data.preferencia_contato ? `<p style="margin: 5px 0;"><strong>Preferência de Contato:</strong> ${escapeHtml(data.preferencia_contato)}</p>` : ""}
       </div>
     ` : "";
 
@@ -323,16 +337,16 @@ const handler = async (req: Request): Promise<Response> => {
     let actionMessage: string;
     
     if (notificationType === "initial") {
-      emailSubject = `🆕 Novo Lead - ${serviceType} - ${data.leadName}`;
+      emailSubject = `🆕 Novo Lead - ${serviceType} - ${escapeHtml(data.leadName)}`;
       ctaTitle = `🆕 NOVO LEAD - ${serviceType.toUpperCase()}`;
       actionMessage = serviceDescription;
     } else if (notificationType === "returning") {
       const evalNum = data.evaluationNumber || 2;
-      emailSubject = `🔄 Lead Retornou (${evalNum}ª consulta) - ${data.leadName}`;
+      emailSubject = `🔄 Lead Retornou (${evalNum}ª consulta) - ${escapeHtml(data.leadName)}`;
       ctaTitle = `🔄 LEAD RETORNOU - ${evalNum}ª CONSULTA`;
       actionMessage = `O cliente já tinha feito consultas anteriores e VOLTOU para fazer nova análise. Isso demonstra alto interesse. ${serviceDescription}`;
     } else {
-      emailSubject = `🏠 Solicitação Parecer Técnico - ${data.leadName}`;
+      emailSubject = `🏠 Solicitação Parecer Técnico - ${escapeHtml(data.leadName)}`;
       ctaTitle = `⚡ SOLICITAÇÃO DE PARECER TÉCNICO GODOY PRIME`;
       actionMessage = `O cliente realizou uma consulta preliminar e SOLICITOU o Parecer Técnico completo. PRIORIDADE ALTA - entrar em contato imediatamente.`;
     }
@@ -381,9 +395,9 @@ const handler = async (req: Request): Promise<Response> => {
             
             <h3 style="color: #0C2340;">Dados do Cliente:</h3>
             <div class="contact-info">
-              <p style="margin: 5px 0;"><strong>Nome:</strong> ${data.leadName}</p>
-              <p style="margin: 5px 0;"><strong>Email:</strong> ${data.leadEmail}</p>
-              <p style="margin: 5px 0;"><strong>Telefone:</strong> ${data.leadPhone}</p>
+              <p style="margin: 5px 0;"><strong>Nome:</strong> ${escapeHtml(data.leadName)}</p>
+              <p style="margin: 5px 0;"><strong>Email:</strong> ${escapeHtml(data.leadEmail)}</p>
+              <p style="margin: 5px 0;"><strong>Telefone:</strong> ${escapeHtml(data.leadPhone)}</p>
               <p style="margin: 5px 0;"><strong>Interesse:</strong> ${isCompra ? '🏠 Comprar Imóvel' : '💰 Vender Imóvel'}</p>
             </div>
 

@@ -9,6 +9,20 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+/**
+ * Escapes HTML special characters to prevent XSS and HTML injection attacks.
+ * This function sanitizes user-provided strings before embedding them in HTML templates.
+ */
+function escapeHtml(unsafe: string | undefined | null): string {
+  if (unsafe === undefined || unsafe === null) return "";
+  return String(unsafe)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 interface FeedbackNotification {
   nome?: string;
   email?: string;
@@ -99,7 +113,7 @@ async function sendUserConfirmationEmail(feedback: FeedbackNotification) {
             <!-- Header -->
             <div style="background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%); padding: 40px 30px; text-align: center;">
               <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 600;">
-                Obrigado, ${userName}! 🎉
+                Obrigado, ${escapeHtml(userName)}! 🎉
               </h1>
               <p style="color: #d4e5f7; margin: 15px 0 0 0; font-size: 16px;">
                 Sua participação é muito valiosa para nós
@@ -131,7 +145,7 @@ async function sendUserConfirmationEmail(feedback: FeedbackNotification) {
                 <p style="color: #64748b; margin: 0 0 20px 0; font-size: 14px; line-height: 1.6;">
                   Clique no botão abaixo para entrar em contato pelo WhatsApp e agendar o melhor horário para você:
                 </p>
-                <a href="https://wa.me/5521999880101?text=Olá! Sou ${encodeURIComponent(userName)} e completei a pesquisa de validação. Gostaria de agendar minha consultoria gratuita." 
+                <a href="https://wa.me/5521999880101?text=Olá! Sou ${encodeURIComponent(escapeHtml(userName))} e completei a pesquisa de validação. Gostaria de agendar minha consultoria gratuita." 
                    style="display: inline-block; background-color: #25D366; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: 600; font-size: 16px;">
                   💬 Agendar pelo WhatsApp
                 </a>
@@ -193,10 +207,10 @@ const handler = async (req: Request): Promise<Response> => {
             ${Object.entries(feedback.respostas_questionario).map(([questionId, answer]) => `
               <tr>
                 <td style="padding: 10px; border-bottom: 1px solid #e5e7eb; font-weight: bold; vertical-align: top; width: 50%;">
-                  ${questionLabels[questionId] || questionId}
+                  ${questionLabels[questionId] || escapeHtml(questionId)}
                 </td>
                 <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">
-                  ${answerLabels[answer] || answer}
+                  ${answerLabels[answer] || escapeHtml(answer)}
                 </td>
               </tr>
             `).join("")}
@@ -209,7 +223,7 @@ const handler = async (req: Request): Promise<Response> => {
     const adminEmailResponse = await resend.emails.send({
       from: "Godoy Prime Realty <onboarding@resend.dev>",
       to: ["marcusvgodoy@gmail.com"],
-      subject: `Novo Feedback: ${tipoLabels[feedback.tipo_feedback] || feedback.tipo_feedback}`,
+      subject: `Novo Feedback: ${tipoLabels[feedback.tipo_feedback] || escapeHtml(feedback.tipo_feedback)}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: #1e3a5f; color: white; padding: 20px; text-align: center;">
@@ -220,7 +234,7 @@ const handler = async (req: Request): Promise<Response> => {
             <table style="width: 100%; border-collapse: collapse;">
               <tr>
                 <td style="padding: 10px; border-bottom: 1px solid #e5e7eb; font-weight: bold; width: 120px;">Tipo:</td>
-                <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">${tipoLabels[feedback.tipo_feedback] || feedback.tipo_feedback}</td>
+                <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">${tipoLabels[feedback.tipo_feedback] || escapeHtml(feedback.tipo_feedback)}</td>
               </tr>
               <tr>
                 <td style="padding: 10px; border-bottom: 1px solid #e5e7eb; font-weight: bold;">Avaliação:</td>
@@ -228,11 +242,11 @@ const handler = async (req: Request): Promise<Response> => {
               </tr>
               <tr>
                 <td style="padding: 10px; border-bottom: 1px solid #e5e7eb; font-weight: bold;">Nome:</td>
-                <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">${feedback.nome || "Não informado"}</td>
+                <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">${escapeHtml(feedback.nome) || "Não informado"}</td>
               </tr>
               <tr>
                 <td style="padding: 10px; border-bottom: 1px solid #e5e7eb; font-weight: bold;">Email:</td>
-                <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">${feedback.email || "Não informado"}</td>
+                <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">${escapeHtml(feedback.email) || "Não informado"}</td>
               </tr>
             </table>
             
@@ -241,7 +255,7 @@ const handler = async (req: Request): Promise<Response> => {
             <div style="margin-top: 20px;">
               <h3 style="color: #1e3a5f; margin-bottom: 10px;">💬 Comentários:</h3>
               <div style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                ${feedback.mensagem || "Sem comentários adicionais"}
+                ${escapeHtml(feedback.mensagem) || "Sem comentários adicionais"}
               </div>
             </div>
           </div>

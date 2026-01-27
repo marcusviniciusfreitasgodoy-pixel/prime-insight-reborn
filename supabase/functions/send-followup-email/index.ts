@@ -10,6 +10,20 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+/**
+ * Escapes HTML special characters to prevent XSS and HTML injection attacks.
+ * This function sanitizes user-provided strings before embedding them in HTML templates.
+ */
+function escapeHtml(unsafe: string | undefined | null): string {
+  if (unsafe === undefined || unsafe === null) return "";
+  return String(unsafe)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 interface Lead {
   id: string;
   nome: string;
@@ -66,10 +80,10 @@ async function sendFollowUpEmail(lead: Lead): Promise<{ success: boolean; error?
         </div>
         
         <div class="content">
-          <p style="color: #555; font-size: 15px;">Olá <strong>${lead.nome}</strong>,</p>
+          <p style="color: #555; font-size: 15px;">Olá <strong>${escapeHtml(lead.nome)}</strong>,</p>
           
           <p style="color: #555; font-size: 15px;">
-            Há alguns dias você fez uma avaliação preliminar conosco${lead.bairro_interesse ? ` para um imóvel na <strong>${lead.bairro_interesse}</strong>` : ''}. Gostaríamos de saber se podemos ajudá-lo de alguma forma!
+            Há alguns dias você fez uma avaliação preliminar conosco${lead.bairro_interesse ? ` para um imóvel na <strong>${escapeHtml(lead.bairro_interesse)}</strong>` : ''}. Gostaríamos de saber se podemos ajudá-lo de alguma forma!
           </p>
 
           <div class="highlight-box">
@@ -132,7 +146,7 @@ async function sendFollowUpEmail(lead: Lead): Promise<{ success: boolean; error?
     const emailResponse = await resend.emails.send({
       from: "Godoy Prime Realty <marcus@godoyprime.com.br>",
       to: [lead.email],
-      subject: `🔔 ${lead.nome}, seu Parecer Técnico está esperando - Godoy Prime`,
+      subject: `🔔 ${escapeHtml(lead.nome)}, seu Parecer Técnico está esperando - Godoy Prime`,
       html: emailHtml,
     });
 
