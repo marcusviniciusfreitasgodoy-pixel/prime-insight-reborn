@@ -15,6 +15,10 @@ export default defineConfig(({ mode }) => ({
     mode === "development" && componentTagger(),
     VitePWA({
       registerType: "autoUpdate",
+      // Força atualização imediata sem esperar o usuário fechar abas
+      devOptions: {
+        enabled: false,
+      },
       includeAssets: ["favicon.png", "robots.txt"],
       manifest: {
         name: "Godoy Prime Analytics",
@@ -46,8 +50,15 @@ export default defineConfig(({ mode }) => ({
         ],
       },
       workbox: {
+        // Força limpeza do cache antigo
+        cleanupOutdatedCaches: true,
+        // Ativa imediatamente sem esperar
+        skipWaiting: true,
+        clientsClaim: true,
         globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024, // 3 MB
+        // Não cachear index.html para sempre pegar a versão mais recente
+        navigateFallback: null,
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -74,6 +85,18 @@ export default defineConfig(({ mode }) => ({
               },
               cacheableResponse: {
                 statuses: [0, 200],
+              },
+            },
+          },
+          {
+            // Força network-first para arquivos da aplicação
+            urlPattern: /\.(js|css|html)$/i,
+            handler: "NetworkFirst",
+            options: {
+              cacheName: "app-cache",
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60 * 24, // 1 dia
               },
             },
           },
