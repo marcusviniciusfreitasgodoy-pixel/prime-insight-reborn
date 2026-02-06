@@ -1,8 +1,11 @@
-import { useState, useRef, memo } from "react";
+import { useState, useRef, memo, lazy, Suspense } from "react";
 import { Helmet } from "react-helmet-async";
 import { QuickValuationForm, QuickValuationData } from "@/components/leads/QuickValuationForm";
-import { QuickValuationResult } from "@/components/leads/QuickValuationResult";
-import { PublicSofiaAssistant } from "@/components/leads/PublicSofiaAssistant";
+import { Loader2 } from "lucide-react";
+
+// Lazy load heavy components that aren't needed on initial render
+const QuickValuationResult = lazy(() => import("@/components/leads/QuickValuationResult").then(m => ({ default: m.QuickValuationResult })));
+const PublicSofiaAssistant = lazy(() => import("@/components/leads/PublicSofiaAssistant").then(m => ({ default: m.PublicSofiaAssistant })));
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useUTMTracking } from "@/hooks/useUTMTracking";
@@ -668,7 +671,9 @@ export default function AvaliacaoPublica() {
         {/* ============ RESULT SECTION (appears after form submit) ============ */}
         {step === "result" && valuationData && <section ref={resultRef} className="py-12 px-4 bg-gradient-to-b from-gray-50 to-white scroll-mt-4">
             <div className="container mx-auto max-w-3xl">
-              <QuickValuationResult data={valuationData} onNewValuation={handleNewValuation} />
+              <Suspense fallback={<div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin text-[#D4AF37]" /></div>}>
+                <QuickValuationResult data={valuationData} onNewValuation={handleNewValuation} />
+              </Suspense>
             </div>
           </section>}
 
@@ -846,7 +851,9 @@ export default function AvaliacaoPublica() {
         </footer>
 
         {/* Sofia Assistant for Public Page (includes WhatsApp button) */}
-        <PublicSofiaAssistant />
+        <Suspense fallback={null}>
+          <PublicSofiaAssistant />
+        </Suspense>
       </div>
     </>;
 }
