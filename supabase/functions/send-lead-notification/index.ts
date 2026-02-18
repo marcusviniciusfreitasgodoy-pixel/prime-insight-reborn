@@ -272,6 +272,15 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Validate that request came via Supabase SDK (has Authorization header)
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     const data: LeadNotificationRequest = await req.json();
     console.log("Received notification request:", JSON.stringify(data, null, 2));
     

@@ -174,15 +174,11 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     // Verify cron secret for scheduled calls
-    const authHeader = req.headers.get("Authorization");
-    const cronSecret = Deno.env.get("CRON_SECRET");
+    const cronSecret = req.headers.get("x-cron-secret");
+    const expectedSecret = Deno.env.get("CRON_SECRET");
     
-    // Allow calls from cron job or with valid auth
-    const isCronCall = authHeader?.includes(cronSecret || "");
-    const isAnonCall = authHeader?.includes(Deno.env.get("SUPABASE_ANON_KEY") || "");
-    
-    if (!isCronCall && !isAnonCall) {
-      console.log("Unauthorized request");
+    if (!expectedSecret || cronSecret !== expectedSecret) {
+      console.log("Unauthorized request - invalid or missing cron secret");
       return new Response(
         JSON.stringify({ error: "Unauthorized" }),
         { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }

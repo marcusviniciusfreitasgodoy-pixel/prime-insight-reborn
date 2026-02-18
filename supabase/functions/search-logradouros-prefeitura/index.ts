@@ -87,6 +87,15 @@ serve(async (req) => {
   }
 
   try {
+    // Validate that request came via Supabase SDK (has Authorization header)
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     const { query, bairro, limit = 10 } = await req.json();
 
     if (!query || query.length < 2) {
