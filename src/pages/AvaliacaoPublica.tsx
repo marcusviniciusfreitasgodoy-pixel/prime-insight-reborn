@@ -709,24 +709,24 @@ export default function AvaliacaoPublica() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-              {PERSONAS.map((persona, index) =>
-              <div
-                key={index}
-                className="bg-white sm:bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-100 hover:border-[#D4AF37]/30 hover:shadow-lg transition-all duration-300 text-center">
+              {PERSONAS.map((persona, index) => {}
 
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#0C2340] to-[#1a3a5c] flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                    <persona.icon className="h-6 w-6 sm:h-8 sm:w-8 text-[#D4AF37]" />
-                  </div>
-                  <h4 className="font-bold text-lg sm:text-xl text-[#0C2340] mb-0.5 sm:mb-1">{persona.title}</h4>
-                  <p className="text-[#D4AF37] font-medium text-xs sm:text-sm mb-2 sm:mb-3">{persona.subtitle}</p>
-                  <p className="text-muted-foreground text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed">
-                    {persona.description}
-                  </p>
-                  <div className="inline-flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs bg-[#D4AF37]/10 text-[#0C2340] rounded-full px-3 sm:px-4 py-1.5 sm:py-2 font-medium">
-                    <CheckCircle className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-[#D4AF37] flex-shrink-0" />
-                    {persona.cta}
-                  </div>
-                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               )}
             </div>
           </div>
