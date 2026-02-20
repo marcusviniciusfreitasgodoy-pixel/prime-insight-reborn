@@ -1,4 +1,4 @@
-import { Home, ClipboardCheck, FileText, MapPin, Users, UserCog, Search, Calculator, Settings, History, Brain } from "lucide-react";
+import { Home, ClipboardCheck, FileText, MapPin, Users, UserCog, Search, Calculator, Settings, History, Brain, BarChart3, MessageSquare } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
   Sidebar,
@@ -9,68 +9,66 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useAuthContext } from "@/contexts/AuthContext";
 
-const baseItems = [
-  { title: "Dashboard", url: "/", icon: Home },
-  { title: "Microregiões", url: "/microbairros", icon: MapPin },
-  { title: "Pesquisas de Mercado", url: "/pesquisas-mercado", icon: Search },
-  { title: "Avaliação Imobiliária", url: "/avaliacao-imobiliaria", icon: Calculator },
-  { title: "Histórico Avaliações", url: "/historico-avaliacoes", icon: History },
-  { title: "Vistoria Digital", url: "/vistoria-digital", icon: ClipboardCheck },
-  { title: "Documentação", url: "/documentacao", icon: FileText },
+const toolItems = [
+  { title: "Dashboard", url: "/admin", icon: Home },
+  { title: "Microregiões", url: "/admin/microbairros", icon: MapPin },
+  { title: "Pesquisas de Mercado", url: "/admin/pesquisas-mercado", icon: Search },
+  { title: "Avaliação Imobiliária", url: "/admin/avaliacao-imobiliaria", icon: Calculator },
+  { title: "Histórico Avaliações", url: "/admin/historico-avaliacoes", icon: History },
+  { title: "Vistoria Digital", url: "/admin/vistoria-digital", icon: ClipboardCheck },
+  { title: "Documentação", url: "/admin/documentacao", icon: FileText },
 ];
 
 const adminItems = [
-  { title: "Base Conhecimento Sofia", url: "/base-conhecimento", icon: Brain },
-  { title: "Calibrador Avaliação", url: "/calibrador-avaliacao", icon: Settings },
-  { title: "Leads", url: "/leads", icon: Users },
-  { title: "Usuários", url: "/usuarios", icon: UserCog },
+  { title: "Base Conhecimento Sofia", url: "/admin/base-conhecimento", icon: Brain },
+  { title: "Calibrador Avaliação", url: "/admin/calibrador-avaliacao", icon: Settings },
+  { title: "Leads", url: "/admin/leads", icon: Users },
+  { title: "Usuários", url: "/admin/usuarios", icon: UserCog },
+  { title: "Feedbacks", url: "/admin/feedbacks", icon: MessageSquare },
+  { title: "Analytics", url: "/admin/analytics", icon: BarChart3 },
 ];
 
 export function AppSidebar() {
   const { open } = useSidebar();
   const { isAdmin } = useAuthContext();
-  
-  const items = isAdmin ? [...baseItems, ...adminItems] : baseItems;
+
+  const renderGroup = (label: string, items: typeof toolItems) => (
+    <SidebarGroup>
+      <SidebarGroupLabel className="text-sidebar-foreground/60 px-4">
+        {label}
+      </SidebarGroupLabel>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          {items.map((item) => (
+            <SidebarMenuItem key={item.title}>
+              <SidebarMenuButton asChild>
+                <NavLink
+                  to={item.url}
+                  end={item.url === "/admin"}
+                  className="flex items-center gap-3 px-4 py-2 hover:bg-sidebar-accent rounded-md transition-colors"
+                  activeClassName="bg-sidebar-accent text-sidebar-primary font-medium"
+                >
+                  <item.icon className="h-5 w-5 flex-shrink-0" />
+                  {open && <span>{item.title}</span>}
+                </NavLink>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </SidebarGroup>
+  );
 
   return (
-    <div className="hidden lg:block">
-      <Sidebar className={open ? "w-64" : "w-16"} collapsible="icon">
-        <div className="p-4 flex justify-end">
-          <SidebarTrigger />
-        </div>
-        
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel className="text-sidebar-foreground/60 px-4">
-              Navegação
-            </SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <NavLink 
-                        to={item.url} 
-                        end
-                        className="flex items-center gap-3 px-4 py-2 hover:bg-sidebar-accent rounded-md transition-colors"
-                        activeClassName="bg-sidebar-accent text-sidebar-primary font-medium"
-                      >
-                        <item.icon className="h-5 w-5 flex-shrink-0" />
-                        {open && <span>{item.title}</span>}
-                      </NavLink>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-      </Sidebar>
-    </div>
+    <Sidebar className={open ? "w-64" : "w-16"} collapsible="icon">
+      <SidebarContent className="pt-2">
+        {renderGroup("Ferramentas", toolItems)}
+        {isAdmin && renderGroup("Administração", adminItems)}
+      </SidebarContent>
+    </Sidebar>
   );
 }
