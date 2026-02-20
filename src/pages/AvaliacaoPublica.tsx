@@ -111,14 +111,7 @@ const SOLUTIONS = [
 
 
 // Audience personas
-const PERSONAS = [
-{
-  icon: Home,
-  title: "Proprietários",
-  subtitle: "Quer vender pelo melhor preço?",
-  description: "Descubra o valor real do seu imóvel baseado em transações oficiais e negocie com segurança.",
-  cta: "Posicione seu imóvel com preço correto e evite perder meses tentando vender sem sucesso."
-},
+const PERSONAS =
 {
   icon: Users,
   title: "Compradores",
@@ -708,7 +701,7 @@ export default function AvaliacaoPublica() {
               </h3>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
               {PERSONAS.map((persona, index) =>
               <div
                 key={index}
