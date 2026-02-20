@@ -407,18 +407,7 @@ Preço Errado Prejudica Todo Mundo</h3>
             {/* Two columns: Sellers and Buyers */}
             <div className="grid md:grid-cols-2 gap-8 mb-12">
               {/* Seller Column */}
-              <div className="space-y-3 sm:space-y-4">
-                
-
-
-
-
-
-
-
-
-                
-                {WRONG_PRICE_SELLER.map((item, index) => {}
+              
 
 
 
@@ -430,8 +419,19 @@ Preço Errado Prejudica Todo Mundo</h3>
 
 
 
-              )}
-              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
               {/* Buyer Column */}
               <div className="space-y-3 sm:space-y-4">
