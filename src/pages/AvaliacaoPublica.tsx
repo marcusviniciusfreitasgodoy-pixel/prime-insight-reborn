@@ -418,19 +418,19 @@ Preço Errado Prejudica Todo Mundo</h3>
 
 
                 
-                {WRONG_PRICE_SELLER.map((item, index) => <div key={index} className="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl p-3 sm:p-4 border border-orange-200/50 hover:border-orange-300 hover:shadow-md transition-all duration-300 animate-fade-in" style={{
-                animationDelay: `${(index + 1) * 100}ms`
-              }}>
-                    <div className="flex items-start gap-2 sm:gap-3">
-                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-orange-500/10 flex items-center justify-center shrink-0">
-                        <item.icon className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600" />
-                      </div>
-                      <div className="min-w-0">
-                        <h5 className="font-semibold text-sm sm:text-base text-[#0C2340] mb-0.5 sm:mb-1">{item.title}</h5>
-                        <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{item.description}</p>
-                      </div>
-                    </div>
-                  </div>)}
+                {WRONG_PRICE_SELLER.map((item, index) => {}
+
+
+
+
+
+
+
+
+
+
+
+              )}
               </div>
 
               {/* Buyer Column */}
