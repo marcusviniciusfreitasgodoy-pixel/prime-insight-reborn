@@ -609,18 +609,18 @@ Quer segurança antes de assinar.
         </section>
 
         {/* ============ SECTION 5: FINAL CTA (Gold background) ============ */}
-        <section className="py-12 sm:py-16 md:py-20 px-4 bg-gradient-to-br from-[#D4AF37] to-[#c9a432]">
-          <div className="container mx-auto max-w-3xl text-center px-2">
-            <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Pronto para Descobrir o Valor do seu Imóvel?</h3>
-            <p className="text-[#0C2340]/80 text-sm sm:text-lg mb-6 sm:mb-8">
-              Comece agora – leva apenas 30 segundos.
-            </p>
-            <Button onClick={scrollToForm} size="lg" className="bg-[#0C2340] hover:bg-[#0a1d33] text-white font-bold shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 text-sm sm:text-base px-6 sm:px-10 py-3 sm:py-4 w-full sm:w-auto max-w-xs sm:max-w-none">
-              <span className="truncate">Quero saber o valor do meu imóvel</span>
-              <ArrowRight className="ml-1.5 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
-            </Button>
-          </div>
-        </section>
+        
+
+
+
+
+
+
+
+
+
+
+
 
         {/* ============ SECTION 6: FORM + MAP (Light gray background) ============ */}
         <section ref={formRef} className="py-16 md:py-20 px-4 bg-gray-50 scroll-mt-4">
