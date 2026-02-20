@@ -352,13 +352,13 @@ export default function AvaliacaoPublica() {
                 Transações Oficiais da Cidade do Rio de Janeiro
               </div>
 
-              
-
-
-
-
-
-
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight animate-fade-in [animation-delay:150ms]">
+                Negocie com Confiança:
+                <br />
+                <span className="text-[#D4AF37]">Descubra se você está prestes a pagar 20% acima do valor real</span>
+                <br className="hidden md:block" />
+                {" "}de Qualquer Imóvel
+              </h2>
 
               <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto animate-fade-in [animation-delay:300ms]">
                 Avaliação baseada em transações reais de compra e venda, 
@@ -393,12 +393,12 @@ export default function AvaliacaoPublica() {
         <section className="py-16 md:py-20 px-4 bg-white">
           <div className="container mx-auto max-w-5xl">
             <div className="text-center mb-12 animate-fade-in">
-              <span className="inline-block px-4 py-1 rounded-full bg-destructive/10 text-destructive text-sm font-semibold mb-4">ATENÇÃO - O RISCO REAL
-
-            </span>
+              <span className="inline-block px-4 py-1 rounded-full bg-destructive/10 text-destructive text-sm font-semibold mb-4">
+                ATENÇÃO
+              </span>
               <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">
-
-Preço Errado Prejudica Todo Mundo</h3>
+                O Preço Errado Prejudica Todo Mundo
+              </h3>
               <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
                 Seja vendedor ou comprador, negociar sem dados reais custa tempo, dinheiro e oportunidades.
               </p>
@@ -583,12 +583,9 @@ Preço Errado Prejudica Todo Mundo</h3>
               <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-[#0C2340]/10 text-[#0C2340] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">
                 PARA QUEM É
               </span>
-              <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Esta avaliação é para quem está prestes a fechar negócio com valores acima de R$ 1 milhão.  
-Quer segurança antes de assinar.
-
-
-
-            </h3>
+              <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">
+                Para Quem É Esta Avaliação?
+              </h3>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
@@ -609,18 +606,18 @@ Quer segurança antes de assinar.
         </section>
 
         {/* ============ SECTION 5: FINAL CTA (Gold background) ============ */}
-        
-
-
-
-
-
-
-
-
-
-
-
+        <section className="py-12 sm:py-16 md:py-20 px-4 bg-gradient-to-br from-[#D4AF37] to-[#c9a432]">
+          <div className="container mx-auto max-w-3xl text-center px-2">
+            <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Pronto para Descobrir o Valor do seu Imóvel?</h3>
+            <p className="text-[#0C2340]/80 text-sm sm:text-lg mb-6 sm:mb-8">
+              Comece agora – leva apenas 30 segundos.
+            </p>
+            <Button onClick={scrollToForm} size="lg" className="bg-[#0C2340] hover:bg-[#0a1d33] text-white font-bold shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 text-sm sm:text-base px-6 sm:px-10 py-3 sm:py-4 w-full sm:w-auto max-w-xs sm:max-w-none">
+              <span className="truncate">Quero saber o valor do meu imóvel</span>
+              <ArrowRight className="ml-1.5 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+            </Button>
+          </div>
+        </section>
 
         {/* ============ SECTION 6: FORM + MAP (Light gray background) ============ */}
         <section ref={formRef} className="py-16 md:py-20 px-4 bg-gray-50 scroll-mt-4">
@@ -630,9 +627,9 @@ Quer segurança antes de assinar.
                 AVALIAÇÃO PRELIMINAR
               </span>
               <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">Consulte o Valor Agora</h3>
-              <p className="text-muted-foreground">Comece agora – leva apenas 30 segundos.
-Resultado instantâneo baseado em transações reais • Sem compromisso
-            </p>
+              <p className="text-muted-foreground">
+                Resultado instantâneo baseado em transações reais • Sem compromisso
+              </p>
             </div>
 
             {step === "form" && <div className="flex flex-col gap-8">
@@ -858,4 +855,5 @@ Resultado instantâneo baseado em transações reais • Sem compromisso
           <PublicSofiaAssistant />
         </Suspense>
       </div>
-    </>;}
+    </>;
+}
