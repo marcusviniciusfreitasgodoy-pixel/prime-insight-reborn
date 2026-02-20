@@ -635,8 +635,8 @@ Avaliação baseada em transações reais e não em preços de anúncios inflaci
                 AVALIAÇÃO PRELIMINAR
               </span>
               <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">Consulte o Valor Agora</h3>
-              <p className="text-muted-foreground">Resultado instantâneo baseado em transações reais • Sem compromisso.
- Esta análise estratégica é destinada compradores em fase ativa de negociação.
+              <p className="text-muted-foreground">Resultado instantâneo baseado em transações reais • Esta análise estratégica é destinada compradores 
+em fase ativa de negociação.
 
 
 
