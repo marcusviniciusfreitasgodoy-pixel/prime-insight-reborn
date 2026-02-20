@@ -393,9 +393,9 @@ export default function AvaliacaoPublica() {
         <section className="py-16 md:py-20 px-4 bg-white">
           <div className="container mx-auto max-w-5xl">
             <div className="text-center mb-12 animate-fade-in">
-              <span className="inline-block px-4 py-1 rounded-full bg-destructive/10 text-destructive text-sm font-semibold mb-4">
-                ATENÇÃO
-              </span>
+              <span className="inline-block px-4 py-1 rounded-full bg-destructive/10 text-destructive text-sm font-semibold mb-4">ATENÇÃO - O RISCO REAL
+
+            </span>
               <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">O Risco Real
 Preço Errado Prejudica Todo Mundo
             </h3>
