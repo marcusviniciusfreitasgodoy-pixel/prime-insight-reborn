@@ -583,7 +583,7 @@ Preço Errado Prejudica Todo Mundo
               <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-[#0C2340]/10 text-[#0C2340] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">
                 PARA QUEM É
               </span>
-              <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Esta avaliação é para quem está prestes a fechar negócio com valores acima de R$ 1 milhão. 
+              <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Esta avaliação é para quem está prestes a fechar negócio com valores acima de R$ 1 milhão.  
 Quer segurança antes de assinar.
 
 
