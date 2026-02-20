@@ -352,13 +352,13 @@ export default function AvaliacaoPublica() {
                 Transações Oficiais da Cidade do Rio de Janeiro
               </div>
 
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight animate-fade-in [animation-delay:150ms]">
-                Negocie com Confiança:
-                <br />
-                <span className="text-[#D4AF37]">Descubra se você está prestes a pagar 20% acima do valor real</span>
-                <br className="hidden md:block" />
-                {" "}de Qualquer Imóvel
-              </h2>
+              
+
+
+
+
+
+
 
               <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto animate-fade-in [animation-delay:300ms]">
                 Avaliação baseada em transações reais de compra e venda, 
@@ -583,9 +583,12 @@ export default function AvaliacaoPublica() {
               <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-[#0C2340]/10 text-[#0C2340] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">
                 PARA QUEM É
               </span>
-              <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">
-                Para Quem É Esta Avaliação?
-              </h3>
+              <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Esta Avaliação é para... 
+Para quem está prestes a fechar negócio
+Está negociando valores acima de R$ 1 milhão
+Quer segurança antes de assinar
+
+            </h3>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
@@ -855,5 +858,4 @@ export default function AvaliacaoPublica() {
           <PublicSofiaAssistant />
         </Suspense>
       </div>
-    </>;
-}
+    </>;}
