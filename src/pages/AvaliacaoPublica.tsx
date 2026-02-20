@@ -635,8 +635,8 @@ export default function AvaliacaoPublica() {
                 AVALIAÇÃO PRELIMINAR
               </span>
               <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">Consulte o Valor Agora</h3>
-              <p className="text-muted-foreground">Resultado instantâneo baseado em transações reais • Sem compromisso
-Esta análise estratégica
+              <p className="text-muted-foreground">Resultado instantâneo baseado em transações reais • Sem compromisso.
+ Esta análise estratégica é destinada compradores em fase ativa de negociação.
 
 
 
@@ -647,7 +647,7 @@ Esta análise estratégica
                 {/* Form Section */}
                 <div className="max-w-2xl mx-auto w-full space-y-6">
                   <QuickValuationForm onComplete={handleQuickValuationComplete} onBairroChange={setSelectedBairro}
-                  onLogradouroChange={setSelectedLogradouro} />
+                onLogradouroChange={setSelectedLogradouro} />
 
 
                   {/* Trust badges */}
