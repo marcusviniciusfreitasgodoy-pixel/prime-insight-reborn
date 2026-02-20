@@ -355,7 +355,8 @@ export default function AvaliacaoPublica() {
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight animate-fade-in [animation-delay:150ms]">
                 Negocie com Confiança:
                 <br />
-                <span className="text-[#D4AF37]">Descubra se você está prestes a pagar 20% acima do valor real</span>
+                <span className="text-[#D4AF37]">Descubra se você está prestes a pagar até 30% acima
+do valor real</span>
                 <br className="hidden md:block" />
                 {" "}de Qualquer Imóvel
               </h2>
@@ -407,35 +408,35 @@ export default function AvaliacaoPublica() {
             {/* Two columns: Sellers and Buyers */}
             <div className="grid md:grid-cols-2 gap-8 mb-12">
               {/* Seller Column */}
-              <div className="space-y-3 sm:space-y-4">
-                <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 animate-fade-in">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-orange-500/20 to-red-500/10 border border-orange-500/30 flex items-center justify-center flex-shrink-0">
-                    <Home className="h-5 w-5 sm:h-6 sm:w-6 text-orange-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-base sm:text-lg text-[#0C2340]">Para Quem Vende</h4>
-                    <p className="text-xs sm:text-sm text-muted-foreground">Impactos de precificar errado</p>
-                  </div>
-                </div>
-                
-                {WRONG_PRICE_SELLER.map((item, index) => <div key={index} className="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl p-3 sm:p-4 border border-orange-200/50 hover:border-orange-300 hover:shadow-md transition-all duration-300 animate-fade-in" style={{
-                animationDelay: `${(index + 1) * 100}ms`
-              }}>
-                    <div className="flex items-start gap-2 sm:gap-3">
-                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-orange-500/10 flex items-center justify-center shrink-0">
-                        <item.icon className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600" />
-                      </div>
-                      <div className="min-w-0">
-                        <h5 className="font-semibold text-sm sm:text-base text-[#0C2340] mb-0.5 sm:mb-1">{item.title}</h5>
-                        <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{item.description}</p>
-                      </div>
-                    </div>
-                  </div>)}
-              </div>
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
               {/* Buyer Column */}
               <div className="space-y-3 sm:space-y-4">
-                <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 animate-fade-in [animation-delay:150ms]">
+                <div className="gap-2 sm:gap-3 mb-4 sm:mb-6 animate-fade-in [animation-delay:150ms] flex-row flex items-center justify-center">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/10 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
                     <Users className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
                   </div>
@@ -445,9 +446,8 @@ export default function AvaliacaoPublica() {
                   </div>
                 </div>
                 
-                {WRONG_PRICE_BUYER.map((item, index) => <div key={index} className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-3 sm:p-4 border border-blue-200/50 hover:border-blue-300 hover:shadow-md transition-all duration-300 animate-fade-in" style={{
-                animationDelay: `${(index + 1) * 100 + 150}ms`
-              }}>
+                {WRONG_PRICE_BUYER.map((item, index) => <div key={index} className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-3 sm:p-4 border border-blue-200/50 hover:border-blue-300 hover:shadow-md transition-all duration-300 animate-fade-in" style={{ animationDelay: `${(index + 1) * 100 + 150}ms`
+                  }}>
                     <div className="flex items-start gap-2 sm:gap-3">
                       <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
                         <item.icon className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
