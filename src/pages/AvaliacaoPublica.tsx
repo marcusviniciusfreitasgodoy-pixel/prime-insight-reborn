@@ -463,7 +463,7 @@ export default function AvaliacaoPublica() {
 
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight animate-fade-in [animation-delay:150ms]">
                 <br />
-                <span className="text-[#D4AF37]">Descubra se você está prestes a pagar até 30% acima do valor real 
+                <span className="text-[#D4AF37]">Descubra se você está prestes a pagar até 30% acima do valor real de mercado
 
                 </span>
                 <br className="hidden md:block" />
