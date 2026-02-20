@@ -4,8 +4,8 @@ import { QuickValuationForm, QuickValuationData } from "@/components/leads/Quick
 import { Loader2 } from "lucide-react";
 
 // Lazy load heavy components that aren't needed on initial render
-const QuickValuationResult = lazy(() => import("@/components/leads/QuickValuationResult").then(m => ({ default: m.QuickValuationResult })));
-const PublicSofiaAssistant = lazy(() => import("@/components/leads/PublicSofiaAssistant").then(m => ({ default: m.PublicSofiaAssistant })));
+const QuickValuationResult = lazy(() => import("@/components/leads/QuickValuationResult").then((m) => ({ default: m.QuickValuationResult })));
+const PublicSofiaAssistant = lazy(() => import("@/components/leads/PublicSofiaAssistant").then((m) => ({ default: m.PublicSofiaAssistant })));
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useUTMTracking } from "@/hooks/useUTMTracking";
@@ -355,7 +355,7 @@ export default function AvaliacaoPublica() {
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight animate-fade-in [animation-delay:150ms]">
                 Negocie com Confiança:
                 <br />
-                <span className="text-[#D4AF37]">Descubra o Valor Real</span>
+                <span className="text-[#D4AF37]">Descubra se você está prestes a pagar 20% acima do valor real</span>
                 <br className="hidden md:block" />
                 {" "}de Qualquer Imóvel
               </h2>
@@ -703,7 +703,7 @@ export default function AvaliacaoPublica() {
                   <h4 className="font-bold text-lg text-[#0C2340]">Como Usar</h4>
                 </div>
                 <Accordion type="single" collapsible className="space-y-2">
-                  {FAQ_DATA.filter(f => f.category === "usabilidade").map((faq, index) => <AccordionItem key={`usabilidade-${index}`} value={`usabilidade-${index}`} className="bg-gray-50 rounded-xl border border-gray-100 px-4 data-[state=open]:bg-[#D4AF37]/5 data-[state=open]:border-[#D4AF37]/30">
+                  {FAQ_DATA.filter((f) => f.category === "usabilidade").map((faq, index) => <AccordionItem key={`usabilidade-${index}`} value={`usabilidade-${index}`} className="bg-gray-50 rounded-xl border border-gray-100 px-4 data-[state=open]:bg-[#D4AF37]/5 data-[state=open]:border-[#D4AF37]/30">
                       <AccordionTrigger className="hover:no-underline py-4">
                         <span className="text-left font-medium text-[#0C2340]">{faq.question}</span>
                       </AccordionTrigger>
@@ -723,7 +723,7 @@ export default function AvaliacaoPublica() {
                   <h4 className="font-bold text-lg text-[#0C2340]">Confiança e Segurança</h4>
                 </div>
                 <Accordion type="single" collapsible className="space-y-2">
-                  {FAQ_DATA.filter(f => f.category === "confianca").map((faq, index) => <AccordionItem key={`confianca-${index}`} value={`confianca-${index}`} className="bg-gray-50 rounded-xl border border-gray-100 px-4 data-[state=open]:bg-green-50 data-[state=open]:border-green-200">
+                  {FAQ_DATA.filter((f) => f.category === "confianca").map((faq, index) => <AccordionItem key={`confianca-${index}`} value={`confianca-${index}`} className="bg-gray-50 rounded-xl border border-gray-100 px-4 data-[state=open]:bg-green-50 data-[state=open]:border-green-200">
                       <AccordionTrigger className="hover:no-underline py-4">
                         <span className="text-left font-medium text-[#0C2340]">{faq.question}</span>
                       </AccordionTrigger>
@@ -743,7 +743,7 @@ export default function AvaliacaoPublica() {
                   <h4 className="font-bold text-lg text-[#0C2340]">Benefícios</h4>
                 </div>
                 <Accordion type="single" collapsible className="space-y-2">
-                  {FAQ_DATA.filter(f => f.category === "beneficios").map((faq, index) => <AccordionItem key={`beneficios-${index}`} value={`beneficios-${index}`} className="bg-gray-50 rounded-xl border border-gray-100 px-4 data-[state=open]:bg-blue-50 data-[state=open]:border-blue-200">
+                  {FAQ_DATA.filter((f) => f.category === "beneficios").map((faq, index) => <AccordionItem key={`beneficios-${index}`} value={`beneficios-${index}`} className="bg-gray-50 rounded-xl border border-gray-100 px-4 data-[state=open]:bg-blue-50 data-[state=open]:border-blue-200">
                       <AccordionTrigger className="hover:no-underline py-4">
                         <span className="text-left font-medium text-[#0C2340]">{faq.question}</span>
                       </AccordionTrigger>
@@ -763,7 +763,7 @@ export default function AvaliacaoPublica() {
                   <h4 className="font-bold text-lg text-[#0C2340]">Dúvidas Comuns</h4>
                 </div>
                 <Accordion type="single" collapsible className="space-y-2">
-                  {FAQ_DATA.filter(f => f.category === "objecoes").map((faq, index) => <AccordionItem key={`objecoes-${index}`} value={`objecoes-${index}`} className="bg-gray-50 rounded-xl border border-gray-100 px-4 data-[state=open]:bg-amber-50 data-[state=open]:border-amber-200">
+                  {FAQ_DATA.filter((f) => f.category === "objecoes").map((faq, index) => <AccordionItem key={`objecoes-${index}`} value={`objecoes-${index}`} className="bg-gray-50 rounded-xl border border-gray-100 px-4 data-[state=open]:bg-amber-50 data-[state=open]:border-amber-200">
                       <AccordionTrigger className="hover:no-underline py-4">
                         <span className="text-left font-medium text-[#0C2340]">{faq.question}</span>
                       </AccordionTrigger>
