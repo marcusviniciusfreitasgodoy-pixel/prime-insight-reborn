@@ -14,6 +14,7 @@ const PoliticaPrivacidade = lazy(() => import("./pages/PoliticaPrivacidade"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const Feedback = lazy(() => import("./pages/Feedback"));
 const Auth = lazy(() => import("./pages/Auth"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Leads = lazy(() => import("./pages/Leads"));
 const AdminFeedbacks = lazy(() => import("./pages/AdminFeedbacks"));
 const AdminAnalytics = lazy(() => import("./pages/AdminAnalytics"));
@@ -42,6 +43,7 @@ const App = () => {
                 <Route path="/feedback" element={<Feedback />} />
                 <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
                 <Route 
                   path="/leads" 
                   element={

@@ -157,24 +157,17 @@ export default function Auth() {
     setIsLoading(true);
 
     try {
-      const redirectUrl = `${window.location.origin}/reset-password`;
-      
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: redirectUrl,
+      const response = await supabase.functions.invoke("send-password-reset", {
+        body: { email: email.trim(), origin: window.location.origin },
       });
 
-      if (error) {
-        toast({
-          title: "Erro",
-          description: error.message,
-          variant: "destructive",
-        });
-        return;
+      if (response.error) {
+        throw new Error(response.error.message);
       }
 
       toast({
         title: "Email enviado!",
-        description: "Verifique sua caixa de entrada para redefinir sua senha.",
+        description: "Se o email estiver cadastrado, você receberá um link de recuperação.",
       });
       setShowForgotPassword(false);
     } catch (error) {
