@@ -459,21 +459,21 @@ export default function AvaliacaoPublica() {
 
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight animate-fade-in [animation-delay:150ms]">
                 <br />
-                <span className="text-[#D4AF37]">
-                  Descubra se você está prestes a pagar até 30% acima do valor real de mercado
+                <span className="text-[#D4AF37]">Compradores de alto padrão não negociam no escuro
+
                 </span>
                 <br className="hidden md:block" />
               </h2>
 
-              <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto animate-fade-in [animation-delay:300ms]">
-                Avaliação baseada em transações reais de compra e venda, não em preços de anúncios inflacionados.
-              </p>
+              <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto animate-fade-in [animation-delay:300ms]">Descubra o valor real de mercado e evite pagar até 30% mais caro no seu próximo imóvel.
+
+
+Avaliação baseada em transações reais de compra e venda, não em preços de anúncios inflacionados.</p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 animate-fade-in [animation-delay:450ms]">
-                <Button
-                  onClick={scrollToForm}
-                  size="lg"
-                  className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-bold shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto">
+                <Button onClick={scrollToForm}
+                size="lg"
+                className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-bold shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto">
 
                   <span className="truncate">Descobrir Valor Real Agora</span>
                   <ArrowRight className="ml-1.5 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
