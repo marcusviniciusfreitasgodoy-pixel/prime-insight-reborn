@@ -14,17 +14,12 @@ import {
 import { useAuthContext } from "@/contexts/AuthContext";
 
 const toolItems = [
-  { title: "Dashboard", url: "/admin", icon: Home },
-  { title: "Microregiões", url: "/admin/microbairros", icon: MapPin },
-  { title: "Pesquisas de Mercado", url: "/admin/pesquisas-mercado", icon: Search },
   { title: "Avaliação Imobiliária", url: "/admin/avaliacao-imobiliaria", icon: Calculator },
   { title: "Histórico Avaliações", url: "/admin/historico-avaliacoes", icon: History },
   { title: "Vistoria Digital", url: "/admin/vistoria-digital", icon: ClipboardCheck },
-  { title: "Documentação", url: "/admin/documentacao", icon: FileText },
 ];
 
 const adminItems = [
-  { title: "Base Conhecimento Sofia", url: "/admin/base-conhecimento", icon: Brain },
   { title: "Calibrador Avaliação", url: "/admin/calibrador-avaliacao", icon: Settings },
   { title: "Leads", url: "/admin/leads", icon: Users },
   { title: "Usuários", url: "/admin/usuarios", icon: UserCog },
