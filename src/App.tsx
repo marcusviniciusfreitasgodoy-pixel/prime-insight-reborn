@@ -67,7 +67,7 @@ const App = () => {
                     </ProtectedRoute>
                   }
                 >
-                  <Route index element={<Dashboard />} />
+                  <Route index element={<AvaliacaoImobiliaria />} />
                   <Route path="microbairros" element={<Microbairros />} />
                   <Route path="pesquisas-mercado" element={<Dashboard />} />
                   <Route path="avaliacao-imobiliaria" element={<AvaliacaoImobiliaria />} />
