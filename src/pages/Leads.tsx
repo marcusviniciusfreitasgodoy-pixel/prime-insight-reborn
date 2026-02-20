@@ -39,6 +39,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { toast } from "sonner";
 import logoSymbol from "@/assets/godoy-logo-symbol.png";
+import { LeadDetailDialog } from "@/components/leads/LeadDetailDialog";
 
 interface Lead {
   id: string;
@@ -56,6 +57,19 @@ interface Lead {
   origem: string | null;
   convertido: boolean | null;
   created_at: string;
+  evaluation_count: number | null;
+  objetivo: string | null;
+  urgencia: string | null;
+  preferencia_contato: string | null;
+  aceita_marketing: boolean | null;
+  diferenciais_imovel: string | null;
+  endereco_imovel_analise: string | null;
+  valor_pedido_vendedor: number | null;
+  notas: string | null;
+  followup_sent_at: string | null;
+  parecer_solicitado: boolean | null;
+  parecer_solicitado_at: string | null;
+  updated_at: string;
 }
 
 const formatCurrency = (value: number | null) => {
@@ -80,6 +94,7 @@ export default function Leads() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterInteresse, setFilterInteresse] = useState<string>("todos");
   const [filterConvertido, setFilterConvertido] = useState<string>("todos");
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
 
   const handleLogout = async () => {
     await signOut();
@@ -394,7 +409,8 @@ export default function Leads() {
                     {filteredLeads?.map((lead) => (
                       <div 
                         key={lead.id} 
-                        className="p-4 border border-border rounded-lg bg-card space-y-3"
+                        className="p-4 border border-border rounded-lg bg-card space-y-3 cursor-pointer hover:border-accent/50 transition-colors"
+                        onClick={() => setSelectedLead(lead)}
                       >
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex-1 min-w-0">
@@ -415,7 +431,7 @@ export default function Leads() {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => toggleConvertido(lead.id, lead.convertido)}
+                            onClick={(e) => { e.stopPropagation(); toggleConvertido(lead.id, lead.convertido); }}
                             className={`shrink-0 ${lead.convertido ? "text-green-600" : "text-muted-foreground"}`}
                           >
                             {lead.convertido ? <CheckCircle className="h-5 w-5" /> : <Clock className="h-5 w-5" />}
@@ -488,7 +504,7 @@ export default function Leads() {
                       </TableHeader>
                       <TableBody>
                         {filteredLeads?.map((lead) => (
-                          <TableRow key={lead.id} className="group">
+                          <TableRow key={lead.id} className="group cursor-pointer hover:bg-muted/70" onClick={() => setSelectedLead(lead)}>
                             <TableCell>
                               <div className="space-y-1">
                                 <p className="font-medium">{lead.nome}</p>
@@ -564,7 +580,7 @@ export default function Leads() {
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                onClick={() => toggleConvertido(lead.id, lead.convertido)}
+                                onClick={(e) => { e.stopPropagation(); toggleConvertido(lead.id, lead.convertido); }}
                                 className={lead.convertido ? "text-green-600 hover:text-green-700" : "text-muted-foreground hover:text-foreground"}
                               >
                                 {lead.convertido ? (
@@ -587,6 +603,11 @@ export default function Leads() {
           </Tabs>
         </div>
       </div>
+      <LeadDetailDialog
+        lead={selectedLead}
+        open={!!selectedLead}
+        onOpenChange={(open) => { if (!open) setSelectedLead(null); }}
+      />
     </>
   );
 }
