@@ -396,9 +396,9 @@ export default function AvaliacaoPublica() {
               <span className="inline-block px-4 py-1 rounded-full bg-destructive/10 text-destructive text-sm font-semibold mb-4">
                 ATENÇÃO
               </span>
-              <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">
-                O Preço Errado Prejudica Todo Mundo
-              </h3>
+              <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">O Risco Real
+Preço Errado Prejudica Todo Mundo
+            </h3>
               <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
                 Seja vendedor ou comprador, negociar sem dados reais custa tempo, dinheiro e oportunidades.
               </p>
