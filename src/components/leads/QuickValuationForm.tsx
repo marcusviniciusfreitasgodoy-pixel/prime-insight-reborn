@@ -54,16 +54,16 @@ const MAX_FREE_EVALUATIONS = 5;
 // Lista de bairros agora vem do banco de dados via useAllBairros hook
 
 const TIPOLOGIAS = [
-  { value: "Apartamento", label: "Apartamento" },
-  { value: "Casa", label: "Casa" },
-];
+{ value: "Apartamento", label: "Apartamento" },
+{ value: "Casa", label: "Casa" }];
+
 
 export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroChange }: QuickValuationFormProps) {
   // Lead fields
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
-  
+
   // Property fields
   const [bairro, setBairro] = useState("BARRA DA TIJUCA");
   const [logradouro, setLogradouro] = useState("");
@@ -74,10 +74,10 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
   const [suites, setSuites] = useState("");
   const [vagas, setVagas] = useState("");
   const [diferenciais, setDiferenciais] = useState("");
-  
+
   // Honeypot field for bot detection (hidden from users)
   const [honeypot, setHoneypot] = useState("");
-  
+
   // UI state
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -86,7 +86,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
   const [currentEvaluationCount, setCurrentEvaluationCount] = useState(0);
   const [bairroPopoverOpen, setBairroPopoverOpen] = useState(false);
   const [bairroSearchFilter, setBairroSearchFilter] = useState("");
-  
+
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
 
@@ -113,11 +113,11 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        suggestionsRef.current &&
-        !suggestionsRef.current.contains(event.target as Node) &&
-        inputRef.current &&
-        !inputRef.current.contains(event.target as Node)
-      ) {
+      suggestionsRef.current &&
+      !suggestionsRef.current.contains(event.target as Node) &&
+      inputRef.current &&
+      !inputRef.current.contains(event.target as Node))
+      {
         setShowSuggestions(false);
       }
     };
@@ -128,7 +128,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
 
   // Listen for address selection from map
   useEffect(() => {
-    const handleMapSelect = (e: CustomEvent<{ logradouro: string; bairro: string }>) => {
+    const handleMapSelect = (e: CustomEvent<{logradouro: string;bairro: string;}>) => {
       const { logradouro: selectedLogradouro, bairro: selectedBairro } = e.detail;
       if (selectedLogradouro) {
         setLogradouro(selectedLogradouro);
@@ -144,7 +144,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
     return () => window.removeEventListener("map-select-address", handleMapSelect as EventListener);
   }, []);
 
-  const handleSelectSuggestion = (suggestion: { logradouro: string; nome_condominio?: string }) => {
+  const handleSelectSuggestion = (suggestion: {logradouro: string;nome_condominio?: string;}) => {
     setLogradouro(suggestion.nome_condominio || suggestion.logradouro);
     setShowSuggestions(false);
   };
@@ -171,30 +171,30 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    
+
     // Bot detection: if honeypot field is filled, silently reject
     if (honeypot) {
       console.log("Bot detected via honeypot");
       // Pretend success to avoid alerting bots
       return;
     }
-    
+
     // Validate lead fields
     if (!nome.trim() || nome.trim().length < 3) {
       setError("Nome deve ter pelo menos 3 caracteres");
       return;
     }
-    
+
     if (!validateEmail(email)) {
       setError("Email inválido");
       return;
     }
-    
+
     if (!validatePhone(telefone)) {
       setError("Telefone deve ter 10 ou 11 dígitos");
       return;
     }
-    
+
     // Validate property fields
     const areaNum = parseFloat(area);
     if (!bairro || !areaNum || areaNum <= 0) {
@@ -207,15 +207,15 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
     try {
       const normalizedEmail = email.trim().toLowerCase();
       const phoneDigits = telefone.replace(/\D/g, "");
-      
+
       // Step 1: Check evaluation limit BEFORE showing results
       const { data: leadCheck } = await supabase.rpc('check_lead_exists', {
         lead_email: normalizedEmail
       });
-      
+
       const existingLead = leadCheck && leadCheck.length > 0 && leadCheck[0].exists_flag;
       const evaluationCount = existingLead ? leadCheck[0].current_count : 0;
-      
+
       // If limit exceeded, show limit screen
       if (evaluationCount >= MAX_FREE_EVALUATIONS) {
         setCurrentEvaluationCount(evaluationCount);
@@ -223,7 +223,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
         setIsLoading(false);
         return;
       }
-      
+
       // Step 2: Register or update lead
       if (existingLead) {
         // Update existing lead and increment evaluation count
@@ -237,9 +237,9 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
           p_banheiros: banheiros ? parseInt(banheiros) : null,
           p_suites: suites ? parseInt(suites) : null,
           p_vagas: vagas ? parseInt(vagas) : null,
-          p_diferenciais_imovel: diferenciais.trim() || null,
+          p_diferenciais_imovel: diferenciais.trim() || null
         });
-        
+
         // Increment evaluation count
         await supabase.rpc('increment_lead_evaluation', {
           lead_email: normalizedEmail
@@ -259,18 +259,18 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
           diferenciais_imovel: diferenciais.trim() || null,
           interesse: "compra",
           origem: "avaliacao_publica",
-          evaluation_count: 1,
+          evaluation_count: 1
         });
-        
+
         if (insertError) throw insertError;
       }
-      
+
       // Step 3: Fetch ITBI data from public view (accessible without auth)
-      let query = supabase
-        .from("itbi_stats_public")
-        .select("preco_min_m2, preco_medio_m2, preco_max_m2, total_transacoes")
-        .eq("bairro", bairro)
-        .eq("uso", "Residencial");
+      let query = supabase.
+      from("itbi_stats_public").
+      select("preco_min_m2, preco_medio_m2, preco_max_m2, total_transacoes").
+      eq("bairro", bairro).
+      eq("uso", "Residencial");
 
       if (logradouro.trim()) {
         query = query.ilike("logradouro", `%${logradouro.trim()}%`);
@@ -287,8 +287,8 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
         const totalTransacoes = data.reduce((sum, d) => sum + (d.total_transacoes || 0), 0);
 
         // Weighted average using total_transacoes as weight
-        let weightedMin = 0, weightedMed = 0, weightedMax = 0, totalWeight = 0;
-        data.forEach(d => {
+        let weightedMin = 0,weightedMed = 0,weightedMax = 0,totalWeight = 0;
+        data.forEach((d) => {
           const w = d.total_transacoes || 1;
           weightedMin += (d.preco_min_m2 || 0) * w;
           weightedMed += (d.preco_medio_m2 || 0) * w;
@@ -304,13 +304,13 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
           min_m2: Math.round(min_m2),
           med_m2: Math.round(med_m2),
           max_m2: Math.round(max_m2),
-          transaction_count: totalTransacoes,
+          transaction_count: totalTransacoes
         };
 
         estimativa = {
           min: Math.round(min_m2 * areaNum),
           med: Math.round(med_m2 * areaNum),
-          max: Math.round(max_m2 * areaNum),
+          max: Math.round(max_m2 * areaNum)
         };
       }
 
@@ -336,7 +336,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
             estimativaMin: estimativa?.min,
             estimativaMed: estimativa?.med,
             estimativaMax: estimativa?.max,
-            enderecoImovelAnalise: logradouro.trim() || undefined,
+            enderecoImovelAnalise: logradouro.trim() || undefined
           }
         });
         console.log(`Lead notification sent (${existingLead ? 'returning' : 'initial'}) with valuation data`);
@@ -349,7 +349,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
         bairro,
         tipologia,
         area_m2: areaNum,
-        valor_estimado: estimativa?.med,
+        valor_estimado: estimativa?.med
       });
 
       onComplete({
@@ -366,7 +366,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
         estimativa,
         leadName: nome.trim(),
         leadEmail: normalizedEmail,
-        leadPhone: phoneDigits,
+        leadPhone: phoneDigits
       });
     } catch (err) {
       console.error("Erro ao processar:", err);
@@ -379,12 +379,12 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
   // Show limit exceeded screen
   if (limitExceeded) {
     return (
-      <LimitExceededScreen 
-        evaluationCount={currentEvaluationCount} 
+      <LimitExceededScreen
+        evaluationCount={currentEvaluationCount}
         email={email}
-        onRetry={() => setLimitExceeded(false)}
-      />
-    );
+        onRetry={() => setLimitExceeded(false)} />);
+
+
   }
 
   return (
@@ -394,8 +394,8 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
           <Calculator className="h-8 w-8 text-accent" />
         </div>
         <CardTitle className="text-2xl font-bold">Sua Análise Preliminar de Valor Imobiliário Gratuita</CardTitle>
-        <CardDescription className="text-base">
-          Informe seus dados e os dados do imóvel para receber uma estimativa de valor de mercado.
+        <CardDescription className="text-base">Informe seus dados e os dados do imóvel para receber uma estimativa de valor de mercado.
+Se a diferença for relevante, você pode solicitar um Parecer Técnico Completo com vistoria presencial.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -411,15 +411,15 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
           {/* Honeypot field - hidden from real users, bots will fill it */}
           <div style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, overflow: 'hidden' }} aria-hidden="true">
             <label htmlFor="website_url">Website</label>
-            <input 
-              type="text" 
-              id="website_url" 
-              name="website_url" 
+            <input
+              type="text"
+              id="website_url"
+              name="website_url"
               value={honeypot}
               onChange={(e) => setHoneypot(e.target.value)}
               tabIndex={-1}
-              autoComplete="off"
-            />
+              autoComplete="off" />
+
           </div>
           
           {/* Lead Fields Section */}
@@ -439,8 +439,8 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                 placeholder="Seu nome completo"
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
-                className="border-primary/20 focus-visible:ring-accent/30"
-              />
+                className="border-primary/20 focus-visible:ring-accent/30" />
+
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -455,8 +455,8 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                   placeholder="seu@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="border-primary/20 focus-visible:ring-accent/30"
-                />
+                  className="border-primary/20 focus-visible:ring-accent/30" />
+
               </div>
               
               <div className="space-y-2">
@@ -470,8 +470,8 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                   placeholder="(21) 99999-9999"
                   value={telefone}
                   onChange={(e) => setTelefone(formatPhone(e.target.value))}
-                  className="border-primary/20 focus-visible:ring-accent/30"
-                />
+                  className="border-primary/20 focus-visible:ring-accent/30" />
+
               </div>
             </div>
           </div>
@@ -495,8 +495,8 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     role="combobox"
                     aria-expanded={bairroPopoverOpen}
                     className="w-full justify-between border-primary/20 focus:ring-accent/30 bg-background"
-                    disabled={bairrosLoading}
-                  >
+                    disabled={bairrosLoading}>
+
                     <div className="flex items-center gap-2 truncate">
                       <span className="truncate">
                         {bairrosLoading ? "Carregando..." : bairro || "Selecione o bairro"}
@@ -514,13 +514,13 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                         value={bairroSearchFilter}
                         onChange={(e) => setBairroSearchFilter(e.target.value)}
                         className="pl-8 h-9"
-                        autoFocus
-                      />
+                        autoFocus />
+
                     </div>
                   </div>
                   <ScrollArea className="h-[250px]">
-                    {bairrosError ? (
-                      <div className="p-4 text-center space-y-3">
+                    {bairrosError ?
+                    <div className="p-4 text-center space-y-3">
                         <div className="flex items-center justify-center gap-2 text-destructive">
                           <AlertCircle className="h-5 w-5" />
                           <span className="text-sm font-medium">Erro ao carregar bairros</span>
@@ -529,66 +529,66 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                           Não foi possível carregar a lista de bairros. Verifique sua conexão.
                         </p>
                         <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => refetchBairros()}
-                          className="gap-2"
-                        >
+                        variant="outline"
+                        size="sm"
+                        onClick={() => refetchBairros()}
+                        className="gap-2">
+
                           <RefreshCw className="h-3.5 w-3.5" />
                           Tentar novamente
                         </Button>
-                      </div>
-                    ) : bairrosLoading || !bairros || bairros.length === 0 ? (
-                      <div className="p-4 text-center text-sm text-muted-foreground">
+                      </div> :
+                    bairrosLoading || !bairros || bairros.length === 0 ?
+                    <div className="p-4 text-center text-sm text-muted-foreground">
                         <Loader2 className="h-4 w-4 animate-spin inline mr-2" />
                         Carregando bairros...
-                      </div>
-                    ) : (() => {
-                      const filteredBairros = bairros
-                        .filter((b) => b.bairro.toLowerCase().includes(bairroSearchFilter.toLowerCase()))
-                        .sort((a, b) => a.bairro.localeCompare(b.bairro, 'pt-BR'))
-                        .slice(0, 50);
-                      
+                      </div> :
+                    (() => {
+                      const filteredBairros = bairros.
+                      filter((b) => b.bairro.toLowerCase().includes(bairroSearchFilter.toLowerCase())).
+                      sort((a, b) => a.bairro.localeCompare(b.bairro, 'pt-BR')).
+                      slice(0, 50);
+
                       if (filteredBairros.length === 0) {
                         return (
                           <div className="p-4 text-center text-sm text-muted-foreground">
                             Nenhum bairro encontrado para "{bairroSearchFilter}"
-                          </div>
-                        );
+                          </div>);
+
                       }
-                      
+
                       return (
                         <div className="p-1">
-                          {filteredBairros.map(({ bairro: b, total_transacoes }, index) => (
-                            <button
-                              key={`${b}-${index}`}
-                              onClick={() => {
-                                setBairro(b);
-                                setBairroPopoverOpen(false);
-                                setBairroSearchFilter("");
-                              }}
-                              className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-sm transition-colors ${
-                                bairro === b
-                                  ? "bg-accent/10 text-foreground font-medium"
-                                  : "hover:bg-muted"
-                              }`}
-                            >
+                          {filteredBairros.map(({ bairro: b, total_transacoes }, index) =>
+                          <button
+                            key={`${b}-${index}`}
+                            onClick={() => {
+                              setBairro(b);
+                              setBairroPopoverOpen(false);
+                              setBairroSearchFilter("");
+                            }}
+                            className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-sm transition-colors ${
+                            bairro === b ?
+                            "bg-accent/10 text-foreground font-medium" :
+                            "hover:bg-muted"}`
+                            }>
+
                               <span className="truncate">{b}</span>
                               <span className="text-xs text-muted-foreground shrink-0 ml-2">
                                 ({total_transacoes.toLocaleString("pt-BR")})
                               </span>
                             </button>
-                          ))}
-                        </div>
-                      );
+                          )}
+                        </div>);
+
                     })()}
-                    {bairros && bairros.filter((b) => 
-                      b.bairro.toLowerCase().includes(bairroSearchFilter.toLowerCase())
-                    ).length > 50 && (
-                      <div className="py-2 px-2 text-xs text-muted-foreground text-center border-t">
+                    {bairros && bairros.filter((b) =>
+                    b.bairro.toLowerCase().includes(bairroSearchFilter.toLowerCase())
+                    ).length > 50 &&
+                    <div className="py-2 px-2 text-xs text-muted-foreground text-center border-t">
                         Digite para filtrar mais bairros...
                       </div>
-                    )}
+                    }
                   </ScrollArea>
                 </PopoverContent>
               </Popover>
@@ -611,28 +611,28 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                   }}
                   onFocus={() => setShowSuggestions(true)}
                   className="border-primary/20 focus-visible:ring-accent/30 pr-10"
-                  autoComplete="off"
-                />
-                {suggestionsLoading && logradouro.length >= 2 && (
-                  <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin text-muted-foreground" />
-                )}
-                {!suggestionsLoading && logradouro.length >= 2 && (
-                  <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                )}
+                  autoComplete="off" />
+
+                {suggestionsLoading && logradouro.length >= 2 &&
+                <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin text-muted-foreground" />
+                }
+                {!suggestionsLoading && logradouro.length >= 2 &&
+                <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                }
               </div>
 
               {/* Skeleton Loading State */}
-              {showSuggestions && logradouro.length >= 2 && suggestionsLoading && (
-                <div 
-                  ref={suggestionsRef}
-                  className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-xl overflow-hidden animate-fade-in"
-                >
+              {showSuggestions && logradouro.length >= 2 && suggestionsLoading &&
+              <div
+                ref={suggestionsRef}
+                className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-xl overflow-hidden animate-fade-in">
+
                   <div className="p-3 border-b border-border/50 flex items-center gap-2 bg-muted/30">
                     <Loader2 className="h-4 w-4 animate-spin text-primary" />
                     <span className="text-xs text-muted-foreground">Buscando endereços...</span>
                   </div>
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="px-4 py-3 border-b border-border/50 last:border-0">
+                  {[1, 2, 3].map((i) =>
+                <div key={i} className="px-4 py-3 border-b border-border/50 last:border-0">
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex-1 space-y-2">
                           <div className="h-4 bg-muted rounded animate-pulse w-3/4" />
@@ -641,60 +641,60 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                         <div className="h-5 w-16 bg-muted rounded animate-pulse shrink-0" />
                       </div>
                     </div>
-                  ))}
+                )}
                 </div>
-              )}
+              }
 
               {/* Results */}
-              {showSuggestions && suggestions && suggestions.length > 0 && logradouro.length >= 2 && !suggestionsLoading && (
-                <div 
-                  ref={suggestionsRef}
-                  className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-xl max-h-64 overflow-y-auto animate-fade-in"
-                >
-                  {suggestions.map((suggestion, index) => (
-                    <button
-                      key={`${suggestion.logradouro}-${index}`}
-                      type="button"
-                      onClick={() => handleSelectSuggestion(suggestion)}
-                      className="w-full px-4 py-3 text-left hover:bg-accent/10 border-b border-border/50 last:border-0 transition-colors"
-                    >
+              {showSuggestions && suggestions && suggestions.length > 0 && logradouro.length >= 2 && !suggestionsLoading &&
+              <div
+                ref={suggestionsRef}
+                className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-xl max-h-64 overflow-y-auto animate-fade-in">
+
+                  {suggestions.map((suggestion, index) =>
+                <button
+                  key={`${suggestion.logradouro}-${index}`}
+                  type="button"
+                  onClick={() => handleSelectSuggestion(suggestion)}
+                  className="w-full px-4 py-3 text-left hover:bg-accent/10 border-b border-border/50 last:border-0 transition-colors">
+
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex-1 min-w-0">
-                          {suggestion.nome_condominio ? (
-                            <>
+                          {suggestion.nome_condominio ?
+                      <>
                               <p className="font-medium text-sm truncate text-foreground">
                                 {suggestion.nome_condominio}
                               </p>
                               <p className="text-xs text-muted-foreground truncate">
                                 {suggestion.logradouro}
                               </p>
-                            </>
-                          ) : (
-                            <p className="font-medium text-sm truncate text-foreground">
+                            </> :
+
+                      <p className="font-medium text-sm truncate text-foreground">
                               {suggestion.logradouro}
                             </p>
-                          )}
-                          {suggestion.microbairro && (
-                            <p className="text-xs text-accent mt-0.5">
+                      }
+                          {suggestion.microbairro &&
+                      <p className="text-xs text-accent mt-0.5">
                               {suggestion.microbairro}
                             </p>
-                          )}
+                      }
                         </div>
-                        <Badge 
-                          variant="secondary" 
-                          className="shrink-0 text-xs bg-primary/10 text-primary"
-                        >
+                        <Badge
+                      variant="secondary"
+                      className="shrink-0 text-xs bg-primary/10 text-primary">
+
                           {suggestion.total_transacoes} trans.
                         </Badge>
                       </div>
                     </button>
-                  ))}
+                )}
                 </div>
-              )}
+              }
 
               {/* No Results */}
-              {showSuggestions && logradouro.length >= 2 && suggestions?.length === 0 && !suggestionsLoading && (
-                <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-xl p-4 text-center animate-fade-in">
+              {showSuggestions && logradouro.length >= 2 && suggestions?.length === 0 && !suggestionsLoading &&
+              <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-xl p-4 text-center animate-fade-in">
                   <Search className="h-8 w-8 text-muted-foreground/50 mx-auto mb-2" />
                   <p className="text-sm text-muted-foreground">
                     Nenhum resultado encontrado para "<span className="font-medium">{logradouro}</span>"
@@ -703,7 +703,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     Tente outro termo ou digite apenas o nome da rua
                   </p>
                 </div>
-              )}
+              }
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -717,11 +717,11 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {TIPOLOGIAS.map((t) => (
-                      <SelectItem key={t.value} value={t.value}>
+                    {TIPOLOGIAS.map((t) =>
+                    <SelectItem key={t.value} value={t.value}>
                         {t.label}
                       </SelectItem>
-                    ))}
+                    )}
                   </SelectContent>
                 </Select>
               </div>
@@ -739,8 +739,8 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                   onChange={(e) => setArea(e.target.value)}
                   min="20"
                   max="2000"
-                  className="border-primary/20 focus-visible:ring-accent/30"
-                />
+                  className="border-primary/20 focus-visible:ring-accent/30" />
+
               </div>
             </div>
 
@@ -762,8 +762,8 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     onChange={(e) => setQuartos(e.target.value)}
                     min="0"
                     max="10"
-                    className="border-primary/20 focus-visible:ring-accent/30 h-9"
-                  />
+                    className="border-primary/20 focus-visible:ring-accent/30 h-9" />
+
                 </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="banheiros" className="flex items-center gap-1.5 text-xs">
@@ -778,8 +778,8 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     onChange={(e) => setBanheiros(e.target.value)}
                     min="0"
                     max="10"
-                    className="border-primary/20 focus-visible:ring-accent/30 h-9"
-                  />
+                    className="border-primary/20 focus-visible:ring-accent/30 h-9" />
+
                 </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="suites" className="flex items-center gap-1.5 text-xs">
@@ -794,8 +794,8 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     onChange={(e) => setSuites(e.target.value)}
                     min="0"
                     max="10"
-                    className="border-primary/20 focus-visible:ring-accent/30 h-9"
-                  />
+                    className="border-primary/20 focus-visible:ring-accent/30 h-9" />
+
                 </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="vagas" className="flex items-center gap-1.5 text-xs">
@@ -810,8 +810,8 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     onChange={(e) => setVagas(e.target.value)}
                     min="0"
                     max="10"
-                    className="border-primary/20 focus-visible:ring-accent/30 h-9"
-                  />
+                    className="border-primary/20 focus-visible:ring-accent/30 h-9" />
+
                 </div>
               </div>
             </div>
@@ -827,32 +827,32 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                 value={diferenciais}
                 onChange={(e) => setDiferenciais(e.target.value)}
                 className="border-primary/20 focus-visible:ring-accent/30 min-h-[60px] resize-none"
-                maxLength={500}
-              />
+                maxLength={500} />
+
             </div>
           </div>
 
-          {error && (
-            <p className="text-sm text-destructive text-center bg-destructive/10 py-2 rounded-lg">{error}</p>
-          )}
+          {error &&
+          <p className="text-sm text-destructive text-center bg-destructive/10 py-2 rounded-lg">{error}</p>
+          }
 
-          <Button 
-            type="submit" 
-            className="w-full bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg" 
-            size="lg" 
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <>
+          <Button
+            type="submit"
+            className="w-full bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg"
+            size="lg"
+            disabled={isLoading}>
+
+            {isLoading ?
+            <>
                 <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                 Processando...
-              </>
-            ) : (
-              <>
+              </> :
+
+            <>
                 Ver Análise Agora
                 <ArrowRight className="ml-2 h-5 w-5" />
               </>
-            )}
+            }
           </Button>
 
           <p className="text-xs text-muted-foreground text-center pt-2">
@@ -860,6 +860,6 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
           </p>
         </form>
       </CardContent>
-    </Card>
-  );
+    </Card>);
+
 }
