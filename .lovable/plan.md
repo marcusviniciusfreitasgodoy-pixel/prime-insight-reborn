@@ -1,76 +1,79 @@
 
 
-# Fluxo Customizado de Reset de Senha via Resend
+# Detalhe do Lead - Modal com todas as informacoes
 
-## Problemas Identificados
+## Objetivo
 
-1. **Rota `/reset-password` nao existe no App.tsx** - A pagina `ResetPassword.tsx` existe mas nunca foi registrada como rota. Qualquer acesso a `/reset-password` redireciona para `/` pelo catch-all (linha 69).
-2. **Email de recuperacao usa servico padrao** - Baixa confiabilidade e limite de ~4 emails/hora.
+Ao clicar em um lead (na tabela desktop ou card mobile), abrir um Dialog/modal com todas as informacoes disponiveis do lead, incluindo campos opcionais preenchidos e dados da avaliacao.
+
+## Problema Atual
+
+- A interface `Lead` (linhas 43-59) mapeia apenas 13 dos 27 campos da tabela
+- Nao existe acao de clique nos leads para ver detalhes
+- Campos importantes estao ocultos: `objetivo`, `urgencia`, `diferenciais_imovel`, `endereco_imovel_analise`, `valor_pedido_vendedor`, `notas`, `preferencia_contato`, `parecer_solicitado`, etc.
 
 ## Solucao
 
-### 1. Criar Edge Function `send-password-reset`
+### 1. Atualizar interface `Lead` (Leads.tsx, linhas 43-59)
 
-Nova edge function que:
-- Recebe o email do usuario
-- Usa Supabase Admin API (`supabase.auth.admin.generateLink`) para gerar um link de recuperacao
-- Envia o email via Resend com template HTML profissional Godoy Prime
-- Nao requer autenticacao (endpoint publico, pois o usuario esqueceu a senha)
+Adicionar todos os campos faltantes da tabela:
 
-```text
-Fluxo:
-Usuario -> Auth.tsx (esqueceu senha) -> Edge Function -> Resend -> Email com link
-Link clicado -> /reset-password -> ResetPassword.tsx -> updateUser()
-```
+| Campo | Tipo | Descricao |
+|-------|------|-----------|
+| `banheiros` | number | Qtd banheiros |
+| `suites` | number | Qtd suites |
+| `evaluation_count` | number | Avaliacoes realizadas |
+| `objetivo` | string | Objetivo do lead |
+| `urgencia` | string | Nivel de urgencia |
+| `preferencia_contato` | string | Como prefere ser contatado |
+| `aceita_marketing` | boolean | Aceita receber marketing |
+| `diferenciais_imovel` | string | Diferenciais desejados |
+| `endereco_imovel_analise` | string | Endereco do imovel analisado |
+| `valor_pedido_vendedor` | number | Valor pedido pelo vendedor |
+| `notas` | string | Notas internas |
+| `followup_sent_at` | timestamp | Data do follow-up |
+| `parecer_solicitado` | boolean | Se solicitou parecer |
+| `parecer_solicitado_at` | timestamp | Data da solicitacao |
+| `updated_at` | string | Ultima atualizacao |
 
-### 2. Adicionar rota `/reset-password` no App.tsx
+### 2. Criar componente `LeadDetailDialog`
 
-Registrar a pagina `ResetPassword.tsx` como rota publica antes do catch-all.
+Novo componente em `src/components/leads/LeadDetailDialog.tsx` que exibe um Dialog com:
 
-### 3. Atualizar Auth.tsx
+**Secao 1 - Contato**
+- Nome, email (link mailto), telefone (link tel)
+- Preferencia de contato, aceita marketing
 
-Substituir `supabase.auth.resetPasswordForEmail()` por chamada a edge function `send-password-reset`.
+**Secao 2 - Interesse e Imovel**
+- Tipo de interesse (compra/venda), objetivo, urgencia
+- Bairro, area, quartos, suites, banheiros, vagas
+- Diferenciais do imovel (se preenchido)
 
-### 4. Configurar `verify_jwt = false` no config.toml
+**Secao 3 - Avaliacao**
+- Endereco do imovel analisado
+- Valor de interesse (estimativa gerada)
+- Valor pedido pelo vendedor (se preenchido)
+- Numero de avaliacoes realizadas
 
-A funcao precisa ser acessivel sem autenticacao.
+**Secao 4 - Status e Historico**
+- Status convertido (com botao toggle)
+- Data de criacao e ultima atualizacao
+- Follow-up enviado (data)
+- Parecer solicitado (data)
+- Notas internas (campo editavel futuro, exibicao por agora)
 
-## Detalhes Tecnicos
+Campos opcionais so aparecem se preenchidos - layout limpo e organizado.
+
+### 3. Integrar clique na lista (Leads.tsx)
+
+- Adicionar estado `selectedLead` para controlar qual lead esta selecionado
+- Tornar as linhas da tabela desktop e cards mobile clicaveis (`cursor-pointer`, `onClick`)
+- Renderizar `LeadDetailDialog` condicionalmente
 
 ### Arquivos modificados
 
 | Arquivo | Mudanca |
 |---------|---------|
-| `supabase/functions/send-password-reset/index.ts` | Nova edge function |
-| `supabase/config.toml` | Adicionar `verify_jwt = false` para nova funcao |
-| `src/App.tsx` | Adicionar rota `/reset-password` |
-| `src/pages/Auth.tsx` | Usar edge function ao inves do metodo nativo |
-
-### Edge Function - Logica principal
-
-```typescript
-// Gerar link de recuperacao via Admin API
-const supabaseAdmin = createClient(SUPABASE_URL, SERVICE_ROLE_KEY);
-const { data, error } = await supabaseAdmin.auth.admin.generateLink({
-  type: 'recovery',
-  email: email,
-  options: { redirectTo: `${origin}/reset-password` }
-});
-
-// Enviar via Resend com template Godoy Prime
-const resend = new Resend(RESEND_API_KEY);
-await resend.emails.send({
-  from: "Godoy Prime Realty <marcus@godoyprime.com.br>",
-  to: [email],
-  subject: "Redefinir sua senha - Godoy Prime",
-  html: templateHtml // Template profissional com link
-});
-```
-
-### Seguranca
-
-- Rate limiting basico: aceita apenas POST
-- Nao revela se o email existe ou nao (sempre retorna sucesso)
-- Link de recuperacao tem expiracao padrao do Supabase
-- Sanitizacao HTML do email do usuario no template
+| `src/components/leads/LeadDetailDialog.tsx` | Novo componente - modal de detalhes |
+| `src/pages/Leads.tsx` | Atualizar interface Lead, adicionar estado e clique, renderizar dialog |
 
