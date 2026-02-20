@@ -14,11 +14,7 @@ export function Footer() {
         <div className="flex flex-col items-center gap-4 sm:gap-6">
           {/* Logo and brand */}
           <div className="flex items-center gap-2 sm:gap-3">
-            <img 
-              src={logoSymbol} 
-              alt="Godoy Prime Realty" 
-              className="h-8 sm:h-12 w-auto object-contain"
-            />
+            <img src={logoSymbol} alt="Godoy Prime Realty" className="h-8 sm:h-12 w-auto object-contain" />
             <div className="border-l border-accent/30 pl-2 sm:pl-3">
               <h3 className="font-bold text-xs sm:text-base text-primary-foreground tracking-wider">GODOY PRIME</h3>
               <p className="text-[8px] sm:text-xs text-accent font-semibold tracking-wide">REALTY</p>
@@ -44,16 +40,12 @@ export function Footer() {
           </div>
 
           {/* WhatsApp Button */}
-          <Button
-            asChild
-            className="bg-green-600 hover:bg-green-700 text-white gap-2"
-            size="sm"
-          >
+          <Button asChild className="bg-green-600 hover:bg-green-700 text-white gap-2" size="sm">
             <a
               href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => trackWhatsAppClick({ source: 'footer', phone_number: whatsappNumber })}
+              onClick={() => trackWhatsAppClick({ source: "footer", phone_number: whatsappNumber })}
             >
               <MessageCircle className="h-4 w-4" />
               Fale pelo WhatsApp
@@ -63,13 +55,13 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-accent/20 flex flex-col items-center gap-2 sm:gap-3 text-[9px] sm:text-xs text-primary-foreground/60 text-center">
-          <p>© 2025 GODOY PRIME REALTY. CRECI 11841 - PJ.</p>
+          <p>© 2026 GODOY PRIME REALTY. CRECI 11841 - PJ.</p>
           <div className="flex items-center gap-3">
             <p>
               Desenvolvido por{" "}
-              <a 
-                href="https://lovable.dev" 
-                target="_blank" 
+              <a
+                href="https://lovable.dev"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-accent hover:underline font-medium"
               >
@@ -77,16 +69,16 @@ export function Footer() {
               </a>
             </p>
             <span className="text-accent/30">|</span>
-            <Link 
-              to="/feedback" 
+            <Link
+              to="/feedback"
               className="flex items-center gap-1 text-primary-foreground/60 hover:text-accent transition-colors"
             >
               <MessageSquareHeart className="h-3 w-3" />
               <span>Feedback</span>
             </Link>
             <span className="text-accent/30">|</span>
-            <Link 
-              to="/auth" 
+            <Link
+              to="/auth"
               className="flex items-center gap-1 text-primary-foreground/40 hover:text-accent transition-colors"
             >
               <Lock className="h-3 w-3" />
