@@ -265,22 +265,15 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
         if (insertError) throw insertError;
       }
       
-      // Step 3: Fetch ITBI data FIRST (before sending notification)
+      // Step 3: Fetch ITBI data from public view (accessible without auth)
       let query = supabase
-        .from("itbi_transactions")
-        .select("valor_m2, total_transacoes")
+        .from("itbi_stats_public")
+        .select("preco_min_m2, preco_medio_m2, preco_max_m2, total_transacoes")
         .eq("bairro", bairro)
-        .eq("uso", "Residencial")
-        .gte("percentual_transferido", 90)
-        .not("valor_m2", "is", null)
-        .gte("data_transacao", new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]);
+        .eq("uso", "Residencial");
 
       if (logradouro.trim()) {
         query = query.ilike("logradouro", `%${logradouro.trim()}%`);
-      }
-
-      if (tipologia && tipologia !== "Todos") {
-        query = query.ilike("tipologia", `%${tipologia}%`);
       }
 
       const { data, error: dbError } = await query;
@@ -291,12 +284,21 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
       let estimativa = null;
 
       if (data && data.length > 0) {
-        const valores = data.map((d) => d.valor_m2 as number).sort((a, b) => a - b);
-        const totalTransacoes = data.reduce((sum, d) => sum + (d.total_transacoes || 1), 0);
+        const totalTransacoes = data.reduce((sum, d) => sum + (d.total_transacoes || 0), 0);
 
-        const min_m2 = valores[Math.floor(valores.length * 0.1)] || valores[0];
-        const max_m2 = valores[Math.floor(valores.length * 0.9)] || valores[valores.length - 1];
-        const med_m2 = valores.reduce((a, b) => a + b, 0) / valores.length;
+        // Weighted average using total_transacoes as weight
+        let weightedMin = 0, weightedMed = 0, weightedMax = 0, totalWeight = 0;
+        data.forEach(d => {
+          const w = d.total_transacoes || 1;
+          weightedMin += (d.preco_min_m2 || 0) * w;
+          weightedMed += (d.preco_medio_m2 || 0) * w;
+          weightedMax += (d.preco_max_m2 || 0) * w;
+          totalWeight += w;
+        });
+
+        const min_m2 = totalWeight > 0 ? weightedMin / totalWeight : 0;
+        const med_m2 = totalWeight > 0 ? weightedMed / totalWeight : 0;
+        const max_m2 = totalWeight > 0 ? weightedMax / totalWeight : 0;
 
         itbiData = {
           min_m2: Math.round(min_m2),
