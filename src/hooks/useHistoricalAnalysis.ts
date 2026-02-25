@@ -113,11 +113,16 @@ function generateDiagnosis(
   avgTransactionsPerYear: number
 ): { liquidity: string; price: string; overall: string } {
   const isSelectiveMarket = transactionTrend.direction === 'down' && priceTrend.direction === 'up';
+  const isAdjustmentMarket = transactionTrend.direction === 'up' && priceTrend.direction === 'down';
 
   // Diagnóstico de liquidez
   let liquidity: string;
   if (transactionTrend.direction === 'up') {
-    liquidity = `O número de transações na região aumentou ${transactionTrend.percentage.toFixed(0)}% nos últimos anos, indicando maior demanda e facilidade de venda.`;
+    if (isAdjustmentMarket) {
+      liquidity = `O número de transações na região aumentou ${transactionTrend.percentage.toFixed(0)}% nos últimos anos, indicando que a correção de preços está atraindo mais compradores. O mercado está se ajustando a patamares mais acessíveis.`;
+    } else {
+      liquidity = `O número de transações na região aumentou ${transactionTrend.percentage.toFixed(0)}% nos últimos anos, indicando maior demanda e facilidade de venda.`;
+    }
   } else if (transactionTrend.direction === 'down') {
     if (isSelectiveMarket) {
       liquidity = `O número de transações na região diminuiu ${Math.abs(transactionTrend.percentage).toFixed(0)}% nos últimos anos, indicando mercado mais seletivo. Compradores exigentes estão pagando mais por imóveis diferenciados.`;
@@ -137,7 +142,11 @@ function generateDiagnosis(
       price = `O valor médio por m² valorizou ${priceTrend.percentage.toFixed(0)}% nos últimos anos, refletindo aquecimento do mercado local.`;
     }
   } else if (priceTrend.direction === 'down') {
-    price = `O valor médio por m² recuou ${Math.abs(priceTrend.percentage).toFixed(0)}% nos últimos anos. Considere este fator na estratégia de precificação.`;
+    if (isAdjustmentMarket) {
+      price = `O valor médio por m² recuou ${Math.abs(priceTrend.percentage).toFixed(0)}% nos últimos anos, porém o aumento no volume de transações indica que há demanda ativa a preços mais competitivos. Precifique de acordo com o novo patamar do mercado.`;
+    } else {
+      price = `O valor médio por m² recuou ${Math.abs(priceTrend.percentage).toFixed(0)}% nos últimos anos. Considere este fator na estratégia de precificação.`;
+    }
   } else {
     price = `Os preços por m² mantiveram-se estáveis nos últimos anos, indicando mercado equilibrado.`;
   }
