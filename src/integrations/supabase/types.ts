@@ -767,6 +767,13 @@ export type Database = {
           transaction_count: number
         }[]
       }
+      get_pending_geocode_streets: {
+        Args: { p_limit?: number }
+        Returns: {
+          bairro: string
+          logradouro: string
+        }[]
+      }
       get_street_suggestions: {
         Args: { p_bairro?: string; p_limit?: number; p_search: string }
         Returns: {
