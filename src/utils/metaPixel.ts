@@ -1,5 +1,5 @@
 // Meta Pixel Event Tracking Utilities
-// Pixel ID: 926436730063639
+// Pixel IDs: 926436730063639, 1664451094966530
 
 import { supabase } from "@/integrations/supabase/client";
 
