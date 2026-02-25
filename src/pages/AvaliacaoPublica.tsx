@@ -464,8 +464,8 @@ export default function AvaliacaoPublica() {
               </h2>
 
               <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto animate-fade-in [animation-delay:300ms]">
-                Descubra o valor real de mercado e evite pagar até 30% mais caro no seu próximo imóvel.  Avaliação
-                baseada em transações reais e não em preços de anúncios inflacionados.
+                Descubra o valor real de mercado e evite pagar mais caro no seu próximo imóvel.  Avaliação baseada em
+                transações reais e não em preços de anúncios que refletem apenas o desejo dos Proprietários.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 animate-fade-in [animation-delay:450ms]">
