@@ -81,7 +81,7 @@ export function LimitExceededScreen({ evaluationCount, email, onRetry }: LimitEx
             variant="ghost"
             className="w-full text-muted-foreground"
             size="lg"
-            onClick={() => window.open("https://calendly.com/godoyprime/parecer-tecnico", "_blank")}
+            onClick={() => window.open("https://calendly.com/personalshopperimobiliario/entrevista-personal-shopper-imobiliario", "_blank")}
           >
             <Calendar className="mr-2 h-5 w-5" />
             Agendar Horário Online
