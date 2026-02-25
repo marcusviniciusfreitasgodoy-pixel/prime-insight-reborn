@@ -112,12 +112,18 @@ function generateDiagnosis(
   priceTrend: HistoricalTrend,
   avgTransactionsPerYear: number
 ): { liquidity: string; price: string; overall: string } {
+  const isSelectiveMarket = transactionTrend.direction === 'down' && priceTrend.direction === 'up';
+
   // Diagnóstico de liquidez
   let liquidity: string;
   if (transactionTrend.direction === 'up') {
     liquidity = `O número de transações na região aumentou ${transactionTrend.percentage.toFixed(0)}% nos últimos anos, indicando maior demanda e facilidade de venda.`;
   } else if (transactionTrend.direction === 'down') {
-    liquidity = `O número de transações na região diminuiu ${Math.abs(transactionTrend.percentage).toFixed(0)}% nos últimos anos, indicando menor liquidez. Recomenda-se precificação competitiva.`;
+    if (isSelectiveMarket) {
+      liquidity = `O número de transações na região diminuiu ${Math.abs(transactionTrend.percentage).toFixed(0)}% nos últimos anos, indicando mercado mais seletivo. Compradores exigentes estão pagando mais por imóveis diferenciados.`;
+    } else {
+      liquidity = `O número de transações na região diminuiu ${Math.abs(transactionTrend.percentage).toFixed(0)}% nos últimos anos, indicando menor liquidez. Recomenda-se precificação competitiva.`;
+    }
   } else {
     liquidity = `O volume de transações permanece estável na região, mantendo liquidez consistente ao longo dos anos.`;
   }
@@ -125,7 +131,11 @@ function generateDiagnosis(
   // Diagnóstico de preço
   let price: string;
   if (priceTrend.direction === 'up') {
-    price = `O valor médio por m² valorizou ${priceTrend.percentage.toFixed(0)}% nos últimos anos, refletindo aquecimento do mercado local.`;
+    if (isSelectiveMarket) {
+      price = `O valor médio por m² valorizou ${priceTrend.percentage.toFixed(0)}% nos últimos anos. Mesmo com menor volume, os preços praticados são mais altos, valorizando imóveis com diferenciais.`;
+    } else {
+      price = `O valor médio por m² valorizou ${priceTrend.percentage.toFixed(0)}% nos últimos anos, refletindo aquecimento do mercado local.`;
+    }
   } else if (priceTrend.direction === 'down') {
     price = `O valor médio por m² recuou ${Math.abs(priceTrend.percentage).toFixed(0)}% nos últimos anos. Considere este fator na estratégia de precificação.`;
   } else {
