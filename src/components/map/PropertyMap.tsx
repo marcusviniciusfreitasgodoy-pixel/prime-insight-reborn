@@ -121,41 +121,6 @@ export const PropertyMap = memo(function PropertyMap({
     mapRef.current.fitBounds(bounds, { top: 50, right: 50, bottom: 50, left: 50 });
   }, [filteredFeatures]);
 
-  // Geocode and show marker for selected logradouro from form
-  useEffect(() => {
-    if (!selectedLogradouro || !selectedBairro) {
-      setAddressMarker(null);
-      return;
-    }
-
-    const searchAddress = async () => {
-      try {
-        const { data } = await supabase
-          .from("logradouros_geocoded")
-          .select("latitude, longitude, logradouro")
-          .eq("bairro", selectedBairro)
-          .ilike("logradouro", `%${selectedLogradouro}%`)
-          .not("latitude", "is", null)
-          .limit(1)
-          .single();
-
-        if (data?.latitude && data?.longitude) {
-          const position = { lat: data.latitude, lng: data.longitude };
-          setAddressMarker({ position, logradouro: data.logradouro });
-          
-          if (mapRef.current) {
-            mapRef.current.panTo(position);
-            mapRef.current.setZoom(15);
-          }
-        }
-      } catch (error) {
-        console.log("Address not found in geocoded data:", selectedLogradouro);
-      }
-    };
-
-    searchAddress();
-  }, [selectedLogradouro, selectedBairro]);
-
   const onLoad = useCallback((map: google.maps.Map) => {
     mapRef.current = map;
   }, []);
@@ -237,6 +202,62 @@ export const PropertyMap = memo(function PropertyMap({
     });
   }, []);
 
+  // Geocode and show marker for selected logradouro from form
+  useEffect(() => {
+    if (!selectedLogradouro || !selectedBairro) {
+      setAddressMarker(null);
+      return;
+    }
+
+    const searchAddress = async () => {
+      // Tentativa 1: buscar no banco local
+      try {
+        const { data } = await supabase
+          .from("logradouros_geocoded")
+          .select("latitude, longitude, logradouro")
+          .eq("bairro", selectedBairro)
+          .ilike("logradouro", `%${selectedLogradouro}%`)
+          .not("latitude", "is", null)
+          .limit(1)
+          .single();
+
+        if (data?.latitude && data?.longitude) {
+          const position = { lat: data.latitude, lng: data.longitude };
+          setAddressMarker({ position, logradouro: data.logradouro });
+          if (mapRef.current) {
+            mapRef.current.panTo(position);
+            mapRef.current.setZoom(16);
+          }
+          openStreetView(position);
+          return;
+        }
+      } catch (error) {
+        console.log("Address not found in geocoded data, trying Google Geocoder");
+      }
+
+      // Tentativa 2: fallback com Google Geocoder
+      try {
+        const geocoder = new google.maps.Geocoder();
+        const searchQuery = `${selectedLogradouro}, ${selectedBairro}, Rio de Janeiro, RJ, Brasil`;
+        const result = await geocoder.geocode({ address: searchQuery });
+
+        if (result.results?.[0]?.geometry?.location) {
+          const loc = result.results[0].geometry.location;
+          const position = { lat: loc.lat(), lng: loc.lng() };
+          setAddressMarker({ position, logradouro: selectedLogradouro });
+          if (mapRef.current) {
+            mapRef.current.panTo(position);
+            mapRef.current.setZoom(16);
+          }
+          openStreetView(position);
+        }
+      } catch (error) {
+        console.log("Google Geocoder also failed:", error);
+      }
+    };
+
+    searchAddress();
+  }, [selectedLogradouro, selectedBairro, openStreetView]);
   const handleStreetViewClick = useCallback((position: google.maps.LatLngLiteral) => {
     openStreetView(position);
   }, [openStreetView]);
