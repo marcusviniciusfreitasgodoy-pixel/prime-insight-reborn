@@ -1,41 +1,25 @@
 
-
-# Incluir Média de Transações por Ano no Diagnóstico de Liquidez
+# Adicionar Média de Transações/Ano no Diagnóstico de Preço
 
 ## Objetivo
-Adicionar a média de transações por ano como informação contextual no diagnóstico de liquidez, permitindo ao usuário avaliar a robustez estatística dos dados apresentados.
+Replicar no diagnóstico de preço a mesma informação de volume médio já presente no diagnóstico de liquidez, reforçando a robustez dos dados em ambos os campos.
 
-## Abordagem
-Inserir a média de transações/ano como frase complementar ao final de cada mensagem de liquidez, com qualificação textual (alto, moderado, baixo volume).
+## Mudança
 
-### Mudanças no arquivo `src/hooks/useHistoricalAnalysis.ts`
+No arquivo `src/hooks/useHistoricalAnalysis.ts`, após o bloco de construção da string `price` (depois da linha 170), adicionar uma frase contextual que conecta o volume de dados à confiabilidade da análise de preço:
 
-Na função `generateDiagnosis`, após construir a string `liquidity` em cada bloco condicional, adicionar uma frase final com o volume médio e sua qualificação:
-
-```
-// Após o bloco de liquidez (depois da linha 139)
-const volumeLabel = avgTransactionsPerYear >= 50 
-  ? 'alto volume' 
-  : avgTransactionsPerYear >= 20 
-    ? 'volume moderado' 
-    : 'volume limitado';
-
-liquidity += ` Média de ${Math.round(avgTransactionsPerYear)} transações/ano na região (${volumeLabel}).`;
+```typescript
+// Após linha 170
+price += avgTransactionsPerYear >= 50
+  ? ` Base de análise: ${Math.round(avgTransactionsPerYear)} transações/ano (amostra robusta).`
+  : avgTransactionsPerYear >= 20
+    ? ` Base de análise: ${Math.round(avgTransactionsPerYear)} transações/ano (amostra moderada).`
+    : ` Base de análise: ${Math.round(avgTransactionsPerYear)} transações/ano (amostra limitada — interpretar com cautela).`;
 ```
 
-**Faixas de qualificação:**
-- 50+ transações/ano: "alto volume" -- dados robustos
-- 20-49 transações/ano: "volume moderado" -- dados razoáveis
-- Menos de 20 transações/ano: "volume limitado" -- dados limitados, cautela na interpretação
+A frase usa "Base de análise" em vez de "Média de" para diferenciar do diagnóstico de liquidez e focar na confiabilidade estatística dos preços, não no volume de mercado.
 
-### Exemplos de resultado final
-
-- **Alto volume**: "...indicando maior demanda e facilidade de venda. Média de 85 transações/ano na região (alto volume)."
-- **Volume moderado**: "...mantendo liquidez consistente ao longo dos anos. Média de 32 transações/ano na região (volume moderado)."
-- **Volume limitado**: "...indicando menor liquidez. Recomenda-se precificação competitiva. Média de 8 transações/ano na região (volume limitado)."
-
-### Detalhes Técnicos
-- Adicionar 5 linhas de código após a linha 139 (fechamento do bloco else de liquidez), antes do bloco de preço
-- Nenhuma alteração no frontend -- a string de liquidez já é renderizada diretamente no `HistoricalAnalysisChart.tsx`
-- O alerta de volume baixo no `overall` (linha 178) permanece como está, pois serve propósito diferente (alerta visual no diagnóstico geral)
-
+## Detalhes Técnicos
+- 1 inserção de ~4 linhas após a linha 170 no `generateDiagnosis`
+- Reutiliza `avgTransactionsPerYear` já disponível como parâmetro da função
+- Nenhuma alteração no frontend
