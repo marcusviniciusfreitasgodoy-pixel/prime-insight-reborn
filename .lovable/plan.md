@@ -1,83 +1,56 @@
 
-# Corrigir Street View para Direcionar ao Endereço do Formulário
 
-## Problema
-O Street View está mostrando um ponto central da Barra da Tijuca em vez do endereço informado no formulário. Isso acontece porque:
+# Melhorar a Geocodificação da Base de Dados
 
-1. A busca no banco de dados (`logradouros_geocoded`) tem apenas 116 endereços geocodificados para toda a Barra, e frequentemente nao encontra o logradouro do formulario
-2. Quando nao encontra, o mapa fica centralizado no `DEFAULT_CENTER` (coordenada generica da Barra)
-3. O Street View so abre manualmente via clique, e quando o geocoding falha, usa coordenadas imprecisas dos clusters
+## Situação Atual
+- 116 logradouros geocodificados (todos na Barra da Tijuca)
+- 3.036 logradouros únicos na base ITBI em 146 bairros
+- Cobertura de apenas 3,8% do total
+- Geocodificação acontece apenas sob demanda (quando usuário busca)
+- Nomes abreviados do ITBI (AVN, PRC, ETR) frequentemente falham na API da Prefeitura
 
-## Solucao
+## Estratégia Proposta: Batch Geocoding via Edge Function
 
-### 1. Adicionar fallback com Google Geocoding API (`src/components/map/PropertyMap.tsx`)
+### 1. Criar Edge Function `batch-geocode-streets`
 
-No `useEffect` que geocodifica o `selectedLogradouro` (linhas 124-157), adicionar um fallback: quando a busca no banco falhar, usar o `google.maps.Geocoder` para geocodificar o endereco dinamicamente.
+Uma função que percorre todos os logradouros únicos da tabela `itbi_transactions` que ainda não estão na `logradouros_geocoded` e tenta geocodificá-los em lote.
 
-```typescript
-// Dentro do useEffect de selectedLogradouro
-const searchAddress = async () => {
-  try {
-    // Tentativa 1: buscar no banco
-    const { data } = await supabase
-      .from("logradouros_geocoded")
-      .select("latitude, longitude, logradouro")
-      .eq("bairro", selectedBairro)
-      .ilike("logradouro", `%${selectedLogradouro}%`)
-      .not("latitude", "is", null)
-      .limit(1)
-      .single();
+**Fluxo:**
+1. Consultar logradouros distintos do ITBI que não existem na tabela de cache
+2. Para cada logradouro, expandir abreviações (AVN -> AVENIDA, PRC -> PRAÇA, etc.) usando a mesma lógica já existente em `search-logradouros-prefeitura`
+3. Consultar a API da Prefeitura com o nome expandido
+4. Se encontrar, salvar coordenadas na `logradouros_geocoded`
+5. Se não encontrar na Prefeitura, tentar Google Geocoding API como fallback
+6. Processar em lotes de 20-50 ruas por execução (para respeitar limites de tempo e rate limits)
 
-    if (data?.latitude && data?.longitude) {
-      const position = { lat: data.latitude, lng: data.longitude };
-      setAddressMarker({ position, logradouro: data.logradouro });
-      if (mapRef.current) {
-        mapRef.current.panTo(position);
-        mapRef.current.setZoom(16);
-      }
-      // Auto-abrir Street View no endereco encontrado
-      openStreetView(position);
-      return;
-    }
-  } catch (error) {
-    console.log("Address not found in geocoded data, trying Google Geocoder");
-  }
+### 2. Melhorar a normalização de nomes no `geocode-logradouro`
 
-  // Tentativa 2: fallback com Google Geocoder
-  try {
-    const geocoder = new google.maps.Geocoder();
-    const searchQuery = `${selectedLogradouro}, ${selectedBairro}, Rio de Janeiro, RJ, Brasil`;
-    const result = await geocoder.geocode({ address: searchQuery });
-    
-    if (result.results?.[0]?.geometry?.location) {
-      const loc = result.results[0].geometry.location;
-      const position = { lat: loc.lat(), lng: loc.lng() };
-      setAddressMarker({ position, logradouro: selectedLogradouro });
-      if (mapRef.current) {
-        mapRef.current.panTo(position);
-        mapRef.current.setZoom(16);
-      }
-      // Auto-abrir Street View no endereco encontrado
-      openStreetView(position);
-    }
-  } catch (error) {
-    console.log("Google Geocoder also failed:", error);
-  }
-};
-```
+A edge function atual busca o nome exato na API da Prefeitura, mas os nomes do ITBI usam abreviações diferentes. Adicionar a mesma lógica de `expandAbbreviations` do `search-logradouros-prefeitura` na função `geocode-logradouro` para aumentar a taxa de acerto.
 
-### 2. Auto-abrir Street View quando o endereco e encontrado
+Exemplo: "AVN GAL OLYNTHO PILLAR" -> buscar por "AVENIDA GENERAL OLYNTHO PILLAR"
 
-Apos geocodificar com sucesso (seja pelo banco ou pelo Google Geocoder), chamar automaticamente `openStreetView(position)` para que o usuario ja veja o Street View direcionado ao endereco correto, sem precisar clicar manualmente.
+### 3. Agendar execução via CRON
 
-### 3. Aumentar zoom ao encontrar o endereco
+Usar `pg_cron` para executar a função `batch-geocode-streets` diariamente (ex: 3h da manhã), preenchendo gradualmente a base. Em ~60 dias, com 50 ruas/dia, toda a base estaria geocodificada.
 
-Alterar o zoom de 15 para 16 quando o endereco e encontrado, para uma visualizacao mais proxima.
+### 4. Adicionar fallback Google Geocoder na edge function existente
 
-## Detalhes Tecnicos
+Quando a API da Prefeitura não retornar resultados, usar a Google Geocoding API (chave `GOOGLE_MAPS_API_KEY` já configurada nos secrets) como segunda tentativa antes de retornar 404.
 
-- **Arquivo modificado**: `src/components/map/PropertyMap.tsx` (linhas 124-157)
-- O `openStreetView` ja esta definido como `useCallback` e busca o panorama mais proximo num raio de 100m
-- O Google Geocoder ja esta disponivel via `@react-google-maps/api` (carregado pelo `useJsApiLoader`)
-- Nenhuma dependencia nova necessaria
-- A dependencia do `useEffect` precisa incluir `openStreetView` para evitar stale closures
+## Detalhes Técnicos
+
+### Arquivos a criar:
+- `supabase/functions/batch-geocode-streets/index.ts` -- nova edge function para geocodificação em lote
+
+### Arquivos a modificar:
+- `supabase/functions/geocode-logradouro/index.ts` -- adicionar expansão de abreviações e fallback com Google Geocoder
+
+### Estimativa de impacto:
+- Cobertura esperada após batch: de 3,8% para 80-90% (API da Prefeitura cobre a maioria dos logradouros do Rio)
+- Com fallback Google: cobertura próxima de 95-100%
+- Custo Google Geocoding: ~US$ 5/1000 requisições (só usado como fallback)
+
+### Sequência de implementação:
+1. Adicionar expansão de abreviações + fallback Google na `geocode-logradouro` (melhoria imediata)
+2. Criar `batch-geocode-streets` com processamento em lotes
+3. Configurar CRON para execução diária
