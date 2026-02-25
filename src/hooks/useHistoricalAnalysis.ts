@@ -138,6 +138,15 @@ function generateDiagnosis(
     }
   }
 
+  // Qualificar volume médio de transações
+  const volumeLabel = avgTransactionsPerYear >= 50
+    ? 'alto volume'
+    : avgTransactionsPerYear >= 20
+      ? 'volume moderado'
+      : 'volume limitado';
+
+  liquidity += ` Média de ${Math.round(avgTransactionsPerYear)} transações/ano na região (${volumeLabel}).`;
+
   // Diagnóstico de preço
   let price: string;
   if (priceTrend.direction === 'up') {
