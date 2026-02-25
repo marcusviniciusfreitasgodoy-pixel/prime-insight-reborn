@@ -169,6 +169,13 @@ function generateDiagnosis(
     }
   }
 
+  // Qualificar robustez da amostra no diagnóstico de preço
+  price += avgTransactionsPerYear >= 50
+    ? ` Base de análise: ${Math.round(avgTransactionsPerYear)} transações/ano (amostra robusta).`
+    : avgTransactionsPerYear >= 20
+      ? ` Base de análise: ${Math.round(avgTransactionsPerYear)} transações/ano (amostra moderada).`
+      : ` Base de análise: ${Math.round(avgTransactionsPerYear)} transações/ano (amostra limitada — interpretar com cautela).`;
+
   // Diagnóstico geral
   let overall: string;
   if (transactionTrend.direction === 'up' && priceTrend.direction === 'up') {
