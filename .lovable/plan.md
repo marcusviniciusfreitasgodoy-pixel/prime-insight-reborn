@@ -1,25 +1,83 @@
 
-# Adicionar Média de Transações/Ano no Diagnóstico de Preço
+# Corrigir Street View para Direcionar ao Endereço do Formulário
 
-## Objetivo
-Replicar no diagnóstico de preço a mesma informação de volume médio já presente no diagnóstico de liquidez, reforçando a robustez dos dados em ambos os campos.
+## Problema
+O Street View está mostrando um ponto central da Barra da Tijuca em vez do endereço informado no formulário. Isso acontece porque:
 
-## Mudança
+1. A busca no banco de dados (`logradouros_geocoded`) tem apenas 116 endereços geocodificados para toda a Barra, e frequentemente nao encontra o logradouro do formulario
+2. Quando nao encontra, o mapa fica centralizado no `DEFAULT_CENTER` (coordenada generica da Barra)
+3. O Street View so abre manualmente via clique, e quando o geocoding falha, usa coordenadas imprecisas dos clusters
 
-No arquivo `src/hooks/useHistoricalAnalysis.ts`, após o bloco de construção da string `price` (depois da linha 170), adicionar uma frase contextual que conecta o volume de dados à confiabilidade da análise de preço:
+## Solucao
+
+### 1. Adicionar fallback com Google Geocoding API (`src/components/map/PropertyMap.tsx`)
+
+No `useEffect` que geocodifica o `selectedLogradouro` (linhas 124-157), adicionar um fallback: quando a busca no banco falhar, usar o `google.maps.Geocoder` para geocodificar o endereco dinamicamente.
 
 ```typescript
-// Após linha 170
-price += avgTransactionsPerYear >= 50
-  ? ` Base de análise: ${Math.round(avgTransactionsPerYear)} transações/ano (amostra robusta).`
-  : avgTransactionsPerYear >= 20
-    ? ` Base de análise: ${Math.round(avgTransactionsPerYear)} transações/ano (amostra moderada).`
-    : ` Base de análise: ${Math.round(avgTransactionsPerYear)} transações/ano (amostra limitada — interpretar com cautela).`;
+// Dentro do useEffect de selectedLogradouro
+const searchAddress = async () => {
+  try {
+    // Tentativa 1: buscar no banco
+    const { data } = await supabase
+      .from("logradouros_geocoded")
+      .select("latitude, longitude, logradouro")
+      .eq("bairro", selectedBairro)
+      .ilike("logradouro", `%${selectedLogradouro}%`)
+      .not("latitude", "is", null)
+      .limit(1)
+      .single();
+
+    if (data?.latitude && data?.longitude) {
+      const position = { lat: data.latitude, lng: data.longitude };
+      setAddressMarker({ position, logradouro: data.logradouro });
+      if (mapRef.current) {
+        mapRef.current.panTo(position);
+        mapRef.current.setZoom(16);
+      }
+      // Auto-abrir Street View no endereco encontrado
+      openStreetView(position);
+      return;
+    }
+  } catch (error) {
+    console.log("Address not found in geocoded data, trying Google Geocoder");
+  }
+
+  // Tentativa 2: fallback com Google Geocoder
+  try {
+    const geocoder = new google.maps.Geocoder();
+    const searchQuery = `${selectedLogradouro}, ${selectedBairro}, Rio de Janeiro, RJ, Brasil`;
+    const result = await geocoder.geocode({ address: searchQuery });
+    
+    if (result.results?.[0]?.geometry?.location) {
+      const loc = result.results[0].geometry.location;
+      const position = { lat: loc.lat(), lng: loc.lng() };
+      setAddressMarker({ position, logradouro: selectedLogradouro });
+      if (mapRef.current) {
+        mapRef.current.panTo(position);
+        mapRef.current.setZoom(16);
+      }
+      // Auto-abrir Street View no endereco encontrado
+      openStreetView(position);
+    }
+  } catch (error) {
+    console.log("Google Geocoder also failed:", error);
+  }
+};
 ```
 
-A frase usa "Base de análise" em vez de "Média de" para diferenciar do diagnóstico de liquidez e focar na confiabilidade estatística dos preços, não no volume de mercado.
+### 2. Auto-abrir Street View quando o endereco e encontrado
 
-## Detalhes Técnicos
-- 1 inserção de ~4 linhas após a linha 170 no `generateDiagnosis`
-- Reutiliza `avgTransactionsPerYear` já disponível como parâmetro da função
-- Nenhuma alteração no frontend
+Apos geocodificar com sucesso (seja pelo banco ou pelo Google Geocoder), chamar automaticamente `openStreetView(position)` para que o usuario ja veja o Street View direcionado ao endereco correto, sem precisar clicar manualmente.
+
+### 3. Aumentar zoom ao encontrar o endereco
+
+Alterar o zoom de 15 para 16 quando o endereco e encontrado, para uma visualizacao mais proxima.
+
+## Detalhes Tecnicos
+
+- **Arquivo modificado**: `src/components/map/PropertyMap.tsx` (linhas 124-157)
+- O `openStreetView` ja esta definido como `useCallback` e busca o panorama mais proximo num raio de 100m
+- O Google Geocoder ja esta disponivel via `@react-google-maps/api` (carregado pelo `useJsApiLoader`)
+- Nenhuma dependencia nova necessaria
+- A dependencia do `useEffect` precisa incluir `openStreetView` para evitar stale closures
