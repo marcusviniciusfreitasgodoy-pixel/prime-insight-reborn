@@ -114,6 +114,7 @@ function generateDiagnosis(
 ): { liquidity: string; price: string; overall: string } {
   const isSelectiveMarket = transactionTrend.direction === 'down' && priceTrend.direction === 'up';
   const isAdjustmentMarket = transactionTrend.direction === 'up' && priceTrend.direction === 'down';
+  const isStableMarket = transactionTrend.direction === 'stable' && priceTrend.direction === 'stable';
 
   // Diagnóstico de liquidez
   let liquidity: string;
@@ -130,7 +131,11 @@ function generateDiagnosis(
       liquidity = `O número de transações na região diminuiu ${Math.abs(transactionTrend.percentage).toFixed(0)}% nos últimos anos, indicando menor liquidez. Recomenda-se precificação competitiva.`;
     }
   } else {
-    liquidity = `O volume de transações permanece estável na região, mantendo liquidez consistente ao longo dos anos.`;
+    if (isStableMarket) {
+      liquidity = `O volume de transações permanece estável na região. Combinado com preços também estáveis, indica um mercado previsível e com boa absorção de imóveis bem precificados.`;
+    } else {
+      liquidity = `O volume de transações permanece estável na região, mantendo liquidez consistente ao longo dos anos.`;
+    }
   }
 
   // Diagnóstico de preço
@@ -148,7 +153,11 @@ function generateDiagnosis(
       price = `O valor médio por m² recuou ${Math.abs(priceTrend.percentage).toFixed(0)}% nos últimos anos. Considere este fator na estratégia de precificação.`;
     }
   } else {
-    price = `Os preços por m² mantiveram-se estáveis nos últimos anos, indicando mercado equilibrado.`;
+    if (isStableMarket) {
+      price = `Os preços por m² mantiveram-se estáveis nos últimos anos, acompanhando o volume consistente de transações. Mercado equilibrado favorece negociações com base em valor justo.`;
+    } else {
+      price = `Os preços por m² mantiveram-se estáveis nos últimos anos, indicando mercado equilibrado.`;
+    }
   }
 
   // Diagnóstico geral
@@ -162,7 +171,7 @@ function generateDiagnosis(
   } else if (transactionTrend.direction === 'down' && priceTrend.direction === 'up') {
     overall = '🟡 MERCADO SELETIVO: Menos transações mas preços subindo. Compradores mais exigentes, imóvel diferenciado pode se destacar.';
   } else {
-    overall = '🟢 MERCADO ESTÁVEL: Condições normais de mercado. Precificação adequada deve garantir venda em tempo razoável.';
+    overall = '🟢 MERCADO ESTÁVEL: Volume e preços consistentes indicam mercado maduro e previsível. Precificação adequada ao valor de mercado deve garantir venda em tempo razoável.';
   }
 
   // Adicionar contexto de volume
