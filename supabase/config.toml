@@ -20,3 +20,9 @@ verify_jwt = false
 
 [functions.send-password-reset]
 verify_jwt = false
+
+[functions.batch-geocode-streets]
+verify_jwt = false
+
+[functions.geocode-logradouro]
+verify_jwt = false
