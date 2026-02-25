@@ -1,14 +1,18 @@
 
-# Rota padrao /admin -> Avaliacao Imobiliaria
 
-## Mudanca
+# Corrigir Link do Calendly
 
-Alterar a rota index do `/admin` no `App.tsx` (linha 70) para renderizar `AvaliacaoImobiliaria` ao inves de `Dashboard`.
+## Problema
+O link atual `https://calendly.com/godoyprime/parecer-tecnico` retorna erro 404 (pagina nao encontrada).
 
-## Arquivo modificado
+## Correcao
 
 | Arquivo | Mudanca |
 |---------|---------|
-| `src/App.tsx` | Linha 70: trocar `<Route index element={<Dashboard />} />` por `<Route index element={<AvaliacaoImobiliaria />} />` |
+| `src/components/leads/LimitExceededScreen.tsx` | Linha 84: trocar URL do Calendly |
 
-Assim, ao acessar `/admin`, o usuario vera diretamente a pagina de Avaliacao Imobiliaria.
+**De:** `https://calendly.com/godoyprime/parecer-tecnico`
+**Para:** `https://calendly.com/personalshopperimobiliario/entrevista-personal-shopper-imobiliario`
+
+Apenas 1 ocorrencia no codigo. Mudanca simples de 1 linha.
+
