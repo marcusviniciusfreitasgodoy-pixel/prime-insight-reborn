@@ -28,8 +28,8 @@ export function useWebSpeech(options: UseWebSpeechOptions = {}): UseWebSpeechRet
   const shouldRestartRef = useRef(false);
   const retryCountRef = useRef(0);
   const maxRetries = 5;
-  const silenceTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const silenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const countdownIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const lastTranscriptRef = useRef('');
   const hasSpeechRef = useRef(false);
 
