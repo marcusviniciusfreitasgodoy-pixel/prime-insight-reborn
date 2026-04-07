@@ -202,7 +202,7 @@ export function PeritEvaluationSection() {
         <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 mb-4">
           <div className="bg-white/60 rounded-lg p-3 text-center min-w-[140px]">
             <p className="text-xs text-muted-foreground">Valor</p>
-            <p className="text-base sm:text-lg font-bold text-foreground">A partir de R$ 1.500</p>
+            <p className="text-base sm:text-lg font-bold text-foreground">A partir de R$ 4.900</p>
           </div>
           <div className="bg-white/60 rounded-lg p-3 text-center min-w-[140px]">
             <p className="text-xs text-muted-foreground">Economia Média</p>
