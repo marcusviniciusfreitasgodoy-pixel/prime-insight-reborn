@@ -422,60 +422,6 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
 
           </div>
           
-          {/* Lead Fields Section */}
-          <div className="space-y-4 p-4 bg-primary/5 rounded-xl border border-primary/10">
-            <h3 className="font-semibold text-sm text-primary flex items-center gap-2">
-              <User className="h-4 w-4" />
-              Seus Dados
-            </h3>
-            
-            <div className="space-y-2">
-              <Label htmlFor="nome" className="flex items-center gap-2 text-sm font-medium">
-                <User className="h-4 w-4 text-accent" />
-                Nome Completo *
-              </Label>
-              <Input
-                id="nome"
-                placeholder="Seu nome completo"
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
-                className="border-primary/20 focus-visible:ring-accent/30" />
-
-            </div>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="email" className="flex items-center gap-2 text-sm font-medium">
-                  <Mail className="h-4 w-4 text-accent" />
-                  E-mail *
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="seu@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="border-primary/20 focus-visible:ring-accent/30" />
-
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="telefone" className="flex items-center gap-2 text-sm font-medium">
-                  <Phone className="h-4 w-4 text-accent" />
-                  WhatsApp *
-                </Label>
-                <Input
-                  id="telefone"
-                  type="tel"
-                  placeholder="(21) 99999-9999"
-                  value={telefone}
-                  onChange={(e) => setTelefone(formatPhone(e.target.value))}
-                  className="border-primary/20 focus-visible:ring-accent/30" />
-
-              </div>
-            </div>
-          </div>
-
           {/* Property Fields Section */}
           <div className="space-y-4">
             <h3 className="font-semibold text-sm text-muted-foreground flex items-center gap-2">
@@ -829,6 +775,60 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                 className="border-primary/20 focus-visible:ring-accent/30 min-h-[60px] resize-none"
                 maxLength={500} />
 
+            </div>
+          </div>
+
+          {/* Lead Fields Section */}
+          <div className="space-y-4 p-4 bg-primary/5 rounded-xl border border-primary/10">
+            <h3 className="font-semibold text-sm text-primary flex items-center gap-2">
+              <User className="h-4 w-4" />
+              Seus Dados
+            </h3>
+            
+            <div className="space-y-2">
+              <Label htmlFor="nome" className="flex items-center gap-2 text-sm font-medium">
+                <User className="h-4 w-4 text-accent" />
+                Nome Completo *
+              </Label>
+              <Input
+                id="nome"
+                placeholder="Seu nome completo"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                className="border-primary/20 focus-visible:ring-accent/30" />
+
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="email" className="flex items-center gap-2 text-sm font-medium">
+                  <Mail className="h-4 w-4 text-accent" />
+                  E-mail *
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="seu@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="border-primary/20 focus-visible:ring-accent/30" />
+
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="telefone" className="flex items-center gap-2 text-sm font-medium">
+                  <Phone className="h-4 w-4 text-accent" />
+                  WhatsApp *
+                </Label>
+                <Input
+                  id="telefone"
+                  type="tel"
+                  placeholder="(21) 99999-9999"
+                  value={telefone}
+                  onChange={(e) => setTelefone(formatPhone(e.target.value))}
+                  className="border-primary/20 focus-visible:ring-accent/30" />
+
+              </div>
             </div>
           </div>
 
