@@ -544,7 +544,7 @@ export default function AvaliacaoPublica() {
                 A Solução Que Muda Tudo
               </h3>
               <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
-                Avaliação baseada em dados reais da Prefeitura, não em achismos ou algoritmos genéricos.
+                Avaliação baseada em dados deb transações reais e não em achismos ou algoritmos genéricos.
               </p>
             </div>
 
