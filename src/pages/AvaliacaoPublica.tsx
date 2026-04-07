@@ -178,13 +178,6 @@ const FAQ_DATA = [
   },
   {
     category: "usabilidade",
-    icon: Clock,
-    question: "Quanto tempo leva para receber o resultado?",
-    answer:
-      "O resultado é instantâneo. Assim que você enviar o formulário, nossa tecnologia consulta o banco de dados com mais de 80.000 transações e calcula a estimativa em tempo real. Em menos de 30 segundos você já tem os valores na tela.",
-  },
-  {
-    category: "usabilidade",
     icon: Calculator,
     question: "Posso fazer quantas consultas quiser?",
     answer:
