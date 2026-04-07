@@ -654,7 +654,7 @@ export default function AvaliacaoPublica() {
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       Dados de transações reais e oficiais registradas
                       <Shield className="h-4 w-4 text-[#D4AF37]" />
-                      Dados da Prefeitura RJ
+                      Dados Oficiais do RJ
                     </div>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <CheckCircle className="h-4 w-4 text-[#D4AF37]" />
