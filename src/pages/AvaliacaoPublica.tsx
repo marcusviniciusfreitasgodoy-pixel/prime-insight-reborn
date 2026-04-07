@@ -454,7 +454,7 @@ export default function AvaliacaoPublica() {
             <div className="max-w-3xl mx-auto space-y-6">
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight animate-fade-in [animation-delay:150ms]">
                 <br />
-                <span className="text-[#D4AF37]">Compradores de alto padrão não negociam no escuro</span>
+                <span className="text-[#D4AF37]">Descubra o valor real de mercado e evite pagar mais caro no seu próximo imóvel.</span>
                 <br className="hidden md:block" />
               </h2>
 
