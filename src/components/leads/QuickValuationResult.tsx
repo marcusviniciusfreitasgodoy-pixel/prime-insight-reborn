@@ -439,21 +439,6 @@ export function QuickValuationResult({
       </Card>
 
 
-      {/* Análise Histórica e Projeção de Valor */}
-      <Card className="border-accent/30 shadow-lg">
-        <CardHeader className="pb-4">
-          <CardTitle className="text-lg flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-primary" />
-            Análise de Mercado (5 Anos)
-          </CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Evolução do mercado imobiliário na região para apoiar sua decisão
-          </p>
-        </CardHeader>
-        <CardContent>
-          <HistoricalAnalysisChart bairro={data.bairro} logradouro={data.logradouro} />
-        </CardContent>
-      </Card>
 
       {/* Convite para Pesquisa de Feedback - Com animação */}
       <Card className="border-primary/30 bg-gradient-to-r from-primary/10 via-background to-accent/10 shadow-lg animate-fade-in hover:shadow-xl transition-all duration-500 hover:scale-[1.01] hover:border-primary/50">
