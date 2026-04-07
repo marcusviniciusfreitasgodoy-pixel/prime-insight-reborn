@@ -452,11 +452,6 @@ export default function AvaliacaoPublica() {
           {/* Hero Content */}
           <div className="relative z-10 container mx-auto px-4 py-12 md:py-20 text-center">
             <div className="max-w-3xl mx-auto space-y-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm font-medium animate-fade-in">
-                <Shield className="h-4 w-4 text-[#D4AF37]" />
-                Transações Oficiais da Cidade do Rio de Janeiro
-              </div>
-
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight animate-fade-in [animation-delay:150ms]">
                 <br />
                 <span className="text-[#D4AF37]">Compradores de alto padrão não negociam no escuro</span>
@@ -464,7 +459,7 @@ export default function AvaliacaoPublica() {
               </h2>
 
               <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto animate-fade-in [animation-delay:300ms]">
-                Descubra o valor real de mercado e evite pagar mais caro no seu próximo imóvel.  Avaliação baseada em
+                Descubra o valor real de mercado e evite pagar mais caro no seu próximo imóvel.  Avaliação baseada em
                 transações reais e não em preços de anúncios que refletem apenas o desejo dos Proprietários.
               </p>
 
@@ -477,6 +472,11 @@ export default function AvaliacaoPublica() {
                   <span className="truncate">Descobrir Valor Real Agora</span>
                   <ArrowRight className="ml-1.5 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
                 </Button>
+              </div>
+
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm font-medium animate-fade-in [animation-delay:500ms]">
+                <Shield className="h-4 w-4 text-[#D4AF37]" />
+                Transações Oficiais da Cidade do Rio de Janeiro
               </div>
 
               {/* Stats */}
