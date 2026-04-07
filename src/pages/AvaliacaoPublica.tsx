@@ -93,7 +93,7 @@ const SOLUTIONS = [
   {
     icon: Shield,
     title: "Dados Oficiais de Transações",
-    description: "Usamos transações reais registradas na Prefeitura do RJ, não apenas preços de anúncios.",
+    description: "Usamos transações reais registradas e não apenas preços de anúncios, além disso tratamos estatisticamente a nossa base para evitar desvios de avaliação com base em metodologias da NBR.",
     highlight: "Fonte governamental confiável",
   },
   {
