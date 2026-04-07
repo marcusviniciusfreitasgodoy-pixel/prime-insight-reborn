@@ -99,7 +99,7 @@ const SOLUTIONS = [
   {
     icon: Award,
     title: "Especialistas em Alto Padrão",
-    description: "Foco exclusivo em Barra da Tijuca e bairros nobres do Rio com metodologia específica.",
+    description: "Receba avaliações de qualquer Bairro do RJ, porém nosso foco é na região da Barra da Tijuca.",
     highlight: "Conhecimento local profundo",
   },
   {
