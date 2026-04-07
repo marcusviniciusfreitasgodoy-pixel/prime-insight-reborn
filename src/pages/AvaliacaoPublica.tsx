@@ -79,7 +79,7 @@ const PROBLEMS = [
   {
     icon: Calculator,
     title: "Algoritmos genéricos",
-    description: "Ferramentas online usam fórmulas simplistas que ignoram os diferenciais únicos de cada imóvel.",
+    description: "Ferramentas online usam fórmulas simplistas que ignoram os diferenciais únicos de cada imóvel e se baseiam em valores anunciados.",
   },
   {
     icon: Target,
