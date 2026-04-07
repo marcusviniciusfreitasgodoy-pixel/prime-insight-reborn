@@ -87,7 +87,7 @@ const PARECER_FAQ = [
   {
     category: "investimento",
     question: "Quanto custa o Parecer Técnico?",
-    answer: "O investimento varia de acordo com a tipologia e complexidade do imóvel. Apartamentos padrão partem de R$ 1.500. Casas, coberturas e imóveis de alto padrão têm valores específicos, em média R$ 5.000,00. Entre em contato para um orçamento personalizado sem compromisso.",
+    answer: "O investimento varia de acordo com a tipologia e complexidade do imóvel. Apartamentos padrão partem de R$ 4.900. Casas, coberturas e imóveis de alto padrão têm valores específicos. Entre em contato para um orçamento personalizado sem compromisso.",
   },
   {
     category: "investimento",
