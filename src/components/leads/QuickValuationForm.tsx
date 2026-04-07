@@ -394,8 +394,8 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
           <Calculator className="h-8 w-8 text-accent" />
         </div>
         <CardTitle className="text-2xl font-bold">Sua Análise Preliminar de Valor Imobiliário Gratuita</CardTitle>
-        <CardDescription className="text-base">Informe seus dados e os dados do imóvel para receber uma estimativa de valor de mercado.
-Se a diferença for relevante, você pode solicitar um Parecer Técnico Completo com vistoria presencial.
+        <CardDescription className="text-base">
+          Informe seus dados e os dados do imóvel para receber uma estimativa de valor de mercado. Se a diferença for relevante, solicite um Parecer Técnico Completo com vistoria presencial.
         </CardDescription>
       </CardHeader>
       <CardContent>
