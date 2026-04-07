@@ -863,7 +863,7 @@ export default function AvaliacaoPublica() {
 
                   <div>
                     <h4 className="font-semibold text-white">Godoy Prime Realty</h4>
-                    <p className="text-xs text-[#D4AF37]">CRECI 11841-PJ</p>
+                    <p className="text-xs text-[#D4AF37]">CRECI 11841/PJ - 80199/PF</p>
                   </div>
                 </div>
                 <p className="text-white/60 text-sm max-w-md">
