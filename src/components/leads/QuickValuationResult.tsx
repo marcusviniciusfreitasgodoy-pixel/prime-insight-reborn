@@ -438,46 +438,6 @@ export function QuickValuationResult({
         </CardContent>
       </Card>
 
-      {/* Mapa de Valores da Região */}
-      <Card className="border-accent/30 shadow-lg overflow-hidden">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Map className="h-5 w-5 text-primary" />
-            Mapa de Valores da Região
-          </CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Visualize os valores por m² na região do imóvel avaliado
-          </p>
-        </CardHeader>
-        <CardContent className="p-0">
-          <div className="h-[350px] sm:h-[400px]">
-            <Suspense fallback={
-              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-muted/40 to-muted/60">
-                <div className="flex flex-col items-center gap-3 p-6 rounded-xl bg-background/80 backdrop-blur-sm shadow-lg border border-border/50">
-                  <div className="relative">
-                    <div className="absolute inset-0 rounded-full bg-primary/20 animate-ping" />
-                    <div className="relative w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <p className="font-medium text-foreground">Carregando mapa...</p>
-                    <p className="text-xs text-muted-foreground mt-1">Buscando dados da região</p>
-                  </div>
-                </div>
-              </div>
-            }>
-              <PropertyMap 
-                selectedBairro={data.bairro}
-                selectedLogradouro={data.logradouro}
-              />
-            </Suspense>
-          </div>
-          <div className="p-3 bg-muted/30 border-t text-xs text-muted-foreground text-center">
-            Os marcadores mostram transações recentes na região. Clique para ver detalhes.
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Análise Histórica e Projeção de Valor */}
       <Card className="border-accent/30 shadow-lg">
