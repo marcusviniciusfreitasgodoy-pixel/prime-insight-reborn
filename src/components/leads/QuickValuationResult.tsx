@@ -43,7 +43,6 @@ import {
   Minus,
 } from "lucide-react";
 import { PeritEvaluationSection } from "./PeritEvaluationSection";
-import { PeritEvaluationSection } from "./PeritEvaluationSection";
 import { HistoricalAnalysisChart } from "@/components/valuation/HistoricalAnalysisChart";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
