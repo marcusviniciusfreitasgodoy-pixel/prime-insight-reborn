@@ -7,9 +7,7 @@ import { Loader2 } from "lucide-react";
 const QuickValuationResult = lazy(() =>
   import("@/components/leads/QuickValuationResult").then((m) => ({ default: m.QuickValuationResult })),
 );
-const PublicSofiaAssistant = lazy(() =>
-  import("@/components/leads/PublicSofiaAssistant").then((m) => ({ default: m.PublicSofiaAssistant })),
-);
+import { MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useUTMTracking } from "@/hooks/useUTMTracking";
@@ -912,10 +910,17 @@ export default function AvaliacaoPublica() {
           </div>
         </footer>
 
-        {/* Sofia Assistant for Public Page (includes WhatsApp button) */}
-        <Suspense fallback={null}>
-          <PublicSofiaAssistant />
-        </Suspense>
+        {/* Floating WhatsApp Button */}
+        <a 
+          href="https://wa.me/5521964075124?text=Ol%C3%A1!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20avalia%C3%A7%C3%A3o%20de%20im%C3%B3veis." 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] hover:bg-[#20BA5C] text-white px-4 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 animate-fade-in group"
+          aria-label="Contato via WhatsApp"
+        >
+          <MessageSquare className="h-6 w-6" />
+          <span className="font-medium text-sm hidden sm:inline group-hover:inline">Fale Conosco</span>
+        </a>
       </div>
     </>
   );
