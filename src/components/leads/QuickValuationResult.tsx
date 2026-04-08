@@ -387,24 +387,6 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
         </CardContent>
       </Card>
 
-      {/* Feedback invite */}
-      <Card className="border-primary/30 bg-gradient-to-r from-primary/10 via-background to-accent/10 shadow-lg animate-fade-in hover:shadow-xl transition-all duration-500 hover:scale-[1.01] hover:border-primary/50">
-        <CardContent className="py-6">
-          <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-            <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 animate-pulse">
-              <MessageSquareHeart className="h-7 w-7 text-primary" />
-            </div>
-            <div className="flex-1 space-y-1">
-              <h4 className="font-semibold text-foreground">Sua opinião é importante para nós!</h4>
-              <p className="text-sm text-muted-foreground">Responda nossa pesquisa rápida (2 min) e ajude-nos a melhorar a plataforma.</p>
-            </div>
-            <Button asChild className="bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg transition-all">
-              <Link to="/feedback">Participar da Pesquisa</Link>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Perit evaluation section */}
       <Card className="border-border shadow-lg">
         <CardContent className="py-6">
@@ -511,6 +493,24 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
           </CardContent>
         </Card>
       )}
+
+      {/* Feedback invite */}
+      <Card className="border-primary/30 bg-gradient-to-r from-primary/10 via-background to-accent/10 shadow-lg animate-fade-in hover:shadow-xl transition-all duration-500 hover:scale-[1.01] hover:border-primary/50">
+        <CardContent className="py-6">
+          <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+            <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 animate-pulse">
+              <MessageSquareHeart className="h-7 w-7 text-primary" />
+            </div>
+            <div className="flex-1 space-y-1">
+              <h4 className="font-semibold text-foreground">Sua opinião é importante para nós!</h4>
+              <p className="text-sm text-muted-foreground">Responda nossa pesquisa rápida (2 min) e ajude-nos a melhorar a plataforma.</p>
+            </div>
+            <Button asChild className="bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg transition-all">
+              <Link to="/feedback">Participar da Pesquisa</Link>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
 
       {!parecerRequested && (
         <div className="text-center">
