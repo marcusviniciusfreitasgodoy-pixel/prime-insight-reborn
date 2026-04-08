@@ -593,6 +593,7 @@ export type Database = {
           itbi_transaction_count: number | null
           logradouro: string
           numero: string | null
+          origin: string
           pdf_generated: boolean | null
           property_area_m2: number
           property_type: string | null
@@ -636,6 +637,7 @@ export type Database = {
           itbi_transaction_count?: number | null
           logradouro: string
           numero?: string | null
+          origin?: string
           pdf_generated?: boolean | null
           property_area_m2: number
           property_type?: string | null
@@ -679,6 +681,7 @@ export type Database = {
           itbi_transaction_count?: number | null
           logradouro?: string
           numero?: string | null
+          origin?: string
           pdf_generated?: boolean | null
           property_area_m2?: number
           property_type?: string | null
@@ -737,6 +740,20 @@ export type Database = {
         }
         Relationships: []
       }
+      itbi_stats_recent: {
+        Row: {
+          bairro: string | null
+          logradouro: string | null
+          preco_max_m2: number | null
+          preco_medio_m2: number | null
+          preco_min_m2: number | null
+          preco_p20_m2: number | null
+          preco_p80_m2: number | null
+          total_transacoes: number | null
+          uso: Database["public"]["Enums"]["uso_imovel"] | null
+        }
+        Relationships: []
+      }
       view_ranking_microbairros: {
         Row: {
           mediana_m2: number | null
@@ -758,6 +775,15 @@ export type Database = {
         }[]
       }
       check_lead_rate_limit: { Args: { p_email: string }; Returns: boolean }
+      get_itbi_stats_filtered: {
+        Args: { p_bairro: string; p_logradouro?: string; p_uso?: string }
+        Returns: {
+          max_m2: number
+          med_m2: number
+          min_m2: number
+          transaction_count: number
+        }[]
+      }
       get_itbi_stats_for_evaluation: {
         Args: { p_bairro: string; p_logradouro?: string; p_uso?: string }
         Returns: {
