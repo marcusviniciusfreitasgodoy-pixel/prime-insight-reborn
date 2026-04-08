@@ -555,11 +555,12 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                 }
               </div>
 
-              {/* Skeleton Loading State */}
-              {showSuggestions && logradouro.length >= 2 && suggestionsLoading &&
-              <div
-                ref={suggestionsRef}
-                className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-xl overflow-hidden animate-fade-in">
+              <div className="relative">
+                {/* Skeleton Loading State */}
+                {showSuggestions && logradouro.length >= 2 && suggestionsLoading &&
+                <div
+                  ref={suggestionsRef}
+                  className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-xl overflow-hidden animate-fade-in">
 
                   <div className="p-3 border-b border-border/50 flex items-center gap-2 bg-muted/30">
                     <Loader2 className="h-4 w-4 animate-spin text-primary" />
@@ -577,9 +578,9 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     </div>
                 )}
                 </div>
-              }
+                }
 
-              {/* Results */}
+                {/* Results */}
               {showSuggestions && suggestions && suggestions.length > 0 && logradouro.length >= 2 && !suggestionsLoading &&
               <div
                 ref={suggestionsRef}
@@ -624,9 +625,9 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     </button>
                 )}
                 </div>
-              }
+                }
 
-              {/* No Results */}
+                {/* No Results */}
               {showSuggestions && logradouro.length >= 2 && suggestions?.length === 0 && !suggestionsLoading &&
               <div ref={suggestionsRef} className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-xl p-4 text-center animate-fade-in">
                   <Search className="h-8 w-8 text-muted-foreground/50 mx-auto mb-2" />
@@ -637,7 +638,8 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     Tente outro termo ou digite apenas o nome da rua
                   </p>
                 </div>
-              }
+                }
+              </div>
             </div>
 
             <div className="space-y-2">
