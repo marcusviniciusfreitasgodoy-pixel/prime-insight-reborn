@@ -252,53 +252,67 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
         if (insertError) throw insertError;
       }
 
-      // Step 3: Fetch ITBI data from public view (accessible without auth)
-      let query = supabase.
-      from("itbi_stats_public").
-      select("preco_min_m2, preco_medio_m2, preco_max_m2, total_transacoes").
-      eq("bairro", bairro).
-      eq("uso", "Residencial");
-
-      if (logradouro.trim()) {
-        query = query.ilike("logradouro", `%${logradouro.trim()}%`);
-      }
-
-      const { data, error: dbError } = await query;
+      // Step 3: Fetch ITBI data using IQR-filtered function (outlier-free, last 18 months)
+      const { data: statsData, error: dbError } = await supabase.rpc('get_itbi_stats_filtered', {
+        p_bairro: bairro,
+        p_logradouro: logradouro.trim() || null,
+        p_uso: 'Residencial'
+      });
 
       if (dbError) throw dbError;
 
       let itbiData = null;
       let estimativa = null;
 
-      if (data && data.length > 0) {
-        const totalTransacoes = data.reduce((sum, d) => sum + (d.total_transacoes || 0), 0);
-
-        // Weighted average using total_transacoes as weight
-        let weightedMin = 0,weightedMed = 0,weightedMax = 0,totalWeight = 0;
-        data.forEach((d) => {
-          const w = d.total_transacoes || 1;
-          weightedMin += (d.preco_min_m2 || 0) * w;
-          weightedMed += (d.preco_medio_m2 || 0) * w;
-          weightedMax += (d.preco_max_m2 || 0) * w;
-          totalWeight += w;
-        });
-
-        const min_m2 = totalWeight > 0 ? weightedMin / totalWeight : 0;
-        const med_m2 = totalWeight > 0 ? weightedMed / totalWeight : 0;
-        const max_m2 = totalWeight > 0 ? weightedMax / totalWeight : 0;
-
+      if (statsData && statsData.length > 0 && statsData[0].med_m2 > 0) {
+        const row = statsData[0];
         itbiData = {
-          min_m2: Math.round(min_m2),
-          med_m2: Math.round(med_m2),
-          max_m2: Math.round(max_m2),
-          transaction_count: totalTransacoes
+          min_m2: Math.round(row.min_m2),
+          med_m2: Math.round(row.med_m2),
+          max_m2: Math.round(row.max_m2),
+          transaction_count: Number(row.transaction_count)
         };
 
         estimativa = {
-          min: Math.round(min_m2 * areaNum),
-          med: Math.round(med_m2 * areaNum),
-          max: Math.round(max_m2 * areaNum)
+          min: Math.round(row.min_m2 * areaNum),
+          med: Math.round(row.med_m2 * areaNum),
+          max: Math.round(row.max_m2 * areaNum)
         };
+      }
+
+      // Step 3b: Save public valuation to history
+      if (itbiData && estimativa) {
+        const spreadPct = itbiData.med_m2 > 0
+          ? ((itbiData.max_m2 - itbiData.min_m2) / itbiData.med_m2) * 100
+          : 0;
+        try {
+          await supabase.from("valuations").insert({
+            user_id: null,
+            origin: "public",
+            logradouro: logradouro.trim() || bairro,
+            bairro,
+            property_area_m2: areaNum,
+            property_type: tipologia.toLowerCase(),
+            itbi_min_m2: itbiData.min_m2,
+            itbi_med_m2: itbiData.med_m2,
+            itbi_max_m2: itbiData.max_m2,
+            itbi_transaction_count: itbiData.transaction_count,
+            combined_min_m2: itbiData.min_m2,
+            combined_med_m2: itbiData.med_m2,
+            combined_max_m2: itbiData.max_m2,
+            final_value_min: estimativa.min,
+            final_value_med: estimativa.med,
+            final_value_max: estimativa.max,
+            confidence_level: itbiData.transaction_count >= 10 ? "green" : itbiData.transaction_count >= 5 ? "yellow_high" : "yellow",
+            confidence_score: Math.min(100, itbiData.transaction_count * 5),
+            documentation_status: "ok",
+            documentation_factor: 1.0,
+            total_adjustment: 0,
+            spread_percentage: spreadPct,
+          });
+        } catch (saveErr) {
+          console.error("Erro ao salvar avaliação pública:", saveErr);
+        }
       }
 
       // Step 4: Send notification with valuation results
