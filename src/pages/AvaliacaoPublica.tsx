@@ -434,24 +434,24 @@ export default function AvaliacaoPublica() {
                 </p>
               </div>
 
-              {/* Card 2 */}
+              {/* Card 2 — Compra Blindada */}
               <div className="group bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-[#D4AF37]/30 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 animate-fade-in" style={{ animationDelay: '200ms' }}>
-                <Sparkles className="h-8 w-8 text-[#0C2340] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
-                <h4 className="font-serif font-bold text-lg sm:text-xl text-[#0C2340] mb-2 text-center">Prime Buyer Experience</h4>
+                <Lock className="h-8 w-8 text-[#0C2340] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h4 className="font-serif font-bold text-lg sm:text-xl text-[#0C2340] mb-2 text-center">Compra Blindada</h4>
                 <p className="text-muted-foreground text-xs sm:text-sm text-center leading-relaxed">
-                  Representação completa durante todo o processo de compra: curadoria, análise técnica, negociação blindada e acompanhamento total do início ao fechamento.
+                  A solução mais completa da Godoy Prime: metodologia exclusiva que protege o comprador em cada etapa da transação, eliminando riscos técnicos, jurídicos e financeiros.
                 </p>
               </div>
 
-              {/* Card 3 — Highlighted */}
+              {/* Card 3 — Prime Buyer Experience — Highlighted */}
               <div className="group relative bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border-2 border-[#D4AF37] hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/10 transition-all duration-300 animate-fade-in" style={{ animationDelay: '400ms' }}>
                 <div className="absolute -top-3 right-4 bg-[#D4AF37] text-[#0C2340] text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
                   Mais Completo
                 </div>
-                <Lock className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
-                <h4 className="font-serif font-bold text-lg sm:text-xl text-[#0C2340] mb-2 text-center">Compra Blindada</h4>
+                <Sparkles className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h4 className="font-serif font-bold text-lg sm:text-xl text-[#0C2340] mb-2 text-center">Prime Buyer Experience</h4>
                 <p className="text-muted-foreground text-xs sm:text-sm text-center leading-relaxed">
-                  A solução mais completa da Godoy Prime: metodologia exclusiva que protege o comprador em cada etapa da transação, eliminando riscos técnicos, jurídicos e financeiros.
+                  Representação completa durante todo o processo de compra: curadoria, análise técnica, negociação blindada e acompanhamento total do início ao fechamento.
                 </p>
               </div>
             </div>
