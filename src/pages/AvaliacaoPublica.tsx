@@ -505,7 +505,7 @@ export default function AvaliacaoPublica() {
               </div>
             )}
           </div>
-        </section>
+        </section>}
 
         {/* ============ FOOTER ============ */}
         <footer className="py-12 px-4 bg-[#0C2340]">
