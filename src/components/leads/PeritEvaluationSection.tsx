@@ -271,11 +271,14 @@ export function PeritEvaluationSection({ valorPedido, valorMercado }: PeritEvalu
         {hasROI && roiMultiplier >= 1 && (
           <div className="mt-4 bg-white/80 border border-accent/30 rounded-xl p-3 sm:p-4">
             <p className="text-sm text-foreground">
-              Para o imóvel que você consultou, onde o vendedor pede{" "}
-              <strong>{formatCurrency(valorPedido!)}</strong> e o valor de mercado é{" "}
-              <strong>{formatCurrency(valorMercado!)}</strong>, o Parecer se pagaria mais de{" "}
-              <strong className="text-[#D4AF37] text-lg">{roiMultiplier}x</strong>{" "}
-              só nesta negociação.
+              Para o imóvel que você consultou, o vendedor pede{" "}
+              <strong>{formatCurrency(valorPedido!)}</strong>{" "}
+              mas o valor provável de mercado é{" "}
+              <strong>{formatCurrency(valorMercado!)}</strong>.{" "}
+              Um investimento de R$ 4.900 no Parecer pode proteger até{" "}
+              <strong>{formatCurrency(roiDiff)}</strong> nesta negociação — um retorno de{" "}
+              <strong className="text-[#C9A84C] font-bold" style={{ fontSize: '1.2em' }}>{roiMultiplier}x</strong>{" "}
+              sobre o investimento.
             </p>
           </div>
         )}
