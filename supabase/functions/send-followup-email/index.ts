@@ -202,7 +202,7 @@ const handler = async (req: Request): Promise<Response> => {
     const { data: leads, error: fetchError } = await supabase
       .from("leads")
       .select("id, nome, email, telefone, interesse, bairro_interesse, area_interesse, valor_interesse, created_at")
-      .lt("created_at", fortyEightHoursAgo)
+      .lt("created_at", oneMinuteAgo)
       .is("followup_sent_at", null)
       .eq("parecer_solicitado", false)
       .or("aceita_marketing.is.null,aceita_marketing.eq.true")
