@@ -321,15 +321,6 @@ export function PeritEvaluationSection({ valorPedido, valorMercado }: PeritEvalu
         </div>
       </div>
 
-      {/* Aviso — argumento de venda */}
-      <div className="bg-amber-50/80 border border-amber-200/60 rounded-lg p-3 sm:p-4 text-sm text-amber-800">
-        <p>
-          ⚠️ Estimativa baseada em transações históricas. Uma <strong>análise técnica presencial</strong> considera diferenciais específicos do imóvel (andar, vista, conservação, reforma) e pode representar <strong>diferença de 15-30%</strong> no valor final.
-        </p>
-        <p className="mt-2 font-semibold text-foreground">
-          É exatamente por isso que o Parecer Técnico existe.
-        </p>
-      </div>
     </div>
   );
 }
