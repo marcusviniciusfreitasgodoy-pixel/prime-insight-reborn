@@ -183,7 +183,7 @@ export function PeritEvaluationSection() {
               Garantia de Execução Profissional
             </h5>
             <p className="text-sm text-green-700">
-              Se não entregar no prazo de 7 dias úteis por falha operacional → <strong>reembolso 100% + compensação</strong>
+              Se não entregar no prazo de 5 dias úteis por falha operacional → <strong>reembolso 100% + compensação</strong>
             </p>
           </div>
         </div>
