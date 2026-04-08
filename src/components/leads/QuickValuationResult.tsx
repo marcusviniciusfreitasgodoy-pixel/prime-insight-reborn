@@ -266,7 +266,7 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
             </div>
 
             {/* Gap indicator */}
-            <div className={`text-center p-4 rounded-xl ${
+            <div className={`text-center p-3 sm:p-4 rounded-xl ${
               gapDirection === "above" ? "bg-red-100 border border-red-200" :
               gapDirection === "below" ? "bg-green-100 border border-green-200" :
               "bg-blue-100 border border-blue-200"
