@@ -72,6 +72,7 @@ const SOLUTIONS = [
 const PERSONAS = [
   { icon: Users, title: "Compradores", subtitle: "Quer negociar com confiança?", description: "Saiba se o preço pedido está dentro da realidade de mercado antes de fazer uma proposta.", cta: "Negocie com informações reais e pague o valor justo" },
   { icon: DollarSign, title: "Investidores", subtitle: "Quer identificar oportunidades?", description: "Compare valores por região e tipologia para encontrar as melhores oportunidades de investimento.", cta: "Tome decisões com dados reais" },
+  { icon: Home, title: "Proprietários", subtitle: "Seu imóvel está anunciado há mais de 90 dias?", description: "Se o seu imóvel não vende, o problema quase nunca é o imóvel — é o preço. Após 90 dias sem propostas concretas, o mercado já respondeu. Descubra o valor real de transação e reposicione seu anúncio com base em dados oficiais, não em achismos.", cta: "Reposicione seu imóvel e acelere a venda" },
 ];
 
 const WRONG_PRICE_SELLER = [
@@ -376,7 +377,7 @@ export default function AvaliacaoPublica() {
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
               <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Para Quem É Esta Avaliação?</h3>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
               {PERSONAS.map((persona, index) => (
                 <div key={index} className="group bg-white/80 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-[#D4AF37]/30 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 text-center animate-fade-in" style={{ animationDelay: `${index * 200}ms` }}>
                   <persona.icon className="h-8 w-8 text-[#0C2340] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
