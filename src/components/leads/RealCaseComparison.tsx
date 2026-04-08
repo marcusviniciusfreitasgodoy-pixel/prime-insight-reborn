@@ -54,7 +54,7 @@ export function RealCaseComparison() {
             return (
               <div
                 key={index}
-                className={`relative rounded-xl sm:rounded-2xl p-5 sm:p-6 border-2 transition-all duration-300 ${item.cardStyle}`}
+                className={`relative rounded-xl sm:rounded-2xl p-5 sm:p-6 border-2 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${item.highlight ? "animate-glow-pulse" : ""} ${item.cardStyle}`}
               >
                 {item.highlight && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-[#D4AF37] text-[#0C2340] text-[10px] sm:text-xs font-bold rounded-full whitespace-nowrap">
@@ -93,7 +93,7 @@ export function RealCaseComparison() {
 
         {/* Explanation */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex gap-3">
+          <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex gap-3 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">
             <TrendingDown className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-sm text-destructive mb-1">Portais Imobiliários</p>
@@ -102,7 +102,7 @@ export function RealCaseComparison() {
               </p>
             </div>
           </div>
-          <div className="bg-[#D4AF37]/5 border border-[#D4AF37]/30 rounded-xl p-4 flex gap-3">
+          <div className="bg-[#D4AF37]/5 border border-[#D4AF37]/30 rounded-xl p-4 flex gap-3 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">
             <CheckCircle className="h-5 w-5 text-[#D4AF37] shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-sm text-[#0C2340] mb-1">Godoy Prime</p>
