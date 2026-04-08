@@ -13,6 +13,7 @@ import {
   ExternalLink
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ComparisonTable } from "./ComparisonTable";
 import marcusGodoyImg from "@/assets/marcus-godoy-novo.jpg";
 
 const parecerEntregas = [
