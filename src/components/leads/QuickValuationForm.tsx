@@ -418,7 +418,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
         {/* Progress Bar */}
         <div className="mb-6 space-y-3">
           <Progress value={progressPercentage} className="h-2 [&>div]:bg-[#D4AF37]" />
-          <div className="flex justify-between">
+          <div className="flex justify-between px-1 sm:px-0">
             {STEP_LABELS.map(({ step, label, icon: Icon }) => (
               <button
                 key={step}
@@ -426,7 +426,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                 onClick={() => {
                   if (step < currentStep) setCurrentStep(step as FormStep);
                 }}
-                className={`flex flex-col items-center gap-1 text-[10px] sm:text-xs transition-colors ${
+                className={`flex flex-col items-center gap-1 text-[10px] sm:text-xs transition-colors min-w-0 ${
                   step === currentStep
                     ? "text-[#D4AF37] font-semibold"
                     : step < currentStep
@@ -435,7 +435,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                 }`}
               >
                 <div
-                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all ${
+                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 transition-all ${
                     step === currentStep
                       ? "bg-[#D4AF37]/20 border-2 border-[#D4AF37]"
                       : step < currentStep
@@ -445,7 +445,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                 >
                   <Icon className="h-3.5 w-3.5" />
                 </div>
-                <span className="hidden sm:inline">{label}</span>
+                <span className="truncate max-w-[60px] sm:max-w-none text-[9px] sm:text-xs">{label}</span>
               </button>
             ))}
           </div>
