@@ -1,4 +1,5 @@
 import { useState, useRef, memo, lazy, Suspense } from "react";
+import { RealCaseComparison } from "@/components/leads/RealCaseComparison";
 import { Helmet } from "react-helmet-async";
 import { QuickValuationForm, QuickValuationData } from "@/components/leads/QuickValuationForm";
 import { Loader2 } from "lucide-react";
@@ -523,6 +524,9 @@ export default function AvaliacaoPublica() {
             </div>
           </div>
         </section>
+
+        {/* ============ SECTION 3.5: CASO REAL (White background) ============ */}
+        <RealCaseComparison />
 
         {/* ============ SECTION 4: SOLUTION (White background) ============ */}
         <section className="py-12 sm:py-16 md:py-20 px-4 bg-white">
