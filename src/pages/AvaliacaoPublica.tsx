@@ -3,6 +3,7 @@ import { RealCaseComparison } from "@/components/leads/RealCaseComparison";
 import { Helmet } from "react-helmet-async";
 import { QuickValuationForm, QuickValuationData } from "@/components/leads/QuickValuationForm";
 import { Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const QuickValuationResult = lazy(() =>
   import("@/components/leads/QuickValuationResult").then((m) => ({ default: m.QuickValuationResult })),
@@ -470,6 +471,12 @@ export default function AvaliacaoPublica() {
               <span className="truncate">Quero saber o valor do meu imóvel</span>
               <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
             </Button>
+            <p className="text-[#0C2340] font-semibold text-sm sm:text-base mt-6 animate-pulse">
+              ⚡ Esta semana: <span className="text-lg font-bold">{weeklySlots}</span> avaliações gratuitas disponíveis
+            </p>
+            <p className="text-[#0C2340]/60 text-xs sm:text-sm mt-3">
+              Resultado em 30 segundos • Sem compromisso • Dados 100% seguros
+            </p>
           </div>
         </section>
 
