@@ -111,21 +111,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
     }
   }, [logradouro, onLogradouroChange]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-      suggestionsRef.current &&
-      !suggestionsRef.current.contains(event.target as Node) &&
-      inputRef.current &&
-      !inputRef.current.contains(event.target as Node))
-      {
-        setShowSuggestions(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  // handleClickOutside removed — onBlur/onFocus handles dismissal
 
   // Listen for address selection from map
   useEffect(() => {
@@ -541,7 +527,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
               </Popover>
             </div>
 
-            <div className="space-y-2 relative">
+            <div className="space-y-2">
             <Label htmlFor="logradouro" className="flex items-center gap-2 text-sm font-medium">
                 <Building2 className="h-4 w-4 text-accent" />
                 Endereço
@@ -701,6 +687,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                   placeholder="Ex: 120"
                   value={area}
                   onChange={(e) => setArea(e.target.value)}
+                  onFocus={() => setShowSuggestions(false)}
                   min="20"
                   max="2000"
                   className="border-primary/20 focus-visible:ring-accent/30" />
@@ -724,6 +711,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     placeholder="0"
                     value={quartos}
                     onChange={(e) => setQuartos(e.target.value)}
+                    onFocus={() => setShowSuggestions(false)}
                     min="0"
                     max="10"
                     className="border-primary/20 focus-visible:ring-accent/30 h-9" />
@@ -740,6 +728,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     placeholder="0"
                     value={banheiros}
                     onChange={(e) => setBanheiros(e.target.value)}
+                    onFocus={() => setShowSuggestions(false)}
                     min="0"
                     max="10"
                     className="border-primary/20 focus-visible:ring-accent/30 h-9" />
@@ -756,6 +745,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     placeholder="0"
                     value={suites}
                     onChange={(e) => setSuites(e.target.value)}
+                    onFocus={() => setShowSuggestions(false)}
                     min="0"
                     max="10"
                     className="border-primary/20 focus-visible:ring-accent/30 h-9" />
@@ -772,6 +762,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     placeholder="0"
                     value={vagas}
                     onChange={(e) => setVagas(e.target.value)}
+                    onFocus={() => setShowSuggestions(false)}
                     min="0"
                     max="10"
                     className="border-primary/20 focus-visible:ring-accent/30 h-9" />
@@ -790,6 +781,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                 placeholder="Ex: vista mar, acabamentos de luxo, automação, lazer completo..."
                 value={diferenciais}
                 onChange={(e) => setDiferenciais(e.target.value)}
+                onFocus={() => setShowSuggestions(false)}
                 className="border-primary/20 focus-visible:ring-accent/30 min-h-[60px] resize-none"
                 maxLength={500} />
 
@@ -813,6 +805,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                 placeholder="Seu nome completo"
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
+                onFocus={() => setShowSuggestions(false)}
                 className="border-primary/20 focus-visible:ring-accent/30" />
 
             </div>
@@ -829,6 +822,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                   placeholder="seu@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  onFocus={() => setShowSuggestions(false)}
                   className="border-primary/20 focus-visible:ring-accent/30" />
 
               </div>
@@ -844,6 +838,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                   placeholder="(21) 99999-9999"
                   value={telefone}
                   onChange={(e) => setTelefone(formatPhone(e.target.value))}
+                  onFocus={() => setShowSuggestions(false)}
                   className="border-primary/20 focus-visible:ring-accent/30" />
 
               </div>
