@@ -13,6 +13,7 @@ import {
   ExternalLink
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ComparisonTable } from "./ComparisonTable";
 import marcusGodoyImg from "@/assets/marcus-godoy-novo.jpg";
 
 const parecerEntregas = [
@@ -74,6 +75,9 @@ export function PeritEvaluationSection() {
           </div>
         </div>
       </div>
+
+      {/* Tabela Comparativa */}
+      <ComparisonTable />
 
       {/* Seção 2: Parecer Godoy Prime - Sua Solução */}
       <div className="space-y-6">
