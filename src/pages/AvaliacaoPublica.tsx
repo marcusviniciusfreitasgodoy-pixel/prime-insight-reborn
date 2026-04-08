@@ -394,6 +394,55 @@ export default function AvaliacaoPublica() {
           </div>
         </section>
 
+        {/* ============ O QUE ACONTECE APÓS ============ */}
+        <section className="py-20 sm:py-28 md:py-36 px-4 bg-gradient-to-b from-white to-[#0C2340]/[0.03]">
+          <div className="container mx-auto max-w-5xl">
+            <div className="text-center mb-12 sm:mb-16">
+              <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
+              <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">O Que Acontece Após a Avaliação?</h3>
+              <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base">
+                A avaliação gratuita é o primeiro passo. Para quem está em negociação ativa, oferecemos serviços especializados em três níveis:
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+              {/* Card 1 */}
+              <div className="group bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-[#D4AF37]/30 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 animate-fade-in">
+                <Shield className="h-8 w-8 text-[#0C2340] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h4 className="font-serif font-bold text-lg sm:text-xl text-[#0C2340] mb-2 text-center">Parecer Godoy Prime</h4>
+                <p className="text-muted-foreground text-xs sm:text-sm text-center leading-relaxed">
+                  Laudo técnico completo com vistoria presencial, análise de valor real e recomendação de preço justo para negociar com fundamento técnico.
+                </p>
+              </div>
+
+              {/* Card 2 */}
+              <div className="group bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-[#D4AF37]/30 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 animate-fade-in" style={{ animationDelay: '200ms' }}>
+                <Sparkles className="h-8 w-8 text-[#0C2340] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h4 className="font-serif font-bold text-lg sm:text-xl text-[#0C2340] mb-2 text-center">Prime Buyer Experience</h4>
+                <p className="text-muted-foreground text-xs sm:text-sm text-center leading-relaxed">
+                  Representação completa durante todo o processo de compra: curadoria, análise técnica, negociação blindada e acompanhamento total do início ao fechamento.
+                </p>
+              </div>
+
+              {/* Card 3 — Highlighted */}
+              <div className="group relative bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border-2 border-[#D4AF37] hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/10 transition-all duration-300 animate-fade-in" style={{ animationDelay: '400ms' }}>
+                <div className="absolute -top-3 right-4 bg-[#D4AF37] text-[#0C2340] text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                  Mais Completo
+                </div>
+                <Lock className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h4 className="font-serif font-bold text-lg sm:text-xl text-[#0C2340] mb-2 text-center">Compra Blindada</h4>
+                <p className="text-muted-foreground text-xs sm:text-sm text-center leading-relaxed">
+                  A solução mais completa da Godoy Prime: metodologia exclusiva que protege o comprador em cada etapa da transação, eliminando riscos técnicos, jurídicos e financeiros.
+                </p>
+              </div>
+            </div>
+
+            <p className="text-center text-sm sm:text-base text-muted-foreground mt-10 sm:mt-12 max-w-2xl mx-auto">
+              Faça sua avaliação gratuita agora e descubra qual nível de proteção faz sentido para a sua negociação.
+            </p>
+          </div>
+        </section>
+
         {/* ============ CTA ============ */}
         <section className="py-16 sm:py-24 md:py-28 px-4 bg-gradient-to-br from-[#D4AF37] to-[#c9a432]">
           <div className="container mx-auto max-w-3xl text-center px-2">
