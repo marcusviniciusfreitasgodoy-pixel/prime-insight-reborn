@@ -1,29 +1,29 @@
 
 
-## Diagnóstico: Campo de condomínio bloqueando outros campos
+## Diagnóstico: Formulário não responde a interação
 
-### Causa provável
+### Problema identificado
 
-No `QuickValuationForm.tsx`, o dropdown de sugestões do logradouro tem 3 estados visuais (loading, results, no-results). O div de "nenhum resultado encontrado" (linha 644) **não tem a ref `suggestionsRef` atribuída**, diferente dos outros dois estados. Isso pode causar:
+Analisando o session replay e o código, identifiquei que o container do campo "Endereço" (logradouro) na linha 544 tem `className="space-y-2 relative"`. Os dropdowns de sugestões dentro dele usam `position: absolute; z-index: 50`. Mesmo quando os dropdowns não estão visíveis (condicionais em `showSuggestions`), o container `relative` pode estar criando um contexto de empilhamento que interfere com a interação dos campos abaixo.
 
-1. O overlay "Nenhum resultado" fica posicionado `absolute z-50` sobre o campo de condomínio abaixo
-2. Mesmo após o click-outside handler fechar as sugestões, pode haver timing issues onde o overlay persiste brevemente
+Além disso, o `handleClickOutside` (mousedown listener no `document`) pode estar capturando cliques antes que os inputs recebam foco, e o `onBlur` com `setTimeout` no logradouro pode causar re-renders que "roubam" o foco.
 
-### Correção
+### Correções propostas
 
 **Arquivo: `src/components/leads/QuickValuationForm.tsx`**
 
-1. **Adicionar `ref={suggestionsRef}` ao div de "no results"** (linha 644) — garantir que o click-outside handler funcione corretamente para todos os estados do dropdown
+1. **Mover o `relative` do container externo para dentro do container do input** — O `relative` na linha 544 deve ficar apenas no `<div>` que contém o input e os dropdowns (linha 549), não no container pai. Isso evita que os dropdowns absolutos criem uma área invisível sobre os campos abaixo.
 
-2. **Fechar sugestões quando o campo de condomínio recebe foco** — adicionar `onFocus={() => setShowSuggestions(false)}` ao input do condomínio (linha 662) como medida de segurança
+2. **Remover o `handleClickOutside` com `document.addEventListener`** — O `onBlur` com delay de 200ms já faz o trabalho de fechar as sugestões. O event listener global no `document` pode interferir com cliques em outros inputs. Substituir por lógica puramente baseada em `onBlur`/`onFocus`.
 
-3. **Fechar sugestões ao clicar em qualquer outro campo** — simplificar: quando `logradouro` perde o foco (`onBlur`), fechar sugestões com um pequeno delay para permitir cliques nos itens da lista
+3. **Adicionar `onFocus={() => setShowSuggestions(false)}` em TODOS os inputs do formulário** (não apenas no condomínio) — Como medida de segurança, garantir que qualquer input que receba foco feche o dropdown de sugestões.
 
 ### Detalhes técnicos
 
-- Linha 644: adicionar `ref={suggestionsRef}` ao div `.absolute.z-50` do estado "no results"
-- Linha 662: adicionar `onFocus={() => setShowSuggestions(false)}` ao Input de condomínio
-- Opcionalmente, adicionar `onBlur` com delay de 200ms no input do logradouro para fechar sugestões
+- Linha 544: Remover `relative` → `<div className="space-y-2">`
+- Linhas 114-128: Remover o `useEffect` com `handleClickOutside`
+- Linha 549: Manter o `relative` aqui (já existe) — os dropdowns ficam posicionados em relação a este div interno
+- Adicionar `onFocus={() => setShowSuggestions(false)}` nos inputs: area, quartos, banheiros, suites, vagas, diferenciais, nome, email, telefone
 
 Alteração em 1 arquivo, sem mudanças no banco de dados.
 
