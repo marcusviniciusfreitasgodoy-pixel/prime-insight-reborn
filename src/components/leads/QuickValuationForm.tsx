@@ -557,6 +557,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                     setShowSuggestions(true);
                   }}
                   onFocus={() => setShowSuggestions(true)}
+                  onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                   className="border-primary/20 focus-visible:ring-accent/30 pr-10"
                   autoComplete="off" />
 
@@ -641,7 +642,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
 
               {/* No Results */}
               {showSuggestions && logradouro.length >= 2 && suggestions?.length === 0 && !suggestionsLoading &&
-              <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-xl p-4 text-center animate-fade-in">
+              <div ref={suggestionsRef} className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-xl p-4 text-center animate-fade-in">
                   <Search className="h-8 w-8 text-muted-foreground/50 mx-auto mb-2" />
                   <p className="text-sm text-muted-foreground">
                     Nenhum resultado encontrado para "<span className="font-medium">{logradouro}</span>"
@@ -660,6 +661,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                 <span className="text-muted-foreground text-xs">(opcional)</span>
               </Label>
               <Input
+                onFocus={() => setShowSuggestions(false)}
                 id="nomeCondominio"
                 placeholder="Ex: Condomínio Atlântico Sul"
                 value={nomeCondominio}
