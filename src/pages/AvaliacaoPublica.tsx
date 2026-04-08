@@ -3,6 +3,7 @@ import { RealCaseComparison } from "@/components/leads/RealCaseComparison";
 import { Helmet } from "react-helmet-async";
 import { QuickValuationForm, QuickValuationData } from "@/components/leads/QuickValuationForm";
 import { Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const QuickValuationResult = lazy(() =>
   import("@/components/leads/QuickValuationResult").then((m) => ({ default: m.QuickValuationResult })),
@@ -170,11 +171,29 @@ export default function AvaliacaoPublica() {
   const [valuationData, setValuationData] = useState<QuickValuationData | null>(null);
   const [selectedBairro, setSelectedBairro] = useState<string | null>(null);
   const [selectedLogradouro, setSelectedLogradouro] = useState<string | null>(null);
+  const [weeklySlots, setWeeklySlots] = useState(5);
   const formRef = useRef<HTMLDivElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
 
   const { utmParams, hasUTM } = useUTMTracking();
+
+  useEffect(() => {
+    const fetchWeeklyCount = async () => {
+      try {
+        const { count, error } = await supabase
+          .from('leads')
+          .select('*', { count: 'exact', head: true })
+          .gte('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString());
+        if (!error && count !== null) {
+          setWeeklySlots(Math.max(1, 7 - count));
+        }
+      } catch {
+        setWeeklySlots(5);
+      }
+    };
+    fetchWeeklyCount();
+  }, []);
 
   const handleQuickValuationComplete = (data: QuickValuationData) => {
     setValuationData(data);
@@ -452,6 +471,12 @@ export default function AvaliacaoPublica() {
               <span className="truncate">Quero saber o valor do meu imóvel</span>
               <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
             </Button>
+            <p className="text-[#0C2340] font-semibold text-sm sm:text-base mt-6 animate-pulse">
+              ⚡ Esta semana: <span className="text-lg font-bold">{weeklySlots}</span> avaliações gratuitas disponíveis
+            </p>
+            <p className="text-[#0C2340]/60 text-xs sm:text-sm mt-3">
+              Resultado em 30 segundos • Sem compromisso • Dados 100% seguros
+            </p>
           </div>
         </section>
 
