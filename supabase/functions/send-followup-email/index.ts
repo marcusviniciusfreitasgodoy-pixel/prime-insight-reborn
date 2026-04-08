@@ -191,13 +191,13 @@ const handler = async (req: Request): Promise<Response> => {
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     // Find leads that:
-    // 1. Were created more than 48 hours ago
+    // 1. Were created more than 1 minute ago
     // 2. Haven't received a follow-up email yet
     // 3. Haven't requested a Parecer Técnico
     // 4. Have aceita_marketing = true or null (not explicitly false)
-    const fortyEightHoursAgo = new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString();
+    const oneMinuteAgo = new Date(Date.now() - 1 * 60 * 1000).toISOString();
     
-    console.log("Looking for leads created before:", fortyEightHoursAgo);
+    console.log("Looking for leads created before:", oneMinuteAgo);
 
     const { data: leads, error: fetchError } = await supabase
       .from("leads")
