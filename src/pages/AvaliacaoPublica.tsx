@@ -170,11 +170,29 @@ export default function AvaliacaoPublica() {
   const [valuationData, setValuationData] = useState<QuickValuationData | null>(null);
   const [selectedBairro, setSelectedBairro] = useState<string | null>(null);
   const [selectedLogradouro, setSelectedLogradouro] = useState<string | null>(null);
+  const [weeklySlots, setWeeklySlots] = useState(5);
   const formRef = useRef<HTMLDivElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
 
   const { utmParams, hasUTM } = useUTMTracking();
+
+  useEffect(() => {
+    const fetchWeeklyCount = async () => {
+      try {
+        const { count, error } = await supabase
+          .from('leads')
+          .select('*', { count: 'exact', head: true })
+          .gte('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString());
+        if (!error && count !== null) {
+          setWeeklySlots(Math.max(1, 7 - count));
+        }
+      } catch {
+        setWeeklySlots(5);
+      }
+    };
+    fetchWeeklyCount();
+  }, []);
 
   const handleQuickValuationComplete = (data: QuickValuationData) => {
     setValuationData(data);
