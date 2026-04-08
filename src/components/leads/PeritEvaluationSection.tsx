@@ -115,14 +115,14 @@ export function PeritEvaluationSection() {
       </div>
 
       {/* Seção 3: Autoridade - Marcus Godoy */}
-      <div className="bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/20 rounded-2xl p-6 overflow-hidden">
-        <div className="flex flex-col md:flex-row gap-6 items-center">
+      <div className="bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/20 rounded-2xl p-4 sm:p-6 overflow-hidden">
+        <div className="flex flex-col md:flex-row gap-4 sm:gap-6 items-center">
           {/* Foto */}
           <div className="w-full md:w-1/3 flex-shrink-0">
             <img 
               src={marcusGodoyImg} 
               alt="Marcus Godoy - Perito Avaliador" 
-              className="w-full h-auto rounded-xl object-cover"
+              className="w-full max-w-[280px] mx-auto md:max-w-none h-auto rounded-xl object-cover"
               loading="lazy"
               decoding="async"
               width={400}
@@ -131,26 +131,26 @@ export function PeritEvaluationSection() {
           </div>
           
           {/* Conteúdo */}
-          <div className="flex-1 space-y-4">
+          <div className="flex-1 space-y-3 sm:space-y-4">
             <div className="text-center md:text-left">
-              <h4 className="text-lg font-bold text-foreground mb-2">
-                <Award className="inline h-5 w-5 text-accent mr-2" />
+              <h4 className="text-base sm:text-lg font-bold text-foreground mb-1 sm:mb-2">
+                <Award className="inline h-4 w-4 sm:h-5 sm:w-5 text-accent mr-1 sm:mr-2" />
                 Marcus Godoy
               </h4>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs sm:text-sm text-muted-foreground">
                 Seu Defensor Técnico na Negociação
               </p>
             </div>
 
-            <div className="flex flex-wrap justify-center md:justify-start gap-2">
+            <div className="flex flex-wrap justify-center md:justify-start gap-1.5 sm:gap-2">
               {credenciais.map((cred, index) => {
                 const Icon = cred.icon;
                 return (
                   <div 
                     key={index}
-                    className="flex items-center gap-2 bg-white/80 border border-primary/20 rounded-full px-3 py-1.5 text-xs"
+                    className="flex items-center gap-1.5 sm:gap-2 bg-white/80 border border-primary/20 rounded-full px-2.5 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs"
                   >
-                    <Icon className="h-3.5 w-3.5 text-primary" />
+                    <Icon className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-primary flex-shrink-0" />
                     <span className="text-foreground font-medium">{cred.label}</span>
                   </div>
                 );
