@@ -50,6 +50,8 @@ interface Valuation {
   trend_direction: string | null;
   trend_percentage: number | null;
   pdf_generated: boolean | null;
+  origin: string;
+  user_id: string | null;
 }
 
 export default function HistoricoAvaliacoes() {
@@ -260,9 +262,16 @@ export default function HistoricoAvaliacoes() {
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge variant="outline" className="text-xs">
-                          {av.documentation_status}
-                        </Badge>
+                        <div className="flex items-center gap-1">
+                          <Badge variant="outline" className="text-xs">
+                            {av.documentation_status}
+                          </Badge>
+                          {av.origin === "public" ? (
+                            <Badge className="bg-blue-500 text-xs">Pública</Badge>
+                          ) : (
+                            <Badge className="bg-emerald-600 text-xs">Profissional</Badge>
+                          )}
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
