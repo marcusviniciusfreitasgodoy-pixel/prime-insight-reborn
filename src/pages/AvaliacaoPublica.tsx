@@ -59,7 +59,7 @@ const HERO_STATS = [
 
 const PROBLEMS = [
   { icon: Eye, title: "Anúncios refletem o desejo de proprietários", description: "Preços de anúncios não refletem o valor real de venda. Vendedores pedem mais, compradores oferecem menos." },
-  { icon: Calculator, title: "Algoritmos genéricos", description: "Ferramentas online usam fórmulas simplistas que ignoram os diferenciais únicos de cada imóvel e se baseiam em valores anunciados." },
+  { icon: Calculator, title: "Algoritmos genéricos", description: "Ferramentas online usam fórmulas simplistas que ignoram os diferenciais únicos de cada imóvel e se baseiam em valores anunciados, com objetivo de atrair novos anunciantes." },
   { icon: Target, title: "Falta de dados oficiais", description: "Sem acesso a transações reais, você negocia no escuro e pode perder dinheiro." },
 ];
 
@@ -355,7 +355,7 @@ export default function AvaliacaoPublica() {
             <div className="text-center mb-8 sm:mb-12">
               <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-[#D4AF37]/10 text-[#D4AF37] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">A SOLUÇÃO</span>
               <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">A Solução Que Muda Tudo</h3>
-              <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">Avaliação baseada em dados de transações reais e não em achismos ou opiniões de vizinhos</p>
+              <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">Avaliação imparcial baseada em dados de transações reais e não em plataformas que privilegiam Vendedores, achismos ou opiniões de vizinhos</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
               {SOLUTIONS.map((solution, index) => (

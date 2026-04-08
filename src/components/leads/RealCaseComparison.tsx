@@ -100,7 +100,7 @@ export function RealCaseComparison() {
             <div>
               <p className="font-semibold text-sm text-destructive mb-1">Portais Imobiliários</p>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Usam preços de <strong>anúncios</strong> — o desejo do vendedor, não o valor real de venda. Podem estar inflados em até 30%.
+                Usam preços de anúncios conforme desejo do vendedor, não o valor real de venda. Podem estar inflados em até 30%. Objetivo de atrair novos anunciantes.
               </p>
             </div>
           </div>
@@ -109,7 +109,7 @@ export function RealCaseComparison() {
             <div>
               <p className="font-semibold text-sm text-[#0C2340] mb-1">Godoy Prime</p>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Usa dados oficiais de <strong>transações reais</strong> registradas — o valor que foi efetivamente pago após toda negociação.
+                Usa dados oficiais de transações reais registradas o valor que foi efetivamente pago após toda negociação. Objetivo de ajudar a comprar pelo preço justo.
               </p>
             </div>
           </div>
