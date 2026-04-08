@@ -10,7 +10,8 @@ import {
   CheckCircle,
   Clock,
   Banknote,
-  ExternalLink
+  ExternalLink,
+  FileText
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ComparisonTable } from "./ComparisonTable";
