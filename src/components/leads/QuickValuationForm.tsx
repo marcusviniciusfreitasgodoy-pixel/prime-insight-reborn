@@ -67,6 +67,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
   // Property fields
   const [bairro, setBairro] = useState("BARRA DA TIJUCA");
   const [logradouro, setLogradouro] = useState("");
+  const [nomeCondominio, setNomeCondominio] = useState("");
   const [area, setArea] = useState("");
   const [tipologia, setTipologia] = useState("Apartamento");
   const [quartos, setQuartos] = useState("");
