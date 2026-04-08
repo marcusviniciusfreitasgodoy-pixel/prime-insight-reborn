@@ -120,24 +120,12 @@ const LOADING_MESSAGES = [
 function LoadingScreen() {
   const [messageIndex, setMessageIndex] = useState(0);
 
-  useState(() => {
+  useEffect(() => {
     const interval = setInterval(() => {
-      setMessageIndex((prev) => (prev + 1) % LOADING_MESSAGES.length);
-    }, 1200);
-    return () => clearInterval(interval);
-  });
-
-  // Cycle through messages
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [, setTick] = useState(0);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useState(() => {
-    const interval = setInterval(() => {
-      setTick((prev) => prev + 1);
       setMessageIndex((prev) => (prev + 1) % LOADING_MESSAGES.length);
     }, 1500);
     return () => clearInterval(interval);
-  });
+  }, []);
 
   const currentMessage = LOADING_MESSAGES[messageIndex];
   const Icon = currentMessage.icon;
