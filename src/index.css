@@ -109,20 +109,24 @@ All colors MUST be HSL.
   z-index: 1000 !important;
 }
 
-/* Fallback: ensure animated elements become visible after 800ms even if animation doesn't trigger */
+/* Fallback: guarantee visibility for fade-in elements after their animation + delay */
 .animate-fade-in {
-  animation-duration: 0.5s;
-  animation-timing-function: ease-out;
-  animation-fill-mode: both;
+  animation-fill-mode: both !important;
 }
 
-@keyframes force-visible {
-  to {
-    opacity: 1;
-    transform: none;
+/* Safety net: if animation somehow doesn't complete, force visibility after 800ms */
+@supports (animation: fade-in) {
+  .animate-fade-in {
+    --_fb-delay: 0.8s;
   }
 }
 
-.animate-fade-in {
-  animation: fade-in 0.5s ease-out both, force-visible 0s 0.8s both;
+@keyframes ensure-visible {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Elements that haven't animated yet get forced visible */
+.animate-fade-in[style*="animation-delay"] {
+  animation-fill-mode: both !important;
 }
