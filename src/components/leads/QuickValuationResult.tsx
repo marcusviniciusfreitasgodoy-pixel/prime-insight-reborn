@@ -472,7 +472,7 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
                 <p className="text-muted-foreground mt-2">Proteja seu patrimônio com o <strong>Parecer Técnico Godoy Prime</strong></p>
               </div>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button onClick={handleRequestParecer} disabled={isRequesting} className="bg-green-600 hover:bg-green-700 text-white shadow-lg" size="lg">
+                <Button onClick={handleRequestParecer} disabled={isRequesting} className="bg-[#C9A84C] hover:bg-[#b8963f] text-[#0C2340] shadow-lg font-semibold" size="lg">
                   <MessageCircle className="mr-2 h-5 w-5" />
                   {isRequesting ? "Enviando..." : "Solicitar Parecer Técnico"}
                 </Button>
@@ -481,7 +481,12 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
                   Ligar: (21) 96407-5124
                 </Button>
               </div>
-              <p className="text-xs text-muted-foreground">Ao solicitar, você será redirecionado para o WhatsApp de Marcus Godoy</p>
+              <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                <span>🔒 Sem compromisso de contratação</span>
+                <span>⚡ Retorno em até 2h</span>
+                <span>📋 Orçamento gratuito</span>
+              </div>
+              <p className="text-xs text-muted-foreground">Preencha seus dados e nossa equipe entrará em contato em até 2 horas para agendar sua análise.</p>
             </div>
           </CardContent>
         </Card>
