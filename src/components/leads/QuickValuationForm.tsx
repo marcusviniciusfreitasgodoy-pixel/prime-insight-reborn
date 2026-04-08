@@ -67,6 +67,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
   // Property fields
   const [bairro, setBairro] = useState("BARRA DA TIJUCA");
   const [logradouro, setLogradouro] = useState("");
+  const [nomeCondominio, setNomeCondominio] = useState("");
   const [area, setArea] = useState("");
   const [tipologia, setTipologia] = useState("Apartamento");
   const [quartos, setQuartos] = useState("");
@@ -650,6 +651,21 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                   </p>
                 </div>
               }
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="nomeCondominio" className="flex items-center gap-2 text-sm font-medium">
+                <Building2 className="h-4 w-4 text-accent" />
+                Nome do Condomínio
+                <span className="text-muted-foreground text-xs">(opcional)</span>
+              </Label>
+              <Input
+                id="nomeCondominio"
+                placeholder="Ex: Condomínio Atlântico Sul"
+                value={nomeCondominio}
+                onChange={(e) => setNomeCondominio(e.target.value)}
+                className="border-primary/20 focus-visible:ring-accent/30"
+              />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
