@@ -229,7 +229,18 @@ export function PeritEvaluationSection({ valorPedido, valorMercado }: PeritEvalu
         <p className="text-sm text-foreground font-medium">
           "Não é gasto é <strong className="text-accent">blindagem patrimonial</strong> com retorno mensurável."
         </p>
-      </div>
+
+        {hasROI && roiMultiplier >= 1 && (
+          <div className="mt-4 bg-white/80 border border-accent/30 rounded-xl p-3 sm:p-4">
+            <p className="text-sm text-foreground">
+              Para o imóvel que você consultou, onde o vendedor pede{" "}
+              <strong>{formatCurrency(valorPedido!)}</strong> e o valor de mercado é{" "}
+              <strong>{formatCurrency(valorMercado!)}</strong>, o Parecer se pagaria mais de{" "}
+              <strong className="text-[#D4AF37] text-lg">{roiMultiplier}x</strong>{" "}
+              só nesta negociação.
+            </p>
+          </div>
+        )}
 
       {/* Seção 6: Sistema Representação Blindada (Oferta Complementar) */}
       <div className="bg-[#0C2340] rounded-2xl p-4 sm:p-6 text-white">
