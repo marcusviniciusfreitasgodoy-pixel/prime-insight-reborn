@@ -383,16 +383,6 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
         </CardContent>
       </Card>
 
-      {/* Aviso Importante */}
-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-amber-800">
-        <div className="flex items-start gap-2">
-          <AlertCircle className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
-          <div className="space-y-2">
-            <p><strong>Importante:</strong> Esta é uma estimativa preliminar baseada em dados históricos de transações oficiais.</p>
-            <p>Uma <strong>análise técnica completa</strong> considera os diferenciais <strong>específicos</strong> do seu imóvel: vista, andar, reforma, estado de conservação, posição solar, infraestrutura do condomínio, entre outros. Essas características podem representar uma <strong>diferença de 15% a 30%</strong> no valor final.</p>
-          </div>
-        </div>
-      </div>
 
       {/* FAQ Parecer */}
       <Card className="border-border">
