@@ -1,40 +1,16 @@
 
 
-# Adicionar segundo Meta Pixel (ID 1664451094966530)
+## Plano: Remover Sofia da página pública de avaliação
 
-## O que será feito
+### Objetivo
+Remover o chatbot da Sofia da página pública (`AvaliacaoPublica.tsx`), mantendo apenas o botão do WhatsApp como canal de contato direto. O fluxo de suporte passa a ser: FAQ → Reunião estratégica gratuita.
 
-Adicionar o novo pixel Meta ao lado do existente, para que ambos disparem eventos simultaneamente.
+### Alterações
 
-## Alterações
+**`src/pages/AvaliacaoPublica.tsx`**
+1. Remover o import lazy do `PublicSofiaAssistant` (linhas 10-12)
+2. Remover o bloco `<Suspense>` que renderiza o `<PublicSofiaAssistant />` (linhas 915-918)
+3. Adicionar um botão flutuante de WhatsApp standalone diretamente na página (o atual está embutido dentro do `PublicSofiaAssistant`), para manter o canal de contato via WhatsApp
 
-### 1. index.html — Adicionar segundo `fbq('init')` e noscript
+Nenhuma alteração no banco de dados é necessária.
 
-- Dentro do script existente, adicionar `fbq('init', '1664451094966530');` logo abaixo do init atual
-- Adicionar uma segunda tag `<noscript>` com o novo pixel ID no body
-
-### 2. src/utils/metaPixel.ts — Atualizar comentário
-
-- Atualizar o comentário no topo do arquivo para refletir que agora existem dois Pixel IDs: `926436730063639` e `1664451094966530`
-- Nenhuma alteração de código é necessária — a biblioteca `fbq` dispara eventos automaticamente para todos os pixels inicializados com `fbq('init', ...)`
-
-## Detalhes técnicos
-
-O SDK do Meta Pixel suporta nativamente múltiplos pixels. Ao chamar `fbq('init', 'ID')` duas vezes com IDs diferentes, todos os eventos subsequentes (`fbq('track', ...)` e `fbq('trackCustom', ...)`) são enviados para ambos os pixels automaticamente. Não é necessário alterar nenhuma das funções de tracking existentes.
-
-```text
-index.html (head):
-  fbq('init', '926436730063639');   // pixel existente
-  fbq('init', '1664451094966530');  // novo pixel
-  fbq('track', 'PageView');
-
-index.html (body):
-  <noscript> ... id=926436730063639 ... </noscript>   // existente
-  <noscript> ... id=1664451094966530 ... </noscript>  // novo
-```
-
-## Impacto
-
-- Zero impacto em funcionalidade existente
-- Todos os eventos de conversão (leads, avaliações, WhatsApp, PDF) serão enviados para ambos os pixels
-- Nenhuma alteração em componentes React
