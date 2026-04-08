@@ -303,7 +303,7 @@ export default function AvaliacaoPublica() {
 
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm font-medium animate-fade-in [animation-delay:500ms]">
                 <Shield className="h-4 w-4 text-[#D4AF37]" />
-                Transações Oficiais da Cidade do Rio de Janeiro
+                Transações Oficiais e Avaliação Imparcial
               </div>
 
               <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-8 pt-6 sm:pt-8 border-t border-white/10 mt-6 sm:mt-8 animate-fade-in [animation-delay:600ms]">
