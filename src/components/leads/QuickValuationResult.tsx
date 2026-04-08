@@ -442,16 +442,11 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
       )}
 
       {/* Rodapé discreto */}
-      <div className="text-center space-y-3 pt-4">
-        <Link to="/feedback" className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors">
-          Ajude-nos a melhorar — responda nossa pesquisa rápida
-        </Link>
+      <div className="text-center pt-[100px] pb-4">
         {!parecerRequested && (
-          <p>
-            <button onClick={onNewValuation} className="text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors">
-              ← Voltar e fazer nova consulta
-            </button>
-          </p>
+          <button onClick={onNewValuation} className="text-muted-foreground/40 transition-colors hover:text-muted-foreground/60" style={{ fontSize: '12px', color: '#999' }}>
+            ← Voltar e fazer nova consulta
+          </button>
         )}
       </div>
     </div>
