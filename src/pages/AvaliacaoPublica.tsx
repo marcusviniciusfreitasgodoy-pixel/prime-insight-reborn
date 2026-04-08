@@ -383,7 +383,7 @@ export default function AvaliacaoPublica() {
                   <persona.icon className="h-8 w-8 text-[#0C2340] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
                   <h4 className="font-serif font-bold text-lg sm:text-xl text-[#0C2340] mb-1">{persona.title}</h4>
                   <p className="text-[#D4AF37] font-medium text-xs sm:text-sm mb-3">{persona.subtitle}</p>
-                  <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed">{persona.description}</p>
+                  <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed whitespace-pre-line">{persona.description}</p>
                   <div className="inline-flex items-center gap-2 text-xs text-[#0C2340]/70">
                     <CheckCircle className="h-3.5 w-3.5 text-[#D4AF37] flex-shrink-0" />
                     {persona.cta}
