@@ -64,7 +64,8 @@ export function PeritEvaluationSection() {
             Você Está Negociando Sozinho Contra Vendedor + Corretor + Imobiliária
           </h3>
           <p className="text-red-700 text-sm md:text-base">
-            (Todos Lucrando Quando Você Paga Caro — Chegou a Hora de Ter Defensor Técnico Exclusivo)
+            Todos Lucrando Quando Você Paga Caro.<br />
+            Chegou a Hora de Ter um Defensor Técnico Exclusivo ao seu lado.
           </p>
           <div className="bg-white/80 rounded-xl p-4 max-w-2xl mx-auto">
             <p className="text-red-900 font-medium">
