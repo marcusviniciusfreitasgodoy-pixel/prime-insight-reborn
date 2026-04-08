@@ -295,7 +295,7 @@ export default function AvaliacaoPublica() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 animate-fade-in [animation-delay:450ms]">
-                <Button onClick={scrollToForm} size="lg" className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] tracking-widest uppercase text-xs font-semibold px-10 py-4 rounded-sm transition-colors duration-300 w-full sm:w-auto">
+                <Button onClick={scrollToForm} size="lg" className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] tracking-widest uppercase text-xs font-semibold px-10 py-4 rounded-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto">
                   <span className="truncate">Comparar Preço Agora</span>
                   <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
                 </Button>
@@ -308,7 +308,7 @@ export default function AvaliacaoPublica() {
 
               <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-8 pt-6 sm:pt-8 border-t border-white/10 mt-6 sm:mt-8 animate-fade-in [animation-delay:600ms]">
                 {HERO_STATS.map((stat, index) => (
-                  <div key={index} className="text-center">
+                  <div key={index} className="text-center hover:scale-105 transition-transform duration-300 cursor-default">
                     <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-[#D4AF37] mx-auto mb-1 sm:mb-2" />
                     <p className="text-lg sm:text-xl md:text-3xl font-bold">{stat.value}</p>
                     <p className="text-[10px] sm:text-xs md:text-sm text-white/60 leading-tight">{stat.label}</p>
@@ -333,8 +333,8 @@ export default function AvaliacaoPublica() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {PROBLEMS.map((problem, index) => (
-                <div key={index} className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-gray-200 transition-colors duration-300">
-                  <problem.icon className="h-6 w-6 text-destructive mb-4" />
+                <div key={index} className="group bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-gray-200 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 animate-fade-in" style={{ animationDelay: `${index * 150}ms` }}>
+                  <problem.icon className="h-6 w-6 text-destructive mb-4 group-hover:scale-110 transition-transform duration-300" />
                   <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-2">{problem.title}</h4>
                   <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">{problem.description}</p>
                 </div>
@@ -355,8 +355,8 @@ export default function AvaliacaoPublica() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {SOLUTIONS.map((solution, index) => (
-                <div key={index} className="bg-white/80 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-gray-200 transition-colors duration-300">
-                  <solution.icon className="h-6 w-6 text-[#D4AF37] mb-4" />
+                <div key={index} className="group bg-white/80 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-[#D4AF37]/40 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 animate-fade-in" style={{ animationDelay: `${index * 150}ms` }}>
+                  <solution.icon className="h-6 w-6 text-[#D4AF37] mb-4 group-hover:scale-110 transition-transform duration-300" />
                   <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-2">{solution.title}</h4>
                   <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed">{solution.description}</p>
                   <div className="flex items-center gap-2 text-xs text-[#0C2340]/70">
@@ -378,8 +378,8 @@ export default function AvaliacaoPublica() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
               {PERSONAS.map((persona, index) => (
-                <div key={index} className="bg-white/80 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-gray-200 transition-colors duration-300 text-center">
-                  <persona.icon className="h-8 w-8 text-[#0C2340] mx-auto mb-4" />
+                <div key={index} className="group bg-white/80 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-[#D4AF37]/30 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 text-center animate-fade-in" style={{ animationDelay: `${index * 200}ms` }}>
+                  <persona.icon className="h-8 w-8 text-[#0C2340] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
                   <h4 className="font-serif font-bold text-lg sm:text-xl text-[#0C2340] mb-1">{persona.title}</h4>
                   <p className="text-[#D4AF37] font-medium text-xs sm:text-sm mb-3">{persona.subtitle}</p>
                   <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed">{persona.description}</p>
@@ -398,7 +398,7 @@ export default function AvaliacaoPublica() {
           <div className="container mx-auto max-w-3xl text-center px-2">
             <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Pronto para Descobrir o Valor do seu Imóvel?</h3>
             <p className="text-[#0C2340]/80 text-sm sm:text-lg mb-8 sm:mb-10">Comece agora – leva apenas 30 segundos.</p>
-            <Button onClick={scrollToForm} size="lg" className="bg-[#0C2340] hover:bg-[#0a1d33] text-white tracking-widest uppercase text-xs font-semibold px-10 py-4 rounded-sm transition-colors duration-300 w-full sm:w-auto max-w-xs sm:max-w-none">
+            <Button onClick={scrollToForm} size="lg" className="bg-[#0C2340] hover:bg-[#0a1d33] text-white tracking-widest uppercase text-xs font-semibold px-10 py-4 rounded-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto max-w-xs sm:max-w-none">
               <span className="truncate">Quero saber o valor do meu imóvel</span>
               <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
             </Button>
@@ -476,7 +476,7 @@ export default function AvaliacaoPublica() {
                   </div>
                   <Accordion type="single" collapsible className="space-y-2">
                     {FAQ_DATA.filter((f) => f.category === key).map((faq, index) => (
-                      <AccordionItem key={`${key}-${index}`} value={`${key}-${index}`} className="bg-white rounded-xl border border-gray-100 px-4 data-[state=open]:bg-[#D4AF37]/5 data-[state=open]:border-[#D4AF37]/30">
+                      <AccordionItem key={`${key}-${index}`} value={`${key}-${index}`} className="bg-white rounded-xl border border-gray-100 px-4 hover:border-[#D4AF37]/20 hover:shadow-sm transition-all duration-300 data-[state=open]:bg-[#D4AF37]/5 data-[state=open]:border-[#D4AF37]/30">
                         <AccordionTrigger className="hover:no-underline py-4">
                           <span className="text-left font-medium text-[#0C2340]">{faq.question}</span>
                         </AccordionTrigger>
@@ -492,7 +492,7 @@ export default function AvaliacaoPublica() {
               <div className="mt-12 text-center">
                 <p className="text-muted-foreground mb-4">Ainda tem dúvidas?</p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Button onClick={scrollToForm} className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] tracking-widest uppercase text-xs font-semibold px-8 py-3 rounded-sm transition-colors duration-300 w-full sm:w-auto">
+                  <Button onClick={scrollToForm} className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] tracking-widest uppercase text-xs font-semibold px-8 py-3 rounded-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto">
                     <Calculator className="mr-2 h-4 w-4 flex-shrink-0" />
                     <span className="truncate">Fazer Minha Avaliação Gratuita</span>
                   </Button>

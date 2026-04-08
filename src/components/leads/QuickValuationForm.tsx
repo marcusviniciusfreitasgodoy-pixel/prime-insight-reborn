@@ -435,9 +435,9 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                 }`}
               >
                 <div
-                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 transition-all ${
+                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 hover:scale-110 ${
                     step === currentStep
-                      ? "bg-[#D4AF37]/20 border-2 border-[#D4AF37]"
+                      ? "bg-[#D4AF37]/20 border-2 border-[#D4AF37] ring-2 ring-[#D4AF37]/30 animate-glow-pulse"
                       : step < currentStep
                       ? "bg-primary/10 border border-primary/30"
                       : "bg-muted border border-muted-foreground/20"
