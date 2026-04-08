@@ -76,6 +76,9 @@ export function PeritEvaluationSection() {
         </div>
       </div>
 
+      {/* Tabela Comparativa */}
+      <ComparisonTable />
+
       {/* Seção 2: Parecer Godoy Prime - Sua Solução */}
       <div className="space-y-6">
         <div className="text-center">
