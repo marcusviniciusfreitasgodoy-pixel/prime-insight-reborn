@@ -111,13 +111,17 @@ All colors MUST be HSL.
 
 /*
  * Safety net for fade-in animations:
- * If the animation hasn't completed after 800ms (e.g. fast scroll, slow device),
- * force visibility so content is never permanently hidden.
+ * Ensures content is never permanently hidden due to animation delays.
+ * - The fade-in plays normally with its delay.
+ * - After 800ms absolute, force-visible guarantees the element is shown.
+ * Note: inline animation-delay offsets both, but the fallback still ensures visibility.
  */
 @keyframes force-visible {
-  to { opacity: 1; transform: none; }
+  to { opacity: 1 !important; transform: none !important; }
 }
 
 .animate-fade-in {
-  animation: fade-in 0.5s ease-out both, force-visible 0s ease-out 0.8s both;
+  animation:
+    fade-in 0.5s ease-out both,
+    force-visible 0s ease-out 0.8s both !important;
 }
