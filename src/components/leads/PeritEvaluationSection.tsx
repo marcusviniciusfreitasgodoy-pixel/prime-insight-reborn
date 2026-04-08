@@ -241,6 +241,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado }: PeritEvalu
             </p>
           </div>
         )}
+      </div>
 
       {/* Seção 6: Sistema Representação Blindada (Oferta Complementar) */}
       <div className="bg-[#0C2340] rounded-2xl p-4 sm:p-6 text-white">
