@@ -452,8 +452,8 @@ export default function AvaliacaoPublica() {
           </section>
         )}
 
-        {/* ============ FAQ ============ */}
-        <section className="py-20 sm:py-28 md:py-36 px-4 bg-[#F8F6F0]">
+        {/* ============ FAQ (hidden when showing result) ============ */}
+        {step !== "result" && <section className="py-20 sm:py-28 md:py-36 px-4 bg-[#F8F6F0]">
           <div className="container mx-auto max-w-4xl">
             <div className="text-center mb-12 sm:mb-16">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
