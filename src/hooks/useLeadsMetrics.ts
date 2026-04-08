@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
-const MAX_FREE_EVALUATIONS = 5;
+const MAX_FREE_EVALUATIONS = 2;
 
 export interface LeadsMetrics {
   totalLeads: number;

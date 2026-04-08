@@ -49,7 +49,7 @@ interface QuickValuationFormProps {
   onLogradouroChange?: (logradouro: string) => void;
 }
 
-const MAX_FREE_EVALUATIONS = 5;
+const MAX_FREE_EVALUATIONS = 2;
 
 // Lista de bairros agora vem do banco de dados via useAllBairros hook
 
