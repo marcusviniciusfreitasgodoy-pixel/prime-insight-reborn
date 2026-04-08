@@ -72,7 +72,7 @@ const SOLUTIONS = [
 const PERSONAS = [
   { icon: Users, title: "Compradores", subtitle: "Quer negociar com confiança?", description: "Saiba se o preço pedido está dentro da realidade de mercado antes de fazer uma proposta.", cta: "Negocie com informações reais e pague o valor justo" },
   { icon: DollarSign, title: "Investidores", subtitle: "Quer identificar oportunidades?", description: "Compare valores por região e tipologia para encontrar as melhores oportunidades de investimento.", cta: "Tome decisões com dados reais" },
-  { icon: Home, title: "Proprietários", subtitle: "Seu imóvel está anunciado há mais de 90 dias?", description: "Se o seu imóvel não vende, o problema quase nunca é o imóvel — é o preço. Após 90 dias sem propostas concretas, o mercado já respondeu. Descubra o valor real de transação e reposicione seu anúncio com base em dados oficiais, não em achismos.", cta: "Reposicione seu imóvel e acelere a venda" },
+  { icon: Home, title: "Proprietários", subtitle: "Seu imóvel está anunciado há mais de 90 dias?", description: "Se o seu imóvel não vende, o problema muitas vezes não é o imóvel é o preço. \nApós 90 dias sem propostas concretas, o mercado já respondeu. Descubra o valor real de transação e reposicione seu anúncio com base em dados e não em achismos e emoção.", cta: "Reposicione seu imóvel e acelere a venda" },
 ];
 
 const WRONG_PRICE_SELLER = [
@@ -383,7 +383,7 @@ export default function AvaliacaoPublica() {
                   <persona.icon className="h-8 w-8 text-[#0C2340] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
                   <h4 className="font-serif font-bold text-lg sm:text-xl text-[#0C2340] mb-1">{persona.title}</h4>
                   <p className="text-[#D4AF37] font-medium text-xs sm:text-sm mb-3">{persona.subtitle}</p>
-                  <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed">{persona.description}</p>
+                  <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed whitespace-pre-line">{persona.description}</p>
                   <div className="inline-flex items-center gap-2 text-xs text-[#0C2340]/70">
                     <CheckCircle className="h-3.5 w-3.5 text-[#D4AF37] flex-shrink-0" />
                     {persona.cta}
