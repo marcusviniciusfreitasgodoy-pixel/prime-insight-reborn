@@ -2,7 +2,7 @@ import { AlertTriangle, TrendingDown, CheckCircle, ArrowRight } from "lucide-rea
 
 const comparisons = [
   {
-    label: "Portal B",
+    label: "Portal A",
     value: "R$ 2.000.000",
     badge: "Preço de Anúncio",
     badgeColor: "bg-destructive/10 text-destructive",
@@ -11,7 +11,7 @@ const comparisons = [
     iconColor: "text-destructive",
   },
   {
-    label: "Portal A",
+    label: "Portal B",
     value: "R$ 1.600.000",
     badge: "Preço de Anúncio",
     badgeColor: "bg-destructive/10 text-destructive",
