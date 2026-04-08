@@ -1,4 +1,4 @@
-import { useState, useRef, memo, lazy, Suspense } from "react";
+import { useState, useRef, useEffect, memo, lazy, Suspense } from "react";
 import { RealCaseComparison } from "@/components/leads/RealCaseComparison";
 import { Helmet } from "react-helmet-async";
 import { QuickValuationForm, QuickValuationData } from "@/components/leads/QuickValuationForm";
