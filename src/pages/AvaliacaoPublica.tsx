@@ -439,7 +439,7 @@ export default function AvaliacaoPublica() {
                 <Lock className="h-8 w-8 text-[#0C2340] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
                 <h4 className="font-serif font-bold text-lg sm:text-xl text-[#0C2340] mb-2 text-center">Compra Blindada</h4>
                 <p className="text-muted-foreground text-xs sm:text-sm text-center leading-relaxed">
-                  Para quem já identificou o imóvel e quer conduzir a negociação com representação exclusiva. Inclui tudo do Parecer Godoy Prime, acrescido de condução integral da negociação ao seu lado, due diligence documental completa e acompanhamento até a assinatura do contrato.
+                  Proteção completa para quem já encontrou o imóvel. Inclui laudo técnico com vistoria presencial + condução integral da negociação + due diligence documental + acompanhamento até a assinatura do contrato. Tudo com um único especialista ao seu lado.
                 </p>
               </div>
 
