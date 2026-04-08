@@ -54,8 +54,19 @@ const primeBuyerPhases = [
   { phase: "4", title: "Negociação Blindada", desc: "Negociamos em seu nome com dados técnicos" },
   { phase: "5", title: "Acompanhamento Total", desc: "Do contrato até as chaves" },
 ];
+interface PeritEvaluationSectionProps {
+  valorPedido?: number;
+  valorMercado?: number;
+}
 
-export function PeritEvaluationSection() {
+export function PeritEvaluationSection({ valorPedido, valorMercado }: PeritEvaluationSectionProps) {
+  const hasROI = valorPedido && valorPedido > 0 && valorMercado && valorMercado > 0 && valorPedido > valorMercado;
+  const roiDiff = hasROI ? valorPedido - valorMercado : 0;
+  const roiMultiplier = hasROI ? Math.floor(roiDiff / 4900) : 0;
+
+  const formatCurrency = (value: number) =>
+    new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }).format(value);
+
   return (
     <div className="space-y-10">
       {/* Seção 1: Exposição do Problema */}
