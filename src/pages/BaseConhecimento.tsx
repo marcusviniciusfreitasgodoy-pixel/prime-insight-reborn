@@ -353,6 +353,7 @@ export default function BaseConhecimento() {
             </form>
           </DialogContent>
         </Dialog>
+        </div>
       </div>
 
       {/* Stats */}
