@@ -252,16 +252,16 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-2 sm:gap-4">
               {/* Valor pedido */}
-              <div className="text-center p-4 rounded-xl bg-white border border-border">
-                <p className="text-xs text-muted-foreground mb-1">Valor pedido pelo vendedor</p>
-                <p className="text-xl sm:text-2xl font-bold text-foreground">{formatCurrency(data.valorPedidoVendedor!, true)}</p>
+              <div className="text-center p-2.5 sm:p-4 rounded-xl bg-white border border-border">
+                <p className="text-[10px] sm:text-xs text-muted-foreground mb-1">Valor pedido pelo vendedor</p>
+                <p className="text-base sm:text-2xl font-bold text-foreground">{formatCurrency(data.valorPedidoVendedor!, true)}</p>
               </div>
               {/* Valor mercado */}
-              <div className="text-center p-4 rounded-xl bg-primary/5 border-2 border-primary/20">
-                <p className="text-xs text-muted-foreground mb-1">Valor provável de mercado</p>
-                <p className="text-xl sm:text-2xl font-bold text-primary">{formatCurrency(data.estimativa!.med, true)}</p>
+              <div className="text-center p-2.5 sm:p-4 rounded-xl bg-primary/5 border-2 border-primary/20">
+                <p className="text-[10px] sm:text-xs text-muted-foreground mb-1">Valor provável de mercado</p>
+                <p className="text-base sm:text-2xl font-bold text-primary">{formatCurrency(data.estimativa!.med, true)}</p>
               </div>
             </div>
 
