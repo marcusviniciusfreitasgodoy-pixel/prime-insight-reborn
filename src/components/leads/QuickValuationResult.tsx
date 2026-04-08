@@ -196,7 +196,7 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-5 sm:space-y-8">
       {/* Feedback Modal */}
       <Dialog open={showFeedbackModal} onOpenChange={setShowFeedbackModal}>
         <DialogContent className="sm:max-w-md">
