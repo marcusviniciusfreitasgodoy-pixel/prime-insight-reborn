@@ -217,30 +217,30 @@ export function PeritEvaluationSection() {
       </div>
 
       {/* Seção 6: Sistema Representação Blindada (Oferta Complementar) */}
-      <div className="bg-[#0C2340] rounded-2xl p-6 text-white">
-        <div className="text-center mb-6">
-          <h4 className="text-lg font-bold mb-2">
+      <div className="bg-[#0C2340] rounded-2xl p-4 sm:p-6 text-white">
+        <div className="text-center mb-4 sm:mb-6">
+          <h4 className="text-base sm:text-lg font-bold mb-2">
             🚀 Quer Representação Completa Durante Todo o Processo?
           </h4>
-          <p className="text-white/70 text-sm">
+          <p className="text-white/70 text-xs sm:text-sm">
             Sistema de Representação Blindada: Prime Buyer Experience
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-2 mb-6">
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-2 mb-4 sm:mb-6">
           {primeBuyerPhases.map((phase, index) => (
             <div 
               key={index}
-              className="bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-center"
+              className="bg-white/10 border border-white/20 rounded-lg px-2 sm:px-3 py-2 text-center"
             >
-              <div className="text-[#D4AF37] font-bold text-xs mb-0.5">Fase {phase.phase}</div>
-              <div className="text-white text-xs font-medium">{phase.title}</div>
+              <div className="text-[#D4AF37] font-bold text-[10px] sm:text-xs mb-0.5">Fase {phase.phase}</div>
+              <div className="text-white text-[10px] sm:text-xs font-medium">{phase.title}</div>
             </div>
           ))}
         </div>
 
-        <div className="text-center space-y-4">
-          <p className="text-white/80 text-sm">
+        <div className="text-center space-y-3 sm:space-y-4">
+          <p className="text-white/80 text-xs sm:text-sm">
             <strong className="text-[#D4AF37]">A Diferença Matemática:</strong> Compradores que usam Personal Shopper Imobiliário 
             economizam em média 8-15% no valor final, economizam tempo e evitam surpresas futuras.
           </p>
@@ -250,8 +250,8 @@ export function PeritEvaluationSection() {
             className="w-full sm:w-auto bg-transparent border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0C2340] focus:bg-[#D4AF37] focus:text-[#0C2340] active:bg-[#D4AF37] active:text-[#0C2340] whitespace-normal h-auto py-3 px-4"
             onClick={() => window.open('https://personalshopperimobiliario.godoyprime.com.br', '_blank')}
           >
-            <span className="text-sm sm:text-base">Conhecer Prime Buyer Experience</span>
-            <ExternalLink className="ml-2 h-4 w-4 shrink-0" />
+            <span className="text-xs sm:text-base">Conhecer Prime Buyer Experience</span>
+            <ExternalLink className="ml-2 h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
           </Button>
         </div>
       </div>
