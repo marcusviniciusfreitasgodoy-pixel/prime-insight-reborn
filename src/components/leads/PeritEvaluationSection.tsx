@@ -212,7 +212,7 @@ export function PeritEvaluationSection() {
         </div>
 
         <p className="text-sm text-foreground font-medium">
-          "Não é gasto — é <strong className="text-accent">blindagem patrimonial</strong> com retorno mensurável."
+          "Não é gasto é <strong className="text-accent">blindagem patrimonial</strong> com retorno mensurável."
         </p>
       </div>
 
