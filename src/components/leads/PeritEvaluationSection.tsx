@@ -54,8 +54,19 @@ const primeBuyerPhases = [
   { phase: "4", title: "Negociação Blindada", desc: "Negociamos em seu nome com dados técnicos" },
   { phase: "5", title: "Acompanhamento Total", desc: "Do contrato até as chaves" },
 ];
+interface PeritEvaluationSectionProps {
+  valorPedido?: number;
+  valorMercado?: number;
+}
 
-export function PeritEvaluationSection() {
+export function PeritEvaluationSection({ valorPedido, valorMercado }: PeritEvaluationSectionProps) {
+  const hasROI = valorPedido && valorPedido > 0 && valorMercado && valorMercado > 0 && valorPedido > valorMercado;
+  const roiDiff = hasROI ? valorPedido - valorMercado : 0;
+  const roiMultiplier = hasROI ? Math.floor(roiDiff / 4900) : 0;
+
+  const formatCurrency = (value: number) =>
+    new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }).format(value);
+
   return (
     <div className="space-y-10">
       {/* Seção 1: Exposição do Problema */}
@@ -218,6 +229,18 @@ export function PeritEvaluationSection() {
         <p className="text-sm text-foreground font-medium">
           "Não é gasto é <strong className="text-accent">blindagem patrimonial</strong> com retorno mensurável."
         </p>
+
+        {hasROI && roiMultiplier >= 1 && (
+          <div className="mt-4 bg-white/80 border border-accent/30 rounded-xl p-3 sm:p-4">
+            <p className="text-sm text-foreground">
+              Para o imóvel que você consultou, onde o vendedor pede{" "}
+              <strong>{formatCurrency(valorPedido!)}</strong> e o valor de mercado é{" "}
+              <strong>{formatCurrency(valorMercado!)}</strong>, o Parecer se pagaria mais de{" "}
+              <strong className="text-[#D4AF37] text-lg">{roiMultiplier}x</strong>{" "}
+              só nesta negociação.
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Seção 6: Sistema Representação Blindada (Oferta Complementar) */}

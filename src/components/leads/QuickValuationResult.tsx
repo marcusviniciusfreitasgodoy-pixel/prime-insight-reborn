@@ -379,7 +379,7 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
       {/* Perit evaluation section (includes pitch, comparison table, features, photo, guarantee, investment, prime buyer) */}
       <Card className="border-border shadow-lg">
         <CardContent className="py-6">
-          <PeritEvaluationSection />
+          <PeritEvaluationSection valorPedido={data.valorPedidoVendedor} valorMercado={data.estimativa?.med} />
         </CardContent>
       </Card>
 
