@@ -33,14 +33,12 @@ const comparisons = [
 
 export function RealCaseComparison() {
   return (
-    <section className="py-12 sm:py-16 md:py-20 px-4 bg-gradient-to-b from-white to-[#D4AF37]/[0.05]">
+    <section className="py-16 sm:py-24 md:py-32 px-4 bg-gradient-to-b from-white to-[#D4AF37]/[0.05]">
       <div className="container mx-auto max-w-5xl">
         {/* Header */}
-        <div className="text-center mb-8 sm:mb-12">
-          <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-destructive/10 text-destructive text-xs sm:text-sm font-semibold mb-3 sm:mb-4">
-            CASO REAL
-          </span>
-          <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">
+        <div className="text-center mb-12 sm:mb-16">
+          <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
+          <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">
             Quanto Você Pagaria a Mais?
           </h3>
           <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
