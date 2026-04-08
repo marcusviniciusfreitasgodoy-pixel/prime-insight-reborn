@@ -487,29 +487,19 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
         </Card>
       )}
 
-      {/* Feedback invite */}
-      <Card className="border-primary/30 bg-gradient-to-r from-primary/10 via-background to-accent/10 shadow-lg animate-fade-in hover:shadow-xl transition-all duration-500 hover:scale-[1.01] hover:border-primary/50">
-        <CardContent className="py-6">
-          <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-            <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 animate-pulse">
-              <MessageSquareHeart className="h-7 w-7 text-primary" />
-            </div>
-            <div className="flex-1 space-y-1">
-              <h4 className="font-semibold text-foreground">Sua opinião é importante para nós!</h4>
-              <p className="text-sm text-muted-foreground">Responda nossa pesquisa rápida (2 min) e ajude-nos a melhorar a plataforma.</p>
-            </div>
-            <Button asChild className="bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg transition-all">
-              <Link to="/feedback">Participar da Pesquisa</Link>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {!parecerRequested && (
-        <div className="text-center">
-          <Button variant="ghost" onClick={onNewValuation} className="text-muted-foreground">← Voltar e fazer nova consulta</Button>
-        </div>
-      )}
+      {/* Rodapé discreto */}
+      <div className="text-center space-y-3 pt-4">
+        <Link to="/feedback" className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors">
+          Ajude-nos a melhorar — responda nossa pesquisa rápida
+        </Link>
+        {!parecerRequested && (
+          <p>
+            <button onClick={onNewValuation} className="text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors">
+              ← Voltar e fazer nova consulta
+            </button>
+          </p>
+        )}
+      </div>
     </div>
   );
 }
