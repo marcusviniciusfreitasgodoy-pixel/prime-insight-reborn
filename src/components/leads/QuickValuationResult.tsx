@@ -424,11 +424,12 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
           <CardContent className="py-8">
             <div className="text-center space-y-6">
               <div>
+                <p className="italic mb-3" style={{ color: '#666', fontSize: '14px' }}>Você já deu o primeiro passo. Agora proteja seu investimento.</p>
                 <h3 className="text-xl font-bold">🏆 Próximo Passo: Validação Técnica Completa</h3>
                 <p className="text-muted-foreground mt-2">Proteja seu patrimônio com o <strong>Parecer Técnico Godoy Prime</strong></p>
               </div>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button onClick={handleRequestParecer} disabled={isRequesting} className="bg-[#C9A84C] hover:bg-[#b8963f] text-[#0C2340] shadow-lg font-semibold" size="lg">
+                <Button onClick={handleRequestParecer} disabled={isRequesting} className="bg-[#C9A84C] hover:bg-[#b8963f] text-[#1a1a2e] shadow-lg font-semibold" size="lg">
                   <MessageCircle className="mr-2 h-5 w-5" />
                   {isRequesting ? "Enviando..." : "Solicitar Parecer Técnico"}
                 </Button>
@@ -437,12 +438,14 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
                   Ligar: (21) 96407-5124
                 </Button>
               </div>
-              <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+              <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
                 <span>🔒 Sem compromisso de contratação</span>
+                <span className="text-muted-foreground/30">•</span>
                 <span>⚡ Retorno em até 2h</span>
-                <span>📋 Orçamento gratuito</span>
+                <span className="text-muted-foreground/30">•</span>
+                <span>📋 Orçamento personalizado gratuito</span>
               </div>
-              <p className="text-xs text-muted-foreground">Preencha seus dados e nossa equipe entrará em contato em até 2 horas para agendar sua análise.</p>
+              <p className="text-xs text-muted-foreground">Ao solicitar, nossa equipe entrará em contato em até 2 horas úteis para agendar sua análise.</p>
             </div>
           </CardContent>
         </Card>
