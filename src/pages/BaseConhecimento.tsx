@@ -181,6 +181,49 @@ export default function BaseConhecimento() {
     return matchesSearch && matchesCategory;
   });
 
+  const handleExport = () => {
+    if (!articles || articles.length === 0) {
+      toast.error("Nenhum artigo para exportar.");
+      return;
+    }
+    const exportData = articles.map(({ id, created_at, updated_at, ...rest }) => rest);
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `sofia-knowledge-base-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success(`${exportData.length} artigos exportados!`);
+  };
+
+  const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      if (!Array.isArray(data)) throw new Error("JSON deve ser um array");
+      const valid = data.filter((d: any) => d.category && d.title && d.content);
+      if (valid.length === 0) throw new Error("Nenhum artigo válido encontrado");
+      const toInsert = valid.map((d: any) => ({
+        category: d.category,
+        title: d.title,
+        content: d.content,
+        keywords: d.keywords || [],
+        source: d.source || null,
+        is_active: d.is_active ?? true,
+      }));
+      const { error } = await supabase.from('sofia_knowledge_base').insert(toInsert);
+      if (error) throw error;
+      queryClient.invalidateQueries({ queryKey: ['sofia-knowledge-base'] });
+      toast.success(`${toInsert.length} artigos importados com sucesso!`);
+    } catch (err: any) {
+      toast.error(`Erro na importação: ${err.message}`);
+    }
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
   const stats = {
     total: articles?.length || 0,
     active: articles?.filter(a => a.is_active).length || 0,
