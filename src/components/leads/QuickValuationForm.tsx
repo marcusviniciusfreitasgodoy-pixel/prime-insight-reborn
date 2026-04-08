@@ -652,6 +652,21 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
               }
             </div>
 
+            <div className="space-y-2">
+              <Label htmlFor="nomeCondominio" className="flex items-center gap-2 text-sm font-medium">
+                <Building2 className="h-4 w-4 text-accent" />
+                Nome do Condomínio
+                <span className="text-muted-foreground text-xs">(opcional)</span>
+              </Label>
+              <Input
+                id="nomeCondominio"
+                placeholder="Ex: Condomínio Atlântico Sul"
+                value={nomeCondominio}
+                onChange={(e) => setNomeCondominio(e.target.value)}
+                className="border-primary/20 focus-visible:ring-accent/30"
+              />
+            </div>
+
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="tipologia" className="flex items-center gap-2 text-sm font-medium">
