@@ -343,6 +343,13 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
       </Card>
 
 
+      {/* Aviso de limitação técnica */}
+      <div className="bg-amber-50/80 border border-amber-200/60 rounded-lg p-3 sm:p-4 text-sm text-amber-800">
+        <p>
+          ⚠️ Estimativa baseada em transações históricas. Uma análise técnica presencial considera diferenciais específicos do imóvel e pode representar diferença de 15-30% no valor final.
+        </p>
+      </div>
+
       {/* FAQ Parecer */}
       <Card className="border-border">
         <CardHeader className="text-center pb-4">
