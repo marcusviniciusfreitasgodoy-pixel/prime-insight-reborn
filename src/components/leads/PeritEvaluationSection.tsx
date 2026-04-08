@@ -58,17 +58,17 @@ export function PeritEvaluationSection() {
   return (
     <div className="space-y-10">
       {/* Seção 1: Exposição do Problema */}
-      <div className="bg-red-50 border border-red-200 rounded-2xl p-6">
-        <div className="text-center space-y-4">
-          <h3 className="text-xl md:text-2xl font-bold text-red-800">
+      <div className="bg-red-50 border border-red-200 rounded-2xl p-4 sm:p-6">
+        <div className="text-center space-y-3 sm:space-y-4">
+          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-red-800 leading-tight">
             Você Está Negociando Sozinho Contra Vendedor + Corretor + Imobiliária
           </h3>
-          <p className="text-red-700 text-sm md:text-base">
+          <p className="text-red-700 text-xs sm:text-sm md:text-base">
             Todos Lucrando Quando Você Paga Caro.<br />
             Chegou a Hora de Ter um Defensor Técnico Exclusivo ao seu lado.
           </p>
-          <div className="bg-white/80 rounded-xl p-4 max-w-2xl mx-auto">
-            <p className="text-red-900 font-medium">
+          <div className="bg-white/80 rounded-xl p-3 sm:p-4 max-w-2xl mx-auto">
+            <p className="text-red-900 font-medium text-sm sm:text-base">
               "Três pessoas defendendo preço alto. <strong className="text-red-700">Zero pessoas defendendo você.</strong>"
             </p>
           </div>
@@ -115,14 +115,14 @@ export function PeritEvaluationSection() {
       </div>
 
       {/* Seção 3: Autoridade - Marcus Godoy */}
-      <div className="bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/20 rounded-2xl p-6 overflow-hidden">
-        <div className="flex flex-col md:flex-row gap-6 items-center">
+      <div className="bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/20 rounded-2xl p-4 sm:p-6 overflow-hidden">
+        <div className="flex flex-col md:flex-row gap-4 sm:gap-6 items-center">
           {/* Foto */}
           <div className="w-full md:w-1/3 flex-shrink-0">
             <img 
               src={marcusGodoyImg} 
               alt="Marcus Godoy - Perito Avaliador" 
-              className="w-full h-auto rounded-xl object-cover"
+              className="w-full max-w-[280px] mx-auto md:max-w-none h-auto rounded-xl object-cover"
               loading="lazy"
               decoding="async"
               width={400}
@@ -131,26 +131,26 @@ export function PeritEvaluationSection() {
           </div>
           
           {/* Conteúdo */}
-          <div className="flex-1 space-y-4">
+          <div className="flex-1 space-y-3 sm:space-y-4">
             <div className="text-center md:text-left">
-              <h4 className="text-lg font-bold text-foreground mb-2">
-                <Award className="inline h-5 w-5 text-accent mr-2" />
+              <h4 className="text-base sm:text-lg font-bold text-foreground mb-1 sm:mb-2">
+                <Award className="inline h-4 w-4 sm:h-5 sm:w-5 text-accent mr-1 sm:mr-2" />
                 Marcus Godoy
               </h4>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs sm:text-sm text-muted-foreground">
                 Seu Defensor Técnico na Negociação
               </p>
             </div>
 
-            <div className="flex flex-wrap justify-center md:justify-start gap-2">
+            <div className="flex flex-wrap justify-center md:justify-start gap-1.5 sm:gap-2">
               {credenciais.map((cred, index) => {
                 const Icon = cred.icon;
                 return (
                   <div 
                     key={index}
-                    className="flex items-center gap-2 bg-white/80 border border-primary/20 rounded-full px-3 py-1.5 text-xs"
+                    className="flex items-center gap-1.5 sm:gap-2 bg-white/80 border border-primary/20 rounded-full px-2.5 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs"
                   >
-                    <Icon className="h-3.5 w-3.5 text-primary" />
+                    <Icon className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-primary flex-shrink-0" />
                     <span className="text-foreground font-medium">{cred.label}</span>
                   </div>
                 );
@@ -217,30 +217,30 @@ export function PeritEvaluationSection() {
       </div>
 
       {/* Seção 6: Sistema Representação Blindada (Oferta Complementar) */}
-      <div className="bg-[#0C2340] rounded-2xl p-6 text-white">
-        <div className="text-center mb-6">
-          <h4 className="text-lg font-bold mb-2">
+      <div className="bg-[#0C2340] rounded-2xl p-4 sm:p-6 text-white">
+        <div className="text-center mb-4 sm:mb-6">
+          <h4 className="text-base sm:text-lg font-bold mb-2">
             🚀 Quer Representação Completa Durante Todo o Processo?
           </h4>
-          <p className="text-white/70 text-sm">
+          <p className="text-white/70 text-xs sm:text-sm">
             Sistema de Representação Blindada: Prime Buyer Experience
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-2 mb-6">
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-2 mb-4 sm:mb-6">
           {primeBuyerPhases.map((phase, index) => (
             <div 
               key={index}
-              className="bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-center"
+              className="bg-white/10 border border-white/20 rounded-lg px-2 sm:px-3 py-2 text-center"
             >
-              <div className="text-[#D4AF37] font-bold text-xs mb-0.5">Fase {phase.phase}</div>
-              <div className="text-white text-xs font-medium">{phase.title}</div>
+              <div className="text-[#D4AF37] font-bold text-[10px] sm:text-xs mb-0.5">Fase {phase.phase}</div>
+              <div className="text-white text-[10px] sm:text-xs font-medium">{phase.title}</div>
             </div>
           ))}
         </div>
 
-        <div className="text-center space-y-4">
-          <p className="text-white/80 text-sm">
+        <div className="text-center space-y-3 sm:space-y-4">
+          <p className="text-white/80 text-xs sm:text-sm">
             <strong className="text-[#D4AF37]">A Diferença Matemática:</strong> Compradores que usam Personal Shopper Imobiliário 
             economizam em média 8-15% no valor final, economizam tempo e evitam surpresas futuras.
           </p>
@@ -250,8 +250,8 @@ export function PeritEvaluationSection() {
             className="w-full sm:w-auto bg-transparent border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0C2340] focus:bg-[#D4AF37] focus:text-[#0C2340] active:bg-[#D4AF37] active:text-[#0C2340] whitespace-normal h-auto py-3 px-4"
             onClick={() => window.open('https://personalshopperimobiliario.godoyprime.com.br', '_blank')}
           >
-            <span className="text-sm sm:text-base">Conhecer Prime Buyer Experience</span>
-            <ExternalLink className="ml-2 h-4 w-4 shrink-0" />
+            <span className="text-xs sm:text-base">Conhecer Prime Buyer Experience</span>
+            <ExternalLink className="ml-2 h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
           </Button>
         </div>
       </div>
