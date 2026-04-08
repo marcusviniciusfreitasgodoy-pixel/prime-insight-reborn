@@ -175,6 +175,43 @@ export function PeritEvaluationSection({ valorPedido, valorMercado }: PeritEvalu
         </div>
       </div>
 
+      {/* Seção: Credibilidade Institucional */}
+      <div className="space-y-6">
+        <h4 className="text-lg sm:text-xl font-bold text-foreground text-center">
+          Por Que Confiar na Godoy Prime?
+        </h4>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-white border border-[#D4AF37]/40 rounded-xl p-4 space-y-2">
+            <div className="p-2 bg-[#D4AF37]/10 rounded-lg w-fit">
+              <FileText className="h-5 w-5 text-[#D4AF37]" />
+            </div>
+            <h5 className="font-semibold text-foreground text-sm">Perito Avaliador Credenciado pelo TJRJ</h5>
+            <p className="text-xs text-muted-foreground">Habilitado judicialmente para emitir laudos com validade legal em processos judiciais e extrajudiciais.</p>
+          </div>
+
+          <div className="bg-white border border-[#D4AF37]/40 rounded-xl p-4 space-y-2">
+            <div className="p-2 bg-[#D4AF37]/10 rounded-lg w-fit">
+              <Database className="h-5 w-5 text-[#D4AF37]" />
+            </div>
+            <h5 className="font-semibold text-foreground text-sm">80.000+ transações oficiais analisadas</h5>
+            <p className="text-xs text-muted-foreground">Nossa base é formada por dados reais de compra e venda registrados, não por preços de anúncios ou estimativas de portais.</p>
+          </div>
+
+          <div className="bg-white border border-[#D4AF37]/40 rounded-xl p-4 space-y-2">
+            <div className="p-2 bg-[#D4AF37]/10 rounded-lg w-fit">
+              <MapPin className="h-5 w-5 text-[#D4AF37]" />
+            </div>
+            <h5 className="font-semibold text-foreground text-sm">Especialização na Barra da Tijuca</h5>
+            <p className="text-xs text-muted-foreground">Conhecimento profundo do mercado local: condomínios, microregiões, tendências e diferenciais que afetam o valor real de cada imóvel.</p>
+          </div>
+        </div>
+
+        <p className="text-center text-xs text-muted-foreground/70 italic">
+          Quando os primeiros laudos forem entregues, esta seção trará os resultados reais de nossos clientes.
+        </p>
+      </div>
+
       {/* Seção 4: Garantia Dupla */}
       <div className="space-y-4">
         <h4 className="text-lg font-bold text-foreground text-center">
