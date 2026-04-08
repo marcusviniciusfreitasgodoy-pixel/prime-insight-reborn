@@ -44,7 +44,7 @@ export function RealCaseComparison() {
             Quanto Você Pagaria a Mais?
           </h3>
           <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
-            Apartamento de 99m² na Barra da Tijuca avaliado por 3 ferramentas diferentes.
+            Apartamento de 99m² na Avenida Lucio Costa na Barra da Tijuca avaliado por 3 ferramentas diferentes.
             Veja a diferença que a <strong className="text-[#0C2340]">fonte de dados</strong> faz.
           </p>
         </div>
