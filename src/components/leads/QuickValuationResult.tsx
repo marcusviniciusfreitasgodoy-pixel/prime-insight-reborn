@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useState, lazy, Suspense } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -10,13 +10,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -101,17 +94,6 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
   const navigate = useNavigate();
   const [parecerRequested, setParecerRequested] = useState(false);
   const [isRequesting, setIsRequesting] = useState(false);
-  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
-  const [feedbackDismissed, setFeedbackDismissed] = useState(false);
-
-  useEffect(() => {
-    if (feedbackDismissed) return;
-    const timer = setTimeout(() => setShowFeedbackModal(true), 20000);
-    return () => clearTimeout(timer);
-  }, [feedbackDismissed]);
-
-  const handleFeedbackAccept = () => { setShowFeedbackModal(false); setFeedbackDismissed(true); navigate('/feedback'); };
-  const handleFeedbackDismiss = () => { setShowFeedbackModal(false); setFeedbackDismissed(true); };
 
   const formatCurrency = (value: number, compact = false) => {
     if (compact && value >= 1000000) return `R$ ${(value / 1000000).toFixed(1).replace('.', ',')} mi`;
@@ -196,29 +178,6 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
 
   return (
     <div className="space-y-5 sm:space-y-8">
-      {/* Feedback Modal */}
-      <Dialog open={showFeedbackModal} onOpenChange={setShowFeedbackModal}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader className="text-center">
-            <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4">
-              <MessageSquareHeart className="h-8 w-8 text-primary" />
-            </div>
-            <DialogTitle className="text-xl">Sua opinião é importante!</DialogTitle>
-            <DialogDescription className="text-base pt-2">
-              Ajude-nos a melhorar! Responda nossa pesquisa rápida de <strong>2 minutos</strong>.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 pt-4">
-            <div className="flex flex-col gap-2">
-              <Button onClick={handleFeedbackAccept} className="w-full bg-primary hover:bg-primary/90" size="lg">
-                <MessageSquareHeart className="mr-2 h-5 w-5" />
-                Participar da Pesquisa
-              </Button>
-              <Button variant="ghost" onClick={handleFeedbackDismiss} className="w-full text-muted-foreground">Talvez depois</Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
 
       {/* Lead Info Badge */}
       <div className="bg-green-50 border border-green-200 rounded-xl p-3 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:justify-between">
