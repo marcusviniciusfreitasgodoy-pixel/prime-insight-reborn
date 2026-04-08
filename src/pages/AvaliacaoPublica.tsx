@@ -276,7 +276,7 @@ export default function AvaliacaoPublica() {
                 <HelpCircle className="h-4 w-4" />
                 FAQ
               </Link>
-              <Button onClick={scrollToForm} className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-semibold shadow-lg hover:scale-105 active:scale-95 transition-all duration-200" size="sm">
+              <Button onClick={scrollToForm} className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] tracking-widest uppercase text-xs font-semibold transition-colors duration-300" size="sm">
                 Consultar Valor
               </Button>
             </div>
@@ -284,7 +284,7 @@ export default function AvaliacaoPublica() {
 
           <div className="relative z-10 container mx-auto px-4 py-12 md:py-20 text-center">
             <div className="max-w-3xl mx-auto space-y-6">
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight animate-fade-in [animation-delay:150ms]">
+              <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight animate-fade-in [animation-delay:150ms]">
                 <span className="text-[#D4AF37]">O vendedor pede um preço.</span>
                 <br />
                 <span className="text-white">Nós mostramos o que o mercado realmente paga.</span>
@@ -295,9 +295,9 @@ export default function AvaliacaoPublica() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 animate-fade-in [animation-delay:450ms]">
-                <Button onClick={scrollToForm} size="lg" className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-bold shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto">
+                <Button onClick={scrollToForm} size="lg" className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] tracking-widest uppercase text-xs font-semibold px-10 py-4 rounded-sm transition-colors duration-300 w-full sm:w-auto">
                   <span className="truncate">Comparar Preço Agora</span>
-                  <ArrowRight className="ml-1.5 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+                  <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
                 </Button>
               </div>
 
@@ -317,29 +317,25 @@ export default function AvaliacaoPublica() {
               </div>
             </div>
 
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
-              <ChevronDown className="h-6 w-6 text-white/40" />
-            </div>
+            
           </div>
         </section>
 
         {/* ============ PROBLEM ============ */}
-        <section className="py-12 sm:py-16 md:py-20 px-4 bg-[#0C2340]/[0.03]">
+        <section className="py-16 sm:py-24 md:py-32 px-4 bg-[#0C2340]/[0.03]">
           <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-8 sm:mb-12">
-              <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-destructive/10 text-destructive text-xs sm:text-sm font-semibold mb-3 sm:mb-4">O PROBLEMA</span>
-              <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">Por Que Você Está Negociando no Escuro?</h3>
+            <div className="text-center mb-12 sm:mb-16">
+              <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
+              <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">Por Que Você Está Negociando no Escuro?</h3>
               <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
                 A diferença entre o preço anunciado e o valor real de venda pode chegar a <strong className="text-[#D4AF37]">30%</strong>, isto significa diferenças de até <strong className="text-[#D4AF37]">R$ 400.000</strong> ou mais.
               </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {PROBLEMS.map((problem, index) => (
-                <div key={index} className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-100 hover:border-[#D4AF37]/30 hover:shadow-lg transition-all duration-300">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-destructive/10 flex items-center justify-center mb-3 sm:mb-4">
-                    <problem.icon className="h-5 w-5 sm:h-6 sm:w-6 text-destructive" />
-                  </div>
-                  <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-1 sm:mb-2">{problem.title}</h4>
+                <div key={index} className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-gray-200 transition-colors duration-300">
+                  <problem.icon className="h-6 w-6 text-destructive mb-4" />
+                  <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-2">{problem.title}</h4>
                   <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">{problem.description}</p>
                 </div>
               ))}
@@ -350,24 +346,22 @@ export default function AvaliacaoPublica() {
         <RealCaseComparison />
 
         {/* ============ SOLUTION ============ */}
-        <section className="py-12 sm:py-16 md:py-20 px-4 bg-[#D4AF37]/[0.04]">
+        <section className="py-16 sm:py-24 md:py-32 px-4 bg-[#D4AF37]/[0.04]">
           <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-8 sm:mb-12">
-              <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-[#D4AF37]/10 text-[#D4AF37] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">A SOLUÇÃO</span>
-              <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">A Solução Que Muda Tudo</h3>
+            <div className="text-center mb-12 sm:mb-16">
+              <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
+              <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">A Solução Que Muda Tudo</h3>
               <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">Avaliação imparcial baseada em dados de transações reais e não em plataformas que privilegiam Vendedores, achismos ou opiniões de vizinhos</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {SOLUTIONS.map((solution, index) => (
-                <div key={index} className="bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border-2 border-[#D4AF37]/20 hover:border-[#D4AF37]/50 shadow-sm hover:shadow-xl transition-all duration-300">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-[#D4AF37]/20 to-[#D4AF37]/5 border border-[#D4AF37]/30 flex items-center justify-center mb-3 sm:mb-4">
-                    <solution.icon className="h-5 w-5 sm:h-6 sm:w-6 text-[#D4AF37]" />
-                  </div>
-                  <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-1 sm:mb-2">{solution.title}</h4>
-                  <p className="text-muted-foreground text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed">{solution.description}</p>
-                  <div className="flex items-center gap-2 text-[10px] sm:text-xs bg-[#D4AF37]/10 text-[#0C2340] rounded-lg px-2 sm:px-3 py-1.5 sm:py-2">
-                    <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-[#D4AF37] flex-shrink-0" />
-                    <span className="leading-tight">{solution.highlight}</span>
+                <div key={index} className="bg-white/80 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-gray-200 transition-colors duration-300">
+                  <solution.icon className="h-6 w-6 text-[#D4AF37] mb-4" />
+                  <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-2">{solution.title}</h4>
+                  <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed">{solution.description}</p>
+                  <div className="flex items-center gap-2 text-xs text-[#0C2340]/70">
+                    <CheckCircle className="h-3.5 w-3.5 text-[#D4AF37] flex-shrink-0" />
+                    <span>{solution.highlight}</span>
                   </div>
                 </div>
               ))}
@@ -376,23 +370,21 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ PARA QUEM ============ */}
-        <section className="py-12 sm:py-16 md:py-20 px-4 bg-gradient-to-br from-[#0C2340]/[0.04] to-[#0C2340]/[0.02]">
+        <section className="py-16 sm:py-24 md:py-32 px-4 bg-gradient-to-br from-[#0C2340]/[0.04] to-[#0C2340]/[0.02]">
           <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-8 sm:mb-12">
-              <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-[#0C2340]/10 text-[#0C2340] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">PARA QUEM É</span>
-              <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Para Quem É Esta Avaliação?</h3>
+            <div className="text-center mb-12 sm:mb-16">
+              <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
+              <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Para Quem É Esta Avaliação?</h3>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
               {PERSONAS.map((persona, index) => (
-                <div key={index} className="bg-white/80 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-100 hover:border-[#D4AF37]/30 hover:shadow-lg transition-all duration-300 text-center">
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#0C2340] to-[#1a3a5c] flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                    <persona.icon className="h-6 w-6 sm:h-8 sm:w-8 text-[#D4AF37]" />
-                  </div>
-                  <h4 className="font-bold text-lg sm:text-xl text-[#0C2340] mb-0.5 sm:mb-1">{persona.title}</h4>
-                  <p className="text-[#D4AF37] font-medium text-xs sm:text-sm mb-2 sm:mb-3">{persona.subtitle}</p>
-                  <p className="text-muted-foreground text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed">{persona.description}</p>
-                  <div className="inline-flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs bg-[#D4AF37]/10 text-[#0C2340] rounded-full px-3 sm:px-4 py-1.5 sm:py-2 font-medium">
-                    <CheckCircle className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-[#D4AF37] flex-shrink-0" />
+                <div key={index} className="bg-white/80 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-gray-200 transition-colors duration-300 text-center">
+                  <persona.icon className="h-8 w-8 text-[#0C2340] mx-auto mb-4" />
+                  <h4 className="font-serif font-bold text-lg sm:text-xl text-[#0C2340] mb-1">{persona.title}</h4>
+                  <p className="text-[#D4AF37] font-medium text-xs sm:text-sm mb-3">{persona.subtitle}</p>
+                  <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed">{persona.description}</p>
+                  <div className="inline-flex items-center gap-2 text-xs text-[#0C2340]/70">
+                    <CheckCircle className="h-3.5 w-3.5 text-[#D4AF37] flex-shrink-0" />
                     {persona.cta}
                   </div>
                 </div>
@@ -402,23 +394,23 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ CTA ============ */}
-        <section className="py-12 sm:py-16 md:py-20 px-4 bg-gradient-to-br from-[#D4AF37] to-[#c9a432]">
+        <section className="py-16 sm:py-24 md:py-28 px-4 bg-gradient-to-br from-[#D4AF37] to-[#c9a432]">
           <div className="container mx-auto max-w-3xl text-center px-2">
-            <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Pronto para Descobrir o Valor do seu Imóvel?</h3>
-            <p className="text-[#0C2340]/80 text-sm sm:text-lg mb-6 sm:mb-8">Comece agora – leva apenas 30 segundos.</p>
-            <Button onClick={scrollToForm} size="lg" className="bg-[#0C2340] hover:bg-[#0a1d33] text-white font-bold shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 text-sm sm:text-base px-6 sm:px-10 py-3 sm:py-4 w-full sm:w-auto max-w-xs sm:max-w-none">
+            <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Pronto para Descobrir o Valor do seu Imóvel?</h3>
+            <p className="text-[#0C2340]/80 text-sm sm:text-lg mb-8 sm:mb-10">Comece agora – leva apenas 30 segundos.</p>
+            <Button onClick={scrollToForm} size="lg" className="bg-[#0C2340] hover:bg-[#0a1d33] text-white tracking-widest uppercase text-xs font-semibold px-10 py-4 rounded-sm transition-colors duration-300 w-full sm:w-auto max-w-xs sm:max-w-none">
               <span className="truncate">Quero saber o valor do meu imóvel</span>
-              <ArrowRight className="ml-1.5 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+              <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
             </Button>
           </div>
         </section>
 
         {/* ============ FORM ============ */}
-        <section ref={formRef} className="py-16 md:py-20 px-4 bg-gradient-to-b from-[#0C2340]/[0.03] to-white scroll-mt-4">
+        <section ref={formRef} className="py-20 sm:py-28 md:py-36 px-4 bg-gradient-to-b from-[#0C2340]/[0.03] to-white scroll-mt-4">
           <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-8">
-              <span className="inline-block px-4 py-1 rounded-full bg-[#0C2340]/10 text-[#0C2340] text-sm font-semibold mb-4">AVALIAÇÃO PRELIMINAR</span>
-              <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">Consulte o Valor Agora</h3>
+            <div className="text-center mb-10">
+              <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
+              <h3 className="font-serif text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">Consulte o Valor Agora</h3>
               <p className="text-muted-foreground">Resultado em 30 segundos baseado em transações reais • Esta análise estratégica é destinada compradores em fase ativa de negociação.</p>
             </div>
 
@@ -460,11 +452,11 @@ export default function AvaliacaoPublica() {
         )}
 
         {/* ============ FAQ ============ */}
-        <section className="py-16 md:py-20 px-4 bg-[#F8F6F0]">
+        <section className="py-20 sm:py-28 md:py-36 px-4 bg-[#F8F6F0]">
           <div className="container mx-auto max-w-4xl">
-            <div className="text-center mb-12">
-              <span className="inline-block px-4 py-1 rounded-full bg-[#0C2340]/10 text-[#0C2340] text-sm font-semibold mb-4">PERGUNTAS FREQUENTES</span>
-              <h3 className="text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">Tire Suas Dúvidas</h3>
+            <div className="text-center mb-12 sm:mb-16">
+              <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
+              <h3 className="font-serif text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">Tire Suas Dúvidas</h3>
               <p className="text-muted-foreground max-w-2xl mx-auto">Respondemos as principais perguntas sobre a ferramenta, segurança dos dados e como ela pode ajudar você.</p>
             </div>
 
@@ -500,12 +492,12 @@ export default function AvaliacaoPublica() {
               <div className="mt-12 text-center">
                 <p className="text-muted-foreground mb-4">Ainda tem dúvidas?</p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Button onClick={scrollToForm} className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] font-semibold hover:scale-105 active:scale-95 transition-all duration-200 text-sm sm:text-base px-4 sm:px-6 w-full sm:w-auto">
-                    <Calculator className="mr-1.5 sm:mr-2 h-4 w-4 flex-shrink-0" />
+                  <Button onClick={scrollToForm} className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] tracking-widest uppercase text-xs font-semibold px-8 py-3 rounded-sm transition-colors duration-300 w-full sm:w-auto">
+                    <Calculator className="mr-2 h-4 w-4 flex-shrink-0" />
                     <span className="truncate">Fazer Minha Avaliação Gratuita</span>
                   </Button>
-                  <Button variant="outline" onClick={() => window.open("https://wa.me/5521964075124?text=Ol%C3%A1!%20Tenho%20d%C3%BAvidas%20sobre%20a%20avalia%C3%A7%C3%A3o%20de%20im%C3%B3veis.", "_blank")} className="border-[#0C2340]/20 hover:scale-105 active:scale-95 transition-all duration-200 text-sm sm:text-base px-4 sm:px-6 w-full sm:w-auto">
-                    <MessageCircle className="mr-1.5 sm:mr-2 h-4 w-4 flex-shrink-0" />
+                  <Button variant="outline" onClick={() => window.open("https://wa.me/5521964075124?text=Ol%C3%A1!%20Tenho%20d%C3%BAvidas%20sobre%20a%20avalia%C3%A7%C3%A3o%20de%20im%C3%B3veis.", "_blank")} className="border-[#0C2340]/20 tracking-wide uppercase text-xs font-semibold transition-colors duration-300 w-full sm:w-auto">
+                    <MessageCircle className="mr-2 h-4 w-4 flex-shrink-0" />
                     <span className="truncate">Falar com Especialista</span>
                   </Button>
                 </div>
@@ -522,7 +514,7 @@ export default function AvaliacaoPublica() {
                 <div className="flex items-center gap-3 justify-center md:justify-start mb-4">
                   <img src={godoyLogo} alt="Godoy Prime" loading="lazy" decoding="async" width={40} height={40} className="h-10 w-auto" />
                   <div>
-                    <h4 className="font-semibold text-white">Godoy Prime Realty</h4>
+                    <h4 className="font-serif font-semibold text-white">Godoy Prime Realty</h4>
                     <p className="text-xs text-[#D4AF37]">CRECI 11841/PJ - 80199/PF</p>
                   </div>
                 </div>
@@ -552,7 +544,7 @@ export default function AvaliacaoPublica() {
           </div>
         </footer>
 
-        <a href="https://wa.me/5521964075124?text=Ol%C3%A1!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20avalia%C3%A7%C3%A3o%20de%20im%C3%B3veis." target="_blank" rel="noopener noreferrer" className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] hover:bg-[#20BA5C] text-white px-4 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 animate-fade-in group" aria-label="Contato via WhatsApp">
+        <a href="https://wa.me/5521964075124?text=Ol%C3%A1!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20avalia%C3%A7%C3%A3o%20de%20im%C3%B3veis." target="_blank" rel="noopener noreferrer" className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] hover:bg-[#20BA5C] text-white px-4 py-3 rounded-full shadow-lg transition-colors duration-300 animate-fade-in group" aria-label="Contato via WhatsApp">
           <MessageSquare className="h-6 w-6" />
           <span className="font-medium text-sm hidden sm:inline group-hover:inline">Fale Conosco</span>
         </a>
