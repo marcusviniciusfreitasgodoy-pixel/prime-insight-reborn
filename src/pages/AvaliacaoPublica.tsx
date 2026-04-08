@@ -524,6 +524,9 @@ export default function AvaliacaoPublica() {
           </div>
         </section>
 
+        {/* ============ SECTION 3.5: CASO REAL (White background) ============ */}
+        <RealCaseComparison />
+
         {/* ============ SECTION 4: SOLUTION (White background) ============ */}
         <section className="py-12 sm:py-16 md:py-20 px-4 bg-white">
           <div className="container mx-auto max-w-5xl">
