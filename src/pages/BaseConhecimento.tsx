@@ -51,6 +51,7 @@ export default function BaseConhecimento() {
     source: "",
     is_active: true,
   });
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const queryClient = useQueryClient();
 
