@@ -501,12 +501,6 @@ export default function AvaliacaoPublica() {
                     <div className="flex items-center gap-2 text-xs text-muted-foreground"><CheckCircle className="h-4 w-4 text-[#D4AF37]" />Sem compromisso</div>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground"><Clock className="h-4 w-4 text-[#D4AF37]" />Resultado em 30 segundos</div>
                   </div>
-                  <div className="bg-white/90 rounded-xl p-4 border border-gray-200">
-                    <div className="flex items-start gap-3">
-                      <AlertCircle className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />
-                      <p className="text-xs text-muted-foreground"><strong className="text-foreground">Aviso:</strong> Esta é uma estimativa automática baseada em dados históricos de transações oficiais. Não substitui um laudo técnico assinado por perito avaliador.</p>
-                    </div>
-                  </div>
                 </div>
               </div>
             )}
@@ -605,6 +599,7 @@ export default function AvaliacaoPublica() {
             </div>
             <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
               <p className="text-white/40 text-xs">© {new Date().getFullYear()} Godoy Prime Realty. Todos os direitos reservados.</p>
+              <p className="text-white/30 text-[10px] leading-relaxed max-w-xl">Aviso: Esta é uma estimativa automática baseada em dados históricos de transações oficiais. Não substitui um laudo técnico assinado por perito avaliador.</p>
               <div className="flex items-center gap-4">
                 <Link to="/politica-privacidade" className="text-white/40 text-xs hover:text-[#D4AF37] transition-colors">Política de Privacidade</Link>
                 <span className="text-white/20">|</span>
