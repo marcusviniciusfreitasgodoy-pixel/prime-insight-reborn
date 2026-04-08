@@ -245,6 +245,23 @@ export default function BaseConhecimento() {
           </div>
         </div>
         
+        <div className="flex flex-wrap gap-2">
+          <input
+            type="file"
+            accept=".json"
+            ref={fileInputRef}
+            onChange={handleImport}
+            className="hidden"
+          />
+          <Button variant="outline" className="gap-2" onClick={() => fileInputRef.current?.click()}>
+            <Upload className="h-4 w-4" />
+            Importar JSON
+          </Button>
+          <Button variant="outline" className="gap-2" onClick={handleExport}>
+            <Download className="h-4 w-4" />
+            Exportar JSON
+          </Button>
+        
         <Dialog open={isDialogOpen} onOpenChange={(open) => { setIsDialogOpen(open); if (!open) resetForm(); }}>
           <DialogTrigger asChild>
             <Button className="gap-2">
