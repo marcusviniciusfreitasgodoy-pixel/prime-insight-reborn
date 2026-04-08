@@ -33,7 +33,7 @@ const comparisons = [
 
 export function RealCaseComparison() {
   return (
-    <section className="py-12 sm:py-16 md:py-20 px-4 bg-white">
+    <section className="py-12 sm:py-16 md:py-20 px-4 bg-gradient-to-b from-white to-[#D4AF37]/[0.05]">
       <div className="container mx-auto max-w-5xl">
         {/* Header */}
         <div className="text-center mb-8 sm:mb-12">

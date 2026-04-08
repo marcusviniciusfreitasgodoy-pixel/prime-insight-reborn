@@ -324,7 +324,7 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ PROBLEM ============ */}
-        <section className="py-12 sm:py-16 md:py-20 px-4 bg-gray-50">
+        <section className="py-12 sm:py-16 md:py-20 px-4 bg-[#0C2340]/[0.03]">
           <div className="container mx-auto max-w-5xl">
             <div className="text-center mb-8 sm:mb-12">
               <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-destructive/10 text-destructive text-xs sm:text-sm font-semibold mb-3 sm:mb-4">O PROBLEMA</span>
@@ -350,7 +350,7 @@ export default function AvaliacaoPublica() {
         <RealCaseComparison />
 
         {/* ============ SOLUTION ============ */}
-        <section className="py-12 sm:py-16 md:py-20 px-4 bg-white">
+        <section className="py-12 sm:py-16 md:py-20 px-4 bg-[#D4AF37]/[0.04]">
           <div className="container mx-auto max-w-5xl">
             <div className="text-center mb-8 sm:mb-12">
               <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-[#D4AF37]/10 text-[#D4AF37] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">A SOLUÇÃO</span>
@@ -376,7 +376,7 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ PARA QUEM ============ */}
-        <section className="py-12 sm:py-16 md:py-20 px-4 bg-gray-50">
+        <section className="py-12 sm:py-16 md:py-20 px-4 bg-gradient-to-br from-[#0C2340]/[0.04] to-[#0C2340]/[0.02]">
           <div className="container mx-auto max-w-5xl">
             <div className="text-center mb-8 sm:mb-12">
               <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-[#0C2340]/10 text-[#0C2340] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">PARA QUEM É</span>
@@ -384,7 +384,7 @@ export default function AvaliacaoPublica() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
               {PERSONAS.map((persona, index) => (
-                <div key={index} className="bg-white sm:bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-100 hover:border-[#D4AF37]/30 hover:shadow-lg transition-all duration-300 text-center">
+                <div key={index} className="bg-white/80 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-100 hover:border-[#D4AF37]/30 hover:shadow-lg transition-all duration-300 text-center">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#0C2340] to-[#1a3a5c] flex items-center justify-center mx-auto mb-3 sm:mb-4">
                     <persona.icon className="h-6 w-6 sm:h-8 sm:w-8 text-[#D4AF37]" />
                   </div>
@@ -414,7 +414,7 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ FORM ============ */}
-        <section ref={formRef} className="py-16 md:py-20 px-4 bg-gray-50 scroll-mt-4">
+        <section ref={formRef} className="py-16 md:py-20 px-4 bg-gradient-to-b from-[#0C2340]/[0.03] to-white scroll-mt-4">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-8">
               <span className="inline-block px-4 py-1 rounded-full bg-[#0C2340]/10 text-[#0C2340] text-sm font-semibold mb-4">AVALIAÇÃO PRELIMINAR</span>
@@ -434,7 +434,7 @@ export default function AvaliacaoPublica() {
                     <div className="flex items-center gap-2 text-xs text-muted-foreground"><CheckCircle className="h-4 w-4 text-[#D4AF37]" />Sem compromisso</div>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground"><Clock className="h-4 w-4 text-[#D4AF37]" />Resultado em 30 segundos</div>
                   </div>
-                  <div className="bg-white rounded-xl p-4 border border-gray-200">
+                  <div className="bg-white/90 rounded-xl p-4 border border-gray-200">
                     <div className="flex items-start gap-3">
                       <AlertCircle className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />
                       <p className="text-xs text-muted-foreground"><strong className="text-foreground">Aviso:</strong> Esta é uma estimativa automática baseada em dados históricos de transações oficiais. Não substitui um laudo técnico assinado por perito avaliador.</p>
@@ -460,7 +460,7 @@ export default function AvaliacaoPublica() {
         )}
 
         {/* ============ FAQ ============ */}
-        <section className="py-16 md:py-20 px-4 bg-white">
+        <section className="py-16 md:py-20 px-4 bg-[#F8F6F0]">
           <div className="container mx-auto max-w-4xl">
             <div className="text-center mb-12">
               <span className="inline-block px-4 py-1 rounded-full bg-[#0C2340]/10 text-[#0C2340] text-sm font-semibold mb-4">PERGUNTAS FREQUENTES</span>
@@ -484,7 +484,7 @@ export default function AvaliacaoPublica() {
                   </div>
                   <Accordion type="single" collapsible className="space-y-2">
                     {FAQ_DATA.filter((f) => f.category === key).map((faq, index) => (
-                      <AccordionItem key={`${key}-${index}`} value={`${key}-${index}`} className="bg-gray-50 rounded-xl border border-gray-100 px-4 data-[state=open]:bg-[#D4AF37]/5 data-[state=open]:border-[#D4AF37]/30">
+                      <AccordionItem key={`${key}-${index}`} value={`${key}-${index}`} className="bg-white rounded-xl border border-gray-100 px-4 data-[state=open]:bg-[#D4AF37]/5 data-[state=open]:border-[#D4AF37]/30">
                         <AccordionTrigger className="hover:no-underline py-4">
                           <span className="text-left font-medium text-[#0C2340]">{faq.question}</span>
                         </AccordionTrigger>
