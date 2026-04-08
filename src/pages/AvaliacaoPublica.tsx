@@ -64,7 +64,7 @@ const PROBLEMS = [
 ];
 
 const SOLUTIONS = [
-  { icon: Shield, title: "Dados Oficiais de Transações", description: "Usamos transações reais registradas e não apenas preços de anúncios, além disso tratamos estatisticamente a nossa base para evitar desvios de avaliação com base em metodologias da NBR.", highlight: "Fonte governamental confiável" },
+  { icon: Shield, title: "Dados Oficiais de Transações", description: "Usamos transações reais registradas e não apenas preços de anúncios, além disso tratamos estatisticamente a nossa base para evitar desvios de avaliação com base em metodologias da NBR.", highlight: "Fonte oficial confiável" },
   { icon: Award, title: "Especialistas em Alto Padrão", description: "Receba avaliações de qualquer Bairro do RJ, porém nosso foco é na região da Barra da Tijuca.", highlight: "Conhecimento local profundo" },
   { icon: BarChart3, title: "Metodologia Transparente", description: "Você vê exatamente como calculamos: base de dados, filtros aplicados e período analisado.", highlight: "Sem caixas-pretas" },
 ];
