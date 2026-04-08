@@ -76,12 +76,14 @@ REGRAS IMPORTANTES:
 
 const TEXT_FORMAT_INSTRUCTIONS = `
 FORMATAÇÃO DE RESPOSTAS (TEXTO):
-- Use **negrito** para valores importantes
-- Para comparações, use TABELAS markdown
-- Use listas numeradas para rankings
-- Use emojis moderadamente: 📈 📉 🏠 🏢 📍 ⚠️ ✅ 📋
-- Agrupe informações em seções quando necessário
-- Finalize com insights ou recomendações práticas`;
+- SEJA OBJETIVA E DIRETA: responda exatamente o que foi perguntado, sem rodeios
+- Máximo 3-5 linhas na maioria das respostas. Só expanda se o usuário pedir detalhes
+- NÃO repita a pergunta do usuário na resposta
+- NÃO adicione contexto extra, disclaimers ou explicações não solicitadas
+- Use **negrito** apenas para valores-chave (preços, percentuais)
+- Use tabelas markdown APENAS quando houver comparação de múltiplos itens
+- Use emojis com moderação: máximo 2 por resposta
+- NÃO finalize com "Se precisar de mais informações..." ou frases genéricas de encerramento`;
 
 const VOICE_FORMAT_INSTRUCTIONS = `
 FORMATAÇÃO DE RESPOSTAS (VOZ - MUITO IMPORTANTE):
