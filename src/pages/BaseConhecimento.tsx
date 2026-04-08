@@ -12,8 +12,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
-import { Plus, Edit, Trash2, Search, Book, FileText, Scale, TrendingUp, Brain, Loader2 } from "lucide-react";
+import { Plus, Edit, Trash2, Search, Book, FileText, Scale, TrendingUp, Brain, Loader2, Download, Upload } from "lucide-react";
 import sofiaAvatar from "@/assets/sofia-avatar.png";
+import { useRef } from "react";
 
 const CATEGORIES = [
   { value: "documentacao", label: "Documentação", icon: FileText },
