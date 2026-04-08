@@ -222,17 +222,17 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
       </Dialog>
 
       {/* Lead Info Badge */}
-      <div className="bg-green-50 border border-green-200 rounded-xl p-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
-            <Check className="h-5 w-5 text-green-600" />
+      <div className="bg-green-50 border border-green-200 rounded-xl p-3 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:justify-between">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
+            <Check className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
           </div>
-          <div>
-            <p className="font-medium text-green-800">{data.leadName}</p>
-            <p className="text-xs text-green-600">{data.leadEmail}</p>
+          <div className="min-w-0">
+            <p className="font-medium text-green-800 text-sm sm:text-base truncate">{data.leadName}</p>
+            <p className="text-xs text-green-600 truncate">{data.leadEmail}</p>
           </div>
         </div>
-        <Badge variant="secondary" className="bg-green-100 text-green-700">Cadastro Confirmado</Badge>
+        <Badge variant="secondary" className="bg-green-100 text-green-700 text-xs flex-shrink-0">Cadastro Confirmado</Badge>
       </div>
 
       {/* ===== GAP VISUAL (if valor pedido is provided) ===== */}

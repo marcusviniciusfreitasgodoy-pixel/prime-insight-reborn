@@ -58,17 +58,17 @@ export function PeritEvaluationSection() {
   return (
     <div className="space-y-10">
       {/* Seção 1: Exposição do Problema */}
-      <div className="bg-red-50 border border-red-200 rounded-2xl p-6">
-        <div className="text-center space-y-4">
-          <h3 className="text-xl md:text-2xl font-bold text-red-800">
+      <div className="bg-red-50 border border-red-200 rounded-2xl p-4 sm:p-6">
+        <div className="text-center space-y-3 sm:space-y-4">
+          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-red-800 leading-tight">
             Você Está Negociando Sozinho Contra Vendedor + Corretor + Imobiliária
           </h3>
-          <p className="text-red-700 text-sm md:text-base">
+          <p className="text-red-700 text-xs sm:text-sm md:text-base">
             Todos Lucrando Quando Você Paga Caro.<br />
             Chegou a Hora de Ter um Defensor Técnico Exclusivo ao seu lado.
           </p>
-          <div className="bg-white/80 rounded-xl p-4 max-w-2xl mx-auto">
-            <p className="text-red-900 font-medium">
+          <div className="bg-white/80 rounded-xl p-3 sm:p-4 max-w-2xl mx-auto">
+            <p className="text-red-900 font-medium text-sm sm:text-base">
               "Três pessoas defendendo preço alto. <strong className="text-red-700">Zero pessoas defendendo você.</strong>"
             </p>
           </div>
