@@ -342,9 +342,9 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ PROBLEM ============ */}
-        <section className="py-16 sm:py-24 md:py-32 px-4 bg-[#0C2340]/[0.03]">
+        <section className="py-10 sm:py-12 md:py-14 px-4 bg-[#0C2340]/[0.03]">
           <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-12 sm:mb-16">
+            <div className="text-center mb-8 sm:mb-10">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
               <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">Por Que Você Está Negociando no Escuro?</h3>
               <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
@@ -366,9 +366,9 @@ export default function AvaliacaoPublica() {
         <RealCaseComparison />
 
         {/* ============ SOLUTION ============ */}
-        <section className="py-16 sm:py-24 md:py-32 px-4 bg-[#D4AF37]/[0.04]">
+        <section className="py-10 sm:py-12 md:py-14 px-4 bg-[#D4AF37]/[0.04]">
           <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-12 sm:mb-16">
+            <div className="text-center mb-8 sm:mb-10">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
               <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">A Solução Que Muda Tudo</h3>
               <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">Avaliação imparcial baseada em dados de transações reais e não em plataformas que privilegiam Vendedores, achismos ou opiniões de vizinhos</p>
@@ -390,9 +390,9 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ PARA QUEM ============ */}
-        <section className="py-16 sm:py-24 md:py-32 px-4 bg-gradient-to-br from-[#0C2340]/[0.04] to-[#0C2340]/[0.02]">
+        <section className="py-10 sm:py-12 md:py-14 px-4 bg-gradient-to-br from-[#0C2340]/[0.04] to-[#0C2340]/[0.02]">
           <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-12 sm:mb-16">
+            <div className="text-center mb-8 sm:mb-10">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
               <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Para Quem É Esta Avaliação?</h3>
             </div>
@@ -414,9 +414,9 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ O QUE ACONTECE APÓS ============ */}
-        <section className="py-20 sm:py-28 md:py-36 px-4 bg-gradient-to-b from-white to-[#0C2340]/[0.03]">
+        <section className="py-10 sm:py-12 md:py-14 px-4 bg-gradient-to-b from-white to-[#0C2340]/[0.03]">
           <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-12 sm:mb-16">
+            <div className="text-center mb-8 sm:mb-10">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
               <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">O Que Acontece Após a Avaliação?</h3>
               <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base">
@@ -463,7 +463,7 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ CTA ============ */}
-        <section className="py-16 sm:py-24 md:py-28 px-4 bg-gradient-to-br from-[#D4AF37] to-[#c9a432]">
+        <section className="py-10 sm:py-12 md:py-14 px-4 bg-gradient-to-br from-[#D4AF37] to-[#c9a432]">
           <div className="container mx-auto max-w-3xl text-center px-2">
             <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Pronto para Descobrir o Valor do seu Imóvel?</h3>
             <p className="text-[#0C2340]/80 text-sm sm:text-lg mb-8 sm:mb-10">Comece agora – leva apenas 30 segundos.</p>
@@ -481,7 +481,7 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ FORM ============ */}
-        <section ref={formRef} className="py-20 sm:py-28 md:py-36 px-4 bg-gradient-to-b from-[#0C2340]/[0.03] to-white scroll-mt-4">
+        <section ref={formRef} className="py-10 sm:py-12 md:py-14 px-4 bg-gradient-to-b from-[#0C2340]/[0.03] to-white scroll-mt-4">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-10">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
@@ -527,9 +527,9 @@ export default function AvaliacaoPublica() {
         )}
 
         {/* ============ FAQ (hidden when showing result) ============ */}
-        {step !== "result" && <section className="py-20 sm:py-28 md:py-36 px-4 bg-[#F8F6F0]">
+        {step !== "result" && <section className="py-10 sm:py-12 md:py-14 px-4 bg-[#F8F6F0]">
           <div className="container mx-auto max-w-4xl">
-            <div className="text-center mb-12 sm:mb-16">
+            <div className="text-center mb-8 sm:mb-10">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
               <h3 className="font-serif text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">Tire Suas Dúvidas</h3>
               <p className="text-muted-foreground max-w-2xl mx-auto">Respondemos as principais perguntas sobre a ferramenta, segurança dos dados e como ela pode ajudar você.</p>
