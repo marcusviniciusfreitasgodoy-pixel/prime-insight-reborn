@@ -425,9 +425,9 @@ export default function AvaliacaoPublica() {
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
               <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-white mb-3 sm:mb-4 leading-tight">Para Quem É Esta Avaliação?</h3>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
+            <div ref={personaReveal.ref} className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
               {PERSONAS.map((persona, index) => (
-                <div key={index} className="group relative bg-white/8 backdrop-blur-md rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/60 hover:bg-white/15 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transition-all duration-400 text-center animate-fade-in" style={{ animationDelay: `${index * 200}ms` }}>
+                <div key={index} className={`group relative bg-white/8 backdrop-blur-md rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/60 hover:bg-white/15 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transition-all duration-500 text-center ${personaReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: `${index * 200}ms` }}>
                   {/* Glow circle behind icon */}
                   <div className="relative mx-auto mb-4 w-16 h-16 flex items-center justify-center">
                     <div className="absolute inset-0 rounded-full bg-[#D4AF37]/0 group-hover:bg-[#D4AF37]/20 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all duration-500" />
