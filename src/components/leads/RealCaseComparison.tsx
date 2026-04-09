@@ -98,7 +98,7 @@ export function RealCaseComparison() {
             <div>
               <p className="font-semibold text-sm text-destructive mb-1">Portais Imobiliários</p>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Usam preços de anúncios conforme desejo do vendedor, não o valor real de venda. Podem estar inflados em até 30%. Objetivo de atrair novos anunciantes.
+                Os preços apresentados se baseiam nos anúncios em divulgação. Portanto o ponto de vista da avaliação é favorável ao Vendedor sempre. Objetivo final é de atrair novos anunciantes.
               </p>
             </div>
           </div>
