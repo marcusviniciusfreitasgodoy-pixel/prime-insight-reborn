@@ -103,6 +103,44 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
 
   const hasData = data.itbiData && data.estimativa;
 
+  // Spread calculation
+  const spreadPercent = hasData && data.estimativa!.med > 0
+    ? ((data.estimativa!.max - data.estimativa!.min) / data.estimativa!.med) * 100
+    : 0;
+
+  const getSpreadInfo = (spread: number) => {
+    if (spread < 5) return {
+      icon: "✅",
+      label: "Alta Precisão",
+      message: "As transações neste endereço são muito consistentes. Estimativa com alto grau de confiança.",
+      color: "bg-green-50 border-green-200 text-green-800",
+      badgeColor: "bg-green-100 text-green-700 border-green-300",
+    };
+    if (spread < 15) return {
+      icon: "📊",
+      label: "Boa Referência",
+      message: "Intervalo saudável de mercado. Valores refletem variações naturais entre unidades.",
+      color: "bg-blue-50 border-blue-200 text-blue-800",
+      badgeColor: "bg-blue-100 text-blue-700 border-blue-300",
+    };
+    if (spread < 30) return {
+      icon: "⚠️",
+      label: "Intervalo Amplo",
+      message: "Há variação significativa nas transações. Diferenciais do imóvel (andar, vista, reforma) podem posicioná-lo em qualquer faixa. Um Parecer Técnico ajuda a definir com precisão.",
+      color: "bg-amber-50 border-amber-200 text-amber-800",
+      badgeColor: "bg-amber-100 text-amber-700 border-amber-300",
+    };
+    return {
+      icon: "🔍",
+      label: "Requer Análise",
+      message: "O intervalo é amplo demais para uma estimativa confiável online. Um Parecer Técnico presencial é altamente recomendado para definir o valor justo.",
+      color: "bg-red-50 border-red-200 text-red-800",
+      badgeColor: "bg-red-100 text-red-700 border-red-300",
+    };
+  };
+
+  const spreadInfo = getSpreadInfo(spreadPercent);
+
   // Gap calculation
   const hasGap = data.valorPedidoVendedor && data.valorPedidoVendedor > 0 && data.estimativa;
   const gapValue = hasGap ? data.valorPedidoVendedor! - data.estimativa!.med : 0;
@@ -308,6 +346,20 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
                 <p className="font-bold text-sm sm:text-lg text-green-700">{formatCurrency(data.estimativa!.max, true)}</p>
               </div>
             </div>
+
+            {/* Spread Confidence Badge */}
+            {hasData && (
+              <div className={`rounded-lg p-3 border ${spreadInfo.color}`}>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-base">{spreadInfo.icon}</span>
+                  <Badge variant="outline" className={`text-xs font-semibold ${spreadInfo.badgeColor}`}>
+                    {spreadInfo.label}
+                  </Badge>
+                  <span className="text-xs text-muted-foreground ml-auto">Spread: {spreadPercent.toFixed(1)}%</span>
+                </div>
+                <p className="text-xs leading-relaxed">{spreadInfo.message}</p>
+              </div>
+            )}
 
             {/* Market Reference */}
             <div className="bg-muted/30 rounded-lg p-3 sm:p-4 space-y-2">
