@@ -73,7 +73,7 @@ const SOLUTIONS = [
 const PERSONAS = [
   { icon: Users, title: "Compradores", subtitle: "Quer negociar com confiança?", description: "Saiba se o preço pedido está dentro da realidade de mercado antes de fazer uma proposta.", cta: "Negocie com informações reais e pague o valor justo" },
   { icon: DollarSign, title: "Investidores", subtitle: "Quer identificar oportunidades?", description: "Compare valores por região e tipologia para encontrar as melhores oportunidades de investimento.", cta: "Tome decisões com dados reais" },
-  { icon: Home, title: "Proprietários", subtitle: "Seu imóvel está anunciado há mais de 90 dias?", description: "Se o seu imóvel não vende, o problema muitas vezes não é o imóvel é o preço. \nApós 90 dias sem propostas concretas, o mercado já respondeu. Descubra o valor real de transação e reposicione seu anúncio com base em dados e não em achismos e emoção.", cta: "Reposicione seu imóvel e acelere a venda" },
+  { icon: Home, title: "Proprietários", subtitle: "Seu imóvel está anunciado há mais de 90 dias?", description: "Após 90 dias sem propostas concretas, o mercado já respondeu. Descubra o valor real de transação e reposicione seu anúncio com base em dados e não em achismos e emoção.", cta: "Reposicione seu imóvel e acelere a venda" },
 ];
 
 const WRONG_PRICE_SELLER = [
