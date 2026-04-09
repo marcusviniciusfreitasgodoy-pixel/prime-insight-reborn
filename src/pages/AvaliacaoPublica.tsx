@@ -356,10 +356,14 @@ export default function AvaliacaoPublica() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {PROBLEMS.map((problem, index) => (
-                <div key={index} className="group bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 border-l-4 border-l-destructive hover:border-gray-200 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 animate-fade-in" style={{ animationDelay: `${index * 150}ms` }}>
-                  <problem.icon className="h-6 w-6 text-destructive mb-4 group-hover:scale-110 transition-transform duration-300" />
-                  <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-2">{problem.title}</h4>
-                  <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">{problem.description}</p>
+                <div key={index} className="group flex flex-row items-start gap-4 bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 border border-gray-100/60 border-l-4 border-l-destructive hover:border-l-[6px] hover:shadow-[0_8px_30px_-8px_rgba(220,38,38,0.25)] hover:-translate-y-1 transition-all duration-300 animate-fade-in" style={{ animationDelay: `${index * 150}ms` }}>
+                  <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-destructive/10 flex items-center justify-center group-hover:bg-destructive/20 transition-colors duration-300">
+                    <problem.icon className="h-6 w-6 sm:h-7 sm:w-7 text-destructive group-hover:rotate-12 transition-transform duration-500" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-1">{problem.title}</h4>
+                    <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">{problem.description}</p>
+                  </div>
                 </div>
               ))}
             </div>
