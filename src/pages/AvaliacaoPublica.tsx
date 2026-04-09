@@ -385,13 +385,20 @@ export default function AvaliacaoPublica() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {SOLUTIONS.map((solution, index) => (
-                <div key={index} className="group bg-white/80 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 border-l-4 border-l-[#D4AF37] hover:border-[#D4AF37]/40 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 animate-fade-in" style={{ animationDelay: `${index * 150}ms` }}>
-                  <solution.icon className="h-6 w-6 text-[#D4AF37] mb-4 group-hover:scale-110 transition-transform duration-300" />
-                  <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-2">{solution.title}</h4>
-                  <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed">{solution.description}</p>
-                  <div className="flex items-center gap-2 text-xs text-[#0C2340]/70">
-                    <CheckCircle className="h-3.5 w-3.5 text-[#D4AF37] flex-shrink-0" />
-                    <span>{solution.highlight}</span>
+                <div key={index} className="group bg-white/80 rounded-xl sm:rounded-2xl overflow-hidden border border-gray-100/60 hover:-translate-y-2 hover:shadow-[0_12px_40px_-10px_rgba(212,175,55,0.25)] transition-all duration-400 animate-fade-in" style={{ animationDelay: `${index * 150}ms` }}>
+                  {/* Gold ribbon header */}
+                  <div className="bg-gradient-to-r from-[#D4AF37]/20 via-[#D4AF37]/10 to-[#D4AF37]/20 py-4 flex justify-center group-hover:from-[#D4AF37]/30 group-hover:via-[#D4AF37]/20 group-hover:to-[#D4AF37]/30 transition-all duration-400">
+                    <div className="w-12 h-12 rounded-full bg-white shadow-md flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-shadow duration-400">
+                      <solution.icon className="h-6 w-6 text-[#D4AF37] group-hover:scale-110 transition-transform duration-300" />
+                    </div>
+                  </div>
+                  <div className="p-6 sm:p-7">
+                    <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-2 text-center">{solution.title}</h4>
+                    <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed">{solution.description}</p>
+                    <div className="inline-flex items-center gap-1.5 bg-[#D4AF37]/10 text-[#0C2340]/80 text-[11px] font-medium px-3 py-1.5 rounded-full">
+                      <CheckCircle className="h-3 w-3 text-[#D4AF37] flex-shrink-0" />
+                      {solution.highlight}
+                    </div>
                   </div>
                 </div>
               ))}
