@@ -186,7 +186,7 @@ export default function AvaliacaoPublica() {
           .select('*', { count: 'exact', head: true })
           .gte('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString());
         if (!error && count !== null) {
-          setWeeklySlots(Math.max(1, 7 - count));
+          setWeeklySlots(Math.max(0, 15 - count));
         }
       } catch {
         setWeeklySlots(5);
@@ -472,9 +472,15 @@ export default function AvaliacaoPublica() {
               <span className="truncate">Quero saber o valor do meu imóvel</span>
               <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
             </Button>
-            <p className="text-[#0C2340] font-semibold text-sm sm:text-base mt-6 animate-pulse">
-              ⚡ Esta semana: <span className="text-lg font-bold">{weeklySlots}</span> avaliações gratuitas disponíveis
-            </p>
+            {weeklySlots >= 2 ? (
+              <p className="text-[#0C2340] font-semibold text-sm sm:text-base mt-6 animate-pulse">
+                ⚡ Esta semana: <span className="text-lg font-bold">{weeklySlots}</span> avaliações gratuitas disponíveis
+              </p>
+            ) : (
+              <p className="text-[#0C2340] font-semibold text-sm sm:text-base mt-6 animate-pulse">
+                🔥 Últimas vagas desta semana — garanta sua análise agora
+              </p>
+            )}
             <p className="text-[#0C2340]/60 text-xs sm:text-sm mt-3">
               Resultado em 30 segundos • Sem compromisso • Dados 100% seguros
             </p>
