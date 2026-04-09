@@ -342,8 +342,11 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ PROBLEM ============ */}
-        <section className="py-10 sm:py-12 md:py-14 px-4 bg-[#0C2340]/[0.03]">
-          <div className="container mx-auto max-w-5xl">
+        <section className="relative py-10 sm:py-12 md:py-14 px-4 bg-[#0C2340]/[0.03] overflow-hidden">
+          {/* Decorative SVG elements */}
+          <div className="absolute top-10 -right-20 w-64 h-64 rounded-full border border-destructive/10 opacity-40" />
+          <div className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full border border-destructive/5 opacity-30" />
+          <div className="container mx-auto max-w-5xl relative z-10">
             <div className="text-center mb-8 sm:mb-10">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
               <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">Por Que Você Está Negociando no Escuro?</h3>
@@ -353,7 +356,7 @@ export default function AvaliacaoPublica() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {PROBLEMS.map((problem, index) => (
-                <div key={index} className="group bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-gray-200 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 animate-fade-in" style={{ animationDelay: `${index * 150}ms` }}>
+                <div key={index} className="group bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 border-l-4 border-l-destructive hover:border-gray-200 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 animate-fade-in" style={{ animationDelay: `${index * 150}ms` }}>
                   <problem.icon className="h-6 w-6 text-destructive mb-4 group-hover:scale-110 transition-transform duration-300" />
                   <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-2">{problem.title}</h4>
                   <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">{problem.description}</p>
@@ -366,8 +369,11 @@ export default function AvaliacaoPublica() {
         <RealCaseComparison />
 
         {/* ============ SOLUTION ============ */}
-        <section className="py-10 sm:py-12 md:py-14 px-4 bg-[#D4AF37]/[0.04]">
-          <div className="container mx-auto max-w-5xl">
+        <section className="relative py-10 sm:py-12 md:py-14 px-4 bg-[#D4AF37]/[0.04] overflow-hidden">
+          {/* Decorative SVG elements */}
+          <div className="absolute top-20 -left-16 w-48 h-48 rounded-full border border-[#D4AF37]/15 opacity-50" />
+          <div className="absolute bottom-10 -right-20 w-72 h-72 rounded-full border border-[#D4AF37]/10 opacity-30" />
+          <div className="container mx-auto max-w-5xl relative z-10">
             <div className="text-center mb-8 sm:mb-10">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
               <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">A Solução Que Muda Tudo</h3>
@@ -375,7 +381,7 @@ export default function AvaliacaoPublica() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {SOLUTIONS.map((solution, index) => (
-                <div key={index} className="group bg-white/80 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-[#D4AF37]/40 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 animate-fade-in" style={{ animationDelay: `${index * 150}ms` }}>
+                <div key={index} className="group bg-white/80 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 border-l-4 border-l-[#D4AF37] hover:border-[#D4AF37]/40 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 animate-fade-in" style={{ animationDelay: `${index * 150}ms` }}>
                   <solution.icon className="h-6 w-6 text-[#D4AF37] mb-4 group-hover:scale-110 transition-transform duration-300" />
                   <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-2">{solution.title}</h4>
                   <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed">{solution.description}</p>
@@ -389,21 +395,28 @@ export default function AvaliacaoPublica() {
           </div>
         </section>
 
+        {/* ============ WAVE DIVIDER ============ */}
+        <div className="relative h-16 sm:h-20 bg-[#D4AF37]/[0.04]">
+          <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1440 80" preserveAspectRatio="none">
+            <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,40 L1440,80 L0,80 Z" fill="#0C2340" />
+          </svg>
+        </div>
+
         {/* ============ PARA QUEM ============ */}
-        <section className="py-10 sm:py-12 md:py-14 px-4 bg-gradient-to-br from-[#0C2340]/[0.04] to-[#0C2340]/[0.02]">
+        <section className="py-10 sm:py-12 md:py-14 px-4 bg-[#0C2340]">
           <div className="container mx-auto max-w-5xl">
             <div className="text-center mb-8 sm:mb-10">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
-              <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Para Quem É Esta Avaliação?</h3>
+              <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-white mb-3 sm:mb-4 leading-tight">Para Quem É Esta Avaliação?</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
               {PERSONAS.map((persona, index) => (
-                <div key={index} className="group bg-white/80 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-[#D4AF37]/30 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 text-center animate-fade-in" style={{ animationDelay: `${index * 200}ms` }}>
-                  <persona.icon className="h-8 w-8 text-[#0C2340] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
-                  <h4 className="font-serif font-bold text-lg sm:text-xl text-[#0C2340] mb-1">{persona.title}</h4>
+                <div key={index} className="group bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-300 text-center animate-fade-in" style={{ animationDelay: `${index * 200}ms` }}>
+                  <persona.icon className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
+                  <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-1">{persona.title}</h4>
                   <p className="text-[#D4AF37] font-medium text-xs sm:text-sm mb-3">{persona.subtitle}</p>
-                  <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed whitespace-pre-line">{persona.description}</p>
-                  <div className="inline-flex items-center gap-2 text-xs text-[#0C2340]/70">
+                  <p className="text-white/70 text-xs sm:text-sm mb-4 leading-relaxed whitespace-pre-line">{persona.description}</p>
+                  <div className="inline-flex items-center gap-2 text-xs text-white/60">
                     <CheckCircle className="h-3.5 w-3.5 text-[#D4AF37] flex-shrink-0" />
                     {persona.cta}
                   </div>
@@ -414,54 +427,61 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ O QUE ACONTECE APÓS ============ */}
-        <section className="py-10 sm:py-12 md:py-14 px-4 bg-gradient-to-b from-white to-[#0C2340]/[0.03]">
+        <section className="py-10 sm:py-12 md:py-14 px-4 bg-[#0C2340]">
           <div className="container mx-auto max-w-5xl">
             <div className="text-center mb-8 sm:mb-10">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
-              <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">O Que Acontece Após a Avaliação?</h3>
-              <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base">
+              <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-white mb-3 sm:mb-4 leading-tight">O Que Acontece Após a Avaliação?</h3>
+              <p className="text-white/60 max-w-2xl mx-auto text-sm sm:text-base">
                 A avaliação gratuita é o primeiro passo. Para quem está em negociação ativa, oferecemos serviços especializados em três níveis:
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
               {/* Card 1 */}
-              <div className="group bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-[#D4AF37]/30 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 animate-fade-in">
-                <Shield className="h-8 w-8 text-[#0C2340] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
-                <h4 className="font-serif font-bold text-lg sm:text-xl text-[#0C2340] mb-2 text-center">Parecer Godoy Prime</h4>
-                <p className="text-muted-foreground text-xs sm:text-sm text-center leading-relaxed whitespace-pre-line">
+              <div className="group bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-300 animate-fade-in">
+                <Shield className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-center">Parecer Godoy Prime</h4>
+                <p className="text-white/60 text-xs sm:text-sm text-center leading-relaxed whitespace-pre-line">
                   Você já tem um imóvel em vista e quer saber se o preço é justo{"\n"}
                   Laudo técnico completo com vistoria presencial, análise de valor real e recomendação de preço justo para negociar com fundamento técnico.
                 </p>
               </div>
 
               {/* Card 2 — Compra Blindada */}
-              <div className="group bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-[#D4AF37]/30 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 animate-fade-in" style={{ animationDelay: '200ms' }}>
-                <Lock className="h-8 w-8 text-[#0C2340] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
-                <h4 className="font-serif font-bold text-lg sm:text-xl text-[#0C2340] mb-2 text-center">Compra Blindada</h4>
-                <p className="text-muted-foreground text-xs sm:text-sm text-center leading-relaxed">
+              <div className="group bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-300 animate-fade-in" style={{ animationDelay: '200ms' }}>
+                <Lock className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-center">Compra Blindada</h4>
+                <p className="text-white/60 text-xs sm:text-sm text-center leading-relaxed">
                   Proteção completa para quem já encontrou o imóvel. Inclui laudo técnico com vistoria presencial + condução integral da negociação + due diligence documental + acompanhamento até a assinatura do contrato. Tudo com um único especialista ao seu lado.
                 </p>
               </div>
 
               {/* Card 3 — Prime Buyer Experience — Highlighted */}
-              <div className="group relative bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border-2 border-[#D4AF37] hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/10 transition-all duration-300 animate-fade-in" style={{ animationDelay: '400ms' }}>
+              <div className="group relative bg-[#D4AF37]/15 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border-2 border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/10 transition-all duration-300 animate-fade-in" style={{ animationDelay: '400ms' }}>
                 <div className="absolute -top-3 right-4 bg-[#D4AF37] text-[#0C2340] text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
                   Mais Completo
                 </div>
                 <Sparkles className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
-                <h4 className="font-serif font-bold text-lg sm:text-xl text-[#0C2340] mb-2 text-center">Prime Buyer Experience</h4>
-                <p className="text-muted-foreground text-xs sm:text-sm text-center leading-relaxed">
+                <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-center">Prime Buyer Experience</h4>
+                <p className="text-white/60 text-xs sm:text-sm text-center leading-relaxed">
                   Representação completa durante todo o processo de compra: curadoria, análise técnica, negociação blindada e acompanhamento total do início ao fechamento.
                 </p>
               </div>
             </div>
 
-            <p className="text-center text-sm sm:text-base text-muted-foreground mt-10 sm:mt-12 max-w-2xl mx-auto">
+            <p className="text-center text-sm sm:text-base text-white/50 mt-10 sm:mt-12 max-w-2xl mx-auto">
               Faça sua avaliação gratuita agora e descubra qual nível de proteção faz sentido para a sua negociação.
             </p>
           </div>
         </section>
+
+        {/* ============ WAVE DIVIDER (dark to gold) ============ */}
+        <div className="relative h-16 sm:h-20 bg-[#0C2340]">
+          <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1440 80" preserveAspectRatio="none">
+            <path d="M0,20 C480,80 960,0 1440,40 L1440,80 L0,80 Z" fill="#D4AF37" />
+          </svg>
+        </div>
 
         {/* ============ CTA ============ */}
         <section className="py-10 sm:py-12 md:py-14 px-4 bg-gradient-to-br from-[#D4AF37] to-[#c9a432]">
@@ -528,7 +548,7 @@ export default function AvaliacaoPublica() {
         )}
 
         {/* ============ FAQ (hidden when showing result) ============ */}
-        {step !== "result" && <section className="py-10 sm:py-12 md:py-14 px-4 bg-[#F8F6F0]">
+        {step !== "result" && <section className="py-10 sm:py-12 md:py-14 px-4 bg-[#F8F6F0] bg-[radial-gradient(circle,_rgba(212,175,55,0.06)_1px,_transparent_1px)] bg-[length:24px_24px]">
           <div className="container mx-auto max-w-4xl">
             <div className="text-center mb-8 sm:mb-10">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
