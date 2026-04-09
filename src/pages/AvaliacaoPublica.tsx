@@ -422,12 +422,16 @@ export default function AvaliacaoPublica() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
               {PERSONAS.map((persona, index) => (
-                <div key={index} className="group bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-300 text-center animate-fade-in" style={{ animationDelay: `${index * 200}ms` }}>
-                  <persona.icon className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <div key={index} className="group relative bg-white/8 backdrop-blur-md rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/60 hover:bg-white/15 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transition-all duration-400 text-center animate-fade-in" style={{ animationDelay: `${index * 200}ms` }}>
+                  {/* Glow circle behind icon */}
+                  <div className="relative mx-auto mb-4 w-16 h-16 flex items-center justify-center">
+                    <div className="absolute inset-0 rounded-full bg-[#D4AF37]/0 group-hover:bg-[#D4AF37]/20 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all duration-500" />
+                    <persona.icon className="relative h-8 w-8 text-[#D4AF37] group-hover:scale-110 transition-transform duration-300" />
+                  </div>
                   <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-1">{persona.title}</h4>
                   <p className="text-[#D4AF37] font-medium text-xs sm:text-sm mb-3">{persona.subtitle}</p>
                   <p className="text-white/70 text-xs sm:text-sm mb-4 leading-relaxed whitespace-pre-line">{persona.description}</p>
-                  <div className="inline-flex items-center gap-2 text-xs text-white/60">
+                  <div className="inline-flex items-center gap-2 text-xs text-white/60 bg-white/5 rounded-full px-3 py-1.5 group-hover:bg-white/10 transition-colors duration-300">
                     <CheckCircle className="h-3.5 w-3.5 text-[#D4AF37] flex-shrink-0" />
                     {persona.cta}
                   </div>
