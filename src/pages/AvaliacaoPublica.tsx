@@ -176,6 +176,10 @@ export default function AvaliacaoPublica() {
   const formRef = useRef<HTMLDivElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const problemReveal = useScrollReveal(0.15);
+  const solutionReveal = useScrollReveal(0.15);
+  const personaReveal = useScrollReveal(0.15);
+  const serviceReveal = useScrollReveal(0.15);
 
   const { utmParams, hasUTM } = useUTMTracking();
 
