@@ -186,7 +186,7 @@ export default function AvaliacaoPublica() {
           .select('*', { count: 'exact', head: true })
           .gte('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString());
         if (!error && count !== null) {
-          setWeeklySlots(Math.max(1, 7 - count));
+          setWeeklySlots(Math.max(0, 15 - count));
         }
       } catch {
         setWeeklySlots(5);
