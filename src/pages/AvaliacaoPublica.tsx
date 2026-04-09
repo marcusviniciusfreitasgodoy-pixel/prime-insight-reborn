@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, memo, lazy, Suspense } from "react";
 import { RealCaseComparison } from "@/components/leads/RealCaseComparison";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { Helmet } from "react-helmet-async";
 import { QuickValuationForm, QuickValuationData } from "@/components/leads/QuickValuationForm";
 import { Loader2 } from "lucide-react";
@@ -175,6 +176,10 @@ export default function AvaliacaoPublica() {
   const formRef = useRef<HTMLDivElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const problemReveal = useScrollReveal(0.15);
+  const solutionReveal = useScrollReveal(0.15);
+  const personaReveal = useScrollReveal(0.15);
+  const serviceReveal = useScrollReveal(0.15);
 
   const { utmParams, hasUTM } = useUTMTracking();
 
@@ -354,9 +359,9 @@ export default function AvaliacaoPublica() {
                 A diferença entre o preço anunciado e o valor real de venda pode chegar a <strong className="text-[#D4AF37]">30%</strong>, isto significa diferenças de até <strong className="text-[#D4AF37]">R$ 400.000</strong> ou mais.
               </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+            <div ref={problemReveal.ref} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {PROBLEMS.map((problem, index) => (
-                <div key={index} className="group flex flex-row items-start gap-4 bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 border border-gray-100/60 border-l-4 border-l-destructive hover:border-l-[6px] hover:shadow-[0_8px_30px_-8px_rgba(220,38,38,0.25)] hover:-translate-y-1 transition-all duration-300 animate-fade-in" style={{ animationDelay: `${index * 150}ms` }}>
+                <div key={index} className={`group flex flex-row items-start gap-4 bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 border border-gray-100/60 border-l-4 border-l-destructive hover:border-l-[6px] hover:shadow-[0_8px_30px_-8px_rgba(220,38,38,0.25)] hover:-translate-y-1 transition-all duration-500 ${problemReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: `${index * 150}ms` }}>
                   <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-destructive/10 flex items-center justify-center group-hover:bg-destructive/20 transition-colors duration-300">
                     <problem.icon className="h-6 w-6 sm:h-7 sm:w-7 text-destructive group-hover:rotate-12 transition-transform duration-500" />
                   </div>
@@ -383,9 +388,9 @@ export default function AvaliacaoPublica() {
               <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">A Solução Que Muda Tudo</h3>
               <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">Avaliação imparcial baseada em dados de transações reais e não em plataformas que privilegiam Vendedores, achismos ou opiniões de vizinhos</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+            <div ref={solutionReveal.ref} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {SOLUTIONS.map((solution, index) => (
-                <div key={index} className="group bg-white/80 rounded-xl sm:rounded-2xl overflow-hidden border border-gray-100/60 hover:-translate-y-2 hover:shadow-[0_12px_40px_-10px_rgba(212,175,55,0.25)] transition-all duration-400 animate-fade-in" style={{ animationDelay: `${index * 150}ms` }}>
+                <div key={index} className={`group bg-white/80 rounded-xl sm:rounded-2xl overflow-hidden border border-gray-100/60 hover:-translate-y-2 hover:shadow-[0_12px_40px_-10px_rgba(212,175,55,0.25)] transition-all duration-500 ${solutionReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: `${index * 150}ms` }}>
                   {/* Gold ribbon header */}
                   <div className="bg-gradient-to-r from-[#D4AF37]/20 via-[#D4AF37]/10 to-[#D4AF37]/20 py-4 flex justify-center group-hover:from-[#D4AF37]/30 group-hover:via-[#D4AF37]/20 group-hover:to-[#D4AF37]/30 transition-all duration-400">
                     <div className="w-12 h-12 rounded-full bg-white shadow-md flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-shadow duration-400">
@@ -420,9 +425,9 @@ export default function AvaliacaoPublica() {
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
               <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-white mb-3 sm:mb-4 leading-tight">Para Quem É Esta Avaliação?</h3>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
+            <div ref={personaReveal.ref} className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
               {PERSONAS.map((persona, index) => (
-                <div key={index} className="group relative bg-white/8 backdrop-blur-md rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/60 hover:bg-white/15 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transition-all duration-400 text-center animate-fade-in" style={{ animationDelay: `${index * 200}ms` }}>
+                <div key={index} className={`group relative bg-white/8 backdrop-blur-md rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/60 hover:bg-white/15 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transition-all duration-500 text-center ${personaReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: `${index * 200}ms` }}>
                   {/* Glow circle behind icon */}
                   <div className="relative mx-auto mb-4 w-16 h-16 flex items-center justify-center">
                     <div className="absolute inset-0 rounded-full bg-[#D4AF37]/0 group-hover:bg-[#D4AF37]/20 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all duration-500" />
@@ -452,9 +457,9 @@ export default function AvaliacaoPublica() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            <div ref={serviceReveal.ref} className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
               {/* Card 1 */}
-              <div className="group relative bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-300 animate-fade-in overflow-hidden">
+              <div className={`group relative bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                 <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-white/[0.06] group-hover:text-white/[0.12] transition-all duration-500 select-none leading-none">01</span>
                 <Shield className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
                 <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-center">Parecer Godoy Prime</h4>
@@ -465,7 +470,7 @@ export default function AvaliacaoPublica() {
               </div>
 
               {/* Card 2 — Compra Blindada */}
-              <div className="group relative bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-300 animate-fade-in overflow-hidden" style={{ animationDelay: '200ms' }}>
+              <div className={`group relative bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '200ms' }}>
                 <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-white/[0.06] group-hover:text-white/[0.12] transition-all duration-500 select-none leading-none">02</span>
                 <Lock className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
                 <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-center">Compra Blindada</h4>
@@ -475,7 +480,7 @@ export default function AvaliacaoPublica() {
               </div>
 
               {/* Card 3 — Prime Buyer Experience — Highlighted */}
-              <div className="group relative bg-[#D4AF37]/15 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border-2 border-[#D4AF37]/50 hover:-translate-y-2 hover:shadow-[0_12px_40px_-8px_rgba(212,175,55,0.2)] transition-all duration-300 animate-fade-in overflow-hidden" style={{ animationDelay: '400ms' }}>
+              <div className={`group relative bg-[#D4AF37]/15 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border-2 border-[#D4AF37]/50 hover:-translate-y-2 hover:shadow-[0_12px_40px_-8px_rgba(212,175,55,0.2)] transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '400ms' }}>
                 <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-[#D4AF37]/[0.1] group-hover:text-[#D4AF37]/[0.2] transition-all duration-500 select-none leading-none">03</span>
                 <div className="absolute -top-3 right-14 sm:right-16 bg-[#D4AF37] text-[#0C2340] text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
                   Mais Completo
