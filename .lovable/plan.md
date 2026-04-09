@@ -1,59 +1,39 @@
 
 
-## Plano: Quebrar monotonia visual da landing page (mobile-first)
+## Plano: Variar formato dos cards e adicionar hover mais impactante
 
-### Diagnóstico
+### Problema
+Todos os cards seguem o mesmo padrão visual: retângulo branco, ícone pequeno, título, texto. Isso cria fadiga visual no scroll mobile.
 
-A página tem 9 seções entre o Hero e o Footer. Destas, **7 usam fundos quase idênticos** (branco/bege com opacidade 3-5%) e cards brancos. No mobile, onde o usuário vê uma seção de cada vez, isso cria uma parede monótona de cards brancos sem respiro visual.
+### Estratégia
+Variar o layout dos cards por seção e adicionar hover effects mais expressivos, sem alterar conteúdo.
 
-### Estratégia: Intercalar fundos escuros + elementos visuais decorativos
+### Mudanças
 
-Nenhuma funcionalidade ou texto será alterado. Apenas styling e elementos decorativos.
+**1. Cards PROBLEM — layout horizontal com ícone grande à esquerda**
+- Mudar de vertical (ícone em cima) para horizontal (`flex-row`) com ícone em círculo colorido à esquerda
+- Hover: rotação sutil do ícone (`group-hover:rotate-12`) + borda esquerda que expande + sombra vermelha
+- No mobile: mantém horizontal mas compacto
 
-### Mudanças propostas
+**2. Cards SOLUTION — card com header colorido separado**
+- Adicionar uma faixa dourada no topo do card com o ícone centralizado (como um "ribbon")
+- Hover: a faixa expande levemente + card sobe mais (`-translate-y-2`) + sombra dourada (`shadow-[#D4AF37]/20`)
+- O highlight text vai para um badge no rodapé do card
 
-**1. Seção "Para Quem" — converter para fundo Navy escuro**
-- Background: `bg-[#0C2340]` com texto branco
-- Cards: `bg-white/10 border-white/20` com texto `text-white`
-- Isso quebra a sequência de seções claras no meio da página
+**3. Cards PARA QUEM — glassmorphism com glow no hover**
+- Manter o layout atual mas adicionar um glow circular atrás do ícone no hover (`group-hover:shadow-[0_0_30px_rgba(212,175,55,0.3)]`)
+- Hover: border muda para dourado sólido + background fica `bg-white/15` + escala sutil (`scale-[1.02]`)
 
-**2. Seção "O Que Acontece Após" — converter para fundo Navy escuro**  
-- Mesma abordagem: fundo escuro, cards semi-transparentes
-- Cria um ritmo claro-escuro-claro-escuro descendo a página
+**4. Cards O QUE ACONTECE — estilo "pricing card" com número/step**
+- Adicionar um número de ordem (01, 02, 03) grande e semitransparente no canto superior
+- Hover: o número fica mais visível + card inteiro ganha borda dourada animada (`transition-all`)
 
-**3. Adicionar divisores decorativos entre seções**
-- Substituir as linhas douradas (`w-12 h-px`) por SVG wave/curve sutil entre pelo menos 2-3 transições de seção
-- Isso elimina a sensação de "blocos empilhados"
-
-**4. Adicionar ícones/ilustrações decorativas de fundo**
-- Nas seções Problem e Solution: adicionar elementos SVG decorativos (círculos, linhas geométricas) com opacidade baixa no canto, similar ao blur do hero
-- Adiciona camada visual sem imagens reais
-
-**5. Cards com borda lateral colorida (accent strip)**
-- Nos cards de Problem: borda esquerda vermelha/destructive (`border-l-4 border-destructive`)
-- Nos cards de Solution: borda esquerda dourada (`border-l-4 border-[#D4AF37]`)
-- Diferencia visualmente os grupos de cards
-
-**6. Seção FAQ — fundo com padrão sutil**
-- Adicionar um background pattern CSS sutil (dots ou grid) para diferenciar do restante
-
-### Ritmo visual resultante (mobile scroll)
-
-```text
-HERO          ████████  (escuro + imagem)
-PROBLEM       ░░░░░░░░  (claro + cards com borda vermelha)
-REAL CASE     ░░░░░░░░  (claro + cards com destaque gold)
-SOLUTION      ░░░░░░░░  (claro + cards com borda dourada + decoração)
-PARA QUEM     ████████  (ESCURO — quebra visual)
-O QUE ACONTECE████████  (ESCURO — serviços premium)
-CTA           ▓▓▓▓▓▓▓▓  (dourado)
-FORM          ░░░░░░░░  (claro)
-FAQ           ░░▒░░▒░░  (bege com pattern)
-FOOTER        ████████  (escuro)
-```
+**5. Cards WRONG PRICE (Seller/Buyer) — se existirem visualmente na página**
+- Verificar se são renderizados (não parecem estar na página atual, apenas definidos como dados)
 
 ### Arquivos modificados
-- `src/pages/AvaliacaoPublica.tsx` — backgrounds das seções, decorações SVG, wave dividers
-- `src/components/leads/RealCaseComparison.tsx` — possível ajuste de fundo se necessário
-- `src/index.css` — pattern CSS para FAQ (se usado)
+- `src/pages/AvaliacaoPublica.tsx` — todos os blocos de cards das 4 seções principais
+
+### Resultado esperado
+Cada seção tem um formato de card distinto, quebrando a monotonia. Hovers mais expressivos com rotações, glows e transições criam sensação de interatividade premium.
 
