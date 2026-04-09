@@ -359,9 +359,9 @@ export default function AvaliacaoPublica() {
                 A diferença entre o preço anunciado e o valor real de venda pode chegar a <strong className="text-[#D4AF37]">30%</strong>, isto significa diferenças de até <strong className="text-[#D4AF37]">R$ 400.000</strong> ou mais.
               </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+            <div ref={problemReveal.ref} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {PROBLEMS.map((problem, index) => (
-                <div key={index} className="group flex flex-row items-start gap-4 bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 border border-gray-100/60 border-l-4 border-l-destructive hover:border-l-[6px] hover:shadow-[0_8px_30px_-8px_rgba(220,38,38,0.25)] hover:-translate-y-1 transition-all duration-300 animate-fade-in" style={{ animationDelay: `${index * 150}ms` }}>
+                <div key={index} className={`group flex flex-row items-start gap-4 bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 border border-gray-100/60 border-l-4 border-l-destructive hover:border-l-[6px] hover:shadow-[0_8px_30px_-8px_rgba(220,38,38,0.25)] hover:-translate-y-1 transition-all duration-500 ${problemReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: `${index * 150}ms` }}>
                   <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-destructive/10 flex items-center justify-center group-hover:bg-destructive/20 transition-colors duration-300">
                     <problem.icon className="h-6 w-6 sm:h-7 sm:w-7 text-destructive group-hover:rotate-12 transition-transform duration-500" />
                   </div>
