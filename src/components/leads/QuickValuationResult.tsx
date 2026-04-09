@@ -347,6 +347,20 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
               </div>
             </div>
 
+            {/* Spread Confidence Badge */}
+            {hasData && (
+              <div className={`rounded-lg p-3 border ${spreadInfo.color}`}>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-base">{spreadInfo.icon}</span>
+                  <Badge variant="outline" className={`text-xs font-semibold ${spreadInfo.badgeColor}`}>
+                    {spreadInfo.label}
+                  </Badge>
+                  <span className="text-xs text-muted-foreground ml-auto">Spread: {spreadPercent.toFixed(1)}%</span>
+                </div>
+                <p className="text-xs leading-relaxed">{spreadInfo.message}</p>
+              </div>
+            )}
+
             {/* Market Reference */}
             <div className="bg-muted/30 rounded-lg p-3 sm:p-4 space-y-2">
               <h4 className="text-xs sm:text-sm font-medium text-center">Referência de Mercado (R$/m²)</h4>
