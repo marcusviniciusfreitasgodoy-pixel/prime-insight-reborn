@@ -1,36 +1,59 @@
 
-## Plano: Aprimorar lógica do contador de escassez
 
-### Contexto atual
-- Fórmula: `Math.max(1, 7 - leads_da_semana)` — nunca chega a zero
-- O contador é **apenas visual** (gatilho de urgência), não bloqueia avaliações
-- O bloqueio real acontece por email (máx 2 avaliações por email)
+## Plano: Quebrar monotonia visual da landing page (mobile-first)
 
-### Problema
-Se muitos leads entram, o número fica preso em "1" indefinidamente, perdendo credibilidade. Se poucos entram, mostra "6" ou "7", reduzindo a urgência.
+### Diagnóstico
 
-### Proposta de melhoria
+A página tem 9 seções entre o Hero e o Footer. Destas, **7 usam fundos quase idênticos** (branco/bege com opacidade 3-5%) e cards brancos. No mobile, onde o usuário vê uma seção de cada vez, isso cria uma parede monótona de cards brancos sem respiro visual.
 
-**Opção recomendada — Escassez inteligente com fallback suave:**
+### Estratégia: Intercalar fundos escuros + elementos visuais decorativos
 
-1. **Manter o contador como gatilho visual** (não bloquear ninguém)
-2. **Quando chegar a 1 ou 0**, trocar a mensagem para algo como:
-   - `"🔥 Últimas vagas desta semana — garanta sua análise agora"`
-   - Isso mantém urgência sem mostrar "0 disponíveis" (o que afastaria o cliente)
-3. **Ajustar a fórmula** para um range mais realista (ex: limite de 15 em vez de 7), para que o número varie de forma mais natural
-4. **Nunca mostrar zero** — quando o cálculo dá ≤ 1, exibir a mensagem alternativa de urgência em vez do número
+Nenhuma funcionalidade ou texto será alterado. Apenas styling e elementos decorativos.
 
-### Mudanças técnicas
+### Mudanças propostas
 
-**Arquivo**: `src/pages/AvaliacaoPublica.tsx`
+**1. Seção "Para Quem" — converter para fundo Navy escuro**
+- Background: `bg-[#0C2340]` com texto branco
+- Cards: `bg-white/10 border-white/20` com texto `text-white`
+- Isso quebra a sequência de seções claras no meio da página
 
-- Alterar o limite semanal de 7 para um valor mais alto (ex: 15) para que o número desça gradualmente
-- Adicionar lógica condicional na renderização:
-  - Se `weeklySlots >= 2`: mostra "⚡ Esta semana: X avaliações gratuitas disponíveis"
-  - Se `weeklySlots <= 1`: mostra "🔥 Últimas vagas desta semana — garanta sua análise agora"
-- Manter `Math.max(0, limite - count)` — permitir zero no cálculo, mas nunca exibir o número zero
+**2. Seção "O Que Acontece Após" — converter para fundo Navy escuro**  
+- Mesma abordagem: fundo escuro, cards semi-transparentes
+- Cria um ritmo claro-escuro-claro-escuro descendo a página
 
-### Resultado
-- O cliente **nunca vê uma porta fechada** (zero vagas)
-- A urgência **aumenta naturalmente** conforme mais leads entram
-- A mensagem alternativa cria **mais urgência** que mostrar "1"
+**3. Adicionar divisores decorativos entre seções**
+- Substituir as linhas douradas (`w-12 h-px`) por SVG wave/curve sutil entre pelo menos 2-3 transições de seção
+- Isso elimina a sensação de "blocos empilhados"
+
+**4. Adicionar ícones/ilustrações decorativas de fundo**
+- Nas seções Problem e Solution: adicionar elementos SVG decorativos (círculos, linhas geométricas) com opacidade baixa no canto, similar ao blur do hero
+- Adiciona camada visual sem imagens reais
+
+**5. Cards com borda lateral colorida (accent strip)**
+- Nos cards de Problem: borda esquerda vermelha/destructive (`border-l-4 border-destructive`)
+- Nos cards de Solution: borda esquerda dourada (`border-l-4 border-[#D4AF37]`)
+- Diferencia visualmente os grupos de cards
+
+**6. Seção FAQ — fundo com padrão sutil**
+- Adicionar um background pattern CSS sutil (dots ou grid) para diferenciar do restante
+
+### Ritmo visual resultante (mobile scroll)
+
+```text
+HERO          ████████  (escuro + imagem)
+PROBLEM       ░░░░░░░░  (claro + cards com borda vermelha)
+REAL CASE     ░░░░░░░░  (claro + cards com destaque gold)
+SOLUTION      ░░░░░░░░  (claro + cards com borda dourada + decoração)
+PARA QUEM     ████████  (ESCURO — quebra visual)
+O QUE ACONTECE████████  (ESCURO — serviços premium)
+CTA           ▓▓▓▓▓▓▓▓  (dourado)
+FORM          ░░░░░░░░  (claro)
+FAQ           ░░▒░░▒░░  (bege com pattern)
+FOOTER        ████████  (escuro)
+```
+
+### Arquivos modificados
+- `src/pages/AvaliacaoPublica.tsx` — backgrounds das seções, decorações SVG, wave dividers
+- `src/components/leads/RealCaseComparison.tsx` — possível ajuste de fundo se necessário
+- `src/index.css` — pattern CSS para FAQ (se usado)
+
