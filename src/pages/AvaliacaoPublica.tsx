@@ -356,10 +356,14 @@ export default function AvaliacaoPublica() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {PROBLEMS.map((problem, index) => (
-                <div key={index} className="group bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 border-l-4 border-l-destructive hover:border-gray-200 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 animate-fade-in" style={{ animationDelay: `${index * 150}ms` }}>
-                  <problem.icon className="h-6 w-6 text-destructive mb-4 group-hover:scale-110 transition-transform duration-300" />
-                  <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-2">{problem.title}</h4>
-                  <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">{problem.description}</p>
+                <div key={index} className="group flex flex-row items-start gap-4 bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 border border-gray-100/60 border-l-4 border-l-destructive hover:border-l-[6px] hover:shadow-[0_8px_30px_-8px_rgba(220,38,38,0.25)] hover:-translate-y-1 transition-all duration-300 animate-fade-in" style={{ animationDelay: `${index * 150}ms` }}>
+                  <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-destructive/10 flex items-center justify-center group-hover:bg-destructive/20 transition-colors duration-300">
+                    <problem.icon className="h-6 w-6 sm:h-7 sm:w-7 text-destructive group-hover:rotate-12 transition-transform duration-500" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-1">{problem.title}</h4>
+                    <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">{problem.description}</p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -381,13 +385,20 @@ export default function AvaliacaoPublica() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {SOLUTIONS.map((solution, index) => (
-                <div key={index} className="group bg-white/80 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 border-l-4 border-l-[#D4AF37] hover:border-[#D4AF37]/40 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 animate-fade-in" style={{ animationDelay: `${index * 150}ms` }}>
-                  <solution.icon className="h-6 w-6 text-[#D4AF37] mb-4 group-hover:scale-110 transition-transform duration-300" />
-                  <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-2">{solution.title}</h4>
-                  <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed">{solution.description}</p>
-                  <div className="flex items-center gap-2 text-xs text-[#0C2340]/70">
-                    <CheckCircle className="h-3.5 w-3.5 text-[#D4AF37] flex-shrink-0" />
-                    <span>{solution.highlight}</span>
+                <div key={index} className="group bg-white/80 rounded-xl sm:rounded-2xl overflow-hidden border border-gray-100/60 hover:-translate-y-2 hover:shadow-[0_12px_40px_-10px_rgba(212,175,55,0.25)] transition-all duration-400 animate-fade-in" style={{ animationDelay: `${index * 150}ms` }}>
+                  {/* Gold ribbon header */}
+                  <div className="bg-gradient-to-r from-[#D4AF37]/20 via-[#D4AF37]/10 to-[#D4AF37]/20 py-4 flex justify-center group-hover:from-[#D4AF37]/30 group-hover:via-[#D4AF37]/20 group-hover:to-[#D4AF37]/30 transition-all duration-400">
+                    <div className="w-12 h-12 rounded-full bg-white shadow-md flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-shadow duration-400">
+                      <solution.icon className="h-6 w-6 text-[#D4AF37] group-hover:scale-110 transition-transform duration-300" />
+                    </div>
+                  </div>
+                  <div className="p-6 sm:p-7">
+                    <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-2 text-center">{solution.title}</h4>
+                    <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed">{solution.description}</p>
+                    <div className="inline-flex items-center gap-1.5 bg-[#D4AF37]/10 text-[#0C2340]/80 text-[11px] font-medium px-3 py-1.5 rounded-full">
+                      <CheckCircle className="h-3 w-3 text-[#D4AF37] flex-shrink-0" />
+                      {solution.highlight}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -411,12 +422,16 @@ export default function AvaliacaoPublica() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
               {PERSONAS.map((persona, index) => (
-                <div key={index} className="group bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-300 text-center animate-fade-in" style={{ animationDelay: `${index * 200}ms` }}>
-                  <persona.icon className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <div key={index} className="group relative bg-white/8 backdrop-blur-md rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/60 hover:bg-white/15 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transition-all duration-400 text-center animate-fade-in" style={{ animationDelay: `${index * 200}ms` }}>
+                  {/* Glow circle behind icon */}
+                  <div className="relative mx-auto mb-4 w-16 h-16 flex items-center justify-center">
+                    <div className="absolute inset-0 rounded-full bg-[#D4AF37]/0 group-hover:bg-[#D4AF37]/20 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all duration-500" />
+                    <persona.icon className="relative h-8 w-8 text-[#D4AF37] group-hover:scale-110 transition-transform duration-300" />
+                  </div>
                   <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-1">{persona.title}</h4>
                   <p className="text-[#D4AF37] font-medium text-xs sm:text-sm mb-3">{persona.subtitle}</p>
                   <p className="text-white/70 text-xs sm:text-sm mb-4 leading-relaxed whitespace-pre-line">{persona.description}</p>
-                  <div className="inline-flex items-center gap-2 text-xs text-white/60">
+                  <div className="inline-flex items-center gap-2 text-xs text-white/60 bg-white/5 rounded-full px-3 py-1.5 group-hover:bg-white/10 transition-colors duration-300">
                     <CheckCircle className="h-3.5 w-3.5 text-[#D4AF37] flex-shrink-0" />
                     {persona.cta}
                   </div>
@@ -439,7 +454,8 @@ export default function AvaliacaoPublica() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
               {/* Card 1 */}
-              <div className="group bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-300 animate-fade-in">
+              <div className="group relative bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-300 animate-fade-in overflow-hidden">
+                <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-white/[0.06] group-hover:text-white/[0.12] transition-all duration-500 select-none leading-none">01</span>
                 <Shield className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
                 <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-center">Parecer Godoy Prime</h4>
                 <p className="text-white/60 text-xs sm:text-sm text-center leading-relaxed whitespace-pre-line">
@@ -449,7 +465,8 @@ export default function AvaliacaoPublica() {
               </div>
 
               {/* Card 2 — Compra Blindada */}
-              <div className="group bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-300 animate-fade-in" style={{ animationDelay: '200ms' }}>
+              <div className="group relative bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-300 animate-fade-in overflow-hidden" style={{ animationDelay: '200ms' }}>
+                <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-white/[0.06] group-hover:text-white/[0.12] transition-all duration-500 select-none leading-none">02</span>
                 <Lock className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
                 <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-center">Compra Blindada</h4>
                 <p className="text-white/60 text-xs sm:text-sm text-center leading-relaxed">
@@ -458,11 +475,12 @@ export default function AvaliacaoPublica() {
               </div>
 
               {/* Card 3 — Prime Buyer Experience — Highlighted */}
-              <div className="group relative bg-[#D4AF37]/15 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border-2 border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/10 transition-all duration-300 animate-fade-in" style={{ animationDelay: '400ms' }}>
-                <div className="absolute -top-3 right-4 bg-[#D4AF37] text-[#0C2340] text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+              <div className="group relative bg-[#D4AF37]/15 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border-2 border-[#D4AF37]/50 hover:-translate-y-2 hover:shadow-[0_12px_40px_-8px_rgba(212,175,55,0.2)] transition-all duration-300 animate-fade-in overflow-hidden" style={{ animationDelay: '400ms' }}>
+                <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-[#D4AF37]/[0.1] group-hover:text-[#D4AF37]/[0.2] transition-all duration-500 select-none leading-none">03</span>
+                <div className="absolute -top-3 right-14 sm:right-16 bg-[#D4AF37] text-[#0C2340] text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
                   Mais Completo
                 </div>
-                <Sparkles className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <Sparkles className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500" />
                 <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-center">Prime Buyer Experience</h4>
                 <p className="text-white/60 text-xs sm:text-sm text-center leading-relaxed">
                   Representação completa durante todo o processo de compra: curadoria, análise técnica, negociação blindada e acompanhamento total do início ao fechamento.
