@@ -387,7 +387,36 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
         </CardContent>
       </Card>
 
-      {/* Perit evaluation section (includes pitch, comparison table, features, photo, guarantee, investment, prime buyer) */}
+      {/* ===== SOLICITAR PARECER TÉCNICO — CTA destacado ===== */}
+      {!parecerRequested && (
+        <div className="bg-gradient-to-br from-[#0C2340] to-[#1a3a5c] rounded-2xl p-6 sm:p-8 text-center space-y-4 shadow-xl">
+          <div className="mx-auto w-14 h-14 rounded-full bg-[#D4AF37]/20 flex items-center justify-center">
+            <Shield className="h-7 w-7 text-[#D4AF37]" />
+          </div>
+          <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
+            {spreadPercent >= 30
+              ? "Intervalo amplo — você precisa de precisão"
+              : spreadPercent >= 15
+              ? "Quer saber exatamente onde seu imóvel se posiciona?"
+              : "Proteja seu patrimônio com uma análise completa"}
+          </h3>
+          <p className="text-white/70 text-sm max-w-lg mx-auto">
+            {spreadPercent >= 30
+              ? "Com essa variação, a estimativa online não é suficiente. Um Parecer Técnico presencial analisa os diferenciais do seu imóvel e define o valor com precisão."
+              : "O Parecer Técnico Godoy Prime analisa 26 características específicas do seu imóvel para posicioná-lo com precisão dentro da faixa de mercado."}
+          </p>
+          <Button
+            onClick={handleRequestParecer}
+            disabled={isRequesting}
+            size="lg"
+            className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] tracking-widest uppercase text-xs font-semibold px-8 py-4 rounded-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+          >
+            <MessageCircle className="mr-2 h-5 w-5" />
+            {isRequesting ? "Enviando..." : "Solicitar Parecer Técnico"}
+          </Button>
+          <p className="text-white/40 text-xs">🔒 Sem compromisso • Orçamento gratuito • Retorno em até 2h</p>
+        </div>
+      )}
       <Card className="border-border shadow-lg">
         <CardContent className="py-6">
           <PeritEvaluationSection valorPedido={data.valorPedidoVendedor} valorMercado={data.estimativa?.med} />
