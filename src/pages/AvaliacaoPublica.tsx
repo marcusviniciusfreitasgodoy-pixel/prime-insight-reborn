@@ -429,7 +429,8 @@ export default function AvaliacaoPublica() {
               <div className="group bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-gray-100/60 hover:border-[#D4AF37]/30 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 animate-fade-in">
                 <Shield className="h-8 w-8 text-[#0C2340] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
                 <h4 className="font-serif font-bold text-lg sm:text-xl text-[#0C2340] mb-2 text-center">Parecer Godoy Prime</h4>
-                <p className="text-muted-foreground text-xs sm:text-sm text-center leading-relaxed">
+                <p className="text-muted-foreground text-xs sm:text-sm text-center leading-relaxed whitespace-pre-line">
+                  Você já tem um imóvel em vista e quer saber se o preço é justo{"\n"}
                   Laudo técnico completo com vistoria presencial, análise de valor real e recomendação de preço justo para negociar com fundamento técnico.
                 </p>
               </div>
