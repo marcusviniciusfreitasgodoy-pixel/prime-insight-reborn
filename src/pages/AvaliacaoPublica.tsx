@@ -457,9 +457,9 @@ export default function AvaliacaoPublica() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            <div ref={serviceReveal.ref} className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
               {/* Card 1 */}
-              <div className="group relative bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-300 animate-fade-in overflow-hidden">
+              <div className={`group relative bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                 <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-white/[0.06] group-hover:text-white/[0.12] transition-all duration-500 select-none leading-none">01</span>
                 <Shield className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
                 <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-center">Parecer Godoy Prime</h4>
@@ -470,7 +470,7 @@ export default function AvaliacaoPublica() {
               </div>
 
               {/* Card 2 — Compra Blindada */}
-              <div className="group relative bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-300 animate-fade-in overflow-hidden" style={{ animationDelay: '200ms' }}>
+              <div className={`group relative bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '200ms' }}>
                 <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-white/[0.06] group-hover:text-white/[0.12] transition-all duration-500 select-none leading-none">02</span>
                 <Lock className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
                 <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-center">Compra Blindada</h4>
@@ -480,7 +480,7 @@ export default function AvaliacaoPublica() {
               </div>
 
               {/* Card 3 — Prime Buyer Experience — Highlighted */}
-              <div className="group relative bg-[#D4AF37]/15 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border-2 border-[#D4AF37]/50 hover:-translate-y-2 hover:shadow-[0_12px_40px_-8px_rgba(212,175,55,0.2)] transition-all duration-300 animate-fade-in overflow-hidden" style={{ animationDelay: '400ms' }}>
+              <div className={`group relative bg-[#D4AF37]/15 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border-2 border-[#D4AF37]/50 hover:-translate-y-2 hover:shadow-[0_12px_40px_-8px_rgba(212,175,55,0.2)] transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '400ms' }}>
                 <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-[#D4AF37]/[0.1] group-hover:text-[#D4AF37]/[0.2] transition-all duration-500 select-none leading-none">03</span>
                 <div className="absolute -top-3 right-14 sm:right-16 bg-[#D4AF37] text-[#0C2340] text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
                   Mais Completo
