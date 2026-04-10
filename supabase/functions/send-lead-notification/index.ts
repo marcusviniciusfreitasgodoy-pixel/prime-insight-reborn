@@ -492,6 +492,9 @@ const handler = async (req: Request): Promise<Response> => {
       
       if (instanceId && zapiToken) {
         const zapiUrl = `https://api.z-api.io/instances/${instanceId}/token/${zapiToken}/send-text`;
+        const zapiHeaders: Record<string, string> = { "Content-Type": "application/json" };
+        const clientToken = Deno.env.get("ZAPI_CLIENT_TOKEN");
+        if (clientToken) zapiHeaders["Client-Token"] = clientToken;
         const formatPhone = (p: string) => {
           const d = p.replace(/\D/g, "");
           return d.startsWith("55") ? d : `55${d}`;
@@ -522,7 +525,7 @@ const handler = async (req: Request): Promise<Response> => {
           try {
             const clientResp = await fetch(zapiUrl, {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: zapiHeaders,
               body: JSON.stringify({ phone: formatPhone(data.leadPhone), message: clientMsg }),
             });
             whatsappResults.client = await clientResp.json();
@@ -536,7 +539,7 @@ const handler = async (req: Request): Promise<Response> => {
         try {
           const brokerResp = await fetch(zapiUrl, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: zapiHeaders,
             body: JSON.stringify({ phone: "5521964075124", message: brokerMsg }),
           });
           whatsappResults.broker = await brokerResp.json();
