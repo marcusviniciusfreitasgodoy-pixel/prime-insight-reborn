@@ -484,6 +484,88 @@ const handler = async (req: Request): Promise<Response> => {
     const clientEmailResult = await sendClientConfirmationEmail(data);
     console.log("Client email result:", clientEmailResult);
 
+    // === Z-API WhatsApp Integration ===
+    let whatsappResults: any = { client: null, broker: null };
+    try {
+      const instanceId = Deno.env.get("ZAPI_INSTANCE_ID");
+      const zapiToken = Deno.env.get("ZAPI_TOKEN");
+      
+      if (instanceId && zapiToken) {
+        const zapiUrl = `https://api.z-api.io/instances/${instanceId}/token/${zapiToken}/send-text`;
+        const formatPhone = (p: string) => {
+          const d = p.replace(/\D/g, "");
+          return d.startsWith("55") ? d : `55${d}`;
+        };
+        
+        const isCompraMsg = data.interesse === "compra";
+        const formattedEstimativa = data.estimativaMed ? formatCurrency(data.estimativaMed) : "";
+
+        // Message to client
+        let clientMsg = "";
+        if (notificationType === "initial" || notificationType === "returning") {
+          clientMsg = `🏠 *Godoy Prime Realty*\n\nOlá ${data.leadName}! 👋\n\nRecebemos sua solicitação de avaliação${data.bairro ? ` no bairro *${data.bairro}*` : ""}.\n\n${formattedEstimativa ? `📊 Estimativa preliminar: *${formattedEstimativa}*\n\n` : ""}Um especialista Godoy Prime pode realizar uma análise detalhada considerando os diferenciais específicos do seu imóvel.\n\n📋 Quer solicitar um *Parecer Técnico Completo*? Acesse: https://prime-insight-reborn.lovable.app\n\nGodoy Prime Realty - CRECI-RJ 11841`;
+        } else {
+          clientMsg = `✅ *Godoy Prime Realty*\n\nOlá ${data.leadName}!\n\nSua solicitação de *Parecer Técnico* foi recebida com sucesso! 🎉\n\n${data.bairro ? `📍 Imóvel: ${data.bairro}\n` : ""}${formattedEstimativa ? `💰 Estimativa: ${formattedEstimativa}\n` : ""}\nUm especialista entrará em contato em até *24-48 horas úteis*.\n\nDúvidas? Estamos aqui! 😊\n\nGodoy Prime Realty - CRECI-RJ 11841`;
+        }
+
+        // Message to broker
+        let brokerMsg = "";
+        if (notificationType === "complete") {
+          brokerMsg = `🚨 *PARECER TÉCNICO SOLICITADO*\n\n👤 ${data.leadName}\n📧 ${data.leadEmail}\n📱 ${data.leadPhone}\n${data.bairro ? `📍 ${data.bairro}` : ""}\n${formattedEstimativa ? `💰 ${formattedEstimativa}` : ""}\n${isCompraMsg ? `🏠 Interesse: Compra` : `💰 Interesse: Venda`}\n\n⚡ *AÇÃO IMEDIATA* - Contatar nas próximas 2h!`;
+        } else {
+          const evalLabel = notificationType === "returning" ? ` (${data.evaluationNumber || 2}ª consulta)` : "";
+          brokerMsg = `📋 *NOVO LEAD${evalLabel}*\n\n👤 ${data.leadName}\n📧 ${data.leadEmail}\n📱 ${data.leadPhone}\n${data.bairro ? `📍 ${data.bairro}` : ""}\n${formattedEstimativa ? `💰 ${formattedEstimativa}` : ""}\n${isCompraMsg ? `🏠 Interesse: Compra` : `💰 Interesse: Venda`}`;
+        }
+
+        // Send to client
+        if (data.leadPhone) {
+          try {
+            const clientResp = await fetch(zapiUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ phone: formatPhone(data.leadPhone), message: clientMsg }),
+            });
+            whatsappResults.client = await clientResp.json();
+            console.log("WhatsApp client result:", JSON.stringify(whatsappResults.client));
+          } catch (e: any) {
+            console.error("WhatsApp client error:", e.message);
+          }
+        }
+
+        // Send to broker
+        try {
+          const brokerResp = await fetch(zapiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ phone: "5521999680553", message: brokerMsg }),
+          });
+          whatsappResults.broker = await brokerResp.json();
+          console.log("WhatsApp broker result:", JSON.stringify(whatsappResults.broker));
+        } catch (e: any) {
+          console.error("WhatsApp broker error:", e.message);
+        }
+
+        // Log messages
+        try {
+          const supabaseUrl2 = Deno.env.get("SUPABASE_URL")!;
+          const supabaseKey2 = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+          const sb = createClient(supabaseUrl2, supabaseKey2);
+          
+          const logs = [
+            { phone: formatPhone(data.leadPhone), message_type: `${notificationType}_client`, message_content: clientMsg.substring(0, 500), status: whatsappResults.client ? "sent" : "failed", response_data: whatsappResults.client },
+            { phone: "5521999680553", message_type: `${notificationType}_broker`, message_content: brokerMsg.substring(0, 500), status: whatsappResults.broker ? "sent" : "failed", response_data: whatsappResults.broker },
+          ];
+          await sb.from("whatsapp_messages_log").insert(logs);
+        } catch (logErr: any) {
+          console.error("Error logging WhatsApp:", logErr.message);
+        }
+      } else {
+        console.log("Z-API credentials not configured, skipping WhatsApp");
+      }
+    } catch (whatsappErr: any) {
+      console.error("WhatsApp integration error:", whatsappErr.message);
+    }
+
     console.log("=== send-lead-notification END (SUCCESS) ===");
 
     return new Response(
@@ -494,6 +576,7 @@ const handler = async (req: Request): Promise<Response> => {
         clientEmailSent: clientEmailResult?.success || false,
         clientEmailId: clientEmailResult?.emailId,
         serviceType,
+        whatsappSent: !!(whatsappResults.client || whatsappResults.broker),
       }),
       {
         status: 200,
