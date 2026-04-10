@@ -698,6 +698,47 @@ export type Database = {
         }
         Relationships: []
       }
+      whatsapp_messages_log: {
+        Row: {
+          created_at: string
+          id: string
+          lead_id: string | null
+          message_content: string | null
+          message_type: string
+          phone: string
+          response_data: Json | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          lead_id?: string | null
+          message_content?: string | null
+          message_type: string
+          phone: string
+          response_data?: Json | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          lead_id?: string | null
+          message_content?: string | null
+          message_type?: string
+          phone?: string
+          response_data?: Json | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whatsapp_messages_log_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       analytics_events_daily: {
