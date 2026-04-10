@@ -26,3 +26,6 @@ verify_jwt = false
 
 [functions.geocode-logradouro]
 verify_jwt = false
+
+[functions.send-whatsapp-zapi]
+verify_jwt = false
