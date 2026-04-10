@@ -1,39 +1,50 @@
 
 
-## Plano: Variar formato dos cards e adicionar hover mais impactante
+## Plano: Integrar Z-API para envio automático de mensagens WhatsApp
 
-### Problema
-Todos os cards seguem o mesmo padrão visual: retângulo branco, ícone pequeno, título, texto. Isso cria fadiga visual no scroll mobile.
+### Credenciais recebidas
+- Instance ID: `3F172E6464E6822C9BFA9E648AE68DF9`
+- Token: `2489C64D3BF41EBEA82BBA81`
 
-### Estratégia
-Variar o layout dos cards por seção e adicionar hover effects mais expressivos, sem alterar conteúdo.
+Serão armazenadas como secrets seguras no backend (`ZAPI_INSTANCE_ID` e `ZAPI_TOKEN`).
 
 ### Mudanças
 
-**1. Cards PROBLEM — layout horizontal com ícone grande à esquerda**
-- Mudar de vertical (ícone em cima) para horizontal (`flex-row`) com ícone em círculo colorido à esquerda
-- Hover: rotação sutil do ícone (`group-hover:rotate-12`) + borda esquerda que expande + sombra vermelha
-- No mobile: mantém horizontal mas compacto
+**1. Armazenar secrets**
+- Adicionar `ZAPI_INSTANCE_ID` e `ZAPI_TOKEN` como secrets do projeto
 
-**2. Cards SOLUTION — card com header colorido separado**
-- Adicionar uma faixa dourada no topo do card com o ícone centralizado (como um "ribbon")
-- Hover: a faixa expande levemente + card sobe mais (`-translate-y-2`) + sombra dourada (`shadow-[#D4AF37]/20`)
-- O highlight text vai para um badge no rodapé do card
+**2. Criar Edge Function `send-whatsapp-zapi`**
+- Arquivo: `supabase/functions/send-whatsapp-zapi/index.ts`
+- Endpoint genérico que recebe: telefone, mensagem
+- Chama `https://api.z-api.io/instances/{ID}/token/{TOKEN}/send-text`
+- Validação com Zod, CORS, tratamento de erros
+- Log de envio no console
 
-**3. Cards PARA QUEM — glassmorphism com glow no hover**
-- Manter o layout atual mas adicionar um glow circular atrás do ícone no hover (`group-hover:shadow-[0_0_30px_rgba(212,175,55,0.3)]`)
-- Hover: border muda para dourado sólido + background fica `bg-white/15` + escala sutil (`scale-[1.02]`)
+**3. Criar tabela `whatsapp_messages_log`**
+- Migration SQL com colunas: `id`, `phone`, `message_type`, `status`, `response_data`, `created_at`
+- RLS: apenas service_role pode inserir (via edge function)
 
-**4. Cards O QUE ACONTECE — estilo "pricing card" com número/step**
-- Adicionar um número de ordem (01, 02, 03) grande e semitransparente no canto superior
-- Hover: o número fica mais visível + card inteiro ganha borda dourada animada (`transition-all`)
+**4. Integrar no fluxo existente `send-lead-notification`**
+- Após enviar email para a agência e para o cliente, chamar a Z-API para enviar mensagem WhatsApp
+- **Novo lead**: mensagem de boas-vindas ao cliente + alerta ao corretor (21) 99968-0553
+- **Parecer solicitado**: confirmação ao cliente + alerta prioritário ao corretor
+- Mensagens formatadas com dados do imóvel e estimativa
 
-**5. Cards WRONG PRICE (Seller/Buyer) — se existirem visualmente na página**
-- Verificar se são renderizados (não parecem estar na página atual, apenas definidos como dados)
+**5. Configurar `supabase/config.toml`**
+- Adicionar `[functions.send-whatsapp-zapi]` com `verify_jwt = false`
 
-### Arquivos modificados
-- `src/pages/AvaliacaoPublica.tsx` — todos os blocos de cards das 4 seções principais
+### Mensagens automáticas previstas
 
-### Resultado esperado
-Cada seção tem um formato de card distinto, quebrando a monotonia. Hovers mais expressivos com rotações, glows e transições criam sensação de interatividade premium.
+| Evento | Destinatário | Mensagem |
+|--------|-------------|----------|
+| Novo lead | Cliente | Boas-vindas + confirmação de que a avaliação foi recebida |
+| Novo lead | Corretor | Alerta de novo lead com dados resumidos |
+| Parecer solicitado | Cliente | Confirmação + prazo de retorno |
+| Parecer solicitado | Corretor | Alerta prioritário para contato imediato |
+
+### Arquivos criados/modificados
+- `supabase/functions/send-whatsapp-zapi/index.ts` (novo)
+- `supabase/functions/send-lead-notification/index.ts` (adicionar chamada Z-API)
+- `supabase/config.toml` (adicionar config da nova function)
+- Migration SQL para `whatsapp_messages_log`
 
