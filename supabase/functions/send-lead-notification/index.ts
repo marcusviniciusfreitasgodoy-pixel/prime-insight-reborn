@@ -182,7 +182,7 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
 
     ctaSection = `
       <div style="text-align: center; margin: 25px 0;">
-        <a href="https://wa.me/5521999680553" style="display: inline-block; background: #25D366; color: white; text-decoration: none; padding: 15px 35px; border-radius: 8px; font-weight: bold; font-size: 16px;">
+        <a href="https://wa.me/5521964075124" style="display: inline-block; background: #25D366; color: white; text-decoration: none; padding: 15px 35px; border-radius: 8px; font-weight: bold; font-size: 16px;">
           📱 Falar Agora no WhatsApp
         </a>
         <p style="margin: 15px 0 0 0; color: #888; font-size: 12px;">Dúvidas? Estamos à disposição!</p>
@@ -226,7 +226,7 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
           <p>Especialistas em Imóveis de Alto Padrão na Barra da Tijuca</p>
           <p style="margin-top: 15px;">
             <a href="https://godoyprime.com.br" style="color: #0C2340; text-decoration: none;">godoyprime.com.br</a> | 
-            <a href="tel:+5521999680553" style="color: #0C2340; text-decoration: none;">(21) 99968-0553</a>
+            <a href="tel:+5521964075124" style="color: #0C2340; text-decoration: none;">(21) 96407-5124</a>
           </p>
           <p style="margin-top: 15px; color: #aaa; font-size: 11px;">
             Este email foi enviado porque você solicitou uma avaliação em nossa plataforma.
@@ -537,7 +537,7 @@ const handler = async (req: Request): Promise<Response> => {
           const brokerResp = await fetch(zapiUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ phone: "5521999680553", message: brokerMsg }),
+            body: JSON.stringify({ phone: "5521964075124", message: brokerMsg }),
           });
           whatsappResults.broker = await brokerResp.json();
           console.log("WhatsApp broker result:", JSON.stringify(whatsappResults.broker));
@@ -553,7 +553,7 @@ const handler = async (req: Request): Promise<Response> => {
           
           const logs = [
             { phone: formatPhone(data.leadPhone), message_type: `${notificationType}_client`, message_content: clientMsg.substring(0, 500), status: whatsappResults.client ? "sent" : "failed", response_data: whatsappResults.client },
-            { phone: "5521999680553", message_type: `${notificationType}_broker`, message_content: brokerMsg.substring(0, 500), status: whatsappResults.broker ? "sent" : "failed", response_data: whatsappResults.broker },
+            { phone: "5521964075124", message_type: `${notificationType}_broker`, message_content: brokerMsg.substring(0, 500), status: whatsappResults.broker ? "sent" : "failed", response_data: whatsappResults.broker },
           ];
           await sb.from("whatsapp_messages_log").insert(logs);
         } catch (logErr: any) {

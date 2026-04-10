@@ -120,8 +120,8 @@ async function sendFollowUpEmail(lead: Lead): Promise<{ success: boolean; error?
 
           <div style="text-align: center; margin: 20px 0;">
             <p style="color: #888; font-size: 13px; margin: 0;">Ou fale diretamente conosco:</p>
-            <a href="https://wa.me/5521999680553" style="display: inline-block; background: #25D366; color: white; text-decoration: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; font-size: 14px; margin-top: 10px;">
-              📱 WhatsApp (21) 99968-0553
+            <a href="https://wa.me/5521964075124" style="display: inline-block; background: #25D366; color: white; text-decoration: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; font-size: 14px; margin-top: 10px;">
+              📱 WhatsApp (21) 96407-5124
             </a>
           </div>
         </div>
