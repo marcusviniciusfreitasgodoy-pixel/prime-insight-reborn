@@ -525,7 +525,7 @@ const handler = async (req: Request): Promise<Response> => {
           try {
             const clientResp = await fetch(zapiUrl, {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: zapiHeaders,
               body: JSON.stringify({ phone: formatPhone(data.leadPhone), message: clientMsg }),
             });
             whatsappResults.client = await clientResp.json();
@@ -539,7 +539,7 @@ const handler = async (req: Request): Promise<Response> => {
         try {
           const brokerResp = await fetch(zapiUrl, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: zapiHeaders,
             body: JSON.stringify({ phone: "5521964075124", message: brokerMsg }),
           });
           whatsappResults.broker = await brokerResp.json();
