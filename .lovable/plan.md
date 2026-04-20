@@ -1,59 +1,43 @@
 
-Objetivo: eliminar o que ainda faz o browser expor `fbq` e deixar o projeto realmente limpo para futura configuração via GTM, sem mexer em UTMs, formulários ou backend funcional.
 
-1. Remover a causa mais provável do falso “tracking ativo”: PWA/service worker
-- Remover `vite-plugin-pwa` de `vite.config.ts`.
-- Remover toda a lógica de registro/atualização de service worker em `src/main.tsx`.
-- Remover os tipos de `virtual:pwa-register` em `src/vite-env.d.ts`.
-- Remover a dependência `vite-plugin-pwa` de `package.json`.
-- Manter apenas metadados simples de app/installabilidade no `index.html` se necessário, sem service worker.
+## Plano: Instalar Google Tag Manager (GTM-WC8JWRR4)
 
-2. Eliminar resíduos de cache antigo que podem continuar servindo assets com pixel
-- Publicar uma nova versão sem service worker.
-- Forçar invalidação da versão anterior para que o browser deixe de reutilizar bundles antigos.
-- Validar que o domínio publicado não está mais servindo nenhum asset previamente cacheado que contenha pixel.
+### Objetivo
+Adicionar o snippet do Google Tag Manager globalmente na aplicação, conforme instruções do usuário, sem afetar outros recursos.
 
-3. Remover a camada interna de analytics legado do app
-- Remover a rota admin `/admin/analytics` em `src/App.tsx`.
-- Remover o item “Analytics” da sidebar em `src/components/AppSidebar.tsx`.
-- Remover `src/pages/AdminAnalytics.tsx`.
-- Remover `src/hooks/useAnalyticsEvents.ts`.
-- Não editar `src/integrations/supabase/types.ts` manualmente; se depois quiser limpeza estrutural no backend, isso fica para uma etapa separada.
+### Alterações no index.html
 
-4. Preservar explicitamente o que deve continuar
-- Manter `src/hooks/useUTMTracking.ts` intacto na captura de `utm_*`, `gclid` e `fbclid`.
-- Não alterar formulários, Edge Functions, envio de e-mail, WhatsApp ou lógica de leads.
+**1. Adicionar script GTM no `<head>` (após a linha 31, antes de `</head>`):**
 
-5. Fazer uma varredura final de código
-- Confirmar zero referências no código-fonte a:
-  - `fbq`
-  - `fbevents`
-  - `connect.facebook.net`
-  - `facebook.com/tr`
-  - `gtag`
-  - `googletagmanager`
-  - qualquer helper antigo de tracking
-- Confirmar também que não restou carregamento dinâmico de script em inicialização global.
+```html
+<!-- Google Tag Manager -->
+<script>
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WC8JWRR4');
+</script>
+<!-- End Google Tag Manager -->
+```
 
-6. Validar no browser após a limpeza
-- Abrir a versão atualizada e checar:
-  - `typeof fbq === "undefined"`
-  - nenhuma requisição para `connect.facebook.net`
-  - nenhuma requisição para `facebook.com/tr`
-  - nenhum script externo de tracking carregado
-- Se ainda aparecer `fbq`, tratar como problema de cache do navegador/distribuição e repetir a validação na versão publicada após a nova build limpa.
+**2. Adicionar noscript iframe logo após `<body>` (após a linha 34, antes de `<div id="root">`):**
 
-Arquivos previstos para alteração
-- `vite.config.ts`
-- `src/main.tsx`
-- `src/vite-env.d.ts`
-- `package.json`
-- `src/App.tsx`
-- `src/components/AppSidebar.tsx`
-- `src/pages/AdminAnalytics.tsx` (remoção)
-- `src/hooks/useAnalyticsEvents.ts` (remoção)
+```html
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WC8JWRR4"
+height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+```
 
-Resultado esperado
-- `fbq` inexistente no código e indefinido no browser.
-- Nenhum script externo de tracking carregado.
-- Projeto limpo para receber uma nova configuração via Google Tag Manager.
+### Arquivo modificado
+- `index.html`
+
+### Validação pós-instalação
+Após a publicação, o usuário deve verificar:
+1. **Network tab**: filtrar por `googletagmanager` e confirmar carregamento de `gtm.js?id=GTM-WC8JWRR4`
+2. **Console**: digitar `dataLayer` e confirmar que retorna um array (não erro)
+3. Tag Assistant (extensão do Chrome): confirmar que o container GTM está carregando
+
