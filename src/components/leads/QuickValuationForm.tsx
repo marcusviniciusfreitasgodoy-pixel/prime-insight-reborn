@@ -16,7 +16,6 @@ import { useStreetSuggestions } from "@/hooks/useStreetSuggestions";
 import { useAllBairros } from "@/hooks/useBairroSuggestions";
 import { toast } from "sonner";
 import { LimitExceededScreen } from "./LimitExceededScreen";
-import { trackQuickValuation } from "@/utils/metaPixel";
 
 export interface QuickValuationData {
   bairro: string;

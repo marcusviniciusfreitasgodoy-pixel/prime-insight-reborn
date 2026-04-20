@@ -39,7 +39,6 @@ import { PeritEvaluationSection } from "./PeritEvaluationSection";
 import { HistoricalAnalysisChart } from "@/components/valuation/HistoricalAnalysisChart";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { trackParecerSolicitado, trackWhatsAppClick } from "@/utils/metaPixel";
 
 const PropertyMap = lazy(() => import("@/components/map/PropertyMap").then(m => ({ default: m.PropertyMap })));
 
