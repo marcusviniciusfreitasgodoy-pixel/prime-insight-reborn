@@ -1,4 +1,4 @@
-import { Home, ClipboardCheck, FileText, MapPin, Users, UserCog, Search, Calculator, Settings, History, Brain, BarChart3, MessageSquare } from "lucide-react";
+import { Home, ClipboardCheck, FileText, MapPin, Users, UserCog, Search, Calculator, Settings, History, Brain, MessageSquare } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
   Sidebar,
@@ -24,7 +24,6 @@ const adminItems = [
   { title: "Leads", url: "/admin/leads", icon: Users },
   { title: "Usuários", url: "/admin/usuarios", icon: UserCog },
   { title: "Feedbacks", url: "/admin/feedbacks", icon: MessageSquare },
-  { title: "Analytics", url: "/admin/analytics", icon: BarChart3 },
 ];
 
 export function AppSidebar() {
