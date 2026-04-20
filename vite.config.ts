@@ -15,6 +15,7 @@ export default defineConfig(({ mode }) => ({
     mode === "development" && componentTagger(),
     VitePWA({
       registerType: "autoUpdate",
+      filename: "sw-v2.js",
       // Força atualização imediata sem esperar o usuário fechar abas
       devOptions: {
         enabled: false,
@@ -52,6 +53,7 @@ export default defineConfig(({ mode }) => ({
       workbox: {
         // Força limpeza do cache antigo
         cleanupOutdatedCaches: true,
+        dontCacheBustURLsMatching: undefined,
         // Ativa imediatamente sem esperar
         skipWaiting: true,
         clientsClaim: true,

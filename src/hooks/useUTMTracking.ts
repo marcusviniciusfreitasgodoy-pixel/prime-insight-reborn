@@ -7,8 +7,8 @@ export interface UTMParams {
   utm_term?: string;
   utm_content?: string;
   utm_id?: string;
-  gclid?: string; // Google Ads
-  fbclid?: string; // Facebook/Meta
+  gclid?: string;
+  fbclid?: string;
 }
 
 const UTM_STORAGE_KEY = 'godoy_prime_utm_params';
@@ -45,7 +45,6 @@ export function useUTMTracking() {
       localStorage.setItem(UTM_STORAGE_KEY, JSON.stringify(stored));
       setUtmParams(params);
       
-      // Log para analytics (pode integrar com GA4/GTM depois)
       console.log('[UTM Tracking] Campaign params captured:', stored);
     } else {
       // Carrega UTM params existentes do localStorage
@@ -94,6 +93,6 @@ export function formatUTMSource(params: UTMParams): string {
     return parts.join(' / ');
   }
   if (params.gclid) return 'Google Ads';
-  if (params.fbclid) return 'Meta Ads';
+  if (params.fbclid) return 'Ads';
   return 'Direto';
 }
