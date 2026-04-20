@@ -29,7 +29,6 @@ const CalibradorAvaliacao = lazy(() => import("./pages/CalibradorAvaliacao"));
 const Leads = lazy(() => import("./pages/Leads"));
 const Usuarios = lazy(() => import("./pages/Usuarios"));
 const AdminFeedbacks = lazy(() => import("./pages/AdminFeedbacks"));
-const AdminAnalytics = lazy(() => import("./pages/AdminAnalytics"));
 
 const queryClient = new QueryClient();
 
@@ -79,7 +78,6 @@ const App = () => {
                   <Route path="leads" element={<Leads />} />
                   <Route path="usuarios" element={<Usuarios />} />
                   <Route path="feedbacks" element={<AdminFeedbacks />} />
-                  <Route path="analytics" element={<AdminAnalytics />} />
                 </Route>
 
                 <Route path="*" element={<Navigate to="/" replace />} />
