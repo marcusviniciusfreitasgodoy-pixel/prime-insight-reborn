@@ -264,15 +264,7 @@ export function LeadCaptureForm({
       }
 
       toast.success("Solicitação enviada com sucesso! Entraremos em contato em breve.");
-      
-      // Track Meta Pixel Lead event
-      trackLeadCapture({
-        objetivo: data.objetivo,
-        urgencia: data.urgencia,
-        bairro: bairroInteresse,
-        valor_interesse: valorInteresse,
-      });
-      
+
       onSuccess({
         id: insertedLead.id,
         nome: data.nome.trim(),

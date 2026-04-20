@@ -369,8 +369,6 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
         console.error("Error sending lead notification:", notificationError);
       }
 
-      trackQuickValuation({ bairro, tipologia, area_m2: areaNum, valor_estimado: estimativa?.med });
-
       onComplete({
         bairro,
         logradouro: logradouro.trim(),
