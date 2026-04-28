@@ -779,7 +779,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
           {error && <p className="text-sm text-destructive text-center bg-destructive/10 py-2 rounded-lg">{error}</p>}
 
           {/* Navigation Buttons */}
-          <div className="flex gap-3">
+          <div className="flex flex-col-reverse sm:flex-row gap-3">
             {currentStep > 1 && (
               <Button type="button" variant="outline" onClick={handleBack} className="flex-1">
                 <ArrowLeft className="mr-2 h-4 w-4" />
@@ -793,16 +793,16 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             ) : (
-              <Button type="submit" className="flex-1 bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg" size="lg" disabled={isLoading || !canAdvanceStep(4)}>
+              <Button type="submit" className="flex-1 min-w-0 px-3 sm:px-6 bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg text-sm sm:text-base whitespace-nowrap" size="lg" disabled={isLoading || !canAdvanceStep(4)}>
                 {isLoading ? (
                   <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    <Loader2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
                     Analisando...
                   </>
                 ) : (
                   <>
                     Ver Análise Agora
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                   </>
                 )}
               </Button>
