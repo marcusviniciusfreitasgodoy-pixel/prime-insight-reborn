@@ -481,9 +481,9 @@ export default function AvaliacaoPublica() {
               </div>
 
               {/* Card 3 — Prime Buyer Experience — Highlighted */}
-              <div className={`group relative bg-[#D4AF37]/15 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border-2 border-[#D4AF37]/50 hover:-translate-y-2 hover:shadow-[0_12px_40px_-8px_rgba(212,175,55,0.2)] transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '400ms' }}>
+              <div className={`group relative bg-[#D4AF37]/15 backdrop-blur-sm rounded-xl sm:rounded-2xl pt-9 sm:pt-10 px-6 sm:px-8 pb-6 sm:pb-8 border-2 border-[#D4AF37]/50 hover:-translate-y-2 hover:shadow-[0_12px_40px_-8px_rgba(212,175,55,0.2)] transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '400ms' }}>
                 <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-[#D4AF37]/[0.1] group-hover:text-[#D4AF37]/[0.2] transition-all duration-500 select-none leading-none">03</span>
-                <div className="absolute -top-3 right-14 sm:right-16 bg-[#D4AF37] text-[#0C2340] text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#D4AF37] text-[#0C2340] text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-b-full shadow-md whitespace-nowrap">
                   Mais Completo
                 </div>
                 <Sparkles className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500" />
