@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+import { PHONE, WHATSAPP_MESSAGES, whatsappUrl } from "../_shared/contact.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -113,13 +114,13 @@ async function sendFollowUpEmail(lead: Lead): Promise<{ success: boolean; error?
           ` : ''}
 
           <div style="text-align: center; margin: 30px 0;">
-            <a href="https://wa.me/5521964075124?text=${encodeURIComponent(`Olá! Sou ${lead.nome}. Fiz uma avaliação preliminar${lead.bairro_interesse ? ` no bairro ${lead.bairro_interesse}` : ''} e quero solicitar o Parecer Técnico Completo Godoy Prime.`)}" style="display: inline-block; background: linear-gradient(135deg, #0C2340 0%, #1a365d 100%); color: white; text-decoration: none; padding: 15px 35px; border-radius: 8px; font-weight: bold; font-size: 16px;">
+            <a href="${whatsappUrl(WHATSAPP_MESSAGES.parecerFollowup(lead.nome, lead.bairro_interesse))}" style="display: inline-block; background: linear-gradient(135deg, #0C2340 0%, #1a365d 100%); color: white; text-decoration: none; padding: 15px 35px; border-radius: 8px; font-weight: bold; font-size: 16px;">
               📊 Solicitar Parecer Técnico no WhatsApp
             </a>
           </div>
 
           <div style="text-align: center; margin: 20px 0;">
-            <p style="color: #888; font-size: 13px; margin: 0;">Prefere ligar? <strong style="color:#0C2340;">(21) 96407-5124</strong></p>
+            <p style="color: #888; font-size: 13px; margin: 0;">Prefere ligar? <strong style="color:#0C2340;">${PHONE.display}</strong></p>
           </div>
         </div>
         
