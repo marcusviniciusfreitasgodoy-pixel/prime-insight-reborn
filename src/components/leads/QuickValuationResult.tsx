@@ -40,6 +40,7 @@ import { PeritEvaluationSection } from "./PeritEvaluationSection";
 import { HistoricalAnalysisChart } from "@/components/valuation/HistoricalAnalysisChart";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { PHONE, WHATSAPP_MESSAGES, whatsappUrl, CTA_LABELS } from "@/config/contact";
 
 const PropertyMap = lazy(() => import("@/components/map/PropertyMap").then(m => ({ default: m.PropertyMap })));
 
@@ -178,11 +179,21 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
       }
       setParecerRequested(true);
       setTimeout(() => {
-        const whatsappNumber = "5521964075124";
-        const message = encodeURIComponent(
-          `Olá! Sou ${data.leadName}.\n\nQuero solicitar meu Parecer Técnico Godoy Prime para proteger meu patrimônio.\n\nImóvel analisado: ${data.tipologia} de ${data.area_m2}m² em ${data.bairro}\nEstimativa Preliminar: ${formatCurrency(data.estimativa?.min || 0)} a ${formatCurrency(data.estimativa?.max || 0)}\n\nMeu WhatsApp: ${data.leadPhone}\nMeu email: ${data.leadEmail}`
+        window.open(
+          whatsappUrl(
+            WHATSAPP_MESSAGES.parecerCompleto({
+              nome: data.leadName,
+              tipologia: data.tipologia,
+              area: data.area_m2,
+              bairro: data.bairro,
+              estimativaMin: data.estimativa?.min || 0,
+              estimativaMax: data.estimativa?.max || 0,
+              telefone: data.leadPhone,
+              email: data.leadEmail,
+            })
+          ),
+          '_blank'
         );
-        window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
       }, 500);
     } catch (err) {
       console.error('Request error:', err);
@@ -528,11 +539,11 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button onClick={handleRequestParecer} disabled={isRequesting} className="bg-[#C9A84C] hover:bg-[#b8963f] text-[#1a1a2e] shadow-lg font-semibold" size="lg">
                   <MessageCircle className="mr-2 h-5 w-5" />
-                  {isRequesting ? "Enviando..." : "Solicitar Parecer Técnico"}
+                  {isRequesting ? CTA_LABELS.enviando : CTA_LABELS.solicitarParecer}
                 </Button>
-                <Button variant="outline" onClick={() => window.open("tel:+5521964075124", "_self")} size="lg">
+                <Button variant="outline" onClick={() => window.open(PHONE.tel, "_self")} size="lg">
                   <Phone className="mr-2 h-5 w-5" />
-                  Ligar: (21) 96407-5124
+                  {CTA_LABELS.ligarComNumero}
                 </Button>
               </div>
               <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
@@ -572,16 +583,16 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
                   className="bg-[#C9A84C] hover:bg-[#b8963f] text-[#0C2340] font-semibold shadow-lg"
                 >
                   <Shield className="mr-2 h-5 w-5" />
-                  {isRequesting ? "Enviando..." : "Solicitar Parecer Técnico Agora"}
+                  {isRequesting ? CTA_LABELS.enviando : CTA_LABELS.solicitarParecerAgora}
                 </Button>
                 <Button
                   variant="outline"
                   size="lg"
-                  onClick={() => window.open(`https://wa.me/5521964075124?text=${encodeURIComponent(`Olá! Sou ${data.leadName}. Quero falar sobre o Parecer Técnico Godoy Prime.`)}`, "_blank")}
+                  onClick={() => window.open(whatsappUrl(WHATSAPP_MESSAGES.parecerComNome(data.leadName)), "_blank")}
                   className="bg-transparent border-white/40 text-white hover:bg-white hover:text-[#0C2340]"
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
-                  Falar no WhatsApp
+                  {CTA_LABELS.falarWhatsapp}
                 </Button>
               </div>
               <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-white/60 pt-2">

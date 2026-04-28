@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+import { PHONE, WHATSAPP_MESSAGES, whatsappUrl } from "../_shared/contact.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -164,7 +165,7 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
         <tr><td align="center">
           <table role="presentation" cellpadding="0" cellspacing="0" border="0">
             <tr><td style="background:#D4AF37;border-radius:8px;">
-              <a href="https://wa.me/5521964075124?text=${encodeURIComponent(`Olá! Sou ${data.leadName}. Acabei de receber minha avaliação preliminar e quero solicitar o Parecer Técnico Completo Godoy Prime.`)}" style="display:inline-block;padding:16px 36px;color:#0C2340;text-decoration:none;font-weight:700;font-size:16px;font-family:'Segoe UI',Arial,sans-serif;">
+              <a href="${whatsappUrl(WHATSAPP_MESSAGES.parecerLeadNotification(data.leadName))}" style="display:inline-block;padding:16px 36px;color:#0C2340;text-decoration:none;font-weight:700;font-size:16px;font-family:'Segoe UI',Arial,sans-serif;">
                 📋 Solicitar Parecer Técnico Completo
               </a>
             </td></tr>
@@ -218,12 +219,12 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
         <tr><td align="center">
           <table role="presentation" cellpadding="0" cellspacing="0" border="0">
             <tr><td style="background:#25D366;border-radius:8px;">
-              <a href="https://wa.me/5521964075124" style="display:inline-block;padding:16px 36px;color:#ffffff;text-decoration:none;font-weight:700;font-size:16px;font-family:'Segoe UI',Arial,sans-serif;">
+              <a href="https://wa.me/${PHONE.e164}" style="display:inline-block;padding:16px 36px;color:#ffffff;text-decoration:none;font-weight:700;font-size:16px;font-family:'Segoe UI',Arial,sans-serif;">
                 📱 Falar Agora no WhatsApp
               </a>
             </td></tr>
           </table>
-          <p style="margin:12px 0 0 0;color:#888;font-size:12px;font-family:'Segoe UI',Arial,sans-serif;">(21) 96407-5124 — Marcus Godoy</p>
+          <p style="margin:12px 0 0 0;color:#888;font-size:12px;font-family:'Segoe UI',Arial,sans-serif;">${PHONE.display} — Marcus Godoy</p>
         </td></tr>
       </table>
     `;
@@ -258,7 +259,7 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
           <p style="margin:0;color:#6b7280;font-size:12px;">
             <a href="https://godoyprime.com.br" style="color:#0C2340;text-decoration:none;font-weight:600;">godoyprime.com.br</a>
             &nbsp;·&nbsp;
-            <a href="tel:+5521964075124" style="color:#0C2340;text-decoration:none;font-weight:600;">(21) 96407-5124</a>
+            <a href="${PHONE.tel}" style="color:#0C2340;text-decoration:none;font-weight:600;">${PHONE.display}</a>
           </p>
           <p style="margin:14px 0 0 0;color:#9ca3af;font-size:11px;line-height:1.5;">
             Você recebeu este email porque solicitou uma avaliação na nossa plataforma.<br>
@@ -574,7 +575,7 @@ const handler = async (req: Request): Promise<Response> => {
           const brokerResp = await fetch(zapiUrl, {
             method: "POST",
             headers: zapiHeaders,
-            body: JSON.stringify({ phone: "5521964075124", message: brokerMsg }),
+            body: JSON.stringify({ phone: PHONE.e164, message: brokerMsg }),
           });
           whatsappResults.broker = await brokerResp.json();
           console.log("WhatsApp broker result:", JSON.stringify(whatsappResults.broker));
@@ -590,7 +591,7 @@ const handler = async (req: Request): Promise<Response> => {
           
           const logs = [
             { phone: formatPhone(data.leadPhone), message_type: `${notificationType}_client`, message_content: clientMsg.substring(0, 500), status: whatsappResults.client ? "sent" : "failed", response_data: whatsappResults.client },
-            { phone: "5521964075124", message_type: `${notificationType}_broker`, message_content: brokerMsg.substring(0, 500), status: whatsappResults.broker ? "sent" : "failed", response_data: whatsappResults.broker },
+            { phone: PHONE.e164, message_type: `${notificationType}_broker`, message_content: brokerMsg.substring(0, 500), status: whatsappResults.broker ? "sent" : "failed", response_data: whatsappResults.broker },
           ];
           await sb.from("whatsapp_messages_log").insert(logs);
         } catch (logErr: any) {

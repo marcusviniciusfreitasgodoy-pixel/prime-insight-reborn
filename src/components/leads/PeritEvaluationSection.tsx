@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ComparisonTable } from "./ComparisonTable";
 import marcusGodoyImg from "@/assets/marcus-godoy-novo.jpg";
+import { WHATSAPP_MESSAGES, whatsappUrl } from "@/config/contact";
 
 const parecerEntregas = [
   {
@@ -77,8 +78,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
       onRequestParecer();
       return;
     }
-    const msg = encodeURIComponent("Olá! Quero solicitar o Parecer Técnico Godoy Prime para proteger meu patrimônio.");
-    window.open(`https://wa.me/5521964075124?text=${msg}`, "_blank");
+    window.open(whatsappUrl(WHATSAPP_MESSAGES.parecerSimples()), "_blank");
   };
 
   return (
