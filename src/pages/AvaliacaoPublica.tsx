@@ -99,10 +99,6 @@ const FAQ_DATA = [
   { category: "beneficios", icon: TrendingUp, question: "Como essa avaliação me ajuda a vender meu imóvel?", answer: "Conhecendo o valor real de mercado, você pode precificar corretamente seu imóvel desde o início. Imóveis com preço justo vendem em média 3x mais rápido. Você evita perder meses com um preço irrealista e também evita vender abaixo do valor por desconhecimento." },
   { category: "beneficios", icon: DollarSign, question: "Como essa avaliação me ajuda a comprar um imóvel?", answer: "Antes de fazer uma proposta, você descobre se o preço pedido está dentro da realidade de mercado. Com dados reais em mãos, você tem argumentos sólidos para negociar e pode economizar dezenas ou centenas de milhares de reais pagando o valor justo." },
   { category: "beneficios", icon: Target, question: "Qual a vantagem em relação a outras ferramentas online?", answer: "A maioria das ferramentas usa algoritmos genéricos baseados em preços de anúncios. Nossa ferramenta usa dados oficiais de transações reais, específicos para cada região do Rio de Janeiro, com metodologia transparente. Você vê exatamente quantas transações embasam sua estimativa." },
-  { category: "objecoes", icon: AlertCircle, question: "É só uma estimativa, não é o valor exato, certo?", answer: "Correto. Esta é uma estimativa preliminar baseada em médias de transações na região. O valor exato depende de características específicas do imóvel (vista, andar, reforma, etc.). Por isso oferecemos o Parecer Técnico Godoy Prime, onde um especialista analisa todos os diferenciais do seu imóvel para um valor preciso." },
-  { category: "objecoes", icon: HelpCircle, question: "Por que preciso informar meus dados de contato?", answer: "Precisamos do seu contato para enviar o resultado da avaliação e, principalmente, para proteger nosso sistema contra robôs e consultas em massa. Seus dados são usados apenas para comunicação sobre sua avaliação. Você pode cancelar o recebimento a qualquer momento." },
-  { category: "objecoes", icon: ThumbsUp, question: "E se eu não concordar com o valor apresentado?", answer: "A estimativa é uma referência de mercado, não uma verdade absoluta. Se você acredita que seu imóvel vale mais (ou menos), pode ter razão! Características únicas como vista privilegiada, reforma recente ou localização premium podem justificar valores diferentes. Nesse caso, o Parecer Técnico considera esses fatores." },
-  { category: "objecoes", icon: MessageCircle, question: "Vocês vão ficar me ligando depois?", answer: "Não praticamos telemarketing agressivo. Você receberá apenas informações relevantes sobre sua avaliação e, ocasionalmente, insights de mercado úteis. Se preferir não receber nada além da avaliação, basta nos avisar. Respeitamos sua privacidade e seu tempo." },
 ];
 
 const SEO_CONFIG = {
@@ -585,7 +581,6 @@ export default function AvaliacaoPublica() {
                 { key: "usabilidade", label: "Como Usar", icon: Zap, color: "bg-[#D4AF37]/20", iconColor: "text-[#D4AF37]" },
                 { key: "confianca", label: "Confiança e Segurança", icon: Shield, color: "bg-green-500/20", iconColor: "text-green-600" },
                 { key: "beneficios", label: "Benefícios", icon: TrendingUp, color: "bg-blue-500/20", iconColor: "text-blue-600" },
-                { key: "objecoes", label: "Dúvidas Comuns", icon: HelpCircle, color: "bg-amber-500/20", iconColor: "text-amber-600" },
               ] as const).map(({ key, label, icon: Icon, color, iconColor }) => (
                 <div key={key}>
                   <div className="flex items-center gap-2 mb-4">
