@@ -11,7 +11,9 @@ import {
   Clock,
   Banknote,
   ExternalLink,
-  FileText
+  FileText,
+  ArrowRight,
+  MessageCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ComparisonTable } from "./ComparisonTable";
@@ -58,15 +60,26 @@ const primeBuyerPhases = [
 interface PeritEvaluationSectionProps {
   valorPedido?: number;
   valorMercado?: number;
+  onRequestParecer?: () => void;
+  isRequesting?: boolean;
 }
 
-export function PeritEvaluationSection({ valorPedido, valorMercado }: PeritEvaluationSectionProps) {
+export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestParecer, isRequesting }: PeritEvaluationSectionProps) {
   const hasROI = valorPedido && valorPedido > 0 && valorMercado && valorMercado > 0 && valorPedido > valorMercado;
   const roiDiff = hasROI ? valorPedido - valorMercado : 0;
   const roiMultiplier = hasROI ? Math.floor(roiDiff / 4900) : 0;
 
   const formatCurrency = (value: number) =>
     new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }).format(value);
+
+  const handleCta = () => {
+    if (onRequestParecer) {
+      onRequestParecer();
+      return;
+    }
+    const msg = encodeURIComponent("Olá! Quero solicitar o Parecer Técnico Godoy Prime para proteger meu patrimônio.");
+    window.open(`https://wa.me/5521964075124?text=${msg}`, "_blank");
+  };
 
   return (
     <div className="space-y-10">
