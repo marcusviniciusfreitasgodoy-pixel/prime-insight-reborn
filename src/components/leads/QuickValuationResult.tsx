@@ -430,7 +430,12 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
       )}
       <Card className="border-border shadow-lg">
         <CardContent className="py-6">
-          <PeritEvaluationSection valorPedido={data.valorPedidoVendedor} valorMercado={data.estimativa?.med} />
+          <PeritEvaluationSection
+            valorPedido={data.valorPedidoVendedor}
+            valorMercado={data.estimativa?.med}
+            onRequestParecer={handleRequestParecer}
+            isRequesting={isRequesting}
+          />
         </CardContent>
       </Card>
 
