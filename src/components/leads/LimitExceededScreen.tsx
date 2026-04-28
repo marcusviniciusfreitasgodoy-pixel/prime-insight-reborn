@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, Phone, MessageCircle, Calendar } from "lucide-react";
+import { PHONE, whatsappUrl, CTA_LABELS } from "@/config/contact";
 
 interface LimitExceededScreenProps {
   evaluationCount: number;
@@ -9,7 +10,7 @@ interface LimitExceededScreenProps {
 }
 
 export function LimitExceededScreen({ evaluationCount, email, onRetry }: LimitExceededScreenProps) {
-  const whatsappMessage = encodeURIComponent(
+  const whatsappLink = whatsappUrl(
     `Olá Marcus! Usei ${evaluationCount} consultas preliminares no site e gostaria de agendar uma avaliação completa com Perito Avaliador. Email: ${email}`
   );
 
@@ -53,7 +54,7 @@ export function LimitExceededScreen({ evaluationCount, email, onRetry }: LimitEx
 
         <div className="space-y-3">
           <a
-            href={`https://wa.me/5521964075124?text=${whatsappMessage}`}
+            href={whatsappLink}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full"
@@ -71,10 +72,10 @@ export function LimitExceededScreen({ evaluationCount, email, onRetry }: LimitEx
             variant="outline"
             className="w-full border-primary/30"
             size="lg"
-            onClick={() => window.location.href = "tel:+5521964075124"}
+            onClick={() => { window.location.href = PHONE.tel; }}
           >
             <Phone className="mr-2 h-5 w-5" />
-            Ligar: (21) 96407-5124
+            {CTA_LABELS.ligarComNumero}
           </Button>
 
           <Button
