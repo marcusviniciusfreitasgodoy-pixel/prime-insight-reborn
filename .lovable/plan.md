@@ -1,36 +1,67 @@
-## Problema
+## Objetivo
 
-O CTA "Solicitar Parecer Técnico" enviado ao cliente (e-mail de follow-up + mensagem de WhatsApp Z-API) está apontando para a landing page (`https://prime-insight-reborn.lovable.app`) em vez de abrir o WhatsApp da Godoy Prime já com a mensagem pronta solicitando o Parecer Técnico.
+Adicionar CTAs em todos os cards de oferta da página de resposta da avaliação e inserir um novo bloco de fechamento (segundo CTA do Parecer) ao final da página.
 
-O e-mail principal de notificação (`send-lead-notification`) já está correto — usa `wa.me/5521964075124` com mensagem pré-preenchida. Mas dois outros pontos ainda redirecionam para a landing page.
+## 1) CTA em cada card de oferta — `src/components/leads/PeritEvaluationSection.tsx`
 
-## Pontos a corrigir
+Para que o componente possa disparar a mesma ação de "Solicitar Parecer" usada no `QuickValuationResult`, vou:
 
-### 1. `supabase/functions/send-followup-email/index.ts` (linha 116)
-CTA principal do e-mail de follow-up (enviado dias após a avaliação):
-- **Antes:** `<a href="https://prime-insight-reborn.lovable.app">📊 Solicitar Parecer Técnico Grátis</a>`
-- **Depois:** Link `https://wa.me/5521964075124?text=...` com mensagem pré-preenchida personalizada com o nome do lead e o bairro de interesse, ex.:
+- Estender `PeritEvaluationSectionProps` com dois novos campos opcionais: `onRequestParecer?: () => void` e `isRequesting?: boolean`.
+- Em `QuickValuationResult.tsx`, passar `onRequestParecer={handleRequestParecer}` e `isRequesting={isRequesting}` para `<PeritEvaluationSection />`.
+- Definir um helper interno `handleCta()` que usa `onRequestParecer` quando disponível, com fallback para `wa.me/5521964075124` com mensagem pré-preenchida.
 
-  > "Olá! Sou {nome}. Fiz uma avaliação preliminar{ no bairro X} e quero solicitar o Parecer Técnico Completo Godoy Prime."
+### Cards que receberão CTA
 
-- Manter o mesmo estilo visual do botão (gradiente navy), apenas trocando o `href`.
-- Remover (ou simplificar) o segundo botão verde "WhatsApp (21) 96407-5124" para não duplicar — manter apenas como link de texto secundário "Prefere ligar? (21) 96407-5124", já que o CTA principal agora também é WhatsApp.
+**a) Cards do Grid "Parecer Godoy Prime: Seu Escudo Técnico" (4 cards de entrega)**
+- Adicionar um pequeno botão `link/ghost` em cada card: "Quero esta análise →" que dispara `handleCta()`.
+- Estilo: texto pequeno (text-xs), cor `accent` (gold), alinhado à direita do bloco, com ícone `ArrowRight`. Para não poluir, será um link, não um botão sólido.
 
-### 2. `supabase/functions/send-lead-notification/index.ts` (linha 543)
-Mensagem de WhatsApp inicial enviada via Z-API ao cliente:
-- **Antes:** `📋 Quer solicitar um *Parecer Técnico Completo*? Acesse: https://prime-insight-reborn.lovable.app`
-- **Depois:** Substituir por uma chamada para responder ali mesmo no WhatsApp (afinal a mensagem JÁ está no WhatsApp do cliente — não faz sentido mandar um link `wa.me` para o mesmo número):
+**b) Cards de Credibilidade Institucional (3 cards "Por Que Confiar")**
+- Adicionar um único CTA centralizado **logo abaixo** do grid (não um por card, pois esses cards são de prova social, não de oferta) — botão outline gold "Solicitar Parecer com Marcus Godoy".
 
-  > "📋 Quer solicitar um *Parecer Técnico Completo*? Basta responder esta mensagem com *PARECER* que um especialista entra em contato."
+**c) Cards "Garantia Dupla" (2 cards verdes)**
+- Adicionar um único CTA centralizado abaixo do grid: "Solicitar Parecer com Garantia Total" (botão verde para combinar com o tema da seção).
 
-  Isso é mais natural do que mandar um `wa.me` no próprio WhatsApp.
+**d) Bloco "Investimento" (card gold/accent)**
+- Adicionar dentro do card um botão primário "Quero proteger meu patrimônio agora" abaixo do bloco de ROI, disparando `handleCta()`.
 
-## Após as alterações
+**e) Bloco "Prime Buyer Experience" (card navy)**
+- Já tem o botão "Conhecer Prime Buyer Experience". Adicionar um **segundo** botão acima dele em ouro sólido: "Começar pelo Parecer Técnico" — para quem não quer a representação completa mas quer iniciar a relação.
 
-- Redeploy automático das duas edge functions: `send-followup-email` e `send-lead-notification`.
-- Sem mudanças em banco, RLS ou frontend.
+## 2) Novo bloco de fechamento — `src/components/leads/QuickValuationResult.tsx`
 
-## Resultado esperado
+Adicionar um **segundo bloco de CTA** depois do card dourado existente (linhas ~499-544) e antes do rodapé discreto (~547).
 
-- Cliente que recebe o e-mail de follow-up clica no botão e o WhatsApp abre direto na conversa com a Godoy Prime, com mensagem pronta solicitando o Parecer.
-- Cliente que recebe o WhatsApp inicial é instruído a responder na própria conversa, encurtando o funil.
+### Estilo do novo bloco
+- Background: navy (`#0C2340`) para contrastar com o gold do CTA anterior.
+- Headline: "Última chamada: garanta seu Parecer Técnico antes de fechar negócio"
+- Subheadline curta: "Mais de R$ 180-450 mil em economia média por imóvel analisado. Investimento a partir de R$ 4.900."
+- Dois botões lado a lado:
+  - Primário gold: "Solicitar Parecer Técnico Agora" → `handleRequestParecer`
+  - Secundário outline branco: "Falar no WhatsApp" → abre `wa.me/5521964075124` com mensagem
+- Trust signals em linha: "🛡️ Garantia 100% • ⚡ Resposta em 2h • 📋 Sem compromisso"
+- Só renderizar quando `!parecerRequested`.
+
+```text
+┌─────────────────────────────────────────────┐
+│ [Card dourado existente — Próximo Passo]    │
+└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────┐ ← NOVO
+│ NAVY BG                                     │
+│ Última chamada: garanta seu Parecer ...     │
+│ [Solicitar Parecer]  [WhatsApp]             │
+│ 🛡️ Garantia • ⚡ 2h • 📋 Sem compromisso    │
+└─────────────────────────────────────────────┘
+  ← Voltar e fazer nova consulta (rodapé)
+```
+
+## Arquivos alterados
+
+- `src/components/leads/PeritEvaluationSection.tsx` — props novas + CTAs em todos os cards de oferta
+- `src/components/leads/QuickValuationResult.tsx` — passar handler para `PeritEvaluationSection` + novo bloco navy de fechamento
+
+## Não muda
+
+- Lógica de `handleRequestParecer` (já existente)
+- Banco, RLS, edge functions
+- FAQ e demais seções não relacionadas a oferta

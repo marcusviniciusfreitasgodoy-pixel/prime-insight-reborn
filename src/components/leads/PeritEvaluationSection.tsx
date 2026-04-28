@@ -11,7 +11,9 @@ import {
   Clock,
   Banknote,
   ExternalLink,
-  FileText
+  FileText,
+  ArrowRight,
+  MessageCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ComparisonTable } from "./ComparisonTable";
@@ -58,15 +60,26 @@ const primeBuyerPhases = [
 interface PeritEvaluationSectionProps {
   valorPedido?: number;
   valorMercado?: number;
+  onRequestParecer?: () => void;
+  isRequesting?: boolean;
 }
 
-export function PeritEvaluationSection({ valorPedido, valorMercado }: PeritEvaluationSectionProps) {
+export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestParecer, isRequesting }: PeritEvaluationSectionProps) {
   const hasROI = valorPedido && valorPedido > 0 && valorMercado && valorMercado > 0 && valorPedido > valorMercado;
   const roiDiff = hasROI ? valorPedido - valorMercado : 0;
   const roiMultiplier = hasROI ? Math.floor(roiDiff / 4900) : 0;
 
   const formatCurrency = (value: number) =>
     new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }).format(value);
+
+  const handleCta = () => {
+    if (onRequestParecer) {
+      onRequestParecer();
+      return;
+    }
+    const msg = encodeURIComponent("Olá! Quero solicitar o Parecer Técnico Godoy Prime para proteger meu patrimônio.");
+    window.open(`https://wa.me/5521964075124?text=${msg}`, "_blank");
+  };
 
   return (
     <div className="space-y-10">
@@ -115,13 +128,22 @@ export function PeritEvaluationSection({ valorPedido, valorMercado }: PeritEvalu
                   <div className="p-2 bg-primary/10 rounded-lg shrink-0">
                     <Icon className="h-5 w-5 text-primary" />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <h5 className="font-semibold text-foreground text-sm mb-1">
                       {entrega.title}
                     </h5>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-muted-foreground mb-2">
                       {entrega.description}
                     </p>
+                    <button
+                      type="button"
+                      onClick={handleCta}
+                      disabled={isRequesting}
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-accent hover:text-accent/80 transition-colors disabled:opacity-60"
+                    >
+                      Quero esta análise
+                      <ArrowRight className="h-3 w-3" />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -211,6 +233,18 @@ export function PeritEvaluationSection({ valorPedido, valorMercado }: PeritEvalu
         <p className="text-center text-xs text-muted-foreground/70 italic">
           Quando os primeiros laudos forem entregues, esta seção trará os resultados reais de nossos clientes.
         </p>
+
+        <div className="text-center">
+          <Button
+            variant="outline"
+            onClick={handleCta}
+            disabled={isRequesting}
+            className="border-accent text-accent hover:bg-accent hover:text-accent-foreground"
+          >
+            <Shield className="mr-2 h-4 w-4" />
+            Solicitar Parecer com Marcus Godoy
+          </Button>
+        </div>
       </div>
 
       {/* Seção 4: Garantia Dupla */}
@@ -244,6 +278,17 @@ export function PeritEvaluationSection({ valorPedido, valorMercado }: PeritEvalu
         <p className="text-center text-sm text-muted-foreground italic">
           "Você só arrisca o custo de continuar vulnerável."
         </p>
+
+        <div className="text-center">
+          <Button
+            onClick={handleCta}
+            disabled={isRequesting}
+            className="bg-green-600 hover:bg-green-700 text-white"
+          >
+            <CheckCircle className="mr-2 h-4 w-4" />
+            {isRequesting ? "Enviando..." : "Solicitar Parecer com Garantia Total"}
+          </Button>
+        </div>
       </div>
 
       {/* Seção 5: Investimento */}
@@ -282,6 +327,18 @@ export function PeritEvaluationSection({ valorPedido, valorMercado }: PeritEvalu
             </p>
           </div>
         )}
+
+        <div className="mt-5">
+          <Button
+            onClick={handleCta}
+            disabled={isRequesting}
+            size="lg"
+            className="bg-[#C9A84C] hover:bg-[#b8963f] text-[#1a1a2e] font-semibold shadow-lg w-full sm:w-auto"
+          >
+            <Shield className="mr-2 h-5 w-5" />
+            {isRequesting ? "Enviando..." : "Quero proteger meu patrimônio agora"}
+          </Button>
+        </div>
       </div>
 
       {/* Seção 6: Sistema Representação Blindada (Oferta Complementar) */}
@@ -312,7 +369,16 @@ export function PeritEvaluationSection({ valorPedido, valorMercado }: PeritEvalu
             <strong className="text-[#D4AF37]">A Diferença Matemática:</strong> Compradores que usam Personal Shopper Imobiliário 
             economizam em média 8-15% no valor final, economizam tempo e evitam surpresas futuras.
           </p>
-          
+
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center items-stretch sm:items-center">
+          <Button
+            onClick={handleCta}
+            disabled={isRequesting}
+            className="w-full sm:w-auto bg-[#D4AF37] hover:bg-[#b8963f] text-[#0C2340] font-semibold whitespace-normal h-auto py-3 px-4"
+          >
+            <MessageCircle className="mr-2 h-4 w-4 shrink-0" />
+            <span className="text-xs sm:text-base">{isRequesting ? "Enviando..." : "Começar pelo Parecer Técnico"}</span>
+          </Button>
           <Button 
             variant="outline" 
             className="w-full sm:w-auto bg-transparent border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0C2340] focus:bg-[#D4AF37] focus:text-[#0C2340] active:bg-[#D4AF37] active:text-[#0C2340] whitespace-normal h-auto py-3 px-4"
@@ -321,6 +387,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado }: PeritEvalu
             <span className="text-xs sm:text-base">Conhecer Prime Buyer Experience</span>
             <ExternalLink className="ml-2 h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
           </Button>
+          </div>
         </div>
       </div>
 
