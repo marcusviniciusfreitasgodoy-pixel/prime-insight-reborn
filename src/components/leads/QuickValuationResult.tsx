@@ -34,6 +34,7 @@ import {
   ArrowDown,
   ArrowUp,
   Minus,
+  Info,
 } from "lucide-react";
 import { PeritEvaluationSection } from "./PeritEvaluationSection";
 import { HistoricalAnalysisChart } from "@/components/valuation/HistoricalAnalysisChart";
@@ -378,6 +379,19 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
               <p className="text-[10px] sm:text-xs text-muted-foreground text-center pt-1 sm:pt-2">
                 Baseado em {data.itbiData!.transaction_count} transações de imóveis com características semelhantes nos últimos 12 meses
               </p>
+            </div>
+
+            {/* Aviso: estimativa por rua, não por condomínio */}
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 flex items-start gap-2">
+              <Info className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <p className="text-[11px] sm:text-xs font-semibold text-amber-900">
+                  Estimativa baseada em transações da rua e do bairro
+                </p>
+                <p className="text-[10px] sm:text-xs text-amber-800 leading-relaxed">
+                  Esta análise preliminar considera o logradouro e o bairro, mas <strong>não diferencia condomínios específicos</strong> (padrão construtivo, lazer, estado de conservação, andar, vista). Dois imóveis na mesma rua podem ter valores reais bem diferentes. Para uma avaliação que considere os diferenciais do seu condomínio e do seu apartamento, solicite o <strong>Parecer Técnico</strong> presencial.
+                </p>
+              </div>
             </div>
           </div>
 
