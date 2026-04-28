@@ -1,25 +1,36 @@
 ## Problema
 
-No formulário público de avaliação (`QuickValuationForm.tsx`), na etapa 4 ("Seus Dados"), os botões "Voltar" e "Ver Análise Agora" ficam lado a lado em `flex gap-3` com `flex-1` cada. No viewport mobile (390px), o texto "Ver Análise Agora" + ícone não cabe na metade disponível, fazendo o botão estourar visualmente para fora da caixa do card.
+O CTA "Solicitar Parecer Técnico" enviado ao cliente (e-mail de follow-up + mensagem de WhatsApp Z-API) está apontando para a landing page (`https://prime-insight-reborn.lovable.app`) em vez de abrir o WhatsApp da Godoy Prime já com a mensagem pronta solicitando o Parecer Técnico.
 
-## Solução
+O e-mail principal de notificação (`send-lead-notification`) já está correto — usa `wa.me/5521964075124` com mensagem pré-preenchida. Mas dois outros pontos ainda redirecionam para a landing page.
 
-Empilhar os botões verticalmente em telas pequenas e mantê-los lado a lado em telas maiores (sm+). Ajustar também a ordem visual para que o CTA principal ("Ver Análise Agora") apareça em cima no mobile.
+## Pontos a corrigir
 
-### Alteração em `src/components/leads/QuickValuationForm.tsx` (linhas ~782-810)
+### 1. `supabase/functions/send-followup-email/index.ts` (linha 116)
+CTA principal do e-mail de follow-up (enviado dias após a avaliação):
+- **Antes:** `<a href="https://prime-insight-reborn.lovable.app">📊 Solicitar Parecer Técnico Grátis</a>`
+- **Depois:** Link `https://wa.me/5521964075124?text=...` com mensagem pré-preenchida personalizada com o nome do lead e o bairro de interesse, ex.:
 
-1. Trocar o container de `flex gap-3` para `flex flex-col-reverse sm:flex-row gap-3`
-   - `flex-col-reverse` no mobile: CTA principal fica em cima, Voltar embaixo
-   - `sm:flex-row` no desktop: layout original lado a lado preservado
-2. Reduzir padding horizontal do botão de submit no mobile via `px-3 sm:px-8` para garantir que o texto caiba mesmo em telas estreitas
-3. Reduzir tamanho do texto/ícone no mobile (`text-sm sm:text-base`) para manter o CTA confortável
+  > "Olá! Sou {nome}. Fiz uma avaliação preliminar{ no bairro X} e quero solicitar o Parecer Técnico Completo Godoy Prime."
 
-### Validação
+- Manter o mesmo estilo visual do botão (gradiente navy), apenas trocando o `href`.
+- Remover (ou simplificar) o segundo botão verde "WhatsApp (21) 96407-5124" para não duplicar — manter apenas como link de texto secundário "Prefere ligar? (21) 96407-5124", já que o CTA principal agora também é WhatsApp.
 
-- Testar no preview em viewport 390x844 (atual) — botão deve ficar dentro do card
-- Testar em desktop (>=640px) — layout lado a lado preservado
-- Verificar que o botão "Voltar" continua funcional e visível
+### 2. `supabase/functions/send-lead-notification/index.ts` (linha 543)
+Mensagem de WhatsApp inicial enviada via Z-API ao cliente:
+- **Antes:** `📋 Quer solicitar um *Parecer Técnico Completo*? Acesse: https://prime-insight-reborn.lovable.app`
+- **Depois:** Substituir por uma chamada para responder ali mesmo no WhatsApp (afinal a mensagem JÁ está no WhatsApp do cliente — não faz sentido mandar um link `wa.me` para o mesmo número):
 
-## Arquivo modificado
+  > "📋 Quer solicitar um *Parecer Técnico Completo*? Basta responder esta mensagem com *PARECER* que um especialista entra em contato."
 
-- `src/components/leads/QuickValuationForm.tsx` (apenas o bloco de Navigation Buttons)
+  Isso é mais natural do que mandar um `wa.me` no próprio WhatsApp.
+
+## Após as alterações
+
+- Redeploy automático das duas edge functions: `send-followup-email` e `send-lead-notification`.
+- Sem mudanças em banco, RLS ou frontend.
+
+## Resultado esperado
+
+- Cliente que recebe o e-mail de follow-up clica no botão e o WhatsApp abre direto na conversa com a Godoy Prime, com mensagem pronta solicitando o Parecer.
+- Cliente que recebe o WhatsApp inicial é instruído a responder na própria conversa, encurtando o funil.
