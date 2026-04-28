@@ -2,11 +2,9 @@ import { MapPin, Phone, MessageCircle, Lock, MessageSquareHeart } from "lucide-r
 import { Link } from "react-router-dom";
 import logoSymbol from "@/assets/godoy-logo-symbol.png";
 import { Button } from "@/components/ui/button";
+import { PHONE, WHATSAPP_MESSAGES, whatsappUrl } from "@/config/contact";
 
 export function Footer() {
-  const whatsappNumber = "5521964075124";
-  const whatsappMessage = encodeURIComponent("Olá! Gostaria de mais informações sobre avaliação de imóveis.");
-
   return (
     <footer className="bg-primary border-t border-border mt-auto">
       <div className="max-w-[1600px] mx-auto px-3 sm:px-8 py-4 sm:py-8">
@@ -30,18 +28,18 @@ export function Footer() {
               <Phone className="h-3 sm:h-3.5 w-3 sm:w-3.5 text-accent flex-shrink-0" />
               <span>(21) 4040-0067</span>
               <span className="text-accent">|</span>
-              <span>(21) 96407-5124</span>
+              <span>{PHONE.display}</span>
             </div>
             <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-sm">
               <MessageCircle className="h-3 sm:h-3.5 w-3 sm:w-3.5 text-green-500 flex-shrink-0" />
-              <span>WhatsApp: (21) 96407-5124</span>
+              <span>WhatsApp: {PHONE.display}</span>
             </div>
           </div>
 
           {/* WhatsApp Button */}
           <Button asChild className="bg-green-600 hover:bg-green-700 text-white gap-2" size="sm">
             <a
-              href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
+              href={whatsappUrl(WHATSAPP_MESSAGES.generico())}
               target="_blank"
               rel="noopener noreferrer"
             >
