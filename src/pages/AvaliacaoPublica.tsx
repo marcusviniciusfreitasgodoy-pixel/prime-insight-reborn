@@ -13,6 +13,7 @@ import { MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useUTMTracking } from "@/hooks/useUTMTracking";
+import { PHONE, WHATSAPP_MESSAGES, whatsappUrl, CTA_LABELS } from "@/config/contact";
 import {
   ArrowRight,
   Shield,
@@ -257,7 +258,7 @@ export default function AvaliacaoPublica() {
             description: "Avaliação imobiliária premium baseada em dados oficiais de transações",
             url: SEO_CONFIG.canonical,
             logo: "https://avaliacao.godoyprime.com.br/godoy-logo.png",
-            telephone: "+55-21-96407-5124",
+            telephone: PHONE.intl,
             email: "contato@godoyprime.com.br",
             address: { "@type": "PostalAddress", addressLocality: "Rio de Janeiro", addressRegion: "RJ", addressCountry: "BR" },
             areaServed: { "@type": "City", name: "Rio de Janeiro" },
@@ -615,7 +616,7 @@ export default function AvaliacaoPublica() {
                     <Calculator className="mr-2 h-4 w-4 flex-shrink-0" />
                     <span className="truncate">Fazer Minha Avaliação Gratuita</span>
                   </Button>
-                  <Button variant="outline" onClick={() => window.open("https://wa.me/5521964075124?text=Ol%C3%A1!%20Tenho%20d%C3%BAvidas%20sobre%20a%20avalia%C3%A7%C3%A3o%20de%20im%C3%B3veis.", "_blank")} className="border-[#0C2340]/20 tracking-wide uppercase text-xs font-semibold transition-colors duration-300 w-full sm:w-auto">
+                  <Button variant="outline" onClick={() => window.open(whatsappUrl(WHATSAPP_MESSAGES.duvidaAvaliacao()), "_blank")} className="border-[#0C2340]/20 tracking-wide uppercase text-xs font-semibold transition-colors duration-300 w-full sm:w-auto">
                     <MessageCircle className="mr-2 h-4 w-4 flex-shrink-0" />
                     <span className="truncate">Falar com Especialista</span>
                   </Button>
@@ -642,8 +643,8 @@ export default function AvaliacaoPublica() {
               <div className="text-center md:text-right">
                 <p className="text-white/80 text-sm mb-2">Av. das Américas, 10101 - Bloco 2, Sala 316</p>
                 <div className="flex flex-col sm:flex-row justify-center md:justify-end gap-2 sm:gap-4 text-sm">
-                  <a href="tel:+5521964075124" className="text-white/80 hover:text-[#D4AF37] transition-colors">📞 (21) 96407-5124</a>
-                  <a href="https://wa.me/5521964075124" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-[#D4AF37] transition-colors">💬 WhatsApp</a>
+                  <a href={PHONE.tel} className="text-white/80 hover:text-[#D4AF37] transition-colors">📞 {PHONE.display}</a>
+                  <a href={`https://wa.me/${PHONE.e164}`} target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-[#D4AF37] transition-colors">💬 WhatsApp</a>
                 </div>
               </div>
             </div>
@@ -664,7 +665,7 @@ export default function AvaliacaoPublica() {
           </div>
         </footer>
 
-        <a href="https://wa.me/5521964075124?text=Ol%C3%A1!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20avalia%C3%A7%C3%A3o%20de%20im%C3%B3veis." target="_blank" rel="noopener noreferrer" className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] hover:bg-[#20BA5C] text-white px-4 py-3 rounded-full shadow-lg transition-colors duration-300 animate-fade-in group" aria-label="Contato via WhatsApp">
+        <a href={whatsappUrl(WHATSAPP_MESSAGES.generico())} target="_blank" rel="noopener noreferrer" className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] hover:bg-[#20BA5C] text-white px-4 py-3 rounded-full shadow-lg transition-colors duration-300 animate-fade-in group" aria-label={CTA_LABELS.whatsappFlutuanteAria}>
           <MessageSquare className="h-6 w-6" />
           <span className="font-medium text-sm hidden sm:inline group-hover:inline">Fale Conosco</span>
         </a>
