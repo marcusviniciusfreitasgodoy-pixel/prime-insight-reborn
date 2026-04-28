@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
+import { PHONE, WHATSAPP_MESSAGES, whatsappUrl } from "../_shared/contact.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -145,7 +146,7 @@ async function sendUserConfirmationEmail(feedback: FeedbackNotification) {
                 <p style="color: #64748b; margin: 0 0 20px 0; font-size: 14px; line-height: 1.6;">
                   Clique no botão abaixo para entrar em contato pelo WhatsApp e agendar o melhor horário para você:
                 </p>
-                <a href="https://wa.me/5521999880101?text=Olá! Sou ${encodeURIComponent(escapeHtml(userName))} e completei a pesquisa de validação. Gostaria de agendar minha consultoria gratuita." 
+                <a href="${whatsappUrl(WHATSAPP_MESSAGES.feedbackConsultoria(escapeHtml(userName)), PHONE.feedback)}" 
                    style="display: inline-block; background-color: #25D366; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: 600; font-size: 16px;">
                   💬 Agendar pelo WhatsApp
                 </a>
