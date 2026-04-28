@@ -548,6 +548,54 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
         </Card>
       )}
 
+      {/* Bloco Final de Fechamento — Última Chamada */}
+      {!parecerRequested && (
+        <Card className="border-0 overflow-hidden" style={{ backgroundColor: '#0C2340' }}>
+          <CardContent className="py-10 px-6">
+            <div className="text-center space-y-5 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-2 bg-[#C9A84C]/15 border border-[#C9A84C]/30 rounded-full px-3 py-1">
+                <Shield className="h-3.5 w-3.5 text-[#C9A84C]" />
+                <span className="text-[#C9A84C] text-xs font-semibold uppercase tracking-wider">Última chamada</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-white leading-tight">
+                Garanta seu Parecer Técnico antes de fechar negócio
+              </h3>
+              <p className="text-white/75 text-sm sm:text-base">
+                Mais de <strong className="text-[#C9A84C]">R$ 180-450 mil</strong> em economia média por imóvel analisado.
+                Investimento a partir de <strong className="text-white">R$ 4.900</strong> com garantia de reembolso 100%.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+                <Button
+                  onClick={handleRequestParecer}
+                  disabled={isRequesting}
+                  size="lg"
+                  className="bg-[#C9A84C] hover:bg-[#b8963f] text-[#0C2340] font-semibold shadow-lg"
+                >
+                  <Shield className="mr-2 h-5 w-5" />
+                  {isRequesting ? "Enviando..." : "Solicitar Parecer Técnico Agora"}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={() => window.open(`https://wa.me/5521964075124?text=${encodeURIComponent(`Olá! Sou ${data.leadName}. Quero falar sobre o Parecer Técnico Godoy Prime.`)}`, "_blank")}
+                  className="bg-transparent border-white/40 text-white hover:bg-white hover:text-[#0C2340]"
+                >
+                  <MessageCircle className="mr-2 h-5 w-5" />
+                  Falar no WhatsApp
+                </Button>
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-white/60 pt-2">
+                <span>🛡️ Garantia 100%</span>
+                <span className="text-white/30">•</span>
+                <span>⚡ Resposta em 2h úteis</span>
+                <span className="text-white/30">•</span>
+                <span>📋 Sem compromisso</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Rodapé discreto */}
       <div className="text-center pt-[100px] pb-4">
         {!parecerRequested && (
