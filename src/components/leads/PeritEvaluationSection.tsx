@@ -233,6 +233,18 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
         <p className="text-center text-xs text-muted-foreground/70 italic">
           Quando os primeiros laudos forem entregues, esta seção trará os resultados reais de nossos clientes.
         </p>
+
+        <div className="text-center">
+          <Button
+            variant="outline"
+            onClick={handleCta}
+            disabled={isRequesting}
+            className="border-accent text-accent hover:bg-accent hover:text-accent-foreground"
+          >
+            <Shield className="mr-2 h-4 w-4" />
+            Solicitar Parecer com Marcus Godoy
+          </Button>
+        </div>
       </div>
 
       {/* Seção 4: Garantia Dupla */}
@@ -266,6 +278,17 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
         <p className="text-center text-sm text-muted-foreground italic">
           "Você só arrisca o custo de continuar vulnerável."
         </p>
+
+        <div className="text-center">
+          <Button
+            onClick={handleCta}
+            disabled={isRequesting}
+            className="bg-green-600 hover:bg-green-700 text-white"
+          >
+            <CheckCircle className="mr-2 h-4 w-4" />
+            {isRequesting ? "Enviando..." : "Solicitar Parecer com Garantia Total"}
+          </Button>
+        </div>
       </div>
 
       {/* Seção 5: Investimento */}
