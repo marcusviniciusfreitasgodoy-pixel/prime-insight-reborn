@@ -327,6 +327,18 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
             </p>
           </div>
         )}
+
+        <div className="mt-5">
+          <Button
+            onClick={handleCta}
+            disabled={isRequesting}
+            size="lg"
+            className="bg-[#C9A84C] hover:bg-[#b8963f] text-[#1a1a2e] font-semibold shadow-lg w-full sm:w-auto"
+          >
+            <Shield className="mr-2 h-5 w-5" />
+            {isRequesting ? "Enviando..." : "Quero proteger meu patrimônio agora"}
+          </Button>
+        </div>
       </div>
 
       {/* Seção 6: Sistema Representação Blindada (Oferta Complementar) */}
@@ -357,7 +369,16 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
             <strong className="text-[#D4AF37]">A Diferença Matemática:</strong> Compradores que usam Personal Shopper Imobiliário 
             economizam em média 8-15% no valor final, economizam tempo e evitam surpresas futuras.
           </p>
-          
+
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center items-stretch sm:items-center">
+          <Button
+            onClick={handleCta}
+            disabled={isRequesting}
+            className="w-full sm:w-auto bg-[#D4AF37] hover:bg-[#b8963f] text-[#0C2340] font-semibold whitespace-normal h-auto py-3 px-4"
+          >
+            <MessageCircle className="mr-2 h-4 w-4 shrink-0" />
+            <span className="text-xs sm:text-base">{isRequesting ? "Enviando..." : "Começar pelo Parecer Técnico"}</span>
+          </Button>
           <Button 
             variant="outline" 
             className="w-full sm:w-auto bg-transparent border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0C2340] focus:bg-[#D4AF37] focus:text-[#0C2340] active:bg-[#D4AF37] active:text-[#0C2340] whitespace-normal h-auto py-3 px-4"
@@ -366,6 +387,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
             <span className="text-xs sm:text-base">Conhecer Prime Buyer Experience</span>
             <ExternalLink className="ml-2 h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
           </Button>
+          </div>
         </div>
       </div>
 
