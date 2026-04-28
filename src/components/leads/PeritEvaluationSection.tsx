@@ -128,13 +128,22 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
                   <div className="p-2 bg-primary/10 rounded-lg shrink-0">
                     <Icon className="h-5 w-5 text-primary" />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <h5 className="font-semibold text-foreground text-sm mb-1">
                       {entrega.title}
                     </h5>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-muted-foreground mb-2">
                       {entrega.description}
                     </p>
+                    <button
+                      type="button"
+                      onClick={handleCta}
+                      disabled={isRequesting}
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-accent hover:text-accent/80 transition-colors disabled:opacity-60"
+                    >
+                      Quero esta análise
+                      <ArrowRight className="h-3 w-3" />
+                    </button>
                   </div>
                 </div>
               </div>
