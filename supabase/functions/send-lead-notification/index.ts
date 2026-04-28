@@ -76,168 +76,202 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
   let mainContent: string;
   let ctaSection: string;
 
+  // ===== Helpers de layout (table-based para compatibilidade Gmail/Outlook) =====
   const propertyInfo = `
-    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
-      <h4 style="margin: 0 0 10px 0; color: #0C2340;">📍 Imóvel Analisado:</h4>
-      <ul style="margin: 0; padding-left: 20px; color: #555;">
-        ${data.bairro ? `<li><strong>Bairro:</strong> ${escapeHtml(data.bairro)}</li>` : ""}
-        ${data.tipologia ? `<li><strong>Tipo:</strong> ${escapeHtml(data.tipologia)}</li>` : ""}
-        ${data.area ? `<li><strong>Área:</strong> ${data.area} m²</li>` : ""}
-        ${data.quartos ? `<li><strong>Quartos:</strong> ${data.quartos}</li>` : ""}
-        ${data.suites ? `<li><strong>Suítes:</strong> ${data.suites}</li>` : ""}
-        ${data.banheiros ? `<li><strong>Banheiros:</strong> ${data.banheiros}</li>` : ""}
-        ${data.vagas ? `<li><strong>Vagas:</strong> ${data.vagas}</li>` : ""}
-      </ul>
-    </div>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8f9fa;border-radius:8px;margin:20px 0;border:1px solid #e9ecef;">
+      <tr><td style="padding:18px 20px;">
+        <h4 style="margin:0 0 12px 0;color:#0C2340;font-size:15px;font-family:'Segoe UI',Arial,sans-serif;">📍 Imóvel Analisado</h4>
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:'Segoe UI',Arial,sans-serif;font-size:14px;color:#444;">
+          ${data.bairro ? `<tr><td style="padding:4px 0;width:100px;color:#888;">Bairro</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(data.bairro)}</td></tr>` : ""}
+          ${data.tipologia ? `<tr><td style="padding:4px 0;color:#888;">Tipo</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(data.tipologia)}</td></tr>` : ""}
+          ${data.area ? `<tr><td style="padding:4px 0;color:#888;">Área</td><td style="padding:4px 0;font-weight:600;">${data.area} m²</td></tr>` : ""}
+          ${data.quartos ? `<tr><td style="padding:4px 0;color:#888;">Quartos</td><td style="padding:4px 0;font-weight:600;">${data.quartos}</td></tr>` : ""}
+          ${data.suites ? `<tr><td style="padding:4px 0;color:#888;">Suítes</td><td style="padding:4px 0;font-weight:600;">${data.suites}</td></tr>` : ""}
+          ${data.banheiros ? `<tr><td style="padding:4px 0;color:#888;">Banheiros</td><td style="padding:4px 0;font-weight:600;">${data.banheiros}</td></tr>` : ""}
+          ${data.vagas ? `<tr><td style="padding:4px 0;color:#888;">Vagas</td><td style="padding:4px 0;font-weight:600;">${data.vagas}</td></tr>` : ""}
+        </table>
+      </td></tr>
+    </table>
   `;
 
   const estimativaSection = data.estimativaMin && data.estimativaMed && data.estimativaMax ? `
-    <div style="background: linear-gradient(135deg, #0C2340 0%, #1a365d 100%); padding: 20px; border-radius: 8px; margin: 20px 0; color: white;">
-      <h4 style="margin: 0 0 15px 0; color: #D4AF37; text-align: center;">📊 Sua Estimativa Preliminar</h4>
-      <div style="display: flex; justify-content: space-between; text-align: center;">
-        <div style="flex: 1;">
-          <p style="margin: 0; font-size: 12px; opacity: 0.8;">Mínimo</p>
-          <p style="margin: 5px 0 0 0; font-size: 16px; font-weight: bold;">${formatCurrency(data.estimativaMin)}</p>
-        </div>
-        <div style="flex: 1; border-left: 1px solid rgba(255,255,255,0.2); border-right: 1px solid rgba(255,255,255,0.2);">
-          <p style="margin: 0; font-size: 12px; opacity: 0.8;">Médio</p>
-          <p style="margin: 5px 0 0 0; font-size: 18px; font-weight: bold; color: #D4AF37;">${formatCurrency(data.estimativaMed)}</p>
-        </div>
-        <div style="flex: 1;">
-          <p style="margin: 0; font-size: 12px; opacity: 0.8;">Máximo</p>
-          <p style="margin: 5px 0 0 0; font-size: 16px; font-weight: bold;">${formatCurrency(data.estimativaMax)}</p>
-        </div>
-      </div>
-    </div>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0C2340;border-radius:10px;margin:24px 0;">
+      <tr><td style="padding:22px 20px;text-align:center;">
+        <p style="margin:0 0 4px 0;color:#D4AF37;font-size:13px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;font-family:'Segoe UI',Arial,sans-serif;">Sua Estimativa Preliminar</p>
+        <p style="margin:0 0 18px 0;color:rgba(255,255,255,0.7);font-size:12px;font-family:'Segoe UI',Arial,sans-serif;">Baseado em transações ITBI da região</p>
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td width="33%" align="center" style="padding:8px 4px;border-right:1px solid rgba(255,255,255,0.15);">
+              <p style="margin:0 0 6px 0;color:rgba(255,255,255,0.65);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-family:'Segoe UI',Arial,sans-serif;">Mínimo</p>
+              <p style="margin:0;color:#ffffff;font-size:16px;font-weight:600;font-family:'Segoe UI',Arial,sans-serif;">${formatCurrency(data.estimativaMin)}</p>
+            </td>
+            <td width="34%" align="center" style="padding:8px 4px;border-right:1px solid rgba(255,255,255,0.15);">
+              <p style="margin:0 0 6px 0;color:#D4AF37;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-weight:700;font-family:'Segoe UI',Arial,sans-serif;">Mais Provável</p>
+              <p style="margin:0;color:#D4AF37;font-size:22px;font-weight:700;font-family:'Segoe UI',Arial,sans-serif;">${formatCurrency(data.estimativaMed)}</p>
+            </td>
+            <td width="33%" align="center" style="padding:8px 4px;">
+              <p style="margin:0 0 6px 0;color:rgba(255,255,255,0.65);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-family:'Segoe UI',Arial,sans-serif;">Máximo</p>
+              <p style="margin:0;color:#ffffff;font-size:16px;font-weight:600;font-family:'Segoe UI',Arial,sans-serif;">${formatCurrency(data.estimativaMax)}</p>
+            </td>
+          </tr>
+        </table>
+      </td></tr>
+    </table>
   ` : "";
 
+  const ruaCondominioWarning = `
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fffbeb;border-left:4px solid #f59e0b;border-radius:4px;margin:20px 0;">
+      <tr><td style="padding:14px 16px;font-family:'Segoe UI',Arial,sans-serif;">
+        <p style="margin:0 0 6px 0;color:#92400e;font-size:13px;font-weight:700;">⚠️ Importante: estimativa por rua, não por condomínio</p>
+        <p style="margin:0;color:#78350f;font-size:13px;line-height:1.5;">
+          Esta análise considera o <strong>logradouro e bairro</strong>, mas não diferencia condomínios específicos (padrão construtivo, lazer, conservação, andar, vista). Imóveis na mesma rua podem ter valores reais bem diferentes.
+        </p>
+      </td></tr>
+    </table>
+  `;
+
   if (notificationType === "initial" || notificationType === "returning") {
-    // E-mail de confirmação de avaliação
     emailSubject = "📊 Sua Avaliação Preliminar - Godoy Prime Realty";
-    headerTitle = "Sua Avaliação Preliminar está Pronta!";
-    headerSubtitle = "Obrigado por utilizar nossa plataforma de análise de mercado";
-    
+    headerTitle = "Sua Avaliação Preliminar está Pronta";
+    headerSubtitle = "Análise baseada em transações oficiais da região";
+
     mainContent = `
-      <p style="color: #555; font-size: 15px;">Olá <strong>${escapeHtml(data.leadName)}</strong>,</p>
-      
-      <p style="color: #555; font-size: 15px;">
-        Recebemos sua solicitação de avaliação e já processamos uma estimativa preliminar com base nos dados de transações ITBI da região.
+      <p style="margin:0 0 16px 0;color:#333;font-size:15px;font-family:'Segoe UI',Arial,sans-serif;">
+        Olá <strong>${escapeHtml(data.leadName)}</strong>,
+      </p>
+      <p style="margin:0 0 8px 0;color:#555;font-size:15px;line-height:1.6;font-family:'Segoe UI',Arial,sans-serif;">
+        Recebemos sua solicitação e processamos uma estimativa preliminar de valor com base nos dados oficiais de transações ITBI dos últimos 12 meses na sua região.
       </p>
 
       ${estimativaSection}
 
       ${propertyInfo}
 
-      <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; border-radius: 0 8px 8px 0;">
-        <h4 style="margin: 0 0 10px 0; color: #856404;">⚡ Quer uma Avaliação Mais Precisa?</h4>
-        <p style="margin: 0; color: #856404; font-size: 14px;">
-          A estimativa acima é baseada em dados médios da região. Um <strong>Parecer Técnico Completo</strong> considera os diferenciais específicos do seu imóvel, podendo revelar um valor <strong>15% a 30% superior</strong>.
-        </p>
-      </div>
+      ${ruaCondominioWarning}
+
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;margin:24px 0;">
+        <tr><td style="padding:18px 20px;font-family:'Segoe UI',Arial,sans-serif;">
+          <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">⚡ Quer uma Avaliação Mais Precisa?</h4>
+          <p style="margin:0;color:#78350f;font-size:14px;line-height:1.6;">
+            O <strong>Parecer Técnico Completo</strong> considera os 26 diferenciais específicos do seu imóvel (padrão, conservação, vista, lazer, documentação) e pode revelar um valor <strong>15% a 30% superior</strong> ou identificar problemas que afetam o preço.
+          </p>
+        </td></tr>
+      </table>
     `;
 
     ctaSection = `
-      <div style="text-align: center; margin: 25px 0;">
-        <a href="https://prime-insight-reborn.lovable.app" style="display: inline-block; background: linear-gradient(135deg, #D4AF37 0%, #b8962f 100%); color: #0C2340; text-decoration: none; padding: 15px 35px; border-radius: 8px; font-weight: bold; font-size: 16px;">
-          📋 Solicitar Parecer Técnico Completo
-        </a>
-        <p style="margin: 15px 0 0 0; color: #888; font-size: 12px;">Análise detalhada com especialista Godoy Prime</p>
-      </div>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0;">
+        <tr><td align="center">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+            <tr><td style="background:#D4AF37;border-radius:8px;">
+              <a href="https://wa.me/5521964075124?text=${encodeURIComponent(`Olá! Sou ${data.leadName}. Acabei de receber minha avaliação preliminar e quero solicitar o Parecer Técnico Completo Godoy Prime.`)}" style="display:inline-block;padding:16px 36px;color:#0C2340;text-decoration:none;font-weight:700;font-size:16px;font-family:'Segoe UI',Arial,sans-serif;">
+                📋 Solicitar Parecer Técnico Completo
+              </a>
+            </td></tr>
+          </table>
+          <p style="margin:12px 0 0 0;color:#888;font-size:12px;font-family:'Segoe UI',Arial,sans-serif;">Atendimento direto via WhatsApp com especialista CRECI-RJ 11841</p>
+        </td></tr>
+      </table>
     `;
 
   } else {
-    // E-mail de confirmação do Parecer Técnico solicitado
     emailSubject = "✅ Parecer Técnico Solicitado - Godoy Prime Realty";
-    headerTitle = "Recebemos sua Solicitação!";
+    headerTitle = "Recebemos sua Solicitação";
     headerSubtitle = "Parecer Técnico em andamento";
-    
+
     mainContent = `
-      <p style="color: #555; font-size: 15px;">Olá <strong>${escapeHtml(data.leadName)}</strong>,</p>
-      
-      <p style="color: #555; font-size: 15px;">
-        <strong>Excelente decisão!</strong> Recebemos sua solicitação de Parecer Técnico Godoy Prime e nossa equipe já está analisando os dados do seu imóvel.
+      <p style="margin:0 0 16px 0;color:#333;font-size:15px;font-family:'Segoe UI',Arial,sans-serif;">
+        Olá <strong>${escapeHtml(data.leadName)}</strong>,
+      </p>
+      <p style="margin:0 0 16px 0;color:#555;font-size:15px;line-height:1.6;font-family:'Segoe UI',Arial,sans-serif;">
+        <strong>Excelente decisão.</strong> Recebemos sua solicitação de Parecer Técnico Godoy Prime e nossa equipe já está analisando os dados do seu imóvel.
       </p>
 
-      <div style="background: #d4edda; border-left: 4px solid #28a745; padding: 15px; margin: 20px 0; border-radius: 0 8px 8px 0;">
-        <h4 style="margin: 0 0 10px 0; color: #155724;">✅ Solicitação Confirmada</h4>
-        <p style="margin: 0; color: #155724; font-size: 14px;">
-          Um especialista Godoy Prime entrará em contato em até <strong>24-48 horas úteis</strong> para discutir os detalhes e apresentar a análise completa.
-        </p>
-      </div>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ecfdf5;border-left:4px solid #10b981;border-radius:4px;margin:20px 0;">
+        <tr><td style="padding:16px 20px;font-family:'Segoe UI',Arial,sans-serif;">
+          <h4 style="margin:0 0 6px 0;color:#065f46;font-size:15px;">✅ Solicitação Confirmada</h4>
+          <p style="margin:0;color:#047857;font-size:14px;line-height:1.6;">
+            Um especialista entrará em contato em até <strong>2 horas úteis</strong> para apresentar a análise completa.
+          </p>
+        </td></tr>
+      </table>
 
       ${propertyInfo}
 
       ${estimativaSection}
 
-      <div style="background: #e8f4f8; padding: 15px; border-radius: 8px; margin: 20px 0;">
-        <h4 style="margin: 0 0 10px 0; color: #0C2340;">🎯 O que esperar:</h4>
-        <ul style="margin: 0; padding-left: 20px; color: #555; font-size: 14px;">
-          <li>Análise personalizada considerando diferenciais do imóvel</li>
-          <li>Comparativo com transações recentes da região</li>
-          <li>Orientação estratégica para ${isVenda ? 'venda' : 'compra'}</li>
-          <li>Consultoria sem compromisso</li>
-        </ul>
-      </div>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;margin:20px 0;">
+        <tr><td style="padding:18px 20px;font-family:'Segoe UI',Arial,sans-serif;">
+          <h4 style="margin:0 0 10px 0;color:#0C2340;font-size:15px;">🎯 O que esperar:</h4>
+          <ul style="margin:0;padding-left:20px;color:#374151;font-size:14px;line-height:1.7;">
+            <li>Análise personalizada com os 26 fatores técnicos</li>
+            <li>Comparativo com transações reais da região</li>
+            <li>Orientação estratégica para ${isVenda ? 'venda' : 'compra'}</li>
+            <li>Conformidade NBR 14653-2</li>
+          </ul>
+        </td></tr>
+      </table>
     `;
 
     ctaSection = `
-      <div style="text-align: center; margin: 25px 0;">
-        <a href="https://wa.me/5521964075124" style="display: inline-block; background: #25D366; color: white; text-decoration: none; padding: 15px 35px; border-radius: 8px; font-weight: bold; font-size: 16px;">
-          📱 Falar Agora no WhatsApp
-        </a>
-        <p style="margin: 15px 0 0 0; color: #888; font-size: 12px;">Dúvidas? Estamos à disposição!</p>
-      </div>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0;">
+        <tr><td align="center">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+            <tr><td style="background:#25D366;border-radius:8px;">
+              <a href="https://wa.me/5521964075124" style="display:inline-block;padding:16px 36px;color:#ffffff;text-decoration:none;font-weight:700;font-size:16px;font-family:'Segoe UI',Arial,sans-serif;">
+                📱 Falar Agora no WhatsApp
+              </a>
+            </td></tr>
+          </table>
+          <p style="margin:12px 0 0 0;color:#888;font-size:12px;font-family:'Segoe UI',Arial,sans-serif;">(21) 96407-5124 — Marcus Godoy</p>
+        </td></tr>
+      </table>
     `;
   }
 
-  const clientEmailHtml = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background: #f5f5f5; }
-        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background: linear-gradient(135deg, #0C2340 0%, #1a365d 100%); color: white; padding: 30px 20px; text-align: center; border-radius: 8px 8px 0 0; }
-        .header h1 { margin: 0 0 10px 0; color: #D4AF37; font-size: 24px; }
-        .header p { margin: 0; opacity: 0.9; font-size: 14px; }
-        .content { background: #ffffff; padding: 25px; border: 1px solid #e0e0e0; border-top: none; }
-        .footer { background: #f8f9fa; padding: 20px; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 8px 8px; text-align: center; }
-        .footer p { margin: 5px 0; color: #888; font-size: 12px; }
-        .logo-text { color: #D4AF37; font-weight: bold; font-size: 20px; }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <div class="header">
-          <div class="logo-text">🏠 GODOY PRIME REALTY</div>
-          <h1>${headerTitle}</h1>
-          <p>${headerSubtitle}</p>
-        </div>
-        
-        <div class="content">
+  const clientEmailHtml = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>${headerTitle}</title>
+</head>
+<body style="margin:0;padding:0;background:#f3f4f6;font-family:'Segoe UI',Arial,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f3f4f6;padding:24px 12px;">
+    <tr><td align="center">
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(12,35,64,0.08);">
+        <!-- Header -->
+        <tr><td style="background:#0C2340;padding:32px 24px;text-align:center;">
+          <p style="margin:0 0 8px 0;color:#D4AF37;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Godoy Prime Realty</p>
+          <h1 style="margin:0 0 6px 0;color:#ffffff;font-size:24px;font-weight:700;line-height:1.3;">${headerTitle}</h1>
+          <p style="margin:0;color:rgba(255,255,255,0.75);font-size:14px;">${headerSubtitle}</p>
+        </td></tr>
+        <!-- Content -->
+        <tr><td style="padding:28px 24px;">
           ${mainContent}
           ${ctaSection}
-        </div>
-        
-        <div class="footer">
-          <p><strong>Godoy Prime Realty</strong> - CRECI-RJ 11841</p>
-          <p>Especialistas em Imóveis de Alto Padrão na Barra da Tijuca</p>
-          <p style="margin-top: 15px;">
-            <a href="https://godoyprime.com.br" style="color: #0C2340; text-decoration: none;">godoyprime.com.br</a> | 
-            <a href="tel:+5521964075124" style="color: #0C2340; text-decoration: none;">(21) 96407-5124</a>
+        </td></tr>
+        <!-- Footer -->
+        <tr><td style="background:#f8fafc;padding:24px;text-align:center;border-top:1px solid #e5e7eb;">
+          <p style="margin:0 0 4px 0;color:#0C2340;font-size:13px;font-weight:700;">Marcus Godoy — CRECI-RJ 11841</p>
+          <p style="margin:0 0 12px 0;color:#6b7280;font-size:12px;">Especialista em Imóveis de Alto Padrão na Barra da Tijuca</p>
+          <p style="margin:0;color:#6b7280;font-size:12px;">
+            <a href="https://godoyprime.com.br" style="color:#0C2340;text-decoration:none;font-weight:600;">godoyprime.com.br</a>
+            &nbsp;·&nbsp;
+            <a href="tel:+5521964075124" style="color:#0C2340;text-decoration:none;font-weight:600;">(21) 96407-5124</a>
           </p>
-          <p style="margin-top: 15px; color: #aaa; font-size: 11px;">
-            Este email foi enviado porque você solicitou uma avaliação em nossa plataforma.
+          <p style="margin:14px 0 0 0;color:#9ca3af;font-size:11px;line-height:1.5;">
+            Você recebeu este email porque solicitou uma avaliação na nossa plataforma.<br>
+            Este conteúdo é informativo e não substitui um Parecer Técnico formal.
           </p>
-        </div>
-      </div>
-    </body>
-    </html>
-  `;
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
 
-  try {
+    try {
     console.log("Sending client confirmation email to:", data.leadEmail);
     
     const clientEmailResponse = await resend.emails.send({
