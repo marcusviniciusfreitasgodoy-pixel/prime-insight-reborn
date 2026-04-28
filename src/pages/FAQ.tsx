@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PHONE, WHATSAPP_MESSAGES, whatsappUrl, CTA_LABELS } from "@/config/contact";
 import {
   Accordion,
   AccordionContent,
@@ -294,26 +295,26 @@ export default function FAQ() {
                   Fazer Avaliação Gratuita
                 </Button>
               </Link>
-              <a href="tel:+5521964075124">
+              <a href={PHONE.tel}>
                 <Button 
                   variant="outline"
                   size="lg"
                   className="border-[#0C2340]/20 w-full sm:w-auto"
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
-                  Ligar: (21) 96407-5124
+                  {CTA_LABELS.ligarComNumero}
                 </Button>
               </a>
             </div>
             <p className="text-xs text-muted-foreground mt-4">
               WhatsApp:{" "}
               <a
-                href="https://wa.me/5521964075124"
+                href={`https://wa.me/${PHONE.e164}`}
                 target="_top"
                 rel="noopener noreferrer"
                 className="text-primary hover:underline"
               >
-                +55 21 96407-5124
+                +55 21 {PHONE.display.replace("(21) ", "")}
               </a>
             </p>
           </div>
@@ -342,11 +343,11 @@ export default function FAQ() {
                   Av. das Américas, 10101 - Bloco 2, Sala 316
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center md:justify-end gap-2 sm:gap-4 text-sm">
-                  <a href="tel:+5521964075124" className="text-white/80 hover:text-[#D4AF37] transition-colors">
-                    📞 (21) 96407-5124
+                  <a href={PHONE.tel} className="text-white/80 hover:text-[#D4AF37] transition-colors">
+                    📞 {PHONE.display}
                   </a>
                   <a
-                    href="https://wa.me/5521964075124"
+                    href={`https://wa.me/${PHONE.e164}`}
                     target="_top"
                     rel="noopener noreferrer"
                     className="text-white/80 hover:text-[#D4AF37] transition-colors"
@@ -376,11 +377,11 @@ export default function FAQ() {
 
         {/* Floating WhatsApp Button */}
         <a
-          href="https://wa.me/5521964075124?text=Ol%C3%A1!%20Tenho%20d%C3%BAvidas%20sobre%20avalia%C3%A7%C3%A3o%20de%20im%C3%B3veis."
+          href={whatsappUrl(WHATSAPP_MESSAGES.duvidaAvaliacao())}
           target="_top"
           rel="noopener noreferrer"
           className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] hover:bg-[#20BA5C] text-white px-4 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-          aria-label="Contato via WhatsApp"
+          aria-label={CTA_LABELS.whatsappFlutuanteAria}
         >
           <MessageCircle className="h-6 w-6" />
           <span className="font-medium text-sm hidden sm:inline">Fale Conosco</span>
