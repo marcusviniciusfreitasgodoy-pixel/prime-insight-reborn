@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle2, Gift, MessageCircle, TrendingUp, ArrowRight, Phone } from "lucide-react";
+import { WHATSAPP_MESSAGES, whatsappUrl } from "@/config/contact";
 
 interface ThankYouStepProps {
   nome: string;
@@ -87,7 +88,7 @@ export function ThankYouStep({ nome, onContinue }: ThankYouStepProps) {
           variant="outline" 
           size="sm" 
           className="border-accent/30 hover:bg-accent/10"
-          onClick={() => window.open("https://wa.me/5521964075124?text=Olá! Vim pela avaliação online e gostaria de agendar uma avaliação presencial gratuita.", "_blank")}
+          onClick={() => window.open(whatsappUrl(WHATSAPP_MESSAGES.agendarPresencial()), "_blank")}
         >
           <Phone className="mr-2 h-4 w-4" />
           Agendar pelo WhatsApp
