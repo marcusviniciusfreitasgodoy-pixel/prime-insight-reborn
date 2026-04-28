@@ -540,7 +540,7 @@ const handler = async (req: Request): Promise<Response> => {
         // Message to client
         let clientMsg = "";
         if (notificationType === "initial" || notificationType === "returning") {
-          clientMsg = `🏠 *Godoy Prime Realty*\n\nOlá ${data.leadName}! 👋\n\nRecebemos sua solicitação de avaliação${data.bairro ? ` no bairro *${data.bairro}*` : ""}.\n\n${formattedEstimativa ? `📊 Estimativa preliminar: *${formattedEstimativa}*\n\n` : ""}Um especialista Godoy Prime pode realizar uma análise detalhada considerando os diferenciais específicos do seu imóvel.\n\n📋 Quer solicitar um *Parecer Técnico Completo*? Acesse: https://prime-insight-reborn.lovable.app\n\nGodoy Prime Realty - CRECI-RJ 11841`;
+          clientMsg = `🏠 *Godoy Prime Realty*\n\nOlá ${data.leadName}! 👋\n\nRecebemos sua solicitação de avaliação${data.bairro ? ` no bairro *${data.bairro}*` : ""}.\n\n${formattedEstimativa ? `📊 Estimativa preliminar: *${formattedEstimativa}*\n\n` : ""}Um especialista Godoy Prime pode realizar uma análise detalhada considerando os diferenciais específicos do seu imóvel.\n\n📋 Quer solicitar um *Parecer Técnico Completo*? Basta responder esta mensagem com *PARECER* que um especialista entra em contato em até 2h úteis.\n\nGodoy Prime Realty - CRECI-RJ 11841`;
         } else {
           clientMsg = `✅ *Godoy Prime Realty*\n\nOlá ${data.leadName}!\n\nSua solicitação de *Parecer Técnico* foi recebida com sucesso! 🎉\n\n${data.bairro ? `📍 Imóvel: ${data.bairro}\n` : ""}${formattedEstimativa ? `💰 Estimativa: ${formattedEstimativa}\n` : ""}\nUm especialista entrará em contato em até *24-48 horas úteis*.\n\nDúvidas? Estamos aqui! 😊\n\nGodoy Prime Realty - CRECI-RJ 11841`;
         }
