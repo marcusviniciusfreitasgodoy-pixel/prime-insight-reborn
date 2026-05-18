@@ -276,7 +276,7 @@ export default function AvaliacaoPublica() {
         </script>
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      <main className="min-h-screen bg-background">
         {/* ============ HERO ============ */}
         <section className="relative text-white overflow-hidden">
           <img src={heroBackground} alt="" loading="eager" decoding="async" fetchPriority="high" className="absolute inset-0 w-full h-full object-cover object-center" />
@@ -665,7 +665,7 @@ export default function AvaliacaoPublica() {
           <MessageSquare className="h-6 w-6" />
           <span className="font-medium text-sm hidden sm:inline group-hover:inline">Fale Conosco</span>
         </a>
-      </div>
+      </main>
     </>
   );
 }
