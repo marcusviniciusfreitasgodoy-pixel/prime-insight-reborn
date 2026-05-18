@@ -14,6 +14,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { useUTMTracking, formatUTMSource } from "@/hooks/useUTMTracking";
+import { sendLeadToCrm } from "@/lib/crmWebhook";
 
 const leadSchema = z.object({
   nome: z.string().min(3, "Nome deve ter pelo menos 3 caracteres").max(100),
