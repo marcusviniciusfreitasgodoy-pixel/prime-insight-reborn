@@ -168,8 +168,10 @@ function expandLogradouroName(name: string): string {
 async function fetchLogradouroGeometry(logradouro: string, bairro: string): Promise<{ lat: number; lng: number } | null> {
   try {
     // Clean and expand abbreviations only for street type prefix
-    const searchTerm = expandLogradouroName(logradouro.toUpperCase().trim());
-    const bairroTerm = bairro.toUpperCase().trim();
+    // Strip SQL/wildcard chars before interpolating into ArcGIS WHERE clause
+    const sanitize = (s: string) => s.replace(/[';%"\\]/g, '').slice(0, 100);
+    const searchTerm = sanitize(expandLogradouroName(logradouro.toUpperCase().trim()));
+    const bairroTerm = sanitize(bairro.toUpperCase().trim());
     
     // Build API query - use the original name for search (without aggressive expansion)
     const whereClause = encodeURIComponent(`completo LIKE '%${searchTerm}%' AND bairro = '${bairroTerm}'`);
@@ -194,7 +196,7 @@ async function fetchLogradouroGeometry(logradouro: string, bairro: string): Prom
       // Try partial match if full name didn't work
       const words = searchTerm.split(" ").filter(w => w.length > 3);
       if (words.length >= 2) {
-        const partialSearch = words.slice(-2).join(" ");
+        const partialSearch = words.slice(-2).join(" ").replace(/[';%"\\]/g, '').slice(0, 100);
         const partialWhere = encodeURIComponent(`completo LIKE '%${partialSearch}%' AND bairro = '${bairroTerm}'`);
         const partialUrl = `https://pgeo3.rio.rj.gov.br/arcgis/rest/services/CadLog/Trechos_Logradouros/MapServer/0/query?where=${partialWhere}&outFields=*&f=json&returnGeometry=true`;
         
