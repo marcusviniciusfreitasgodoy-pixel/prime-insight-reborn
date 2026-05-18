@@ -27,7 +27,12 @@ serve(async (req: Request) => {
 
     const res = await fetch(webhookUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        ...(Deno.env.get("CRM_WEBHOOK_API_KEY")
+          ? { "X-API-Key": Deno.env.get("CRM_WEBHOOK_API_KEY")! }
+          : {}),
+      },
       body: JSON.stringify(payload),
     });
 
