@@ -66,7 +66,10 @@ function expandAbbreviations(name: string): string {
 }
 
 async function geocodeWithPrefeitura(searchTerm: string, bairroNormalized: string): Promise<{ lat: number; lng: number; attributes?: Record<string, unknown> } | null> {
-  const whereClause = encodeURIComponent(`completo LIKE '%${searchTerm}%' AND bairro = '${bairroNormalized}'`);
+  // Strip SQL/wildcard chars before interpolating into ArcGIS WHERE clause
+  const safeTerm = searchTerm.replace(/[';%"\\]/g, '').slice(0, 100);
+  const safeBairro = bairroNormalized.replace(/[';%"\\]/g, '').slice(0, 100);
+  const whereClause = encodeURIComponent(`completo LIKE '%${safeTerm}%' AND bairro = '${safeBairro}'`);
   const url = `https://pgeo3.rio.rj.gov.br/arcgis/rest/services/CadLog/Trechos_Logradouros/MapServer/0/query?where=${whereClause}&outFields=*&f=json&returnGeometry=true`;
 
   const response = await fetch(url);
