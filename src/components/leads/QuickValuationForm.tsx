@@ -370,6 +370,30 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
         console.error("Error sending lead notification:", notificationError);
       }
 
+      // Forward lead to external CRM (fire-and-forget)
+      sendLeadToCrm("quick_valuation_form", {
+        nome: nome.trim(),
+        email: normalizedEmail,
+        telefone: phoneDigits,
+        bairro,
+        logradouro: logradouro.trim() || null,
+        area_m2: areaNum,
+        tipologia,
+        quartos: quartos ? parseInt(quartos) : null,
+        banheiros: banheiros ? parseInt(banheiros) : null,
+        suites: suites ? parseInt(suites) : null,
+        vagas: vagas ? parseInt(vagas) : null,
+        diferenciais: diferenciais.trim() || null,
+        valor_pedido_vendedor: valorPedidoNum || null,
+        interesse: "compra",
+        origem: "avaliacao_publica",
+        is_returning_lead: !!existingLead,
+        evaluation_number: existingLead ? evaluationCount + 1 : 1,
+        estimativa_min: estimativa?.min ?? null,
+        estimativa_med: estimativa?.med ?? null,
+        estimativa_max: estimativa?.max ?? null,
+      });
+
       onComplete({
         bairro,
         logradouro: logradouro.trim(),
