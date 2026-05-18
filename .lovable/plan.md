@@ -1,21 +1,56 @@
-# Remover a seção "Dúvidas Comuns" do FAQ
+# Integração CRM Externo (Webhook)
 
-A página `/avaliacao` exibe um FAQ com 4 categorias. A seção **"Dúvidas Comuns"** (categoria `objecoes`) contém exatamente as 4 perguntas citadas:
+## Objetivo
+Encaminhar todos os leads gerados (formulários) e eventos de clique em CTAs de WhatsApp para o webhook do CRM:
+`https://crm-b2b-interface-clone-9bbb1.shrd00.internal.goskip.dev/backend/v1/webhook-external`
 
-- "É só uma estimativa, não é o valor exato, certo?"
-- "Por que preciso informar meus dados de contato?"
-- "E se eu não concordar com o valor apresentado?"
-- "Vocês vão ficar me ligando depois?"
+## Arquitetura
+Para evitar problemas de CORS e manter a URL configurável, o envio será feito via uma nova edge function `forward-lead-crm`, chamada do frontend após cada conversão/CTA.
 
-## Mudanças
+```text
+Frontend → supabase.functions.invoke('forward-lead-crm', { payload })
+            └→ POST → webhook do CRM
+```
 
-**Arquivo:** `src/pages/AvaliacaoPublica.tsx`
+A URL ficará em um secret `CRM_WEBHOOK_URL` (já com valor padrão), assim qualquer mudança futura não requer redeploy.
 
-1. Remover as **4 entradas com `category: "objecoes"`** do array `FAQ_DATA` (linhas 102–105).
-2. Remover a entrada `{ key: "objecoes", label: "Dúvidas Comuns", ... }` do array de categorias renderizadas (linha 588).
+## O que será enviado
 
-Resultado: o FAQ continua exibindo as 3 categorias restantes (Como Usar, Confiança e Segurança, Benefícios). Nenhuma outra seção da página é afetada.
+### 1. Leads de formulários (já existentes)
+- `QuickValuationForm` (avaliação rápida pública) — após `insert` em `leads`
+- `LeadCaptureForm` (formulário completo) — após `insert` em `leads`
 
-## Limpeza opcional
+Payload: `{ event: "lead_form", source, lead: { nome, email, telefone, bairro, interesse, objetivo, urgencia, area, tipologia, quartos, banheiros, suites, vagas, estimativaMin/Med/Max, enderecoImovelAnalise, valorPedidoVendedor, utm_* }, page, timestamp }`
 
-Se os ícones `AlertCircle`, `ThumbsUp`, `MessageCircle` não forem usados em nenhum outro ponto do arquivo após a remoção, removo também os imports não utilizados para manter o código limpo.
+### 2. Cliques em CTAs de WhatsApp
+- Botão flutuante de WhatsApp em `AvaliacaoPublica`
+- Botão "Tirar dúvida" no formulário
+- Botões de WhatsApp em `ThankYouStep`, `RealCaseComparison`, `PeritEvaluationSection`
+
+Payload: `{ event: "cta_click", source: "whatsapp_flutuante" | "whatsapp_duvida" | ..., page, utm_*, timestamp }`
+
+## Implementação
+
+1. **Nova edge function** `supabase/functions/forward-lead-crm/index.ts`
+   - Recebe `{ event, payload }`
+   - Faz `POST` ao `CRM_WEBHOOK_URL` com headers JSON
+   - Retorna sucesso/erro sem bloquear o fluxo do usuário
+   - `verify_jwt = false` (chamadas anônimas do site público)
+
+2. **Secret** `CRM_WEBHOOK_URL` com a URL fornecida
+
+3. **Helper frontend** `src/lib/crmWebhook.ts`
+   - `sendLeadToCrm(payload)` e `sendCtaClickToCrm(source)`
+   - Chamadas "fire and forget" (não bloqueiam UX, erros só em console)
+
+4. **Integração nos pontos existentes**
+   - `QuickValuationForm.tsx` → após insert lead bem-sucedido
+   - `LeadCaptureForm.tsx` → após insert lead bem-sucedido
+   - `AvaliacaoPublica.tsx` → onClick dos botões de WhatsApp/CTAs
+   - `ThankYouStep.tsx`, `RealCaseComparison.tsx`, `PeritEvaluationSection.tsx` → onClick dos botões de WhatsApp
+
+## Detalhes técnicos
+- Edge function usa CORS padrão (origin `*`).
+- Frontend não bloqueia espera da resposta — chamadas com `.catch(console.error)`.
+- UTMs já capturadas via `useUTMTracking` serão incluídas automaticamente.
+- Sem alteração no schema do banco — leads continuam salvos em `public.leads`; o webhook é apenas um espelho.
