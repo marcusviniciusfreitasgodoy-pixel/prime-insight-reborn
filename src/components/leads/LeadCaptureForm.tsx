@@ -264,6 +264,29 @@ export function LeadCaptureForm({
         console.error('Error sending lead notification:', notificationError);
       }
 
+      // Forward lead to external CRM (fire-and-forget)
+      sendLeadToCrm("lead_capture_form", {
+        lead_id: insertedLead.id,
+        nome: data.nome.trim(),
+        email: normalizedEmail,
+        telefone: data.telefone.replace(/\D/g, ""),
+        bairro_interesse: bairroInteresse,
+        area_interesse: areaInteresse,
+        valor_interesse: valorInteresse,
+        quartos,
+        banheiros,
+        suites,
+        vagas,
+        objetivo: data.objetivo,
+        urgencia: data.urgencia,
+        preferencia_contato: data.preferencia_contato,
+        aceita_marketing: data.aceita_marketing || false,
+        diferenciais_imovel: diferenciais,
+        interesse: data.objetivo === "vender" ? "venda" : "compra",
+        endereco_imovel: data.endereco_imovel || null,
+        valor_pedido_vendedor: valorPedidoNum || null,
+      });
+
       toast.success("Solicitação enviada com sucesso! Entraremos em contato em breve.");
 
       onSuccess({
