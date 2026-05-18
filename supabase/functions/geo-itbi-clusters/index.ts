@@ -168,8 +168,10 @@ function expandLogradouroName(name: string): string {
 async function fetchLogradouroGeometry(logradouro: string, bairro: string): Promise<{ lat: number; lng: number } | null> {
   try {
     // Clean and expand abbreviations only for street type prefix
-    const searchTerm = expandLogradouroName(logradouro.toUpperCase().trim());
-    const bairroTerm = bairro.toUpperCase().trim();
+    // Strip SQL/wildcard chars before interpolating into ArcGIS WHERE clause
+    const sanitize = (s: string) => s.replace(/[';%"\\]/g, '').slice(0, 100);
+    const searchTerm = sanitize(expandLogradouroName(logradouro.toUpperCase().trim()));
+    const bairroTerm = sanitize(bairro.toUpperCase().trim());
     
     // Build API query - use the original name for search (without aggressive expansion)
     const whereClause = encodeURIComponent(`completo LIKE '%${searchTerm}%' AND bairro = '${bairroTerm}'`);
@@ -194,7 +196,7 @@ async function fetchLogradouroGeometry(logradouro: string, bairro: string): Prom
       // Try partial match if full name didn't work
       const words = searchTerm.split(" ").filter(w => w.length > 3);
       if (words.length >= 2) {
-        const partialSearch = words.slice(-2).join(" ");
+        const partialSearch = words.slice(-2).join(" ").replace(/[';%"\\]/g, '').slice(0, 100);
         const partialWhere = encodeURIComponent(`completo LIKE '%${partialSearch}%' AND bairro = '${bairroTerm}'`);
         const partialUrl = `https://pgeo3.rio.rj.gov.br/arcgis/rest/services/CadLog/Trechos_Logradouros/MapServer/0/query?where=${partialWhere}&outFields=*&f=json&returnGeometry=true`;
         
@@ -230,13 +232,23 @@ serve(async (req) => {
   }
 
   try {
-    // Validate that request came via Supabase SDK (has Authorization header)
+    // Require authenticated caller (validate JWT, not just header presence)
     const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+    if (!authHeader?.startsWith('Bearer ')) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+    const authClient = createClient(
+      Deno.env.get('SUPABASE_URL')!,
+      Deno.env.get('SUPABASE_ANON_KEY')!,
+      { global: { headers: { Authorization: authHeader } } },
+    );
+    const { data: claimsData, error: claimsErr } = await authClient.auth.getClaims(authHeader.replace('Bearer ', ''));
+    if (claimsErr || !claimsData?.claims) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;

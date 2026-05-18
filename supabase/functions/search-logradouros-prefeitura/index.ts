@@ -105,8 +105,10 @@ serve(async (req) => {
       );
     }
 
-    const searchTerm = expandAbbreviations(query.toUpperCase().trim());
-    const bairroTerm = bairro?.toUpperCase().trim() || "";
+    // Strip SQL/wildcard chars before interpolating into ArcGIS WHERE clause
+    const sanitize = (s: string) => s.replace(/[';%"\\]/g, '').slice(0, 100);
+    const searchTerm = sanitize(expandAbbreviations(query.toUpperCase().trim()));
+    const bairroTerm = sanitize(bairro?.toUpperCase().trim() || "");
 
     console.log(`Searching Prefeitura API for: ${searchTerm} in ${bairroTerm || "all bairros"}`);
 
