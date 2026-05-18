@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { ComparisonTable } from "./ComparisonTable";
 import marcusGodoyImg from "@/assets/marcus-godoy-novo.jpg";
 import { WHATSAPP_MESSAGES, whatsappUrl } from "@/config/contact";
+import { sendCtaClickToCrm } from "@/lib/crmWebhook";
 
 const parecerEntregas = [
   {
@@ -74,6 +75,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
     new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }).format(value);
 
   const handleCta = () => {
+    sendCtaClickToCrm("parecer_tecnico_cta");
     if (onRequestParecer) {
       onRequestParecer();
       return;
@@ -382,7 +384,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
           <Button 
             variant="outline" 
             className="w-full sm:w-auto bg-transparent border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0C2340] focus:bg-[#D4AF37] focus:text-[#0C2340] active:bg-[#D4AF37] active:text-[#0C2340] whitespace-normal h-auto py-3 px-4"
-            onClick={() => window.open('https://personalshopperimobiliario.godoyprime.com.br', '_blank')}
+            onClick={() => { sendCtaClickToCrm("prime_buyer_experience"); window.open('https://personalshopperimobiliario.godoyprime.com.br', '_blank'); }}
           >
             <span className="text-xs sm:text-base">Conhecer Prime Buyer Experience</span>
             <ExternalLink className="ml-2 h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />

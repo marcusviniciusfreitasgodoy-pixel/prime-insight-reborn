@@ -14,6 +14,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { useUTMTracking, formatUTMSource } from "@/hooks/useUTMTracking";
+import { sendLeadToCrm } from "@/lib/crmWebhook";
 
 const leadSchema = z.object({
   nome: z.string().min(3, "Nome deve ter pelo menos 3 caracteres").max(100),
@@ -262,6 +263,29 @@ export function LeadCaptureForm({
       } catch (notificationError) {
         console.error('Error sending lead notification:', notificationError);
       }
+
+      // Forward lead to external CRM (fire-and-forget)
+      sendLeadToCrm("lead_capture_form", {
+        lead_id: insertedLead.id,
+        nome: data.nome.trim(),
+        email: normalizedEmail,
+        telefone: data.telefone.replace(/\D/g, ""),
+        bairro_interesse: bairroInteresse,
+        area_interesse: areaInteresse,
+        valor_interesse: valorInteresse,
+        quartos,
+        banheiros,
+        suites,
+        vagas,
+        objetivo: data.objetivo,
+        urgencia: data.urgencia,
+        preferencia_contato: data.preferencia_contato,
+        aceita_marketing: data.aceita_marketing || false,
+        diferenciais_imovel: diferenciais,
+        interesse: data.objetivo === "vender" ? "venda" : "compra",
+        endereco_imovel: data.endereco_imovel || null,
+        valor_pedido_vendedor: valorPedidoNum || null,
+      });
 
       toast.success("Solicitação enviada com sucesso! Entraremos em contato em breve.");
 
