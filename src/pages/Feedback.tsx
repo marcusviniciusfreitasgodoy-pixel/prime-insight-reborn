@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -109,6 +110,13 @@ const Feedback = () => {
   if (isSubmitted) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30 flex flex-col">
+        <Helmet>
+          <title>Feedback enviado | Godoy Prime</title>
+          <meta name="description" content="Obrigado pelo seu feedback. Suas respostas ajudam a melhorar a avaliação imobiliária da Godoy Prime." />
+          <link rel="canonical" href="https://avaliacao.godoyprime.com.br/feedback" />
+          <meta property="og:title" content="Feedback enviado | Godoy Prime" />
+          <meta property="og:description" content="Obrigado pelo seu feedback à Godoy Prime." />
+        </Helmet>
         <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl">
           <div className="container flex h-16 items-center justify-between px-4">
             <Link to="/" className="flex items-center gap-2">
@@ -147,6 +155,13 @@ const Feedback = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30 flex flex-col">
+      <Helmet>
+        <title>Pesquisa de Feedback | Godoy Prime</title>
+        <meta name="description" content="Compartilhe sua opinião sobre a avaliação imobiliária Godoy Prime e ajude a melhorar a experiência." />
+        <link rel="canonical" href="https://avaliacao.godoyprime.com.br/feedback" />
+        <meta property="og:title" content="Pesquisa de Feedback | Godoy Prime" />
+        <meta property="og:description" content="Sua opinião nos ajuda a aprimorar a Godoy Prime Realty." />
+      </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl">
         <div className="container flex h-16 items-center justify-between px-4">

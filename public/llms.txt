@@ -1,0 +1,16 @@
+# Godoy Prime Realty
+
+> Avaliação imobiliária premium na Barra da Tijuca (RJ) baseada em transações oficiais registradas. Descubra o valor real do seu imóvel em 30 segundos.
+
+A Godoy Prime Realty é uma imobiliária focada em imóveis de alto padrão no Rio de Janeiro. A plataforma de avaliação usa mais de 80.000 transações oficiais como base estatística, seguindo a NBR 14653, para entregar um valor de mercado realista — diferente de preços de anúncios.
+
+## Pages
+
+- [Avaliação Imobiliária Gratuita](/): Formulário público que estima o valor de um imóvel em 30 segundos a partir de transações oficiais.
+- [Avaliação](/avaliacao): Mesmo fluxo de avaliação acessível diretamente por esta URL.
+- [FAQ](/faq): Perguntas e respostas sobre metodologia, dados oficiais, uso prático e aspectos legais da avaliação.
+
+## Optional
+
+- [Política de Privacidade](/politica-privacidade): Como a Godoy Prime coleta, usa e protege dados pessoais (LGPD).
+- [Feedback](/feedback): Pesquisa de opinião sobre a experiência de avaliação.

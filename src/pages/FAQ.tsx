@@ -148,8 +148,8 @@ const CATEGORY_CONFIG = [
 ];
 
 const SEO_CONFIG = {
-  title: "FAQ - Perguntas Frequentes sobre Avaliação Imobiliária | Godoy Prime",
-  description: "Tire suas dúvidas sobre avaliação imobiliária, dados oficiais, metodologia e aspectos legais. Entenda como funciona nossa avaliação baseada em transações reais.",
+  title: "FAQ Avaliação Imobiliária | Godoy Prime",
+  description: "Tire suas dúvidas sobre avaliação imobiliária, dados oficiais, metodologia e aspectos legais da Godoy Prime.",
   keywords: "FAQ avaliação imobiliária, dúvidas dados oficiais, como funciona avaliação, transações oficiais, metodologia avaliação",
   canonical: "https://avaliacao.godoyprime.com.br/faq",
 };
@@ -176,6 +176,17 @@ export default function FAQ() {
         <meta property="og:description" content={SEO_CONFIG.description} />
         <meta property="og:type" content="website" />
         <meta name="robots" content="index, follow" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: FAQ_DATA.map((item) => ({
+              "@type": "Question",
+              name: item.question,
+              acceptedAnswer: { "@type": "Answer", text: item.answer },
+            })),
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen bg-background">

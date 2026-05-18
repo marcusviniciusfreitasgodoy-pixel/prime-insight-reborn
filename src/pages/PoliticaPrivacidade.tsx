@@ -2,12 +2,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 export default function PoliticaPrivacidade() {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Política de Privacidade | Godoy Prime</title>
+        <meta name="description" content="Saiba como a Godoy Prime Realty coleta, usa e protege seus dados pessoais em conformidade com a LGPD." />
+        <link rel="canonical" href="https://avaliacao.godoyprime.com.br/politica-privacidade" />
+        <meta property="og:title" content="Política de Privacidade | Godoy Prime" />
+        <meta property="og:description" content="Como tratamos e protegemos seus dados pessoais conforme a LGPD." />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
       {/* Header */}
       <header className="bg-primary text-primary-foreground py-6">
         <div className="container mx-auto px-4">
