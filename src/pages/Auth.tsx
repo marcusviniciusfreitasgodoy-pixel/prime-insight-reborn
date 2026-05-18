@@ -10,6 +10,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, ArrowLeft } from "lucide-react";
 import godoyLogo from "@/assets/godoy-logo-pdf.png";
+import { Helmet } from "react-helmet-async";
+
+const AuthHead = () => (
+  <Helmet>
+    <title>Acesso restrito | Godoy Prime</title>
+    <meta name="description" content="Área de acesso restrito para corretores e administradores da plataforma Godoy Prime Realty." />
+    <link rel="canonical" href="https://avaliacao.godoyprime.com.br/auth" />
+    <meta property="og:title" content="Acesso restrito | Godoy Prime" />
+    <meta property="og:description" content="Login da plataforma interna Godoy Prime Realty." />
+    <meta name="robots" content="noindex, nofollow" />
+  </Helmet>
+);
 
 export default function Auth() {
   const [isLoading, setIsLoading] = useState(false);
@@ -184,6 +196,7 @@ export default function Auth() {
   if (showForgotPassword) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary via-primary/95 to-primary/90 p-4">
+        <AuthHead />
         <Card className="w-full max-w-md border-accent/20 shadow-2xl">
           <CardHeader className="text-center space-y-2">
             <div className="flex justify-center">
@@ -235,6 +248,7 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary via-primary/95 to-primary/90 p-4">
+      <AuthHead />
       <Card className="w-full max-w-md border-accent/20 shadow-2xl">
         <CardHeader className="text-center space-y-2">
           <div className="flex justify-center">
