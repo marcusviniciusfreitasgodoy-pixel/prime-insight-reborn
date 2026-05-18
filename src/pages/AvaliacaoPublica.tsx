@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useUTMTracking } from "@/hooks/useUTMTracking";
 import { PHONE, WHATSAPP_MESSAGES, whatsappUrl, CTA_LABELS } from "@/config/contact";
+import { sendCtaClickToCrm } from "@/lib/crmWebhook";
 import {
   ArrowRight,
   Shield,
