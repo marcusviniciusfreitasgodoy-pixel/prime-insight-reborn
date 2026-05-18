@@ -103,8 +103,8 @@ const FAQ_DATA = [
 ];
 
 const SEO_CONFIG = {
-  title: "Avaliação Imobiliária Gratuita | Descubra o Valor Real do Seu Imóvel | Godoy Prime",
-  description: "Descubra o valor real do seu imóvel na Barra da Tijuca em 30 segundos. Avaliação baseada em +80.000 transações oficiais registradas da Prefeitura do RJ. Gratuito e sem compromisso.",
+  title: "Avaliação Imóvel Barra da Tijuca em 30s | Godoy Prime",
+  description: "Descubra o valor real do seu imóvel na Barra da Tijuca em 30s, com base em +80.000 transações oficiais. Gratuito e sem compromisso.",
   keywords: "avaliação imóvel gratuita, valor imóvel Barra da Tijuca, preço m2 Rio de Janeiro, quanto vale meu apartamento, transações oficiais, avaliação online, valor real imóvel",
   canonical: "https://avaliacao.godoyprime.com.br",
   ogImage: "https://avaliacao.godoyprime.com.br/og-image.jpg",
