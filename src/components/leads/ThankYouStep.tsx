@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle2, Gift, MessageCircle, TrendingUp, ArrowRight, Phone } from "lucide-react";
 import { WHATSAPP_MESSAGES, whatsappUrl } from "@/config/contact";
+import { sendCtaClickToCrm } from "@/lib/crmWebhook";
 
 interface ThankYouStepProps {
   nome: string;
@@ -88,7 +89,7 @@ export function ThankYouStep({ nome, onContinue }: ThankYouStepProps) {
           variant="outline" 
           size="sm" 
           className="border-accent/30 hover:bg-accent/10"
-          onClick={() => window.open(whatsappUrl(WHATSAPP_MESSAGES.agendarPresencial()), "_blank")}
+          onClick={() => { sendCtaClickToCrm("whatsapp_agendar_presencial", { nome }); window.open(whatsappUrl(WHATSAPP_MESSAGES.agendarPresencial()), "_blank"); }}
         >
           <Phone className="mr-2 h-4 w-4" />
           Agendar pelo WhatsApp
