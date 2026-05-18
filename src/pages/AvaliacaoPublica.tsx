@@ -612,7 +612,7 @@ export default function AvaliacaoPublica() {
                     <Calculator className="mr-2 h-4 w-4 flex-shrink-0" />
                     <span className="truncate">Fazer Minha Avaliação Gratuita</span>
                   </Button>
-                  <Button variant="outline" onClick={() => window.open(whatsappUrl(WHATSAPP_MESSAGES.duvidaAvaliacao()), "_blank")} className="border-[#0C2340]/20 tracking-wide uppercase text-xs font-semibold transition-colors duration-300 w-full sm:w-auto">
+                  <Button variant="outline" onClick={() => { sendCtaClickToCrm("whatsapp_duvida_avaliacao"); window.open(whatsappUrl(WHATSAPP_MESSAGES.duvidaAvaliacao()), "_blank"); }} className="border-[#0C2340]/20 tracking-wide uppercase text-xs font-semibold transition-colors duration-300 w-full sm:w-auto">
                     <MessageCircle className="mr-2 h-4 w-4 flex-shrink-0" />
                     <span className="truncate">Falar com Especialista</span>
                   </Button>
@@ -640,7 +640,7 @@ export default function AvaliacaoPublica() {
                 <p className="text-white/80 text-sm mb-2">Av. das Américas, 10101 - Bloco 2, Sala 316</p>
                 <div className="flex flex-col sm:flex-row justify-center md:justify-end gap-2 sm:gap-4 text-sm">
                   <a href={PHONE.tel} className="text-white/80 hover:text-[#D4AF37] transition-colors">📞 {PHONE.display}</a>
-                  <a href={`https://wa.me/${PHONE.e164}`} target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-[#D4AF37] transition-colors">💬 WhatsApp</a>
+                  <a href={`https://wa.me/${PHONE.e164}`} target="_blank" rel="noopener noreferrer" onClick={() => sendCtaClickToCrm("whatsapp_footer")} className="text-white/80 hover:text-[#D4AF37] transition-colors">💬 WhatsApp</a>
                 </div>
               </div>
             </div>
@@ -661,7 +661,7 @@ export default function AvaliacaoPublica() {
           </div>
         </footer>
 
-        <a href={whatsappUrl(WHATSAPP_MESSAGES.generico())} target="_blank" rel="noopener noreferrer" className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] hover:bg-[#20BA5C] text-white px-4 py-3 rounded-full shadow-lg transition-colors duration-300 animate-fade-in group" aria-label={CTA_LABELS.whatsappFlutuanteAria}>
+        <a href={whatsappUrl(WHATSAPP_MESSAGES.generico())} target="_blank" rel="noopener noreferrer" onClick={() => sendCtaClickToCrm("whatsapp_flutuante")} className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] hover:bg-[#20BA5C] text-white px-4 py-3 rounded-full shadow-lg transition-colors duration-300 animate-fade-in group" aria-label={CTA_LABELS.whatsappFlutuanteAria}>
           <MessageSquare className="h-6 w-6" />
           <span className="font-medium text-sm hidden sm:inline group-hover:inline">Fale Conosco</span>
         </a>
