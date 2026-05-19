@@ -279,7 +279,7 @@ export default function AvaliacaoPublica() {
       <main className="min-h-screen bg-background">
         {/* ============ HERO ============ */}
         <section className="relative text-white overflow-hidden">
-          <img src={heroBackground} alt="" loading="eager" decoding="async" fetchPriority="high" className="absolute inset-0 w-full h-full object-cover object-center" />
+          <img src={heroBackground} alt="" loading="eager" decoding="async" fetchPriority="high" width={1920} height={1080} className="absolute inset-0 w-full h-full object-cover object-center" />
           <div className="absolute inset-0 bg-gradient-to-br from-[#0C2340]/95 via-[#0C2340]/90 to-[#1a3a5c]/85" />
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#D4AF37]/10 rounded-full blur-3xl" />
