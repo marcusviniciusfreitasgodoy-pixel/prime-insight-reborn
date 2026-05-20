@@ -1,8 +1,36 @@
-# Integração CRM Externo (Webhook)
+# Atualizar conexão da página de Leads com o CRM
 
 ## Objetivo
-Encaminhar todos os leads gerados (formulários) e eventos de clique em CTAs de WhatsApp para o webhook do CRM:
-`https://crm-b2b-interface-clone-9bbb1.shrd00.internal.goskip.dev/backend/v1/webhook-external`
+Atualizar o endpoint e a chave de API usados pela integração já existente (`forward-lead-crm`) para apontar para o novo webhook do CRM informado pelo usuário, e garantir que a página `/admin/leads` (e os formulários públicos) continuem enviando os leads corretamente.
+
+- Novo endpoint: `https://crm-b2b-interface-clone-9bbb1.shrd00.internal.goskip.dev/backend/v1/webhook_external`
+- Nova API Key (header `X-API-Key`): `sk_7b2b7addf0a1596dfae7fe4127fcc4ac0edaa1d315c51b2b`
+
+Observação: já existe a edge function `forward-lead-crm` + secrets `CRM_WEBHOOK_URL` e `CRM_WEBHOOK_API_KEY`. Só precisamos atualizar valores e fazer pequenos ajustes — nada de criar infra nova.
+
+## Mudanças
+
+1. **Atualizar secrets do backend** (via tool de secrets, sem hardcode no código):
+   - `CRM_WEBHOOK_URL` → novo endpoint `…/webhook_external`
+   - `CRM_WEBHOOK_API_KEY` → `sk_7b2b7addf0a1596dfae7fe4127fcc4ac0edaa1d315c51b2b`
+
+2. **Adicionar reenvio manual a partir da página `/admin/leads`** (novo):
+   - Botão "Reenviar ao CRM" em cada linha/detalhe do lead em `src/pages/Leads.tsx` / `LeadDetailDialog.tsx`, que chama `forward-lead-crm` com o payload do lead salvo no banco.
+   - Útil para reprocessar leads antigos ou testar a conexão sem precisar refazer o formulário.
+
+3. **Testar a integração**:
+   - Deploy da edge function `forward-lead-crm` (não muda código, mas garante que pegue os novos secrets).
+   - Chamar a função com um payload de teste e checar logs (`supabase--edge_function_logs`) confirmando HTTP 2xx do CRM.
+
+## O que NÃO muda
+- Código da função `forward-lead-crm` (já lê URL/API key de env vars).
+- Helper `src/lib/crmWebhook.ts` e as chamadas existentes em `QuickValuationForm`, `LeadCaptureForm`, `ThankYouStep`, `RealCaseComparison`, `PeritEvaluationSection`, `AvaliacaoPublica`.
+- Schema do banco — leads continuam salvos em `public.leads`.
+
+## Detalhes técnicos
+- A função já envia `X-API-Key` quando `CRM_WEBHOOK_API_KEY` está definido — basta atualizar o secret.
+- O endpoint é interno (`*.internal.goskip.dev`); se o CRM bloquear chamadas externas, vamos ver erro de DNS/timeout nos logs e o usuário precisará liberar acesso.
+- O botão de reenvio manual usa o mesmo `supabase.functions.invoke("forward-lead-crm", ...)` já configurado.
 
 ## Arquitetura
 Para evitar problemas de CORS e manter a URL configurável, o envio será feito via uma nova edge function `forward-lead-crm`, chamada do frontend após cada conversão/CTA.
