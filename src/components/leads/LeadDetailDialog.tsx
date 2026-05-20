@@ -1,10 +1,14 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import {
   Mail, Phone, MapPin, Home, DollarSign, Calendar, BedDouble, Car,
   CheckCircle, Clock, User, Target, Zap, MessageSquare, FileText,
-  Bath, Star,
+  Bath, Star, Send,
 } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -83,6 +87,35 @@ const SectionTitle = ({ children }: { children: React.ReactNode }) => (
 );
 
 export function LeadDetailDialog({ lead, open, onOpenChange }: LeadDetailDialogProps) {
+  const [sending, setSending] = useState(false);
+
+  const handleResendToCrm = async () => {
+    if (!lead) return;
+    setSending(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("forward-lead-crm", {
+        body: {
+          event: "lead_resend",
+          source: "admin_panel",
+          lead,
+          page: typeof window !== "undefined" ? window.location.pathname : "",
+          timestamp: new Date().toISOString(),
+        },
+      });
+      if (error) throw error;
+      if (data?.ok) {
+        toast.success(`Lead reenviado ao CRM (HTTP ${data.status})`);
+      } else {
+        toast.error(`CRM retornou erro (HTTP ${data?.status ?? "?"})`);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Falha ao reenviar ao CRM");
+    } finally {
+      setSending(false);
+    }
+  };
+
   if (!lead) return null;
 
   const urgenciaColors: Record<string, string> = {
@@ -113,6 +146,12 @@ export function LeadDetailDialog({ lead, open, onOpenChange }: LeadDetailDialogP
             {lead.origem && (
               <Badge variant="outline" className="text-xs">{lead.origem}</Badge>
             )}
+          </div>
+          <div className="pt-2">
+            <Button size="sm" variant="outline" onClick={handleResendToCrm} disabled={sending}>
+              <Send className="h-3.5 w-3.5 mr-2" />
+              {sending ? "Reenviando..." : "Reenviar ao CRM"}
+            </Button>
           </div>
         </DialogHeader>
 

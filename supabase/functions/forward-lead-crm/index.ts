@@ -8,7 +8,7 @@ const corsHeaders = {
 };
 
 const DEFAULT_WEBHOOK_URL =
-  "https://crm-b2b-interface-clone-9bbb1.shrd00.internal.goskip.dev/backend/v1/webhook-external";
+  "https://crm-b2b-interface-clone-9bbb1.shrd00.internal.goskip.dev/backend/v1/webhook_external";
 
 serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
