@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -21,10 +21,17 @@ export function useAuth() {
     isAdmin: false,
   });
 
+  // Use a ref to prevent stale role fetches from race conditions
+  const activeUserIdRef = useRef<string | null>(null);
+
   useEffect(() => {
+    let isMounted = true;
+
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        if (!isMounted) return;
+
         setAuthState(prev => ({
           ...prev,
           session,
@@ -33,10 +40,14 @@ export function useAuth() {
 
         // Defer role check with setTimeout to prevent deadlock
         if (session?.user) {
+          activeUserIdRef.current = session.user.id;
           setTimeout(() => {
-            fetchUserRole(session.user.id);
+            if (isMounted && activeUserIdRef.current === session.user.id) {
+              fetchUserRole(session.user.id);
+            }
           }, 0);
         } else {
+          activeUserIdRef.current = null;
           setAuthState(prev => ({
             ...prev,
             role: null,
@@ -49,6 +60,8 @@ export function useAuth() {
 
     // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!isMounted) return;
+
       setAuthState(prev => ({
         ...prev,
         session,
@@ -56,13 +69,17 @@ export function useAuth() {
       }));
 
       if (session?.user) {
+        activeUserIdRef.current = session.user.id;
         fetchUserRole(session.user.id);
       } else {
         setAuthState(prev => ({ ...prev, isLoading: false }));
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const fetchUserRole = async (userId: string) => {
