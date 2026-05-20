@@ -87,10 +87,10 @@ const SectionTitle = ({ children }: { children: React.ReactNode }) => (
 );
 
 export function LeadDetailDialog({ lead, open, onOpenChange }: LeadDetailDialogProps) {
-  if (!lead) return null;
   const [sending, setSending] = useState(false);
 
   const handleResendToCrm = async () => {
+    if (!lead) return;
     setSending(true);
     try {
       const { data, error } = await supabase.functions.invoke("forward-lead-crm", {
@@ -115,6 +115,8 @@ export function LeadDetailDialog({ lead, open, onOpenChange }: LeadDetailDialogP
       setSending(false);
     }
   };
+
+  if (!lead) return null;
 
   const urgenciaColors: Record<string, string> = {
     imediata: "bg-red-500/10 text-red-600",
