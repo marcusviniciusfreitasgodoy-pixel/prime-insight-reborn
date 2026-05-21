@@ -1,3 +1,35 @@
+# Adicionar módulo "Consulte o Valor Agora" na segunda dobra
+
+Duplicar a seção do formulário existente (atualmente no final da página) logo após o Hero, antes da seção "Por Que Você Está Negociando no Escuro?".
+
+## O que muda
+
+Em `src/pages/AvaliacaoPublica.tsx`:
+
+1. Inserir uma nova `<section>` idêntica à `FORM` atual (linhas 531-558) entre o Hero (termina na linha 345) e a seção PROBLEM (linha 347).
+2. Manter a seção FORM original no final da página — usuário verá o formulário em ambos os pontos.
+3. Ambas as instâncias compartilham o mesmo `step`, `handleQuickValuationComplete`, `selectedBairro` e `selectedLogradouro` — ou seja, preencher em qualquer uma dispara o mesmo fluxo (loading → result).
+4. A seção de RESULT continua única (renderizada uma vez quando `step === "result"`); após submit, o scroll automático já existente leva o usuário ao resultado.
+5. O `formRef` continuará apontando para o formulário do final (CTAs "Consultar Valor" do header e "Quero saber o valor do meu imóvel" do CTA dourado continuam descendo para lá). A nova seção do topo não precisa de ref — ela já está visível na segunda dobra.
+
+## Conteúdo da nova seção
+
+Mesma estrutura visual:
+- Divider dourado + headline "Consulte o Valor Agora"
+- Subtítulo "Resultado em 30 segundos baseado em transações reais..."
+- `<QuickValuationForm />` com os mesmos handlers
+- Linha de trust badges (Dados Oficiais do RJ, Sem compromisso, Resultado em 30s)
+- Renderiza `<LoadingScreen />` quando `step === "loading"`
+
+## Estilo
+
+Fundo levemente diferenciado para criar contraste com a seção PROBLEM logo abaixo (ex.: `bg-white` ou gradiente suave), mantendo o padrão Navy/Gold e o espaçamento padrão (`py-10 sm:py-12 md:py-14`).
+
+## Observações técnicas
+
+- Nenhuma mudança em estado, hooks ou lógica de submissão.
+- Nenhuma mudança em backend, edge functions ou banco.
+- Nenhuma mudança em outros componentes — apenas JSX duplicado em `AvaliacaoPublica.tsx`.
 # Atualizar conexão da página de Leads com o CRM
 
 ## Objetivo
