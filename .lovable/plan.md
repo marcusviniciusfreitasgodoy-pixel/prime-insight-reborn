@@ -1,3 +1,53 @@
+# Atualizar base ITBI até maio/2026 + rotina mensal
+
+## Situação atual
+- Última transação na base: **15/nov/2025** (33.520 registros).
+- Existem duas funções:
+  - `sync-itbi-prefeitura` — sync amplo por período, exige login admin.
+  - `sync-itbi-daily` — pega apenas mês corrente e anterior, usa `CRON_SECRET`.
+- Não há nenhum `cron.schedule` ativo para ITBI.
+
+## O que será feito
+
+### 1. Backfill imediato (dez/2025 → mai/2026)
+Disparar `sync-itbi-prefeitura` com `{ clearExisting: true, minYear: 2025, maxYear: 2026 }`.
+- Apaga apenas o período 2025–2026 e reinsere completo, evitando duplicatas e capturando registros que entraram com atraso.
+- Mantém intactos os 6 anos anteriores (2020–2024).
+
+### 2. Ajustar rotina mensal
+Trocar a janela do `sync-itbi-daily` (hoje pega só 1–2 meses) por uma janela de **últimos 3 meses**, e renomear logicamente para uso mensal. Manter `CRON_SECRET`.
+- Lookback de 3 meses cobre atrasos cartoriais sem reinserir tudo.
+- Antes de inserir, deleta o período-alvo (últimos 3 meses) para evitar duplicatas — mesma estratégia do sync amplo.
+
+### 3. Agendar execução mensal via pg_cron
+- Habilitar `pg_cron` e `pg_net` (se ainda não estiverem).
+- Agendar `sync-itbi-daily` no **dia 5 de cada mês, 03:00 BRT** (08:00 UTC).
+  - Dia 5 garante que o cartório já consolidou o mês anterior.
+- Header `x-cron-secret` injetado a partir do secret existente.
+
+## Detalhes técnicos
+
+- Edição em `supabase/functions/sync-itbi-daily/index.ts`:
+  - Calcular `startDate = hoje - 3 meses` (primeiro dia do mês).
+  - Filtrar `recentRecords` por `ano/mes >= startDate`.
+  - Antes do insert, executar `delete().gte('data_transacao', startDate)`.
+- Cron via `supabase--insert` (não migration, pois contém project ref e anon key):
+  ```sql
+  select cron.schedule(
+    'sync-itbi-monthly',
+    '0 8 5 * *',
+    $$ select net.http_post(
+        url := 'https://hmnyizoihyaqtxnlutvg.supabase.co/functions/v1/sync-itbi-daily',
+        headers := jsonb_build_object('x-cron-secret', '<CRON_SECRET>', 'Content-Type','application/json'),
+        body := '{}'::jsonb
+    ); $$
+  );
+  ```
+
+## Validação
+- Após backfill: `SELECT MAX(data_transacao), COUNT(*) FROM itbi_transactions;` deve mostrar maio/2026.
+- Conferir entrada agendada em `cron.job`.
+- Inspecionar logs da edge function no próximo dia 5.
 # Corrigir contagem de Leads no Meta Pixel
 
 ## Problema
