@@ -25,6 +25,7 @@ function safeFbq(...args: unknown[]) {
 
 /** Conversão qualificada — usar APENAS após insert bem-sucedido em `leads`. */
 export function trackLead(params?: Record<string, unknown>) {
+  console.log("[Pixel] Lead disparado", params ?? {});
   safeFbq("track", "Lead", params ?? {});
 }
 
