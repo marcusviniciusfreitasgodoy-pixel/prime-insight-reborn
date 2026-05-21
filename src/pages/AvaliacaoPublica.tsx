@@ -344,7 +344,6 @@ export default function AvaliacaoPublica() {
           </div>
         </section>
 
-        {/* ============ PROBLEM ============ */}
         {/* ============ FORM (segunda dobra) ============ */}
         <section className="py-10 sm:py-12 md:py-14 px-4 bg-gradient-to-b from-white to-[#0C2340]/[0.03]">
           <div className="container mx-auto max-w-6xl">
