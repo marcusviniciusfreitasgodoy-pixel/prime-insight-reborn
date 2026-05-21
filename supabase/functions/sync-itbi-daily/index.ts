@@ -70,16 +70,15 @@ Deno.serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
-    // Ano e mês atual para filtrar dados recentes
+    // Janela de lookback de 3 meses para capturar atrasos cartoriais
     const now = new Date()
-    const currentYear = now.getFullYear()
-    const currentMonth = now.getMonth() + 1
-    
-    // Também considerar o mês anterior para pegar dados que podem ter sido inseridos com atraso
-    const prevMonth = currentMonth === 1 ? 12 : currentMonth - 1
-    const prevYear = currentMonth === 1 ? currentYear - 1 : currentYear
+    const LOOKBACK_MONTHS = 3
+    const startDate = new Date(now.getFullYear(), now.getMonth() - LOOKBACK_MONTHS + 1, 1)
+    const startYear = startDate.getFullYear()
+    const startMonth = startDate.getMonth() + 1
+    const startDateStr = `${startYear}-${String(startMonth).padStart(2, '0')}-01`
 
-    console.log(`[CRON] Buscando transações de ${prevYear}-${prevMonth} a ${currentYear}-${currentMonth}`)
+    console.log(`[CRON] Buscando transações a partir de ${startDateStr} (lookback ${LOOKBACK_MONTHS} meses)`)
 
     // Buscar dados da API com where=1=1 (filtrar no código)
     const allRecords: any[] = []
@@ -140,22 +139,17 @@ Deno.serve(async (req) => {
 
     console.log(`[CRON] Total da API: ${allRecords.length}`)
 
-    // Filtrar apenas registros do mês atual ou anterior (dados recentes)
+    // Filtrar registros dentro da janela de lookback
     const recentRecords = allRecords.filter((feature: any) => {
       const attrs = feature.attributes || {}
       const ano = extractNumber(attrs['ano_transação'])
       const mes = extractNumber(attrs['mês_transação'])
-      
       if (!ano || !mes) return false
-      
-      // Aceitar mês atual OU mês anterior
-      const isCurrentMonth = ano === currentYear && mes === currentMonth
-      const isPrevMonth = ano === prevYear && mes === prevMonth
-      
-      return isCurrentMonth || isPrevMonth
+      const recordDate = new Date(ano, mes - 1, 1)
+      return recordDate >= startDate
     })
 
-    console.log(`[CRON] Registros recentes (últimos 2 meses): ${recentRecords.length}`)
+    console.log(`[CRON] Registros nos últimos ${LOOKBACK_MONTHS} meses: ${recentRecords.length}`)
 
     // Transformar registros
     const validRecords = recentRecords
@@ -210,7 +204,18 @@ Deno.serve(async (req) => {
       }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
     }
 
-    // Inserir usando upsert para evitar duplicatas
+    // Deletar janela alvo antes de reinserir, evitando duplicatas
+    const { error: delError } = await supabase
+      .from('itbi_transactions')
+      .delete()
+      .gte('data_transacao', startDateStr)
+    if (delError) {
+      console.error('[CRON] Erro ao limpar janela:', delError.message)
+    } else {
+      console.log(`[CRON] Janela ${startDateStr}+ limpa antes de reinserir`)
+    }
+
+    // Inserir em lotes
     let totalInserted = 0
     let errors = 0
     const insertBatchSize = 100
