@@ -344,6 +344,35 @@ export default function AvaliacaoPublica() {
           </div>
         </section>
 
+        {/* ============ FORM (segunda dobra) ============ */}
+        <section className="py-10 sm:py-12 md:py-14 px-4 bg-gradient-to-b from-white to-[#0C2340]/[0.03]">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-10">
+              <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
+              <h3 className="font-serif text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">Consulte o Valor Agora</h3>
+              <p className="text-muted-foreground">Resultado em 30 segundos baseado em transações reais • Esta análise estratégica é destinada compradores em fase ativa de negociação.</p>
+            </div>
+
+            {step === "form" && (
+              <div className="flex flex-col gap-8">
+                <div className="max-w-2xl mx-auto w-full space-y-6">
+                  <QuickValuationForm onComplete={handleQuickValuationComplete} onBairroChange={setSelectedBairro} onLogradouroChange={setSelectedLogradouro} />
+                  <div className="flex flex-wrap justify-center gap-4 pt-4">
+                    <div className="flex flex-col items-center gap-1 text-xs text-muted-foreground text-center">
+                      <span>Dados de transações reais e oficiais registradas</span>
+                      <div className="flex items-center gap-2"><Shield className="h-4 w-4 text-[#D4AF37]" />Dados Oficiais do RJ</div>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground"><CheckCircle className="h-4 w-4 text-[#D4AF37]" />Sem compromisso</div>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground"><Clock className="h-4 w-4 text-[#D4AF37]" />Resultado em 30 segundos</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {step === "loading" && <LoadingScreen />}
+          </div>
+        </section>
+
         {/* ============ PROBLEM ============ */}
         <section className="relative py-10 sm:py-12 md:py-14 px-4 bg-[#0C2340]/[0.03] overflow-hidden">
           {/* Decorative SVG elements */}
