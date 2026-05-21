@@ -15,7 +15,7 @@ import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { useUTMTracking, formatUTMSource } from "@/hooks/useUTMTracking";
 import { sendLeadToCrm } from "@/lib/crmWebhook";
-import { trackLead } from "@/lib/metaPixel";
+import { trackEvent } from "@/lib/metaPixel";
 
 const leadSchema = z.object({
   nome: z.string().min(3, "Nome deve ter pelo menos 3 caracteres").max(100),
@@ -288,8 +288,8 @@ export function LeadCaptureForm({
         valor_pedido_vendedor: valorPedidoNum || null,
       });
 
-      // Meta Pixel: conversão qualificada (somente após insert bem-sucedido)
-      trackLead({
+      // Meta Pixel: evento custom (NÃO é Lead — Lead só dispara no "Ver Análise Agora")
+      trackEvent("LeadCaptureFormSubmitted", {
         content_name: "lead_capture_form",
         content_category: data.objetivo,
         value: valorPedidoNum || valorInteresse || 0,
