@@ -1,116 +1,51 @@
-# Adicionar módulo "Consulte o Valor Agora" na segunda dobra
+# Corrigir contagem de Leads no Meta Pixel
 
-Duplicar a seção do formulário existente (atualmente no final da página) logo após o Hero, antes da seção "Por Que Você Está Negociando no Escuro?".
+## Problema
 
-## O que muda
+O Gerenciador da Meta mostra 8 "Leads" mas só existe **1 lead real** na tabela `leads` (e 3 contatos vieram por clique direto no WhatsApp). A inflação acontece porque:
 
-Em `src/pages/AvaliacaoPublica.tsx`:
+- O código **não dispara** `fbq('track','Lead')` em lugar nenhum.
+- O `index.html` carrega o Pixel com **detecção automática de eventos ligada** (padrão da Meta). A plataforma observa cliques em botões e submits e classifica vários deles como `Lead` sem nosso controle.
 
-1. Inserir uma nova `<section>` idêntica à `FORM` atual (linhas 531-558) entre o Hero (termina na linha 345) e a seção PROBLEM (linha 347).
-2. Manter a seção FORM original no final da página — usuário verá o formulário em ambos os pontos.
-3. Ambas as instâncias compartilham o mesmo `step`, `handleQuickValuationComplete`, `selectedBairro` e `selectedLogradouro` — ou seja, preencher em qualquer uma dispara o mesmo fluxo (loading → result).
-4. A seção de RESULT continua única (renderizada uma vez quando `step === "result"`); após submit, o scroll automático já existente leva o usuário ao resultado.
-5. O `formRef` continuará apontando para o formulário do final (CTAs "Consultar Valor" do header e "Quero saber o valor do meu imóvel" do CTA dourado continuam descendo para lá). A nova seção do topo não precisa de ref — ela já está visível na segunda dobra.
+Resultado: a métrica de Lead conta cliques em CTA, abandonos de form, cliques no WhatsApp já removido — qualquer coisa que o algoritmo "achar parecida" com lead.
 
-## Conteúdo da nova seção
+## Solução
 
-Mesma estrutura visual:
-- Divider dourado + headline "Consulte o Valor Agora"
-- Subtítulo "Resultado em 30 segundos baseado em transações reais..."
-- `<QuickValuationForm />` com os mesmos handlers
-- Linha de trust badges (Dados Oficiais do RJ, Sem compromisso, Resultado em 30s)
-- Renderiza `<LoadingScreen />` quando `step === "loading"`
-
-## Estilo
-
-Fundo levemente diferenciado para criar contraste com a seção PROBLEM logo abaixo (ex.: `bg-white` ou gradiente suave), mantendo o padrão Navy/Gold e o espaçamento padrão (`py-10 sm:py-12 md:py-14`).
-
-## Observações técnicas
-
-- Nenhuma mudança em estado, hooks ou lógica de submissão.
-- Nenhuma mudança em backend, edge functions ou banco.
-- Nenhuma mudança em outros componentes — apenas JSX duplicado em `AvaliacaoPublica.tsx`.
-# Atualizar conexão da página de Leads com o CRM
-
-## Objetivo
-Atualizar o endpoint e a chave de API usados pela integração já existente (`forward-lead-crm`) para apontar para o novo webhook do CRM informado pelo usuário, e garantir que a página `/admin/leads` (e os formulários públicos) continuem enviando os leads corretamente.
-
-- Novo endpoint: `https://crm-b2b-interface-clone-9bbb1.shrd00.internal.goskip.dev/backend/v1/webhook_external`
-- Nova API Key (header `X-API-Key`): `sk_7b2b7addf0a1596dfae7fe4127fcc4ac0edaa1d315c51b2b`
-
-Observação: já existe a edge function `forward-lead-crm` + secrets `CRM_WEBHOOK_URL` e `CRM_WEBHOOK_API_KEY`. Só precisamos atualizar valores e fazer pequenos ajustes — nada de criar infra nova.
+1. **Desligar a detecção automática** do Pixel.
+2. **Disparar `Lead` explicitamente** apenas após insert bem-sucedido na tabela `leads` (formulários completos).
+3. Deixar pronto um helper para, no futuro, marcar cliques em CTA como eventos **custom** (não como `Lead`).
 
 ## Mudanças
 
-1. **Atualizar secrets do backend** (via tool de secrets, sem hardcode no código):
-   - `CRM_WEBHOOK_URL` → novo endpoint `…/webhook_external`
-   - `CRM_WEBHOOK_API_KEY` → `sk_7b2b7addf0a1596dfae7fe4127fcc4ac0edaa1d315c51b2b`
+### 1. Novo arquivo `src/lib/metaPixel.ts`
+Helper centralizado:
+- `trackLead(params)` → `fbq('track','Lead', …)` — usar SÓ em conversão qualificada.
+- `trackCtaClick(name, params)` → `fbq('trackCustom', …)` — para WhatsApp/Parecer/Calendly, sem inflar Lead.
+- Tipos globais para `window.fbq` e try/catch defensivo.
 
-2. **Adicionar reenvio manual a partir da página `/admin/leads`** (novo):
-   - Botão "Reenviar ao CRM" em cada linha/detalhe do lead em `src/pages/Leads.tsx` / `LeadDetailDialog.tsx`, que chama `forward-lead-crm` com o payload do lead salvo no banco.
-   - Útil para reprocessar leads antigos ou testar a conexão sem precisar refazer o formulário.
+### 2. `index.html` — desligar autoConfig
+Antes do `fbq('init', …)` adicionar:
+```js
+fbq('set', 'autoConfig', 'false', '858164903276236');
+```
+Mantém `init` + `PageView` como hoje. Sem isso, qualquer melhoria abaixo continua sendo sobrescrita pela detecção automática.
 
-3. **Testar a integração**:
-   - Deploy da edge function `forward-lead-crm` (não muda código, mas garante que pegue os novos secrets).
-   - Chamar a função com um payload de teste e checar logs (`supabase--edge_function_logs`) confirmando HTTP 2xx do CRM.
+### 3. Disparar `Lead` no submit real
+- `src/components/leads/QuickValuationForm.tsx`: após `sendLeadToCrm(...)` chamar `trackLead({ content_name: 'quick_valuation_form', value: estimativa.med, currency: 'BRL' })`.
+- `src/components/leads/LeadCaptureForm.tsx`: após `sendLeadToCrm(...)` chamar `trackLead({ content_name: 'lead_capture_form', value: valor, currency: 'BRL' })`.
 
 ## O que NÃO muda
-- Código da função `forward-lead-crm` (já lê URL/API key de env vars).
-- Helper `src/lib/crmWebhook.ts` e as chamadas existentes em `QuickValuationForm`, `LeadCaptureForm`, `ThankYouStep`, `RealCaseComparison`, `PeritEvaluationSection`, `AvaliacaoPublica`.
-- Schema do banco — leads continuam salvos em `public.leads`.
 
-## Detalhes técnicos
-- A função já envia `X-API-Key` quando `CRM_WEBHOOK_API_KEY` está definido — basta atualizar o secret.
-- O endpoint é interno (`*.internal.goskip.dev`); se o CRM bloquear chamadas externas, vamos ver erro de DNS/timeout nos logs e o usuário precisará liberar acesso.
-- O botão de reenvio manual usa o mesmo `supabase.functions.invoke("forward-lead-crm", ...)` já configurado.
+- Nada na tabela `leads`, RLS, edge functions ou CRM webhook.
+- `PageView` continua sendo disparado em todas as páginas.
+- Sem novos secrets / variáveis de ambiente.
 
-## Arquitetura
-Para evitar problemas de CORS e manter a URL configurável, o envio será feito via uma nova edge function `forward-lead-crm`, chamada do frontend após cada conversão/CTA.
+## Efeito esperado
 
-```text
-Frontend → supabase.functions.invoke('forward-lead-crm', { payload })
-            └→ POST → webhook do CRM
-```
+- Painel de Leads do Meta passa a refletir **apenas formulários completos**, batendo com `/admin/leads`.
+- Campanhas otimizadas para "Lead" passam a otimizar para conversão real, não para cliques aleatórios.
+- Você poderá, num próximo passo, instrumentar cliques de contato como `ClickWhatsApp` / `ClickParecer` (eventos custom) para medir intenção sem poluir Lead.
 
-A URL ficará em um secret `CRM_WEBHOOK_URL` (já com valor padrão), assim qualquer mudança futura não requer redeploy.
+## Observação
 
-## O que será enviado
-
-### 1. Leads de formulários (já existentes)
-- `QuickValuationForm` (avaliação rápida pública) — após `insert` em `leads`
-- `LeadCaptureForm` (formulário completo) — após `insert` em `leads`
-
-Payload: `{ event: "lead_form", source, lead: { nome, email, telefone, bairro, interesse, objetivo, urgencia, area, tipologia, quartos, banheiros, suites, vagas, estimativaMin/Med/Max, enderecoImovelAnalise, valorPedidoVendedor, utm_* }, page, timestamp }`
-
-### 2. Cliques em CTAs de WhatsApp
-- Botão flutuante de WhatsApp em `AvaliacaoPublica`
-- Botão "Tirar dúvida" no formulário
-- Botões de WhatsApp em `ThankYouStep`, `RealCaseComparison`, `PeritEvaluationSection`
-
-Payload: `{ event: "cta_click", source: "whatsapp_flutuante" | "whatsapp_duvida" | ..., page, utm_*, timestamp }`
-
-## Implementação
-
-1. **Nova edge function** `supabase/functions/forward-lead-crm/index.ts`
-   - Recebe `{ event, payload }`
-   - Faz `POST` ao `CRM_WEBHOOK_URL` com headers JSON
-   - Retorna sucesso/erro sem bloquear o fluxo do usuário
-   - `verify_jwt = false` (chamadas anônimas do site público)
-
-2. **Secret** `CRM_WEBHOOK_URL` com a URL fornecida
-
-3. **Helper frontend** `src/lib/crmWebhook.ts`
-   - `sendLeadToCrm(payload)` e `sendCtaClickToCrm(source)`
-   - Chamadas "fire and forget" (não bloqueiam UX, erros só em console)
-
-4. **Integração nos pontos existentes**
-   - `QuickValuationForm.tsx` → após insert lead bem-sucedido
-   - `LeadCaptureForm.tsx` → após insert lead bem-sucedido
-   - `AvaliacaoPublica.tsx` → onClick dos botões de WhatsApp/CTAs
-   - `ThankYouStep.tsx`, `RealCaseComparison.tsx`, `PeritEvaluationSection.tsx` → onClick dos botões de WhatsApp
-
-## Detalhes técnicos
-- Edge function usa CORS padrão (origin `*`).
-- Frontend não bloqueia espera da resposta — chamadas com `.catch(console.error)`.
-- UTMs já capturadas via `useUTMTracking` serão incluídas automaticamente.
-- Sem alteração no schema do banco — leads continuam salvos em `public.leads`; o webhook é apenas um espelho.
+A detecção automática só pode ser totalmente desativada no painel do Pixel (Gerenciador de Eventos → Configurações → "Eventos detectados automaticamente"). O `fbq('set','autoConfig','false', …)` cobre o lado do código; recomendo também desligar lá no painel para garantir.
