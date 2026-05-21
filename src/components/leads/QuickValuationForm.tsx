@@ -17,6 +17,7 @@ import { useAllBairros } from "@/hooks/useBairroSuggestions";
 import { toast } from "sonner";
 import { LimitExceededScreen } from "./LimitExceededScreen";
 import { sendLeadToCrm } from "@/lib/crmWebhook";
+import { trackLead } from "@/lib/metaPixel";
 
 export interface QuickValuationData {
   bairro: string;
@@ -392,6 +393,14 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
         estimativa_min: estimativa?.min ?? null,
         estimativa_med: estimativa?.med ?? null,
         estimativa_max: estimativa?.max ?? null,
+      });
+
+      // Meta Pixel: conversão qualificada (somente após persistência do lead)
+      trackLead({
+        content_name: "quick_valuation_form",
+        content_category: existingLead ? "returning_lead" : "new_lead",
+        value: estimativa?.med ?? 0,
+        currency: "BRL",
       });
 
       onComplete({

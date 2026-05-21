@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { useUTMTracking, formatUTMSource } from "@/hooks/useUTMTracking";
 import { sendLeadToCrm } from "@/lib/crmWebhook";
+import { trackLead } from "@/lib/metaPixel";
 
 const leadSchema = z.object({
   nome: z.string().min(3, "Nome deve ter pelo menos 3 caracteres").max(100),
@@ -285,6 +286,14 @@ export function LeadCaptureForm({
         interesse: data.objetivo === "vender" ? "venda" : "compra",
         endereco_imovel: data.endereco_imovel || null,
         valor_pedido_vendedor: valorPedidoNum || null,
+      });
+
+      // Meta Pixel: conversão qualificada (somente após insert bem-sucedido)
+      trackLead({
+        content_name: "lead_capture_form",
+        content_category: data.objetivo,
+        value: valorPedidoNum || valorInteresse || 0,
+        currency: "BRL",
       });
 
       toast.success("Solicitação enviada com sucesso! Entraremos em contato em breve.");
