@@ -17,7 +17,7 @@ import { useAllBairros } from "@/hooks/useBairroSuggestions";
 import { toast } from "sonner";
 import { LimitExceededScreen } from "./LimitExceededScreen";
 import { sendLeadToCrm } from "@/lib/crmWebhook";
-import { trackLead } from "@/lib/metaPixel";
+import { trackLead, trackEvent } from "@/lib/metaPixel";
 
 export interface QuickValuationData {
   bairro: string;
@@ -395,13 +395,23 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
         estimativa_max: estimativa?.max ?? null,
       });
 
-      // Meta Pixel: conversão qualificada (somente após persistência do lead)
-      trackLead({
-        content_name: "quick_valuation_form",
-        content_category: existingLead ? "returning_lead" : "new_lead",
-        value: estimativa?.med ?? 0,
-        currency: "BRL",
-      });
+      // Meta Pixel: 'Lead' SOMENTE no primeiro cadastro elegível.
+      // Recorrentes disparam evento custom para não inflar a métrica oficial.
+      if (existingLead) {
+        trackEvent("ReturningLeadEvaluation", {
+          content_name: "quick_valuation_form",
+          evaluation_number: evaluationCount + 1,
+          value: estimativa?.med ?? 0,
+          currency: "BRL",
+        });
+      } else {
+        trackLead({
+          content_name: "quick_valuation_form",
+          content_category: "new_lead",
+          value: estimativa?.med ?? 0,
+          currency: "BRL",
+        });
+      }
 
       onComplete({
         bairro,
