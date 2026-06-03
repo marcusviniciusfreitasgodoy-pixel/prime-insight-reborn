@@ -50,6 +50,7 @@ interface QuickValuationFormProps {
   onComplete: (data: QuickValuationData) => void;
   onBairroChange?: (bairro: string) => void;
   onLogradouroChange?: (logradouro: string) => void;
+  origem?: string;
 }
 
 const MAX_FREE_EVALUATIONS = 2;
@@ -68,7 +69,7 @@ const STEP_LABELS = [
   { step: 4, label: "Seus Dados", icon: User },
 ];
 
-export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroChange }: QuickValuationFormProps) {
+export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroChange, origem = "avaliacao_publica" }: QuickValuationFormProps) {
   // Step state
   const [currentStep, setCurrentStep] = useState<FormStep>(1);
 
@@ -278,7 +279,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
           diferenciais_imovel: diferenciais.trim() || null,
           valor_pedido_vendedor: valorPedidoNum || null,
           interesse: "compra",
-          origem: "avaliacao_publica",
+          origem,
           evaluation_count: 1,
         });
         if (insertError) throw insertError;
@@ -387,7 +388,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
         diferenciais: diferenciais.trim() || null,
         valor_pedido_vendedor: valorPedidoNum || null,
         interesse: "compra",
-        origem: "avaliacao_publica",
+        origem,
         is_returning_lead: !!existingLead,
         evaluation_number: existingLead ? evaluationCount + 1 : 1,
         estimativa_min: estimativa?.min ?? null,
