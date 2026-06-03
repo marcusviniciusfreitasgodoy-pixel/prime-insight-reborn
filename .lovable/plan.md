@@ -1,54 +1,46 @@
-## O que vou corrigir
+## Objetivo
+Eliminar a ambiguidade entre os dois botões do bloco de captura e corrigir a percepção de que o Google “não faz nada”.
 
-1. Restabelecer a captura do lead no wizard de `/avaliacao-direta` para que o cadastro realmente grave no backend antes de tentar disparar notificações.
-2. Ajustar o fluxo de Google para usar validação real no domínio publicado/customizado e evitar o fallback indevido para formulário manual.
-3. Unificar o conteúdo do laudo enviado por e-mail e WhatsApp com o mesmo conjunto de dados exibido no resultado do site.
-4. Habilitar o envio de e-mail do projeto, porque hoje ele não está configurado.
+## O que vou ajustar
 
-## Diagnóstico encontrado
+1. **Deixar a proposta dos botões inequívoca**
+   - Transformar o bloco em dois caminhos claramente distintos:
+     - **Opção 1:** liberar o laudo detalhado após identificação
+     - **Opção 2:** falar direto no WhatsApp com o especialista, sem promessa de entrega automática do mesmo laudo
+   - Reescrever títulos, subtítulos e rótulos para que não pareçam dois botões com a mesma função.
 
-- Não existe nenhum lead recente com `origem` de avaliação direta, então o processo não chegou a concluir a captura do cliente.
-- Não há logs recentes dos disparos de e-mail/WhatsApp, o que confirma que o backend de notificação não foi acionado nesse fluxo.
-- O botão “Continuar com Google” foi programado para cair no formulário manual no ambiente de preview, então o comportamento visto não é a validação final esperada.
-- O projeto não tem domínio de e-mail configurado no backend; por isso, o envio de e-mail para o cliente não pode funcionar de forma confiável agora.
-- O conteúdo enviado por e-mail/WhatsApp hoje é montado separadamente do resultado renderizado no site, então há risco de divergência entre o que o cliente vê e o que recebe.
+2. **Reorganizar a hierarquia visual**
+   - Destacar apenas um CTA principal no card.
+   - Rebaixar o botão de WhatsApp para alternativa secundária de contato.
+   - Remover o “ou” genérico e substituir por um texto explicativo do tipo “Prefere falar direto com um especialista?”.
 
-## Plano de implementação
+3. **Corrigir a experiência do Google**
+   - Garantir feedback visível imediato no clique: estado de carregamento, mensagem de redirecionamento ou erro claro.
+   - Revisar o caso em que o OAuth não redireciona nem retorna erro perceptível.
+   - Validar o comportamento no domínio publicado, já que o preview pode ter comportamento diferente de autenticação.
 
-### 1. Corrigir o fluxo de captura do wizard
-- Revisar o submit final do `ValuationWizard`.
-- Garantir persistência do lead com todos os campos do wizard antes do redirecionamento final.
-- Fazer o disparo das notificações com tratamento explícito de erro e retorno visível em log/toast para não falhar silenciosamente.
+4. **Ajustar a promessa do conteúdo entregue**
+   - Garantir que o fluxo identificado entregue o laudo detalhado por e-mail/WhatsApp.
+   - Garantir que o botão alternativo de WhatsApp deixe claro que ele abre conversa direta com o especialista, e não necessariamente o mesmo disparo automático do fluxo identificado.
 
-### 2. Corrigir o fluxo do Google
-- Ajustar a regra de ambiente para que o Google continue normalmente no domínio publicado e no domínio customizado.
-- Preservar o estado do wizard no retorno do OAuth.
-- Evitar que o usuário seja jogado para preenchimento manual quando a autenticação Google estiver realmente disponível.
+## Sugestão de copy
 
-### 3. Unificar os dados do laudo
-- Criar uma única montagem de payload com os mesmos dados usados no resultado do site.
-- Reutilizar esse payload no resultado visual, no e-mail e no WhatsApp.
-- Garantir consistência entre endereço, tipologia, área, quartos, banheiros, suítes, vagas, faixa estimada e demais atributos efetivamente coletados no wizard.
+### Estrutura sugerida
+- **Título do card:** Receba seu laudo detalhado
+- **Texto de apoio:** Identifique-se para receber a análise completa com os dados deste imóvel.
+- **Botão principal:** Receber laudo detalhado
+- **Separador secundário:** Prefere atendimento imediato?
+- **Botão secundário:** Falar com especialista no WhatsApp
+- **Texto pequeno abaixo do secundário:** Abre uma conversa direta para análise manual do imóvel.
 
-### 4. Corrigir os disparos de WhatsApp e e-mail
-- Validar a função de notificação ponta a ponta.
-- Garantir que WhatsApp do cliente e do corretor sejam disparados após captura bem-sucedida.
-- Ajustar o e-mail do cliente para refletir exatamente a mesma estimativa e os mesmos dados do resultado.
+## Resultado esperado
+- O usuário entende imediatamente que:
+  - um botão **libera/envia o laudo** após cadastro
+  - o outro botão **abre conversa direta no WhatsApp**
+- O clique no Google passa a ter retorno perceptível e menos chance de parecer inativo.
 
-### 5. Habilitar o canal de e-mail do projeto
-- Configurar o domínio de envio de e-mail do projeto no backend integrado.
-- Depois disso, validar o disparo real para o cliente.
-
-## Validação final
-
-Vou validar estes cenários:
-
-- cadastro manual completo salva lead com `origem = avaliacao_direta`
-- Google retorna para o passo de captura com dados verificados preenchidos
-- envio de WhatsApp acontece após cadastro concluído
-- envio de e-mail acontece após cadastro concluído
-- conteúdo do e-mail e do WhatsApp bate com o resultado exibido na página
-
-## Observação importante
-
-O ponto do e-mail não é só código: hoje falta a configuração do domínio de envio no projeto. Sem isso, mesmo corrigindo o fluxo, o cliente pode continuar sem receber o e-mail.
+## Detalhes técnicos
+- Ajustar `StepResultCapture.tsx` para nova hierarquia, nova copy e diferenciação de intenção entre CTAs.
+- Ajustar `GoogleEmailCapture.tsx` para feedback explícito de loading/redirect/erro no OAuth.
+- Validar a restauração do estado no retorno do Google em `ValuationWizard.tsx`.
+- Testar especificamente no domínio publicado, além do preview, para separar problema real de diferença de ambiente de autenticação.
