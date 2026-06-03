@@ -48,6 +48,17 @@ export function GoogleEmailCapture({
     setOauthLoading(true);
     try {
       onBeforeGoogleRedirect();
+      const isPreview =
+        typeof window !== "undefined" &&
+        /lovableproject\.com|lovable\.app.*id-preview/i.test(window.location.host);
+      if (isPreview) {
+        toast.info(
+          "O login com Google só funciona no domínio publicado. Use seu e-mail aqui.",
+          { duration: 5000 },
+        );
+        setShowManual(true);
+        return;
+      }
       const result = await lovable.auth.signInWithOAuth("google", {
         redirect_uri: `${window.location.origin}/avaliacao-direta?from=google`,
       });
