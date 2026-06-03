@@ -302,14 +302,30 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
             banheiros: form.details.banheiros,
             suites: form.details.suites,
             vagas: form.details.vagas,
+            diferenciais: diferenciais || undefined,
             evaluationNumber: existing ? count + 1 : 1,
             estimativaMin: est.min,
             estimativaMed: est.med,
             estimativaMax: est.max,
             enderecoImovelAnalise: enderecoCompleto || undefined,
+            itbiMinM2: itbiData.min_m2,
+            itbiMedM2: itbiData.med_m2,
+            itbiMaxM2: itbiData.max_m2,
+            itbiTransactionCount: itbiData.transaction_count,
           },
         })
-        .catch((e) => console.error("notification:", e));
+        .then((res) => {
+          if (res?.error) {
+            console.error("notification error:", res.error);
+            toast.error("Cadastro feito, mas houve falha ao disparar e-mail/WhatsApp. Já avisamos a equipe.");
+          } else {
+            console.log("notification ok:", res?.data);
+          }
+        })
+        .catch((e) => {
+          console.error("notification exception:", e);
+          toast.error("Cadastro feito, mas falhou o disparo do laudo automático.");
+        });
 
       sendLeadToCrm("avaliacao_direta_wizard", {
         nome: data.nome,

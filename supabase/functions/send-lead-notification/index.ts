@@ -49,6 +49,10 @@ interface LeadNotificationRequest {
   enderecoImovelAnalise?: string;
   valorPedidoVendedor?: number;
   evaluationNumber?: number;
+  itbiMinM2?: number;
+  itbiMedM2?: number;
+  itbiMaxM2?: number;
+  itbiTransactionCount?: number;
 }
 
 const formatCurrency = (value: number | undefined) => {
@@ -538,12 +542,32 @@ const handler = async (req: Request): Promise<Response> => {
         const isCompraMsg = data.interesse === "compra";
         const formattedEstimativa = data.estimativaMed ? formatCurrency(data.estimativaMed) : "";
 
+        // Bloco detalhado do imóvel (mesmos campos exibidos no site)
+        const imovelLinhas = [
+          data.enderecoImovelAnalise ? `📍 Endereço: ${data.enderecoImovelAnalise}` : (data.bairro ? `📍 Bairro: ${data.bairro}` : ""),
+          data.tipologia ? `🏢 Tipo: ${data.tipologia}` : "",
+          data.area ? `📐 Área: ${data.area} m²` : "",
+          data.quartos ? `🛏️ Quartos: ${data.quartos}` : "",
+          data.suites ? `🛁 Suítes: ${data.suites}` : "",
+          data.banheiros ? `🚿 Banheiros: ${data.banheiros}` : "",
+          data.vagas ? `🚗 Vagas: ${data.vagas}` : "",
+          data.diferenciais ? `✨ Diferenciais: ${data.diferenciais}` : "",
+        ].filter(Boolean).join("\n");
+
+        const faixaBlock = (data.estimativaMin && data.estimativaMed && data.estimativaMax)
+          ? `\n\n💰 *Estimativa Preliminar*\nMínimo: ${formatCurrency(data.estimativaMin)}\nMais Provável: ${formatCurrency(data.estimativaMed)}\nMáximo: ${formatCurrency(data.estimativaMax)}`
+          : "";
+
+        const m2Block = (data.itbiMinM2 && data.itbiMedM2 && data.itbiMaxM2)
+          ? `\n\n📊 *R$/m² na região*\n${formatCurrency(data.itbiMinM2)} – ${formatCurrency(data.itbiMedM2)} – ${formatCurrency(data.itbiMaxM2)}${data.itbiTransactionCount ? `\nBase: ${data.itbiTransactionCount} transações ITBI` : ""}`
+          : "";
+
         // Message to client
         let clientMsg = "";
         if (notificationType === "initial" || notificationType === "returning") {
-          clientMsg = `🏠 *Godoy Prime Realty*\n\nOlá ${data.leadName}! 👋\n\nRecebemos sua solicitação de avaliação${data.bairro ? ` no bairro *${data.bairro}*` : ""}.\n\n${formattedEstimativa ? `📊 Estimativa preliminar: *${formattedEstimativa}*\n\n` : ""}Um especialista Godoy Prime pode realizar uma análise detalhada considerando os diferenciais específicos do seu imóvel.\n\n📋 Quer solicitar um *Parecer Técnico Completo*? Basta responder esta mensagem com *PARECER* que um especialista entra em contato em até 2h úteis.\n\nGodoy Prime Realty - CRECI-RJ 11841`;
+          clientMsg = `🏠 *Godoy Prime Realty — Laudo Preliminar*\n\nOlá ${data.leadName}! 👋\n\nSegue o resumo da sua avaliação online, com os MESMOS dados exibidos no site:\n\n*Imóvel analisado*\n${imovelLinhas}${faixaBlock}${m2Block}\n\n⚠️ Esta é uma *estimativa algorítmica* baseada em transações ITBI oficiais. Para imóveis exclusivos, a variação pode chegar a 15%.\n\n📋 Quer o *Parecer Técnico Completo* com validação manual do especialista (NBR 14653-2)? Responda *PARECER* e um especialista entra em contato em até 2h úteis.\n\nGodoy Prime Realty — CRECI-RJ 11841`;
         } else {
-          clientMsg = `✅ *Godoy Prime Realty*\n\nOlá ${data.leadName}!\n\nSua solicitação de *Parecer Técnico* foi recebida com sucesso! 🎉\n\n${data.bairro ? `📍 Imóvel: ${data.bairro}\n` : ""}${formattedEstimativa ? `💰 Estimativa: ${formattedEstimativa}\n` : ""}\nUm especialista entrará em contato em até *24-48 horas úteis*.\n\nDúvidas? Estamos aqui! 😊\n\nGodoy Prime Realty - CRECI-RJ 11841`;
+          clientMsg = `✅ *Godoy Prime Realty — Parecer Solicitado*\n\nOlá ${data.leadName}!\n\nRecebemos sua solicitação de *Parecer Técnico Completo*. 🎉\n\n*Imóvel analisado*\n${imovelLinhas}${faixaBlock}${m2Block}\n\nUm especialista entrará em contato em até *2h úteis* para iniciar a análise presencial.\n\nGodoy Prime Realty — CRECI-RJ 11841`;
         }
 
         // Message to broker

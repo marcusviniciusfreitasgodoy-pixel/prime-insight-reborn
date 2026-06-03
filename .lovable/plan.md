@@ -1,60 +1,54 @@
-## Objetivo
-Ajustar o novo fluxo `/avaliacao-direta` sem mexer em `/avaliacao`, removendo elementos indevidos, adicionando o CTA do laudo via WhatsApp no resultado e corrigindo/diagnosticando os problemas de Google, WhatsApp e e-mail.
+## O que vou corrigir
 
-## O que vou implementar
+1. Restabelecer a captura do lead no wizard de `/avaliacao-direta` para que o cadastro realmente grave no backend antes de tentar disparar notificações.
+2. Ajustar o fluxo de Google para usar validação real no domínio publicado/customizado e evitar o fallback indevido para formulário manual.
+3. Unificar o conteúdo do laudo enviado por e-mail e WhatsApp com o mesmo conjunto de dados exibido no resultado do site.
+4. Habilitar o envio de e-mail do projeto, porque hoje ele não está configurado.
 
-### 1. Limpeza do passo de detalhes
-- Remover do wizard as opções:
-  - Vista para o mar
-  - Reformado recentemente
-  - Varanda gourmet
-- Ajustar o estado do wizard para não exibir nem usar mais esses campos no payload do lead/CRM.
+## Diagnóstico encontrado
 
-### 2. Limpeza visual da página
-- Remover os badges:
-  - Dados ITBI Oficiais
-  - NBR 14653-2
-- Manter apenas os sinais de confiança que fizerem sentido na versão direta da rota.
+- Não existe nenhum lead recente com `origem` de avaliação direta, então o processo não chegou a concluir a captura do cliente.
+- Não há logs recentes dos disparos de e-mail/WhatsApp, o que confirma que o backend de notificação não foi acionado nesse fluxo.
+- O botão “Continuar com Google” foi programado para cair no formulário manual no ambiente de preview, então o comportamento visto não é a validação final esperada.
+- O projeto não tem domínio de e-mail configurado no backend; por isso, o envio de e-mail para o cliente não pode funcionar de forma confiável agora.
+- O conteúdo enviado por e-mail/WhatsApp hoje é montado separadamente do resultado renderizado no site, então há risco de divergência entre o que o cliente vê e o que recebe.
 
-### 3. WhatsApp na página de resultado
-- Inserir na tela de resultado uma ação clara para solicitar o laudo completo via WhatsApp.
-- Usar a configuração central de contato/mensagem já existente para não hardcodar número ou texto.
-- Garantir que o CTA funcione tanto após captura manual quanto após captura com Google.
+## Plano de implementação
 
-### 4. Fluxo “Continuar com o Google”
-- Verificar se o problema é do ambiente de preview ou do fluxo da aplicação.
-- Se for apenas limitação do preview, preservar a implementação correta e validar no domínio publicado/customizado.
-- Se houver falha no app, ajustar a retomada do estado após retorno do OAuth para que o usuário volte ao passo de resultado corretamente.
+### 1. Corrigir o fluxo de captura do wizard
+- Revisar o submit final do `ValuationWizard`.
+- Garantir persistência do lead com todos os campos do wizard antes do redirecionamento final.
+- Fazer o disparo das notificações com tratamento explícito de erro e retorno visível em log/toast para não falhar silenciosamente.
 
-### 5. Verificação do envio de WhatsApp e e-mail
-- Auditar o fluxo que chama `send-lead-notification` após o cadastro de e-mail e telefone.
-- Conferir logs e respostas da função para identificar por que você não recebeu nem WhatsApp nem e-mail.
-- Corrigir o ponto de falha no envio e/ou no tratamento de erro.
-- Melhorar o feedback em tela quando o lead for salvo mas a notificação externa falhar.
+### 2. Corrigir o fluxo do Google
+- Ajustar a regra de ambiente para que o Google continue normalmente no domínio publicado e no domínio customizado.
+- Preservar o estado do wizard no retorno do OAuth.
+- Evitar que o usuário seja jogado para preenchimento manual quando a autenticação Google estiver realmente disponível.
 
-## Detalhes técnicos
-- **Frontend**
-  - `src/components/leads/wizard/StepDetails.tsx`
-  - `src/components/leads/wizard/ValuationWizard.tsx`
-  - `src/pages/AvaliacaoDireta.tsx`
-  - `src/components/leads/QuickValuationResult.tsx`
-- **Backend integrado**
-  - Revisar `supabase/functions/send-lead-notification/index.ts`
-  - Validar logs da função e o comportamento de envio para e-mail e WhatsApp
-- **Sem mudança de rota original**
-  - `/avaliacao` permanece intacta para teste A/B
-- **Sem nova estrutura de dados**
-  - A gravação continua usando a tabela `leads` com `origem = "avaliacao_direta"`
+### 3. Unificar os dados do laudo
+- Criar uma única montagem de payload com os mesmos dados usados no resultado do site.
+- Reutilizar esse payload no resultado visual, no e-mail e no WhatsApp.
+- Garantir consistência entre endereço, tipologia, área, quartos, banheiros, suítes, vagas, faixa estimada e demais atributos efetivamente coletados no wizard.
 
-## Validação
-- Testar o fluxo completo em `/avaliacao-direta`
-- Confirmar:
-  - os 3 toggles removidos
-  - os 2 badges removidos
-  - botão de laudo via WhatsApp no resultado
-  - salvamento do lead
-  - disparo de e-mail/WhatsApp ou mensagem clara de falha
-  - comportamento do Google no ambiente correto
+### 4. Corrigir os disparos de WhatsApp e e-mail
+- Validar a função de notificação ponta a ponta.
+- Garantir que WhatsApp do cliente e do corretor sejam disparados após captura bem-sucedida.
+- Ajustar o e-mail do cliente para refletir exatamente a mesma estimativa e os mesmos dados do resultado.
+
+### 5. Habilitar o canal de e-mail do projeto
+- Configurar o domínio de envio de e-mail do projeto no backend integrado.
+- Depois disso, validar o disparo real para o cliente.
+
+## Validação final
+
+Vou validar estes cenários:
+
+- cadastro manual completo salva lead com `origem = avaliacao_direta`
+- Google retorna para o passo de captura com dados verificados preenchidos
+- envio de WhatsApp acontece após cadastro concluído
+- envio de e-mail acontece após cadastro concluído
+- conteúdo do e-mail e do WhatsApp bate com o resultado exibido na página
 
 ## Observação importante
-Pelos sinais atuais, o OAuth com Google pode estar esbarrando no ambiente de preview, então a validação final desse ponto deve ser feita no domínio publicado ou customizado, além do ajuste de robustez no retorno do fluxo.
+
+O ponto do e-mail não é só código: hoje falta a configuração do domínio de envio no projeto. Sem isso, mesmo corrigindo o fluxo, o cliente pode continuar sem receber o e-mail.

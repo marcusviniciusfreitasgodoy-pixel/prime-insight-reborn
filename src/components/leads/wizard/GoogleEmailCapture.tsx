@@ -48,25 +48,20 @@ export function GoogleEmailCapture({
     setOauthLoading(true);
     try {
       onBeforeGoogleRedirect();
-      const isPreview =
-        typeof window !== "undefined" &&
-        /lovableproject\.com|lovable\.app.*id-preview/i.test(window.location.host);
-      if (isPreview) {
-        toast.info(
-          "O login com Google só funciona no domínio publicado. Use seu e-mail aqui.",
-          { duration: 5000 },
-        );
-        setShowManual(true);
-        return;
-      }
       const result = await lovable.auth.signInWithOAuth("google", {
         redirect_uri: `${window.location.origin}/avaliacao-direta?from=google`,
       });
-      if (result.error) {
+      if (result?.redirected) {
+        // Browser is redirecting to Google — nothing more to do here.
+        return;
+      }
+      if (result?.error) {
+        console.error("Google OAuth error:", result.error);
         toast.error("Não foi possível continuar com o Google. Use seu e-mail.");
         setShowManual(true);
       }
-    } catch {
+    } catch (e) {
+      console.error("Google OAuth exception:", e);
       toast.error("Erro ao conectar com o Google. Use seu e-mail.");
       setShowManual(true);
     } finally {
