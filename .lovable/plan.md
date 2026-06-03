@@ -1,146 +1,60 @@
+## Objetivo
+Ajustar o novo fluxo `/avaliacao-direta` sem mexer em `/avaliacao`, removendo elementos indevidos, adicionando o CTA do laudo via WhatsApp no resultado e corrigindo/diagnosticando os problemas de Google, WhatsApp e e-mail.
 
-# Wizard de Avaliação Progressiva — `/avaliacao-direta`
+## O que vou implementar
 
-Substituir o `QuickValuationForm` monolítico em `/avaliacao-direta` por um wizard de 4 passos com loader contextual e captura progressiva via Google OAuth. Mantém `/avaliacao` intocada para A/B.
+### 1. Limpeza do passo de detalhes
+- Remover do wizard as opções:
+  - Vista para o mar
+  - Reformado recentemente
+  - Varanda gourmet
+- Ajustar o estado do wizard para não exibir nem usar mais esses campos no payload do lead/CRM.
 
-## Fluxo
+### 2. Limpeza visual da página
+- Remover os badges:
+  - Dados ITBI Oficiais
+  - NBR 14653-2
+- Manter apenas os sinais de confiança que fizerem sentido na versão direta da rota.
 
-```text
-[1 Endereço] → [2 Imóvel] → [3 Detalhes] → [Loader 1.5s] → [4 Resultado + Captura] → QuickValuationResult
-```
+### 3. WhatsApp na página de resultado
+- Inserir na tela de resultado uma ação clara para solicitar o laudo completo via WhatsApp.
+- Usar a configuração central de contato/mensagem já existente para não hardcodar número ou texto.
+- Garantir que o CTA funcione tanto após captura manual quanto após captura com Google.
 
-### Passo 1 — Endereço
-- Tipologia (Apartamento / Casa / Cobertura) em botões grandes touch
-- Rua/Logradouro com autocomplete via `useStreetSuggestions` (BARRA DA TIJUCA fixo)
-- Número (opcional) aparece após escolher a rua
-- CTA "Continuar"
+### 4. Fluxo “Continuar com o Google”
+- Verificar se o problema é do ambiente de preview ou do fluxo da aplicação.
+- Se for apenas limitação do preview, preservar a implementação correta e validar no domínio publicado/customizado.
+- Se houver falha no app, ajustar a retomada do estado após retorno do OAuth para que o usuário volte ao passo de resultado corretamente.
 
-### Passo 2 — Imóvel
-- Área em m² (input numérico)
-- Quartos (NumberStepper ±)
-- CTA "Continuar"
+### 5. Verificação do envio de WhatsApp e e-mail
+- Auditar o fluxo que chama `send-lead-notification` após o cadastro de e-mail e telefone.
+- Conferir logs e respostas da função para identificar por que você não recebeu nem WhatsApp nem e-mail.
+- Corrigir o ponto de falha no envio e/ou no tratamento de erro.
+- Melhorar o feedback em tela quando o lead for salvo mas a notificação externa falhar.
 
-### Passo 3 — Detalhes
-- Banheiros, Suítes, Vagas, Andar — NumberStepper ±
-- Toggles (Switch): Vista Mar, Reformado, Varanda Gourmet
-- CTA "Ver minha avaliação"
+## Detalhes técnicos
+- **Frontend**
+  - `src/components/leads/wizard/StepDetails.tsx`
+  - `src/components/leads/wizard/ValuationWizard.tsx`
+  - `src/pages/AvaliacaoDireta.tsx`
+  - `src/components/leads/QuickValuationResult.tsx`
+- **Backend integrado**
+  - Revisar `supabase/functions/send-lead-notification/index.ts`
+  - Validar logs da função e o comportamento de envio para e-mail e WhatsApp
+- **Sem mudança de rota original**
+  - `/avaliacao` permanece intacta para teste A/B
+- **Sem nova estrutura de dados**
+  - A gravação continua usando a tabela `leads` com `origem = "avaliacao_direta"`
 
-### Loader contextual (1.5s)
-Mensagens em sequência com fade:
-1. "Analisando transações recentes na Barra…"
-2. "Comparando com imóveis similares…"
-3. "Calculando faixa de mercado…"
+## Validação
+- Testar o fluxo completo em `/avaliacao-direta`
+- Confirmar:
+  - os 3 toggles removidos
+  - os 2 badges removidos
+  - botão de laudo via WhatsApp no resultado
+  - salvamento do lead
+  - disparo de e-mail/WhatsApp ou mensagem clara de falha
+  - comportamento do Google no ambiente correto
 
-Durante o loader: chama `get_itbi_stats_filtered` (mesmo RPC do form original), calcula `min/med/max = R$/m² × área`.
-
-### Passo 4 — Resultado + Captura
-- **Faixa min / med / max** em destaque + R$/m² + nº de transações
-- Mini-barra visual dos 3 valores (reuso do estilo de `QuickValuationResult`)
-- **Nota de autoridade:** *"Esta é uma estimativa algorítmica baseada em ITBI. Para imóveis exclusivos, a variação pode chegar a 15%. Deseja uma validação manual do nosso especialista?"*
-- **Captura progressiva (lead ainda não salvo):**
-
-```text
-┌──────────────────────────────────────────┐
-│  [G] Continuar com Google                 │ ← preenche e-mail + nome
-├──────────────────────────────────────────┤
-│        ou usar outro e-mail               │
-│  [ seu@email.com           ]              │
-└──────────────────────────────────────────┘
-        ↓
-   [ WhatsApp (obrigatório)  ]
-        ↓ (se Google não trouxe nome)
-   [ Nome                    ]
-        ↓
-   [ Quero o laudo completo do especialista ]  ← CTA primário
-```
-
-Submissão → grava em `leads` com `origem = "avaliacao_direta"` (sufixo `_google` quando Google) → renderiza `QuickValuationResult` (componente existente, reuso integral).
-
-## Motor de avaliação — REUSO TOTAL
-
-Sem mudar nada na lógica de cálculo. O wizard só reembala a UX e chama:
-- `supabase.rpc("get_itbi_stats_filtered", { p_bairro, p_logradouro, p_uso: "Residencial" })`
-- `min/med/max × area_m2` (mesmo cálculo do `QuickValuationForm`)
-- Mesma persistência em `valuations` (origin = "public") + `leads` + `send-lead-notification` + `sendLeadToCrm`
-- Limite de 2 avaliações por e-mail (`check_lead_exists` + `MAX_FREE_EVALUATIONS`) → reaproveita `LimitExceededScreen`
-- Tela final: `QuickValuationResult` (sem alterações)
-
-## Google OAuth — apenas captura
-
-- `lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/avaliacao-direta?from=google" })`
-- Pacote `@lovable.dev/cloud-auth-js` já instalado (via `configure_social_auth`)
-- Antes do redirect: `sessionStorage.setItem("wizard_state", JSON.stringify(formData + estimativa))`
-- Ao voltar: lê sessionStorage, restaura wizard no Passo 4, lê `supabase.auth.getSession()` → `user.email` + `user_metadata.full_name`, pré-preenche
-- **Não cria perfil próprio do app**, apenas usa os dados verificados
-- Fallback transparente: se popup fechar, erro, ou usuário escolher "outro e-mail" → input manual
-
-## Tracking (Meta Pixel) — adicionar em `src/lib/metaPixel.ts`
-
-| Helper | Quando |
-|---|---|
-| `trackWizardStep(n)` | Cada vez que um passo é exibido (1/2/3/4) |
-| `trackWizardEstimateShown(value)` | Loader termina, estimativa renderiza |
-| `trackWizardLeadCaptured(value, method)` | Submit do form de captura (Google ou manual) |
-| `trackLead` (existente) | Mantido — só dispara em primeiro cadastro elegível |
-
-Permite ver drop-off por passo (inexistente hoje).
-
-## Arquivos
-
-**Novos** (`src/components/leads/wizard/`):
-- `ValuationWizard.tsx` — orquestrador, state machine, sessionStorage, OAuth handler, chamada de RPC, submit de lead
-- `StepAddress.tsx`
-- `StepProperty.tsx`
-- `StepDetails.tsx`
-- `StepResultCapture.tsx`
-- `AnalyzingLoader.tsx` — 1,5s, 3 mensagens em fade
-- `NumberStepper.tsx` — botão ± touch ≥ 44×44px
-- `GoogleEmailCapture.tsx` — bloco Google + fallback manual + WhatsApp + nome condicional
-
-**Editados:**
-- `src/pages/AvaliacaoDireta.tsx` — troca bloco do formulário por `<ValuationWizard origem="avaliacao_direta" />` e mantém Result em Suspense
-- `src/lib/metaPixel.ts` — 3 helpers novos (sem mexer no `trackLead`)
-
-**Não tocar:** `QuickValuationForm.tsx`, `QuickValuationResult.tsx`, `AvaliacaoPublica.tsx` (`/avaliacao`), `LeadCaptureForm.tsx`.
-
-## State machine
-
-```text
-type WizardStep = "address" | "property" | "details" | "analyzing" | "result"
-
-formData = { logradouro, numero, tipologia, area, quartos,
-             banheiros, suites, vagas, andar,
-             vistaMar, reformado, varandaGourmet }
-
-estimativa = { itbiData, estimativa: {min,med,max} } | null
-
-capture = { email, nome, telefone, googleVerified }
-```
-
-Transições: `next()`, `back()`, `runAnalysis()` (carrega ITBI + transita para `result`), `submitCapture()`.
-
-## Visual / Design system
-
-- Mobile-first, card centralizado `max-w-2xl`
-- Progress bar topo (25/50/75/100%) com fill `#C9A84C`
-- Cores via classes existentes (`#0C2340` navy / `#C9A84C` gold) — mesmas do form atual
-- Spacing máximo 60px entre seções
-- Transição entre passos: fade + slide horizontal 250ms
-- Toque ≥ 44×44px em todos os steppers e toggles
-- Botão "Voltar" discreto (texto + ícone) em todos exceto Passo 1
-
-## Persistência
-
-- `sessionStorage["wizard_state"]` = estado completo para sobreviver ao redirect do Google
-- Limpa após submissão bem-sucedida do lead
-
-## Fora de escopo
-
-- Migrar `/avaliacao` para o wizard (após validar conversão aqui)
-- Criar conta de usuário própria do app via Google
-- Mudanças no schema do banco
-- Mudanças no motor de cálculo de valor
-
-## Memória
-
-Atualizar `mem://features/avaliacao-direta-route` para refletir: wizard de 4 passos + loader contextual + Google OAuth de captura + tracking de drop-off + motor ITBI inalterado.
+## Observação importante
+Pelos sinais atuais, o OAuth com Google pode estar esbarrando no ambiente de preview, então a validação final desse ponto deve ser feita no domínio publicado ou customizado, além do ajuste de robustez no retorno do fluxo.
