@@ -279,7 +279,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
           diferenciais_imovel: diferenciais.trim() || null,
           valor_pedido_vendedor: valorPedidoNum || null,
           interesse: "compra",
-          origem: "avaliacao_publica",
+          origem,
           evaluation_count: 1,
         });
         if (insertError) throw insertError;
@@ -388,7 +388,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
         diferenciais: diferenciais.trim() || null,
         valor_pedido_vendedor: valorPedidoNum || null,
         interesse: "compra",
-        origem: "avaliacao_publica",
+        origem,
         is_returning_lead: !!existingLead,
         evaluation_number: existingLead ? evaluationCount + 1 : 1,
         estimativa_min: estimativa?.min ?? null,
