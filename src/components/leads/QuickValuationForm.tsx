@@ -50,6 +50,7 @@ interface QuickValuationFormProps {
   onComplete: (data: QuickValuationData) => void;
   onBairroChange?: (bairro: string) => void;
   onLogradouroChange?: (logradouro: string) => void;
+  origem?: string;
 }
 
 const MAX_FREE_EVALUATIONS = 2;
@@ -68,7 +69,7 @@ const STEP_LABELS = [
   { step: 4, label: "Seus Dados", icon: User },
 ];
 
-export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroChange }: QuickValuationFormProps) {
+export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroChange, origem = "avaliacao_publica" }: QuickValuationFormProps) {
   // Step state
   const [currentStep, setCurrentStep] = useState<FormStep>(1);
 
