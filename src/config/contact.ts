@@ -77,6 +77,29 @@ export const WHATSAPP_MESSAGES = {
   /** Avaliação presencial (ThankYouStep). */
   agendarPresencial: () =>
     "Olá! Vim pela avaliação online e gostaria de agendar uma avaliação presencial gratuita.",
+
+  /** Laudo completo direto via WhatsApp a partir do resultado preliminar (/avaliacao-direta). */
+  laudoCompletoDireto: (p?: {
+    bairro?: string;
+    tipologia?: string;
+    area?: number;
+    estimativaMed?: number;
+  }) => {
+    const detalhes = [
+      p?.tipologia && `${p.tipologia}`,
+      p?.area && `${p.area}m²`,
+      p?.bairro && `em ${p.bairro}`,
+    ]
+      .filter(Boolean)
+      .join(" ");
+    const linhaEst =
+      p?.estimativaMed && p.estimativaMed > 0
+        ? `\nEstimativa preliminar: ${formatBRL(p.estimativaMed)}`
+        : "";
+    return `Olá! Acabei de fazer a avaliação online${
+      detalhes ? ` (${detalhes})` : ""
+    }.${linhaEst}\n\nQuero receber o laudo completo do especialista por aqui.`;
+  },
 } as const;
 
 // === Rótulos / copy dos CTAs ===

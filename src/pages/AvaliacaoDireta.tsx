@@ -1,15 +1,8 @@
 import { Helmet } from "react-helmet-async";
-import { Shield, FileSearch, BadgeCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ValuationWizard } from "@/components/leads/wizard/ValuationWizard";
 import godoyLogo from "@/assets/godoy-logo-symbol.png";
 import { PHONE, BRAND, whatsappUrl, WHATSAPP_MESSAGES } from "@/config/contact";
-
-const TRUST_BADGES = [
-  { icon: FileSearch, label: "Dados ITBI Oficiais" },
-  { icon: BadgeCheck, label: "NBR 14653-2" },
-  { icon: Shield, label: BRAND.creci.split(" | ")[0] },
-];
 
 export default function AvaliacaoDireta() {
   return (
@@ -55,18 +48,6 @@ export default function AvaliacaoDireta() {
               <p className="text-sm sm:text-base text-muted-foreground">
                 Em 4 passos rápidos. Sem cadastro até ver o resultado.
               </p>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-              {TRUST_BADGES.map(({ icon: Icon, label }) => (
-                <div
-                  key={label}
-                  className="flex items-center gap-1.5 bg-white border border-[#0C2340]/15 rounded-full px-3 py-1.5 text-xs sm:text-sm text-[#0C2340] shadow-sm"
-                >
-                  <Icon className="h-3.5 w-3.5 text-[#C9A84C]" />
-                  <span className="font-medium">{label}</span>
-                </div>
-              ))}
             </div>
 
             <div className="pt-2">

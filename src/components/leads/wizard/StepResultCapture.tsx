@@ -1,6 +1,7 @@
-import { ShieldCheck, TrendingUp, ArrowLeft } from "lucide-react";
+import { ShieldCheck, TrendingUp, ArrowLeft, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GoogleEmailCapture } from "./GoogleEmailCapture";
+import { whatsappUrl, WHATSAPP_MESSAGES } from "@/config/contact";
 
 export interface EstimativaState {
   itbiData: {
@@ -21,6 +22,9 @@ interface Props {
   onSubmit: (data: { email: string; nome: string; telefone: string; googleVerified: boolean }) => void;
   onBeforeGoogleRedirect: () => void;
   onBack: () => void;
+  bairro?: string;
+  tipologia?: string;
+  area?: number;
 }
 
 const fmt = (v: number) =>
@@ -35,8 +39,20 @@ export function StepResultCapture({
   onSubmit,
   onBeforeGoogleRedirect,
   onBack,
+  bairro,
+  tipologia,
+  area,
 }: Props) {
   const { itbiData, estimativa: e } = estimativa;
+
+  const whatsappLaudoUrl = whatsappUrl(
+    WHATSAPP_MESSAGES.laudoCompletoDireto({
+      bairro,
+      tipologia,
+      area,
+      estimativaMed: e.med,
+    }),
+  );
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-[250ms]">
@@ -105,6 +121,30 @@ export function StepResultCapture({
           onSubmit={onSubmit}
           onBeforeGoogleRedirect={onBeforeGoogleRedirect}
         />
+
+        <div className="relative py-1">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-[#0C2340]/10" />
+          </div>
+          <div className="relative flex justify-center">
+            <span className="bg-white px-3 text-[11px] uppercase tracking-wider text-[#0C2340]/50">
+              ou
+            </span>
+          </div>
+        </div>
+
+        <a
+          href={whatsappLaudoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 w-full h-12 rounded-md bg-[#25D366] hover:bg-[#1ebe5d] text-white font-semibold transition-colors"
+        >
+          <MessageCircle className="h-5 w-5" />
+          Receber laudo completo via WhatsApp
+        </a>
+        <p className="text-[11px] text-center text-muted-foreground">
+          Falar direto com o especialista CRECI-RJ 11841 — sem formulário.
+        </p>
       </div>
     </div>
   );

@@ -471,6 +471,9 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
             onSubmit={handleCaptureSubmit}
             onBeforeGoogleRedirect={persistForGoogle}
             onBack={() => setStep("details")}
+            bairro={BAIRRO}
+            tipologia={form.tipologia}
+            area={parseFloat(form.area) || undefined}
           />
         )}
       </CardContent>
