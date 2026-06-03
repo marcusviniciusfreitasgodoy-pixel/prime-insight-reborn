@@ -1,46 +1,18 @@
-## Objetivo
-Eliminar a ambiguidade entre os dois botões do bloco de captura e corrigir a percepção de que o Google “não faz nada”.
+# Plano: Corrigir envio de WhatsApp (Z-API)
 
-## O que vou ajustar
+## Problema confirmado nos logs
+A função `send-lead-notification` está retornando:
+```
+Client-Token Fd2d9a2263d6f4461ae75a57ea4c5fd05S not allowed
+```
+O e-mail (Resend) está funcionando normalmente. Apenas o WhatsApp falha porque o **Client-Token da Z-API está inválido/expirado**.
 
-1. **Deixar a proposta dos botões inequívoca**
-   - Transformar o bloco em dois caminhos claramente distintos:
-     - **Opção 1:** liberar o laudo detalhado após identificação
-     - **Opção 2:** falar direto no WhatsApp com o especialista, sem promessa de entrega automática do mesmo laudo
-   - Reescrever títulos, subtítulos e rótulos para que não pareçam dois botões com a mesma função.
+## Ação
 
-2. **Reorganizar a hierarquia visual**
-   - Destacar apenas um CTA principal no card.
-   - Rebaixar o botão de WhatsApp para alternativa secundária de contato.
-   - Remover o “ou” genérico e substituir por um texto explicativo do tipo “Prefere falar direto com um especialista?”.
+1. Abrir formulário seguro para você colar o novo `ZAPI_CLIENT_TOKEN` (Account Security Token, encontrado no painel Z-API em **Conta → Segurança da Conta → Account Security Token**).
+2. Após salvar, fazer um novo teste preenchendo o formulário em `/avaliacao-direta`.
+3. Verificar nos logs da função `send-lead-notification` se o envio WhatsApp retornou sucesso (sem o erro "Client-Token not allowed").
 
-3. **Corrigir a experiência do Google**
-   - Garantir feedback visível imediato no clique: estado de carregamento, mensagem de redirecionamento ou erro claro.
-   - Revisar o caso em que o OAuth não redireciona nem retorna erro perceptível.
-   - Validar o comportamento no domínio publicado, já que o preview pode ter comportamento diferente de autenticação.
-
-4. **Ajustar a promessa do conteúdo entregue**
-   - Garantir que o fluxo identificado entregue o laudo detalhado por e-mail/WhatsApp.
-   - Garantir que o botão alternativo de WhatsApp deixe claro que ele abre conversa direta com o especialista, e não necessariamente o mesmo disparo automático do fluxo identificado.
-
-## Sugestão de copy
-
-### Estrutura sugerida
-- **Título do card:** Receba seu laudo detalhado
-- **Texto de apoio:** Identifique-se para receber a análise completa com os dados deste imóvel.
-- **Botão principal:** Receber laudo detalhado
-- **Separador secundário:** Prefere atendimento imediato?
-- **Botão secundário:** Falar com especialista no WhatsApp
-- **Texto pequeno abaixo do secundário:** Abre uma conversa direta para análise manual do imóvel.
-
-## Resultado esperado
-- O usuário entende imediatamente que:
-  - um botão **libera/envia o laudo** após cadastro
-  - o outro botão **abre conversa direta no WhatsApp**
-- O clique no Google passa a ter retorno perceptível e menos chance de parecer inativo.
-
-## Detalhes técnicos
-- Ajustar `StepResultCapture.tsx` para nova hierarquia, nova copy e diferenciação de intenção entre CTAs.
-- Ajustar `GoogleEmailCapture.tsx` para feedback explícito de loading/redirect/erro no OAuth.
-- Validar a restauração do estado no retorno do Google em `ValuationWizard.tsx`.
-- Testar especificamente no domínio publicado, além do preview, para separar problema real de diferença de ambiente de autenticação.
+## Observação
+- Não vou alterar `ZAPI_TOKEN` nem `ZAPI_INSTANCE_ID` — só o `ZAPI_CLIENT_TOKEN`.
+- Se após a troca ainda falhar, o próximo passo é validar se a instância está conectada ao WhatsApp (QR Code ativo) no painel Z-API.
