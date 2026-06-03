@@ -16,6 +16,7 @@ const FAQ = lazy(() => import("./pages/FAQ"));
 const Feedback = lazy(() => import("./pages/Feedback"));
 const Auth = lazy(() => import("./pages/Auth"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const AvaliacaoDireta = lazy(() => import("./pages/AvaliacaoDireta"));
 
 // Admin pages
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -51,6 +52,7 @@ const App = () => {
                 {/* Public routes */}
                 <Route path="/" element={<AvaliacaoPublica />} />
                 <Route path="/avaliacao" element={<AvaliacaoPublica />} />
+                <Route path="/avaliacao-direta" element={<AvaliacaoDireta />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/feedback" element={<Feedback />} />
                 <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
