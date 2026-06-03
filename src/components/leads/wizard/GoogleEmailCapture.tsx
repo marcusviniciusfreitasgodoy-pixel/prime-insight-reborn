@@ -46,23 +46,28 @@ export function GoogleEmailCapture({
   const handleGoogle = async () => {
     setError("");
     setOauthLoading(true);
+    toast.loading("Conectando com o Google…", { id: "google-oauth" });
     try {
       onBeforeGoogleRedirect();
       const result = await lovable.auth.signInWithOAuth("google", {
         redirect_uri: `${window.location.origin}/avaliacao-direta?from=google`,
       });
       if (result?.redirected) {
-        // Browser is redirecting to Google — nothing more to do here.
+        toast.success("Redirecionando para o Google…", { id: "google-oauth" });
         return;
       }
       if (result?.error) {
         console.error("Google OAuth error:", result.error);
-        toast.error("Não foi possível continuar com o Google. Use seu e-mail.");
+        toast.error("Não foi possível continuar com o Google. Use seu e-mail.", { id: "google-oauth" });
         setShowManual(true);
+        return;
       }
+      // Sessão pronta sem redirect (popup ou já autenticado)
+      toast.success("Conta Google conectada!", { id: "google-oauth" });
+      setShowManual(true);
     } catch (e) {
       console.error("Google OAuth exception:", e);
-      toast.error("Erro ao conectar com o Google. Use seu e-mail.");
+      toast.error("Erro ao conectar com o Google. Use seu e-mail.", { id: "google-oauth" });
       setShowManual(true);
     } finally {
       setOauthLoading(false);

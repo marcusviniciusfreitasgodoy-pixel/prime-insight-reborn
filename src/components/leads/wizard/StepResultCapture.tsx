@@ -108,9 +108,9 @@ export function StepResultCapture({
 
       <div className="rounded-xl border border-[#0C2340]/15 bg-white p-4 sm:p-5 space-y-3">
         <div className="text-center">
-          <h3 className="font-bold text-[#0C2340]">Receba o laudo completo + análise do especialista</h3>
+          <h3 className="font-bold text-[#0C2340]">Receba seu laudo detalhado por e-mail</h3>
           <p className="text-xs text-muted-foreground mt-1">
-            Identifique-se para liberar o relatório detalhado.
+            Identifique-se para receber a análise completa deste imóvel.
           </p>
         </div>
         <GoogleEmailCapture
@@ -121,29 +121,24 @@ export function StepResultCapture({
           onSubmit={onSubmit}
           onBeforeGoogleRedirect={onBeforeGoogleRedirect}
         />
+      </div>
 
-        <div className="relative py-1">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-[#0C2340]/10" />
-          </div>
-          <div className="relative flex justify-center">
-            <span className="bg-white px-3 text-[11px] uppercase tracking-wider text-[#0C2340]/50">
-              ou
-            </span>
-          </div>
-        </div>
-
+      {/* Caminho alternativo, claramente distinto: contato direto, sem promessa de laudo automático */}
+      <div className="rounded-xl border border-dashed border-[#0C2340]/15 bg-[#F8F6F0]/60 p-4 space-y-2">
+        <p className="text-xs text-center text-[#0C2340]/70">
+          Prefere atendimento humano, sem preencher formulário?
+        </p>
         <a
           href={whatsappLaudoUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 w-full h-12 rounded-md bg-[#25D366] hover:bg-[#1ebe5d] text-white font-semibold transition-colors"
+          className="flex items-center justify-center gap-2 w-full h-11 rounded-md bg-[#25D366] hover:bg-[#1ebe5d] text-white font-semibold transition-colors"
         >
           <MessageCircle className="h-5 w-5" />
-          Receber laudo completo via WhatsApp
+          Falar com especialista no WhatsApp
         </a>
         <p className="text-[11px] text-center text-muted-foreground">
-          Falar direto com o especialista CRECI-RJ 11841 — sem formulário.
+          Abre uma conversa direta com Marcus Godoy (CRECI-RJ 11841) para análise manual.
         </p>
       </div>
     </div>
