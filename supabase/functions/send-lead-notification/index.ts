@@ -49,6 +49,10 @@ interface LeadNotificationRequest {
   enderecoImovelAnalise?: string;
   valorPedidoVendedor?: number;
   evaluationNumber?: number;
+  itbiMinM2?: number;
+  itbiMedM2?: number;
+  itbiMaxM2?: number;
+  itbiTransactionCount?: number;
 }
 
 const formatCurrency = (value: number | undefined) => {
