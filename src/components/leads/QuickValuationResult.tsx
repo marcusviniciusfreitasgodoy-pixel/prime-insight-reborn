@@ -528,54 +528,24 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
           </CardContent>
         </Card>
       ) : (
-        <Card className="border-accent/30 bg-gradient-to-b from-accent/5 to-transparent">
-          <CardContent className="py-8">
-            <div className="text-center space-y-6">
-              <div>
-                <p className="italic mb-3" style={{ color: '#666', fontSize: '14px' }}>Você já deu o primeiro passo. Agora proteja seu investimento.</p>
-                <h3 className="text-xl font-bold">🏆 Próximo Passo: Validação Técnica Completa</h3>
-                <p className="text-muted-foreground mt-2">Proteja seu patrimônio com o <strong>Parecer Técnico Godoy Prime</strong></p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button onClick={handleRequestParecer} disabled={isRequesting} className="bg-[#C9A84C] hover:bg-[#b8963f] text-[#1a1a2e] shadow-lg font-semibold" size="lg">
-                  <MessageCircle className="mr-2 h-5 w-5" />
-                  {isRequesting ? CTA_LABELS.enviando : CTA_LABELS.solicitarParecer}
-                </Button>
-                <Button variant="outline" onClick={() => window.open(PHONE.tel, "_self")} size="lg">
-                  <Phone className="mr-2 h-5 w-5" />
-                  {CTA_LABELS.ligarComNumero}
-                </Button>
-              </div>
-              <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
-                <span>🔒 Sem compromisso de contratação</span>
-                <span className="text-muted-foreground/30">•</span>
-                <span>⚡ Retorno em até 2h</span>
-                <span className="text-muted-foreground/30">•</span>
-                <span>📋 Orçamento personalizado gratuito</span>
-              </div>
-              <p className="text-xs text-muted-foreground">Ao solicitar, nossa equipe entrará em contato em até 2 horas úteis para agendar sua análise.</p>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Bloco Final de Fechamento — Última Chamada */}
-      {!parecerRequested && (
         <Card className="border-0 overflow-hidden" style={{ backgroundColor: '#0C2340' }}>
           <CardContent className="py-10 px-6">
             <div className="text-center space-y-5 max-w-2xl mx-auto">
               <div className="inline-flex items-center gap-2 bg-[#C9A84C]/15 border border-[#C9A84C]/30 rounded-full px-3 py-1">
                 <Shield className="h-3.5 w-3.5 text-[#C9A84C]" />
-                <span className="text-[#C9A84C] text-xs font-semibold uppercase tracking-wider">Última chamada</span>
+                <span className="text-[#C9A84C] text-xs font-semibold uppercase tracking-wider">
+                  Próximo Passo · Validação Técnica
+                </span>
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-white leading-tight">
                 Garanta seu Parecer Técnico antes de fechar negócio
               </h3>
               <p className="text-white/75 text-sm sm:text-base">
-                Mais de <strong className="text-[#C9A84C]">R$ 180-450 mil</strong> em economia média por imóvel analisado.
-                Investimento a partir de <strong className="text-white">R$ 4.900</strong> com garantia de reembolso 100%.
+                Proteja seu patrimônio com o <strong className="text-white">Parecer Técnico Godoy Prime</strong>.
+                Mais de <strong className="text-[#C9A84C]">R$ 180-450 mil</strong> em economia média por imóvel analisado —
+                investimento a partir de <strong className="text-white">R$ 4.900</strong> com garantia de reembolso 100%.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+              <div className="flex justify-center pt-2">
                 <Button
                   onClick={handleRequestParecer}
                   disabled={isRequesting}
@@ -585,16 +555,21 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
                   <Shield className="mr-2 h-5 w-5" />
                   {isRequesting ? CTA_LABELS.enviando : CTA_LABELS.solicitarParecerAgora}
                 </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  onClick={() => window.open(whatsappUrl(WHATSAPP_MESSAGES.parecerComNome(data.leadName)), "_blank")}
-                  className="bg-transparent border-white/40 text-white hover:bg-white hover:text-[#0C2340]"
-                >
-                  <MessageCircle className="mr-2 h-5 w-5" />
-                  {CTA_LABELS.falarWhatsapp}
-                </Button>
               </div>
+              <p className="text-xs text-white/60">
+                Prefere falar direto?{" "}
+                <button
+                  type="button"
+                  onClick={() => window.open(whatsappUrl(WHATSAPP_MESSAGES.parecerComNome(data.leadName)), "_blank")}
+                  className="underline underline-offset-2 hover:text-white transition-colors"
+                >
+                  Abrir conversa no WhatsApp
+                </button>{" "}
+                ou{" "}
+                <a href={PHONE.tel} className="underline underline-offset-2 hover:text-white transition-colors">
+                  ligar {PHONE.display}
+                </a>
+              </p>
               <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-white/60 pt-2">
                 <span>🛡️ Garantia 100%</span>
                 <span className="text-white/30">•</span>
