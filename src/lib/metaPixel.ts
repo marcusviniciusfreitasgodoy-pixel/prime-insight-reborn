@@ -41,4 +41,19 @@ export function trackEvent(name: string, params?: Record<string, unknown>) {
   safeFbq("trackCustom", name, params ?? {});
 }
 
+/** Wizard de avaliação direta — exibição de cada passo (drop-off). */
+export function trackWizardStep(step: 1 | 2 | 3 | 4) {
+  safeFbq("trackCustom", `WizardStep${step}`, { step });
+}
+
+/** Wizard — estimativa renderizada após loader. */
+export function trackWizardEstimateShown(value: number) {
+  safeFbq("trackCustom", "WizardEstimateShown", { value, currency: "BRL" });
+}
+
+/** Wizard — captura de lead concluída (Google ou manual). */
+export function trackWizardLeadCaptured(value: number, method: "google" | "manual") {
+  safeFbq("trackCustom", "WizardLeadCaptured", { value, currency: "BRL", method });
+}
+
 export {};
