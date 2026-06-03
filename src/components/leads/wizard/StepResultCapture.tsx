@@ -70,7 +70,7 @@ export function StepResultCapture({
         </div>
         <h2 className="text-2xl sm:text-3xl font-bold text-[#0C2340]">{fmt(e.med)}</h2>
         <p className="text-xs text-muted-foreground">
-          Baseado em {itbiData.transaction_count} transações ITBI reais
+          Baseado em {itbiData.transaction_count} transações reais realizadas na região nos últimos 12 meses
         </p>
       </div>
 
@@ -100,7 +100,8 @@ export function StepResultCapture({
       <div className="rounded-xl border border-[#C9A84C]/30 bg-[#C9A84C]/5 p-4 flex gap-3">
         <ShieldCheck className="h-5 w-5 text-[#C9A84C] shrink-0 mt-0.5" />
         <p className="text-sm text-[#0C2340] leading-relaxed">
-          Esta é uma <strong>estimativa algorítmica</strong> baseada em ITBI. Para imóveis
+          Esta é uma <strong>estimativa algorítmica</strong> baseada em transações reais
+          realizadas na região do imóvel avaliado nos últimos 12 meses. Para imóveis
           exclusivos, a variação pode chegar a 15%.{" "}
           <span className="font-semibold">Deseja uma validação manual do nosso especialista?</span>
         </p>
@@ -108,9 +109,12 @@ export function StepResultCapture({
 
       <div className="rounded-xl border border-[#0C2340]/15 bg-white p-4 sm:p-5 space-y-3">
         <div className="text-center">
-          <h3 className="font-bold text-[#0C2340]">Receba seu laudo detalhado por e-mail</h3>
+          <div className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[#0C2340]/60 font-semibold mb-1">
+            Opção 1 · Automático
+          </div>
+          <h3 className="font-bold text-[#0C2340]">Receba o laudo completo por e-mail</h3>
           <p className="text-xs text-muted-foreground mt-1">
-            Identifique-se para receber a análise completa deste imóvel.
+            Preencha seus dados e enviamos a análise detalhada deste imóvel na hora, direto na sua caixa de entrada.
           </p>
         </div>
         <GoogleEmailCapture
@@ -125,9 +129,14 @@ export function StepResultCapture({
 
       {/* Caminho alternativo, claramente distinto: contato direto, sem promessa de laudo automático */}
       <div className="rounded-xl border border-dashed border-[#0C2340]/15 bg-[#F8F6F0]/60 p-4 space-y-2">
-        <p className="text-xs text-center text-[#0C2340]/70">
-          Prefere atendimento humano, sem preencher formulário?
-        </p>
+        <div className="text-center">
+          <div className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[#0C2340]/60 font-semibold mb-1">
+            Opção 2 · Humano
+          </div>
+          <p className="text-xs text-[#0C2340]/70">
+            Prefere falar agora com o especialista, sem preencher formulário?
+          </p>
+        </div>
         <a
           href={whatsappLaudoUrl}
           target="_blank"
@@ -135,10 +144,10 @@ export function StepResultCapture({
           className="flex items-center justify-center gap-2 w-full h-11 rounded-md bg-[#25D366] hover:bg-[#1ebe5d] text-white font-semibold transition-colors"
         >
           <MessageCircle className="h-5 w-5" />
-          Falar com especialista no WhatsApp
+          Abrir conversa no WhatsApp
         </a>
         <p className="text-[11px] text-center text-muted-foreground">
-          Abre uma conversa direta com Marcus Godoy (CRECI-RJ 11841) para análise manual.
+          Conversa direta com Marcus Godoy (CRECI-RJ 11841). Sem laudo automático — análise feita manualmente no chat.
         </p>
       </div>
     </div>
