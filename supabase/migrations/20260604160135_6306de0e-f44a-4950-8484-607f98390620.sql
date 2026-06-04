@@ -1,0 +1,1 @@
+UPDATE public.leads SET evaluation_count = 0, updated_at = now() - interval '2 minutes';
