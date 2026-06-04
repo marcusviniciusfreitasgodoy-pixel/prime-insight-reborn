@@ -1,17 +1,10 @@
-import { useState, useRef, useEffect, memo, lazy, Suspense } from "react";
+import { useState, useEffect } from "react";
 import { RealCaseComparison } from "@/components/leads/RealCaseComparison";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { Helmet } from "react-helmet-async";
-import { QuickValuationForm, QuickValuationData } from "@/components/leads/QuickValuationForm";
-import { Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-
-const QuickValuationResult = lazy(() =>
-  import("@/components/leads/QuickValuationResult").then((m) => ({ default: m.QuickValuationResult })),
-);
-
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUTMTracking } from "@/hooks/useUTMTracking";
 import { PHONE, WHATSAPP_MESSAGES, whatsappUrl, CTA_LABELS } from "@/config/contact";
 import { sendCtaClickToCrm } from "@/lib/crmWebhook";
@@ -44,8 +37,6 @@ import {
   Ban,
   Wallet,
   TrendingDown,
-  Search,
-  BarChart,
   Sparkles,
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
