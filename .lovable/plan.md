@@ -1,32 +1,34 @@
-## Objetivo
-Atualizar a mensagem para remover o termo “ITBI” da comunicação visível ao usuário e reduzir a ambiguidade entre o fluxo de e-mail e o contato por WhatsApp, além de revisar o comportamento do clique no WhatsApp à luz do bloqueio mostrado no print.
+# Corrigir login com Google no wizard `/avaliacao-direta`
 
-## Plano
-1. **Trocar a copy visível no resultado**
-   - Substituir o texto:
-     - `Esta é uma estimativa algorítmica baseada em ITBI...`
-   - Pela versão pedida com linguagem mais clara:
-     - `Esta é uma estimativa algorítmica baseada em transações reais realizadas na região do imóvel avaliado nos últimos 12 meses...`
-   - Revisar também a linha curta acima do valor (`Baseado em ... transações ITBI reais`) para manter consistência da mesma linguagem.
+## Diagnóstico
+Ao clicar em "Continuar com Google", a tela de consentimento abre e fecha sem completar a sessão; o wizard cai direto no formulário manual. Causas prováveis (em ordem):
 
-2. **Deixar os dois caminhos mais distintos na interface**
-   - Manter o bloco principal como caminho de **recebimento do laudo por e-mail**.
-   - Reforçar o bloco alternativo como **atendimento manual via WhatsApp**, sem parecer que faz a mesma coisa do botão principal.
-   - Ajustar títulos/microcopys para que o usuário entenda de imediato:
-     - um botão = receber análise completa preenchendo os dados;
-     - outro botão = abrir conversa direta com especialista.
+1. **Preview vs Publicado** — o ambiente `id-preview--…lovable.app` usa credenciais OAuth de desenvolvimento do Lovable Cloud, diferentes do domínio publicado (`avaliacao.godoyprime.com.br`). É um comportamento conhecido e o teste real precisa ser feito no domínio publicado.
+2. **`redirect_uri` com querystring** — usamos `${origin}/avaliacao-direta?from=google`. O broker OAuth pode rejeitar/normalizar URIs com query, fazendo o callback fechar sem setar sessão.
+3. **Tratamento do retorno** — quando `result` volta sem `redirected:true` e sem `error`, o código atual assume "sucesso silencioso" e só exibe o formulário manual, sem mensagem clara para o usuário.
 
-3. **Revisar o clique do botão de WhatsApp**
-   - Verificar se o link continua sendo gerado pelo helper central de WhatsApp.
-   - Ajustar a abertura para o formato mais confiável no navegador/preview, com fallback quando a aba externa for bloqueada.
-   - Se o bloqueio vier do navegador/ambiente externo (como o print sugere), deixar o comportamento mais resiliente sem alterar o restante do funil.
+## Ajustes (somente front-end — sem mudar backend nem tabelas)
 
-4. **Validar o resultado final**
-   - Confirmar que a nova copy aparece corretamente.
-   - Confirmar que a distinção entre os CTAs ficou inequívoca.
-   - Testar novamente o clique do WhatsApp no fluxo final.
+### 1. `src/components/leads/wizard/GoogleEmailCapture.tsx`
+- Trocar `redirect_uri` para `window.location.origin` puro (sem `?from=google`).
+- A flag `from=google` continua sendo controlada via `sessionStorage` (já feita por `onBeforeGoogleRedirect`) — o `ValuationWizard` já restaura o estado a partir do storage; vamos remover a dependência do query param.
+- Logar `[OAUTH]` em cada ramo (`redirected`, `error`, `silent`) para diagnóstico.
+- Se `result` voltar sem `redirected` e sem `error` (popup fechado), mostrar toast claro: *"Login com Google não foi concluído. Use seu e-mail abaixo."* em vez de assumir sucesso.
 
-## Detalhes técnicos
-- Arquivo principal já identificado: `src/components/leads/wizard/StepResultCapture.tsx`
-- O link do WhatsApp hoje é montado a partir de `src/config/contact.ts`
-- O print sugere bloqueio em `api.whatsapp.com` no navegador, então a implementação vai focar em reduzir esse ponto de falha no front sem mexer no backend de notificações
+### 2. `src/components/leads/wizard/ValuationWizard.tsx`
+- Detectar restauração via `sessionStorage` mesmo sem `?from=google` na URL: se houver sessão Supabase ativa **e** estado salvo em `STORAGE_KEY`, restaurar.
+- Manter compatibilidade com o parâmetro `?from=google` para não quebrar fluxos antigos.
+
+### 3. Teste
+- Validar em **preview**: confirmar logs `[OAUTH]` mostrando exatamente em qual ramo o fluxo cai.
+- Se mesmo após o ajuste o problema persistir só no preview, o caminho é validar no domínio publicado (`https://avaliacao.godoyprime.com.br/avaliacao-direta`) — onde o OAuth gerenciado usa credenciais de produção e costuma funcionar normalmente.
+
+## O que NÃO vou mudar
+- Credenciais OAuth, allowlist no Google Cloud Console ou configuração do Supabase Auth.
+- Backend (`send-lead-notification`, Z-API, Resend) — já validados como OK.
+- Layout dos cards ou copy da tela de resultado.
+
+## Saída esperada
+- Logs `[OAUTH]` claros no console para diagnosticar definitivamente.
+- Feedback ao usuário quando o popup do Google fecha sem completar (em vez de pular silenciosamente para o formulário manual).
+- Maior chance de o fluxo completar tanto em preview quanto em produção, ao remover a querystring do `redirect_uri`.

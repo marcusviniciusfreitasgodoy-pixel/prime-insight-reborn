@@ -76,26 +76,32 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
     const url = new URL(window.location.href);
     const fromGoogle = url.searchParams.get("from") === "google";
     const stored = sessionStorage.getItem(STORAGE_KEY);
-    if (fromGoogle && stored) {
+    if (!stored) return;
+    // Restaura se vier explicitamente do Google OU se houver sessão Supabase ativa
+    // (cobre o caso novo em que redirect_uri não carrega mais ?from=google).
+    const tryRestore = async () => {
       try {
+        const { data } = await supabase.auth.getUser();
+        if (!fromGoogle && !data.user) return;
         const saved = JSON.parse(stored);
         setForm(saved.form);
         setEstimativa(saved.estimativa);
         setStep("result");
-        supabase.auth.getUser().then(({ data }) => {
-          if (data.user) {
-            setGoogleData({
-              email: data.user.email || "",
-              nome: (data.user.user_metadata?.full_name as string) || "",
-            });
-          }
-        });
-        url.searchParams.delete("from");
-        window.history.replaceState({}, "", url.toString());
+        if (data.user) {
+          setGoogleData({
+            email: data.user.email || "",
+            nome: (data.user.user_metadata?.full_name as string) || "",
+          });
+        }
+        if (fromGoogle) {
+          url.searchParams.delete("from");
+          window.history.replaceState({}, "", url.toString());
+        }
       } catch {
         sessionStorage.removeItem(STORAGE_KEY);
       }
-    }
+    };
+    tryRestore();
   }, []);
 
   // Tracking per step
