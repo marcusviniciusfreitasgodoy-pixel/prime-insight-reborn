@@ -441,7 +441,7 @@ export default function AvaliacaoPublica() {
           <div className="container mx-auto max-w-3xl text-center px-2">
             <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Pronto para Descobrir o Valor do seu Imóvel?</h3>
             <p className="text-[#0C2340]/80 text-sm sm:text-lg mb-8 sm:mb-10">Comece agora – leva apenas 30 segundos.</p>
-            <Button onClick={scrollToForm} size="lg" className="bg-[#0C2340] hover:bg-[#0a1d33] text-white tracking-widest uppercase text-xs font-semibold px-10 py-4 rounded-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto max-w-xs sm:max-w-none">
+            <Button onClick={() => goToWizard()} size="lg" className="bg-[#0C2340] hover:bg-[#0a1d33] text-white tracking-widest uppercase text-xs font-semibold px-10 py-4 rounded-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto max-w-xs sm:max-w-none">
               <span className="truncate">Quero saber o valor do meu imóvel</span>
               <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
             </Button>
@@ -460,48 +460,8 @@ export default function AvaliacaoPublica() {
           </div>
         </section>
 
-        {/* ============ FORM ============ */}
-        <section ref={formRef} className="py-10 sm:py-12 md:py-14 px-4 bg-gradient-to-b from-[#0C2340]/[0.03] to-white scroll-mt-4">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-10">
-              <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
-              <h3 className="font-serif text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">Consulte o Valor Agora</h3>
-              <p className="text-muted-foreground">Resultado em 30 segundos baseado em transações reais • Esta análise estratégica é destinada compradores em fase ativa de negociação.</p>
-            </div>
-
-            {step === "form" && (
-              <div className="flex flex-col gap-8">
-                <div className="max-w-2xl mx-auto w-full space-y-6">
-                  <QuickValuationForm onComplete={handleQuickValuationComplete} onBairroChange={setSelectedBairro} onLogradouroChange={setSelectedLogradouro} />
-                  <div className="flex flex-wrap justify-center gap-4 pt-4">
-                    <div className="flex flex-col items-center gap-1 text-xs text-muted-foreground text-center">
-                      <span>Dados de transações reais e oficiais registradas</span>
-                      <div className="flex items-center gap-2"><Shield className="h-4 w-4 text-[#D4AF37]" />Dados Oficiais do RJ</div>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground"><CheckCircle className="h-4 w-4 text-[#D4AF37]" />Sem compromisso</div>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground"><Clock className="h-4 w-4 text-[#D4AF37]" />Resultado em 30 segundos</div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {step === "loading" && <LoadingScreen />}
-          </div>
-        </section>
-
-        {/* ============ RESULT ============ */}
-        {step === "result" && valuationData && (
-          <section ref={resultRef} className="py-12 px-4 bg-gradient-to-b from-gray-50 to-white scroll-mt-4">
-            <div className="container mx-auto max-w-3xl">
-              <Suspense fallback={<div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin text-[#D4AF37]" /></div>}>
-                <QuickValuationResult data={valuationData} onNewValuation={handleNewValuation} />
-              </Suspense>
-            </div>
-          </section>
-        )}
-
-        {/* ============ FAQ (hidden when showing result) ============ */}
-        {step !== "result" && <section className="py-10 sm:py-12 md:py-14 px-4 bg-[#F8F6F0] bg-[radial-gradient(circle,_rgba(212,175,55,0.06)_1px,_transparent_1px)] bg-[length:24px_24px]">
+        {/* ============ FAQ ============ */}
+        <section className="py-10 sm:py-12 md:py-14 px-4 bg-[#F8F6F0] bg-[radial-gradient(circle,_rgba(212,175,55,0.06)_1px,_transparent_1px)] bg-[length:24px_24px]">
           <div className="container mx-auto max-w-4xl">
             <div className="text-center mb-8 sm:mb-10">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
@@ -536,11 +496,10 @@ export default function AvaliacaoPublica() {
               ))}
             </div>
 
-            {step === "form" && (
-              <div className="mt-12 text-center">
+            <div className="mt-12 text-center">
                 <p className="text-muted-foreground mb-4">Ainda tem dúvidas?</p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Button onClick={scrollToForm} className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] tracking-widest uppercase text-xs font-semibold px-8 py-3 rounded-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto">
+                  <Button onClick={() => goToWizard()} className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] tracking-widest uppercase text-xs font-semibold px-8 py-3 rounded-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto">
                     <Calculator className="mr-2 h-4 w-4 flex-shrink-0" />
                     <span className="truncate">Fazer Minha Avaliação Gratuita</span>
                   </Button>
@@ -549,10 +508,9 @@ export default function AvaliacaoPublica() {
                     <span className="truncate">Falar com Especialista</span>
                   </Button>
                 </div>
-              </div>
-            )}
+            </div>
           </div>
-        </section>}
+        </section>
 
         {/* ============ FOOTER ============ */}
         <footer className="py-12 px-4 bg-[#0C2340]">
