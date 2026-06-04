@@ -1,31 +1,27 @@
-# Limpar Gestão de Leads — excluir leads de teste
+## Objetivo
 
-## Diagnóstico
-Tabela `leads` contém 8 registros, todos identificáveis como testes:
+Atualizar a apresentação da página `/avaliacao-direta` adotando a direção "Premium clássico" aprovada — cabeçalho azul-marinho com logo dourado para contraste, hero com tipografia serifada (Playfair Display) e rodapé refinado em caps. Sem mudanças no conteúdo do wizard nem na lógica.
 
-| email | nome | origem | created_at |
-|---|---|---|---|
-| marcusviniciusfreitasgodoy@gmail.com | Marcus | avaliacao_direta | 03/06 |
-| maikon.d.cavalheiro3@gmail.com | MAIKON DOUGLAS CAVALHEIRO | avaliacao_publica | 22/05 |
-| maikondouglascavalheiro3@gmail.com | Maikon Douglas Cavalheiro | avaliacao_publica | 22/05 |
-| maikondouglascavalheiro2@gmail.com | Maikon Douglas Cavalheiro | avaliacao_publica | 22/05 |
-| marcus@godoyprime.com.br | Marcus Godoy Teste | avaliacao_publica | 22/05 |
-| maikondouglascavalheiro1@gmail.com | Maikon Douglas Cavalheiro | avaliacao_publica | 22/05 |
-| maikon.d.cavalheiro@gmail.com | MAIKON DOUGLAS CAVALHEIRO | avaliacao_publica | 21/05 |
-| maikondouglascavalheiro@gmail.com | Maikon Douglas Cavalheiro | avaliacao_publica | 21/05 |
+## Mudanças
 
-## Ação
-Executar via tool `supabase--insert` (que aceita DELETE):
+**Arquivo único:** `src/pages/AvaliacaoDireta.tsx`
 
-```sql
-DELETE FROM public.leads;
-```
+1. **Header navy sólido** (`bg-[#0C2340]`, sticky, shadow-lg):
+   - Logo: SVG inline (diamante em camadas) na cor `#C9A84C` para garantir contraste sobre o navy
+   - Texto da marca: "GODOY PRIME" em white, com "PRIME" em gold
+   - Telefone à direita em branco com hover gold (mantém link WhatsApp)
+   - Remove `import godoyLogo` (não usado mais)
 
-Como **todos** os registros são de teste, é mais simples e seguro truncar via DELETE sem WHERE do que listar IDs.
+2. **Hero**:
+   - Headline em Playfair Display (já carregado no `index.html`), maior (até `text-5xl`)
+   - "dados oficiais" em gold (mantém)
+   - Subcopy em `text-slate-500`
 
-## O que NÃO vou mudar
-- Estrutura da tabela, RLS, políticas — apenas dados.
-- Tabelas relacionadas (`valuations`, `whatsapp_messages_log`, `analytics_events`) — só excluo se você pedir.
+3. **Wrapper**: muda para `flex flex-col` com fundo sólido `#F8F6F0` (sem gradient)
 
-## Confirmação
-Se quiser preservar algum lead específico, me avise antes de executar.
+4. **Footer**: layout em caps tracking-widest, links com hover gold (mesmo conteúdo)
+
+## Fora do escopo
+
+- Estrutura do `ValuationWizard` permanece intacta (a estilização do card interno já se harmoniza com a nova moldura)
+- Sem alterações em rotas, copy, lógica de leads, ou outros arquivos
