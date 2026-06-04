@@ -99,69 +99,9 @@ const SEO_CONFIG = {
   ogImage: "https://avaliacao.godoyprime.com.br/og-image.jpg",
 };
 
-// Loading animation messages
-const LOADING_MESSAGES = [
-  { text: "Consultando base de transações oficiais...", icon: Search },
-  { text: "Analisando dados do mercado local...", icon: BarChart },
-  { text: "Filtrando outliers estatísticos...", icon: Sparkles },
-  { text: "Calculando estimativa de valor...", icon: Calculator },
-];
-
-function LoadingScreen() {
-  const [messageIndex, setMessageIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setMessageIndex((prev) => (prev + 1) % LOADING_MESSAGES.length);
-    }, 1500);
-    return () => clearInterval(interval);
-  }, []);
-
-  const currentMessage = LOADING_MESSAGES[messageIndex];
-  const Icon = currentMessage.icon;
-
-  return (
-    <div className="py-20 flex flex-col items-center justify-center space-y-8 animate-fade-in">
-      {/* Animated circles */}
-      <div className="relative">
-        <div className="w-24 h-24 rounded-full border-4 border-[#D4AF37]/20 flex items-center justify-center">
-          <div className="w-16 h-16 rounded-full border-4 border-t-[#D4AF37] border-r-[#D4AF37]/30 border-b-[#D4AF37]/10 border-l-[#D4AF37]/60 animate-spin" />
-        </div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Icon className="h-8 w-8 text-[#D4AF37] animate-pulse" />
-        </div>
-      </div>
-
-      <div className="text-center space-y-3 max-w-sm">
-        <h3 className="text-xl font-bold text-[#0C2340]">Analisando dados do mercado...</h3>
-        <p className="text-sm text-muted-foreground animate-pulse transition-all duration-500">
-          {currentMessage.text}
-        </p>
-      </div>
-
-      {/* Progress dots */}
-      <div className="flex gap-2">
-        {LOADING_MESSAGES.map((_, i) => (
-          <div
-            key={i}
-            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-              i <= messageIndex ? "bg-[#D4AF37]" : "bg-[#D4AF37]/20"
-            }`}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export default function AvaliacaoPublica() {
-  const [step, setStep] = useState<Step>("form");
-  const [valuationData, setValuationData] = useState<QuickValuationData | null>(null);
-  const [selectedBairro, setSelectedBairro] = useState<string | null>(null);
-  const [selectedLogradouro, setSelectedLogradouro] = useState<string | null>(null);
   const [weeklySlots, setWeeklySlots] = useState(5);
-  const formRef = useRef<HTMLDivElement>(null);
-  const resultRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
   const isMobile = useIsMobile();
   const problemReveal = useScrollReveal(0.15);
   const solutionReveal = useScrollReveal(0.15);
@@ -187,29 +127,9 @@ export default function AvaliacaoPublica() {
     fetchWeeklyCount();
   }, []);
 
-  const handleQuickValuationComplete = (data: QuickValuationData) => {
-    setValuationData(data);
-    setStep("loading");
-
-    // Show loading for 3 seconds then reveal result
-    setTimeout(() => {
-      setStep("result");
-      setTimeout(() => {
-        resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 100);
-    }, 3000);
-  };
-
-  const handleNewValuation = () => {
-    setValuationData(null);
-    setStep("form");
-    setTimeout(() => {
-      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 100);
-  };
-
-  const scrollToForm = () => {
-    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const goToWizard = (tipo?: string) => {
+    const qs = tipo ? `?tipo=${tipo}` : "";
+    navigate(`/avaliacao-direta${qs}`);
   };
 
   return (
