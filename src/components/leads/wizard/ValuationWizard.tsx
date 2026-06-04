@@ -71,6 +71,20 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
   const [finalData, setFinalData] = useState<QuickValuationData | null>(null);
   const topRef = useRef<HTMLDivElement>(null);
 
+  // Pre-select tipologia from query string (?tipo=apartamento|casa|cobertura)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tipo = params.get("tipo");
+    if (!tipo) return;
+    const map: Record<string, string> = {
+      apartamento: "Apartamento",
+      casa: "Casa",
+      cobertura: "Cobertura",
+    };
+    const normalized = map[tipo.toLowerCase()];
+    if (normalized) setForm((f) => ({ ...f, tipologia: normalized }));
+  }, []);
+
   // Restore from Google OAuth redirect
   useEffect(() => {
     const url = new URL(window.location.href);
