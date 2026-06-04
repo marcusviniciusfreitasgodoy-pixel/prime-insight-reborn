@@ -208,7 +208,7 @@ export default function AvaliacaoPublica() {
                 <HelpCircle className="h-4 w-4" />
                 FAQ
               </Link>
-              <Button onClick={scrollToForm} className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] tracking-widest uppercase text-xs font-semibold transition-colors duration-300" size="sm">
+              <Button onClick={() => goToWizard()} className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] tracking-widest uppercase text-xs font-semibold transition-colors duration-300" size="sm">
                 Consultar Valor
               </Button>
             </div>
@@ -216,26 +216,49 @@ export default function AvaliacaoPublica() {
 
           <div className="relative z-10 container mx-auto px-4 py-12 md:py-20 text-center">
             <div className="max-w-3xl mx-auto space-y-6">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[11px] sm:text-xs font-semibold tracking-wider uppercase text-[#D4AF37] animate-fade-in">
+                <BadgeCheck className="h-3.5 w-3.5" />
+                +80.000 transações oficiais analisadas
+              </div>
+
               <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight animate-fade-in [animation-delay:150ms]">
-                <span className="text-[#D4AF37]">O vendedor pede um preço.</span>
-                <br />
-                <span className="text-white">Nós mostramos o que o mercado realmente paga.</span>
+                <span className="text-white">Saiba quanto vale seu imóvel com </span>
+                <span className="text-[#D4AF37]">dados oficiais</span>
+                <span className="text-white"> de transações reais</span>
               </h2>
 
               <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto animate-fade-in [animation-delay:300ms]">
-                Compare o valor pedido com transações reais registradas e descubra se é um bom negócio em 30 segundos.
+                Avaliação gratuita em 4 passos. Sem cadastro até ver o resultado.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 animate-fade-in [animation-delay:450ms]">
-                <Button onClick={scrollToForm} size="lg" className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] tracking-widest uppercase text-xs font-semibold px-10 py-4 rounded-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto">
-                  <span className="truncate">Comparar Preço Agora</span>
-                  <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
-                </Button>
-              </div>
-
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm font-medium animate-fade-in [animation-delay:500ms]">
-                <Shield className="h-4 w-4 text-[#D4AF37]" />
-                Transações Oficiais e Avaliação Imparcial
+              {/* Card de entrada — escolha do tipo de imóvel */}
+              <div className="max-w-2xl mx-auto pt-6 animate-fade-in [animation-delay:450ms]">
+                <div className="bg-white/[0.06] backdrop-blur-md border border-white/15 rounded-2xl p-5 sm:p-7 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)]">
+                  <p className="text-sm sm:text-base text-white/80 mb-4 font-medium">
+                    Selecione o tipo do seu imóvel para começar:
+                  </p>
+                  <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                    {[
+                      { tipo: "apartamento", label: "Apartamento", Icon: Building2 },
+                      { tipo: "casa", label: "Casa", Icon: Home },
+                      { tipo: "cobertura", label: "Cobertura", Icon: Sparkles },
+                    ].map(({ tipo, label, Icon }) => (
+                      <button
+                        key={tipo}
+                        onClick={() => goToWizard(tipo)}
+                        className="group flex flex-col items-center justify-center gap-2 bg-white/5 hover:bg-[#D4AF37] hover:text-[#0C2340] border border-white/20 hover:border-[#D4AF37] rounded-xl py-4 sm:py-5 px-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-10px_rgba(212,175,55,0.5)]"
+                      >
+                        <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-[#D4AF37] group-hover:text-[#0C2340] transition-colors" />
+                        <span className="text-xs sm:text-sm font-semibold tracking-wide">{label}</span>
+                      </button>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 mt-5 text-[11px] sm:text-xs text-white/70">
+                    <span className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-[#D4AF37]" />Menos de 2 minutos</span>
+                    <span className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-[#D4AF37]" />100% gratuito</span>
+                    <span className="flex items-center gap-1.5"><CheckCircle className="h-3.5 w-3.5 text-[#D4AF37]" />Sem cadastro inicial</span>
+                  </div>
+                </div>
               </div>
 
               <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-8 pt-6 sm:pt-8 border-t border-white/10 mt-6 sm:mt-8 animate-fade-in [animation-delay:600ms]">
@@ -250,35 +273,6 @@ export default function AvaliacaoPublica() {
             </div>
 
             
-          </div>
-        </section>
-
-        {/* ============ FORM (segunda dobra) ============ */}
-        <section className="py-10 sm:py-12 md:py-14 px-4 bg-gradient-to-b from-white to-[#0C2340]/[0.03]">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-10">
-              <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
-              <h3 className="font-serif text-2xl md:text-4xl font-bold text-[#0C2340] mb-4">Consulte o Valor Agora</h3>
-              <p className="text-muted-foreground">Resultado em 30 segundos baseado em transações reais • Esta análise estratégica é destinada compradores em fase ativa de negociação.</p>
-            </div>
-
-            {step === "form" && (
-              <div className="flex flex-col gap-8">
-                <div className="max-w-2xl mx-auto w-full space-y-6">
-                  <QuickValuationForm onComplete={handleQuickValuationComplete} onBairroChange={setSelectedBairro} onLogradouroChange={setSelectedLogradouro} />
-                  <div className="flex flex-wrap justify-center gap-4 pt-4">
-                    <div className="flex flex-col items-center gap-1 text-xs text-muted-foreground text-center">
-                      <span>Dados de transações reais e oficiais registradas</span>
-                      <div className="flex items-center gap-2"><Shield className="h-4 w-4 text-[#D4AF37]" />Dados Oficiais do RJ</div>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground"><CheckCircle className="h-4 w-4 text-[#D4AF37]" />Sem compromisso</div>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground"><Clock className="h-4 w-4 text-[#D4AF37]" />Resultado em 30 segundos</div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {step === "loading" && <LoadingScreen />}
           </div>
         </section>
 
