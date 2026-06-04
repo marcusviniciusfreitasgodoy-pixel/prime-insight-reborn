@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { ValuationWizard } from "@/components/leads/wizard/ValuationWizard";
+import logoSymbol from "@/assets/godoy-logo-symbol.png";
 import { PHONE, BRAND, whatsappUrl, WHATSAPP_MESSAGES } from "@/config/contact";
 
 export default function AvaliacaoDireta() {
@@ -18,35 +19,20 @@ export default function AvaliacaoDireta() {
       <div className="min-h-screen flex flex-col bg-[#F8F6F0] text-[#0C2340] antialiased">
         {/* Header navy com logo dourado */}
         <header className="bg-[#0C2340] px-4 sm:px-6 py-4 flex justify-between items-center sticky top-0 z-40 shadow-lg">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 flex items-center justify-center">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-full h-full text-[#C9A84C]"
-                aria-hidden="true"
-              >
-                <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" />
-                <path
-                  d="M2 17L12 22L22 17"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M2 12L12 17L22 12"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+          <Link to="/" className="flex items-center gap-2 sm:gap-3">
+            <img
+              src={logoSymbol}
+              alt="Godoy Prime"
+              className="h-10 sm:h-12 w-auto object-contain"
+            />
+            <div className="border-l border-[#C9A84C]/30 pl-2 sm:pl-3">
+              <h1 className="font-bold text-sm sm:text-lg text-white tracking-wider leading-tight">
+                GODOY <span className="text-[#C9A84C]">PRIME</span>
+              </h1>
+              <p className="text-[9px] sm:text-[10px] text-[#C9A84C] font-semibold tracking-[0.2em] uppercase">
+                Avaliação Imobiliária
+              </p>
             </div>
-            <span className="text-white font-bold text-lg sm:text-xl tracking-tight uppercase">
-              Godoy <span className="text-[#C9A84C]">Prime</span>
-            </span>
           </Link>
           <a
             href={whatsappUrl(WHATSAPP_MESSAGES.duvidaAvaliacao())}
