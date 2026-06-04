@@ -1,34 +1,31 @@
-# Corrigir login com Google no wizard `/avaliacao-direta`
+# Limpar Gestão de Leads — excluir leads de teste
 
 ## Diagnóstico
-Ao clicar em "Continuar com Google", a tela de consentimento abre e fecha sem completar a sessão; o wizard cai direto no formulário manual. Causas prováveis (em ordem):
+Tabela `leads` contém 8 registros, todos identificáveis como testes:
 
-1. **Preview vs Publicado** — o ambiente `id-preview--…lovable.app` usa credenciais OAuth de desenvolvimento do Lovable Cloud, diferentes do domínio publicado (`avaliacao.godoyprime.com.br`). É um comportamento conhecido e o teste real precisa ser feito no domínio publicado.
-2. **`redirect_uri` com querystring** — usamos `${origin}/avaliacao-direta?from=google`. O broker OAuth pode rejeitar/normalizar URIs com query, fazendo o callback fechar sem setar sessão.
-3. **Tratamento do retorno** — quando `result` volta sem `redirected:true` e sem `error`, o código atual assume "sucesso silencioso" e só exibe o formulário manual, sem mensagem clara para o usuário.
+| email | nome | origem | created_at |
+|---|---|---|---|
+| marcusviniciusfreitasgodoy@gmail.com | Marcus | avaliacao_direta | 03/06 |
+| maikon.d.cavalheiro3@gmail.com | MAIKON DOUGLAS CAVALHEIRO | avaliacao_publica | 22/05 |
+| maikondouglascavalheiro3@gmail.com | Maikon Douglas Cavalheiro | avaliacao_publica | 22/05 |
+| maikondouglascavalheiro2@gmail.com | Maikon Douglas Cavalheiro | avaliacao_publica | 22/05 |
+| marcus@godoyprime.com.br | Marcus Godoy Teste | avaliacao_publica | 22/05 |
+| maikondouglascavalheiro1@gmail.com | Maikon Douglas Cavalheiro | avaliacao_publica | 22/05 |
+| maikon.d.cavalheiro@gmail.com | MAIKON DOUGLAS CAVALHEIRO | avaliacao_publica | 21/05 |
+| maikondouglascavalheiro@gmail.com | Maikon Douglas Cavalheiro | avaliacao_publica | 21/05 |
 
-## Ajustes (somente front-end — sem mudar backend nem tabelas)
+## Ação
+Executar via tool `supabase--insert` (que aceita DELETE):
 
-### 1. `src/components/leads/wizard/GoogleEmailCapture.tsx`
-- Trocar `redirect_uri` para `window.location.origin` puro (sem `?from=google`).
-- A flag `from=google` continua sendo controlada via `sessionStorage` (já feita por `onBeforeGoogleRedirect`) — o `ValuationWizard` já restaura o estado a partir do storage; vamos remover a dependência do query param.
-- Logar `[OAUTH]` em cada ramo (`redirected`, `error`, `silent`) para diagnóstico.
-- Se `result` voltar sem `redirected` e sem `error` (popup fechado), mostrar toast claro: *"Login com Google não foi concluído. Use seu e-mail abaixo."* em vez de assumir sucesso.
+```sql
+DELETE FROM public.leads;
+```
 
-### 2. `src/components/leads/wizard/ValuationWizard.tsx`
-- Detectar restauração via `sessionStorage` mesmo sem `?from=google` na URL: se houver sessão Supabase ativa **e** estado salvo em `STORAGE_KEY`, restaurar.
-- Manter compatibilidade com o parâmetro `?from=google` para não quebrar fluxos antigos.
-
-### 3. Teste
-- Validar em **preview**: confirmar logs `[OAUTH]` mostrando exatamente em qual ramo o fluxo cai.
-- Se mesmo após o ajuste o problema persistir só no preview, o caminho é validar no domínio publicado (`https://avaliacao.godoyprime.com.br/avaliacao-direta`) — onde o OAuth gerenciado usa credenciais de produção e costuma funcionar normalmente.
+Como **todos** os registros são de teste, é mais simples e seguro truncar via DELETE sem WHERE do que listar IDs.
 
 ## O que NÃO vou mudar
-- Credenciais OAuth, allowlist no Google Cloud Console ou configuração do Supabase Auth.
-- Backend (`send-lead-notification`, Z-API, Resend) — já validados como OK.
-- Layout dos cards ou copy da tela de resultado.
+- Estrutura da tabela, RLS, políticas — apenas dados.
+- Tabelas relacionadas (`valuations`, `whatsapp_messages_log`, `analytics_events`) — só excluo se você pedir.
 
-## Saída esperada
-- Logs `[OAUTH]` claros no console para diagnosticar definitivamente.
-- Feedback ao usuário quando o popup do Google fecha sem completar (em vez de pular silenciosamente para o formulário manual).
-- Maior chance de o fluxo completar tanto em preview quanto em produção, ao remover a querystring do `redirect_uri`.
+## Confirmação
+Se quiser preservar algum lead específico, me avise antes de executar.
