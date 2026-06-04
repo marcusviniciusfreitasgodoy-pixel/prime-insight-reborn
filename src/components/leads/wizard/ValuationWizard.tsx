@@ -178,6 +178,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
     telefone: string;
     googleVerified: boolean;
   }) => {
+    console.log("[WIZARD] handleCaptureSubmit start", { email: data.email, nome: data.nome, googleVerified: data.googleVerified });
     if (!estimativa) return;
     setIsSubmitting(true);
     const areaNum = parseFloat(form.area);
@@ -201,6 +202,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
       const existing = leadCheck && leadCheck.length > 0 && leadCheck[0].exists_flag;
       const count = existing ? leadCheck[0].current_count : 0;
       if (count >= MAX_FREE_EVALUATIONS) {
+        console.warn("[WIZARD] limit exceeded", { count });
         setEvaluationCount(count);
         setLimitExceeded(true);
         setIsSubmitting(false);
@@ -212,6 +214,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
         .join(", ");
 
       if (existing) {
+        console.log("[WIZARD] updating existing lead");
         await supabase.rpc("update_lead_by_email", {
           p_email: data.email,
           p_nome: data.nome,
@@ -227,6 +230,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
         });
         await supabase.rpc("increment_lead_evaluation", { lead_email: data.email });
       } else {
+        console.log("[WIZARD] inserting new lead");
         const { error: insErr } = await supabase.from("leads").insert({
           nome: data.nome,
           email: data.email,
@@ -243,7 +247,10 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
           origem: finalOrigem,
           evaluation_count: 1,
         });
-        if (insErr) throw insErr;
+        if (insErr) {
+          console.error("[WIZARD] insert lead error:", insErr);
+          throw insErr;
+        }
       }
 
       // Save public valuation
@@ -286,6 +293,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
       }
 
       // Notification (fire-and-forget)
+      console.log("[WIZARD] invoking send-lead-notification");
       supabase.functions
         .invoke("send-lead-notification", {
           body: {
@@ -319,7 +327,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
             console.error("notification error:", res.error);
             toast.error("Cadastro feito, mas houve falha ao disparar e-mail/WhatsApp. Já avisamos a equipe.");
           } else {
-            console.log("notification ok:", res?.data);
+            console.log("[WIZARD] notification ok:", res?.data);
           }
         })
         .catch((e) => {
@@ -393,10 +401,11 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
       });
       setStep("thanks");
     } catch (e) {
-      console.error(e);
+      console.error("[WIZARD] handleCaptureSubmit error:", e);
       toast.error("Erro ao registrar. Tente novamente.");
     } finally {
       setIsSubmitting(false);
+      console.log("[WIZARD] handleCaptureSubmit end");
     }
   };
 
