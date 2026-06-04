@@ -44,8 +44,6 @@ import godoyLogo from "@/assets/godoy-logo-symbol.png";
 import heroBackground from "@/assets/hero-barra-luxury.jpg";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-type Step = "form" | "loading" | "result";
-
 const HERO_STATS = [
   { value: "80.000+", label: "Transações Oficiais", icon: FileSearch },
   { value: "5 Anos", label: "De Dados Históricos", icon: Clock },
