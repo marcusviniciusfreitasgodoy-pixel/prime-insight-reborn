@@ -427,13 +427,15 @@ export default function AvaliacaoPublica() {
         {/* ============ AUTHORITY / WHO SIGNS ============ */}
         <section className="py-10 sm:py-12 md:py-14 px-4 bg-[#F3EBE0]">
           <div className="container mx-auto max-w-5xl">
-            <div className="grid grid-cols-1 md:grid-cols-2 rounded-[2px] overflow-hidden">
-              <div className="aspect-[4/5] md:aspect-auto md:min-h-[420px] bg-[#1E1B18]">
+            <div className="grid grid-cols-1 md:grid-cols-2 items-stretch rounded-[2px] overflow-hidden">
+              <div className="relative aspect-[4/5] sm:aspect-[3/4] md:aspect-auto md:h-full md:min-h-[480px] bg-[#1E1B18] overflow-hidden">
                 <img
                   src={marcusPhoto.url}
-                  alt="Marcus Godoy"
-                  className="w-full h-full object-cover"
-                  style={{ objectPosition: "top center", filter: "grayscale(100%) contrast(1.05) brightness(.95)" }}
+                  alt="Marcus Godoy, perito avaliador imobiliário"
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{ objectPosition: "center 22%", filter: "grayscale(100%) contrast(1.05) brightness(.95)" }}
                 />
               </div>
               <div className="bg-[#1E1B18] p-8 sm:p-10 md:p-12 flex flex-col justify-center">
