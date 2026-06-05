@@ -41,7 +41,7 @@ export function RealCaseComparison() {
           <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">
             Quanto Você Pagaria a Mais?
           </h3>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
+          <p className="text-left text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
             Veja esse caso real: Apartamento de <span className="font-mono font-medium tracking-tight">99m²</span> na Avenida Lucio Costa na Barra da Tijuca avaliado por <span className="font-mono font-medium tracking-tight">2</span> portais imobiliários muito conhecidos e a nossa ferramenta.
             <br />
             Veja a diferença que a <strong className="text-[#0C2340]">fonte de dados</strong> faz.

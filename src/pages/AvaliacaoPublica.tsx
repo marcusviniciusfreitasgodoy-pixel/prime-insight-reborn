@@ -285,7 +285,7 @@ export default function AvaliacaoPublica() {
             <div className="text-center mb-8 sm:mb-10">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
               <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">Por Que Você Está Negociando no Escuro?</h3>
-              <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
+              <p className="text-left text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
                 A diferença entre o preço anunciado e o valor real de venda pode chegar a <span className="font-mono font-medium tracking-tight text-[#D4AF37]">30%</span>, isto significa diferenças de até <span className="font-mono font-medium tracking-tight text-[#D4AF37]">R$ 400.000</span> ou mais.
               </p>
             </div>
@@ -320,7 +320,7 @@ export default function AvaliacaoPublica() {
             <div className="text-center mb-8 sm:mb-10">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
               <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">A Solução Que Muda Tudo</h3>
-              <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">Avaliação imparcial baseada em dados de transações reais e não em plataformas que privilegiam Vendedores, achismos ou opiniões de vizinhos</p>
+              <p className="text-left text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">Avaliação imparcial baseada em dados de transações reais e não em plataformas que privilegiam Vendedores, achismos ou opiniões de vizinhos</p>
             </div>
             <div ref={solutionReveal.ref} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {SOLUTIONS.map((solution, index) => (
@@ -332,7 +332,7 @@ export default function AvaliacaoPublica() {
                     </div>
                   </div>
                   <div className="p-6 sm:p-7">
-                    <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-2 text-center">{solution.title}</h4>
+                    <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-2 text-left">{solution.title}</h4>
                     <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed">{solution.description}</p>
                     <div className="inline-flex items-center gap-1.5 bg-[#D4AF37]/10 text-[#0C2340]/80 text-[11px] font-medium px-3 py-1.5 rounded-full">
                       <CheckCircle className="h-3 w-3 text-[#D4AF37] flex-shrink-0" />
@@ -361,9 +361,9 @@ export default function AvaliacaoPublica() {
             </div>
             <div ref={personaReveal.ref} className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
               {PERSONAS.map((persona, index) => (
-                <div key={index} className={`group relative bg-white/8 backdrop-blur-md rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/60 hover:bg-white/15 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transition-all duration-500 text-center ${personaReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: `${index * 200}ms` }}>
+                <div key={index} className={`group relative bg-white/8 backdrop-blur-md rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/60 hover:bg-white/15 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transition-all duration-500 text-left ${personaReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: `${index * 200}ms` }}>
                   {/* Glow circle behind icon */}
-                  <div className="relative mx-auto mb-4 w-16 h-16 flex items-center justify-center">
+                  <div className="relative mb-4 w-16 h-16 flex items-center justify-center">
                     <div className="absolute inset-0 rounded-full bg-[#D4AF37]/0 group-hover:bg-[#D4AF37]/20 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all duration-500" />
                     <persona.icon className="relative h-8 w-8 text-[#D4AF37] group-hover:scale-110 transition-transform duration-300" />
                   </div>
@@ -386,7 +386,7 @@ export default function AvaliacaoPublica() {
             <div className="text-center mb-8 sm:mb-10">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
               <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-white mb-3 sm:mb-4 leading-tight">O Que Acontece Após a Avaliação?</h3>
-              <p className="text-white/60 max-w-2xl mx-auto text-sm sm:text-base">
+              <p className="text-left text-white/60 max-w-2xl mx-auto text-sm sm:text-base">
                 A avaliação gratuita é o primeiro passo. Para quem está em negociação ativa, oferecemos serviços especializados em três níveis:
               </p>
             </div>
@@ -395,9 +395,9 @@ export default function AvaliacaoPublica() {
               {/* Card 1 */}
               <div className={`group relative bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                 <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-white/[0.06] group-hover:text-white/[0.12] transition-all duration-500 select-none leading-none">01</span>
-                <Shield className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
-                <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-center">Parecer Godoy Prime</h4>
-                <p className="text-white/60 text-xs sm:text-sm text-center leading-relaxed whitespace-pre-line">
+                <Shield className="h-8 w-8 text-[#D4AF37] mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-left">Parecer Godoy Prime</h4>
+                <p className="text-white/60 text-xs sm:text-sm text-left leading-relaxed whitespace-pre-line">
                   Você já tem um imóvel em vista e quer saber se o preço é justo{"\n"}
                   Laudo técnico completo com vistoria presencial, análise de valor real e recomendação de preço justo para negociar com fundamento técnico.
                 </p>
@@ -406,9 +406,9 @@ export default function AvaliacaoPublica() {
               {/* Card 2 — Compra Blindada */}
               <div className={`group relative bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '200ms' }}>
                 <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-white/[0.06] group-hover:text-white/[0.12] transition-all duration-500 select-none leading-none">02</span>
-                <Lock className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
-                <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-center">Compra Blindada</h4>
-                <p className="text-white/60 text-xs sm:text-sm text-center leading-relaxed">
+                <Lock className="h-8 w-8 text-[#D4AF37] mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-left">Compra Blindada</h4>
+                <p className="text-white/60 text-xs sm:text-sm text-left leading-relaxed">
                   Proteção completa para quem já encontrou o imóvel. Inclui laudo técnico com vistoria presencial + condução integral da negociação + due diligence documental + acompanhamento até a assinatura do contrato. Tudo com um único especialista ao seu lado.
                 </p>
               </div>
@@ -419,15 +419,15 @@ export default function AvaliacaoPublica() {
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#D4AF37] text-[#0C2340] text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-b-full shadow-md whitespace-nowrap">
                   Mais Completo
                 </div>
-                <Sparkles className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500" />
-                <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-center">Prime Buyer Experience</h4>
-                <p className="text-white/60 text-xs sm:text-sm text-center leading-relaxed">
+                <Sparkles className="h-8 w-8 text-[#D4AF37] mb-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500" />
+                <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-left">Prime Buyer Experience</h4>
+                <p className="text-white/60 text-xs sm:text-sm text-left leading-relaxed">
                   Representação completa durante todo o processo de compra: curadoria, análise técnica, negociação blindada e acompanhamento total do início ao fechamento.
                 </p>
               </div>
             </div>
 
-            <p className="text-center text-sm sm:text-base text-white/50 mt-10 sm:mt-12 max-w-2xl mx-auto">
+            <p className="text-left text-sm sm:text-base text-white/50 mt-10 sm:mt-12 max-w-2xl mx-auto">
               Faça sua avaliação gratuita agora e descubra qual nível de proteção faz sentido para a sua negociação.
             </p>
           </div>
