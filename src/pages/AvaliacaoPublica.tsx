@@ -73,7 +73,7 @@ const PERSONAS = [
 const WRONG_PRICE_SELLER = [
   { icon: TrendingDown, title: "Menos Visitas e Interesse", description: "Preço acima da curva filtra seu imóvel nos portais, reduzindo cliques e agendamentos de compradores qualificados." },
   { icon: Timer, title: "Imóvel 'Encalhado'", description: "Semanas ou meses parado criam percepção de problema oculto, queimando seu ativo digitalmente." },
-  { icon: Receipt, title: "Custo de Carregar", description: "IPTU, condomínio, manutenção — cada mês parado é dinheiro saindo do bolso e oportunidade perdida." },
+  { icon: Receipt, title: "Custo de Carregar", description: "IPTU, condomínio, manutenção. Cada mês parado é dinheiro saindo do bolso e oportunidade perdida." },
 ];
 
 const WRONG_PRICE_BUYER = [
@@ -271,7 +271,7 @@ export default function AvaliacaoPublica() {
                 Avaliação gratuita em 4 passos. Sem cadastro até ver o resultado.
               </p>
 
-              {/* Card de entrada — escolha do tipo de imóvel */}
+              {/* Card de entrada: escolha do tipo de imóvel */}
               <div id="seletor-topo" className="max-w-2xl mx-auto pt-6 animate-fade-in [animation-delay:450ms] scroll-mt-24">
                 <div className="bg-white/[0.06] backdrop-blur-md border border-white/15 rounded-[2px] p-5 sm:p-7 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)]">
                   <p className="text-sm sm:text-base text-white/80 mb-4 font-medium">
@@ -469,7 +469,7 @@ export default function AvaliacaoPublica() {
         <section className="py-12 sm:py-14 md:py-16 px-4 bg-[#D4AF37]/[0.04]">
           <div className="container mx-auto max-w-6xl">
             <div ref={solutionReveal.ref} className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 items-start">
-              {/* Coluna esquerda — texto */}
+              {/* Coluna esquerda: texto */}
               <div className="md:col-span-5">
                 <p className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#C4993A] mb-4">
                   ✦ A Solução
@@ -478,7 +478,7 @@ export default function AvaliacaoPublica() {
                   A Solução Que Muda Tudo
                 </h3>
                 <p className="text-sm sm:text-base text-[#4A443C] leading-relaxed mb-6">
-                  Avaliação imparcial baseada em dados de transações reais — e não em plataformas que privilegiam vendedores, achismos ou opiniões de vizinhos.
+                  Avaliação imparcial baseada em dados de transações reais, e não em plataformas que privilegiam vendedores, achismos ou opiniões de vizinhos.
                 </p>
                 <button
                   onClick={scrollToSelector}
@@ -488,7 +488,7 @@ export default function AvaliacaoPublica() {
                 </button>
               </div>
 
-              {/* Coluna direita — lista de pontos */}
+              {/* Coluna direita: lista de pontos */}
               <ul className="md:col-span-7 divide-y divide-[#0C2340]/10 border-t border-b border-[#0C2340]/10">
                 {SOLUTIONS.map((solution, index) => (
                   <li
@@ -589,10 +589,10 @@ export default function AvaliacaoPublica() {
                 </p>
               </div>
 
-              {/* Card 3 — Prime Buyer Experience — Highlighted */}
-              <div className={`group relative bg-[#D4AF37]/15 backdrop-blur-sm rounded-[2px] sm:rounded-[2px] pt-9 sm:pt-10 px-6 sm:px-8 pb-6 sm:pb-8 border-2 border-[#D4AF37]/50 hover:-translate-y-2 hover:shadow-[0_12px_40px_-8px_rgba(212,175,55,0.2)] transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '400ms' }}>
+              {/* Card 3: Prime Buyer Experience (destacado) */}
+              <div className={`group relative bg-white/10 backdrop-blur-sm rounded-[2px] pt-9 sm:pt-10 px-6 sm:px-8 pb-6 sm:pb-8 border border-[#D4AF37] transition-colors duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '400ms' }}>
                 <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-[#D4AF37]/[0.1] group-hover:text-[#D4AF37]/[0.2] transition-all duration-500 select-none leading-none">03</span>
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#D4AF37] text-[#0C2340] text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-b-full shadow-md whitespace-nowrap">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#C4993A] text-[#0C2340] font-mono text-[10px] uppercase tracking-[0.18em] px-2.5 py-0.5 rounded-b-[2px] whitespace-nowrap">
                   Mais Completo
                 </div>
                 <Sparkles className="h-8 w-8 text-[#D4AF37] mb-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500" />
@@ -618,13 +618,13 @@ export default function AvaliacaoPublica() {
           />
           <div className="container mx-auto max-w-3xl relative z-10">
             <p className="font-mono text-[11px] sm:text-xs font-medium tracking-[0.25em] uppercase text-[#C4993A] mb-5">
-              — Avaliação gratuita
+              ✦ Avaliação gratuita
             </p>
             <h3 className="font-serif text-2xl sm:text-3xl md:text-5xl font-bold text-white leading-[1.1] mb-5 max-w-2xl">
               Pronto para descobrir o valor do seu imóvel?
             </h3>
             <p className="font-mono text-sm sm:text-base text-[#CCC4B8] mb-9 max-w-xl">
-              Comece agora — leva apenas <span className="text-white">30</span> segundos.
+              Comece agora, leva apenas <span className="text-white">30</span> segundos.
             </p>
             <Button
               onClick={() => goToWizard()}
@@ -657,9 +657,9 @@ export default function AvaliacaoPublica() {
 
             <div className="space-y-8">
               {([
-                { key: "usabilidade", label: "Como Usar", icon: Zap, color: "bg-[#D4AF37]/20", iconColor: "text-[#D4AF37]" },
-                { key: "confianca", label: "Confiança e Segurança", icon: Shield, color: "bg-green-500/20", iconColor: "text-green-600" },
-                { key: "beneficios", label: "Benefícios", icon: TrendingUp, color: "bg-blue-500/20", iconColor: "text-blue-600" },
+                { key: "usabilidade", label: "Como Usar", icon: Zap, color: "border border-[#C4993A]/40 bg-transparent", iconColor: "text-[#C4993A]" },
+                { key: "confianca", label: "Confiança e Segurança", icon: Shield, color: "border border-[#8C8278]/40 bg-transparent", iconColor: "text-[#8C8278]" },
+                { key: "beneficios", label: "Benefícios", icon: TrendingUp, color: "border border-[#8C8278]/40 bg-transparent", iconColor: "text-[#8C8278]" },
               ] as const).map(({ key, label, icon: Icon, color, iconColor }) => (
                 <div key={key}>
                   <div className="flex items-center gap-2 mb-4">
