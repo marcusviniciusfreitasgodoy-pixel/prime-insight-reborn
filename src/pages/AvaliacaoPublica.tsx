@@ -218,7 +218,7 @@ export default function AvaliacaoPublica() {
             <div className="max-w-3xl mx-auto space-y-6">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[11px] sm:text-xs font-semibold tracking-wider uppercase text-[#D4AF37] animate-fade-in">
                 <BadgeCheck className="h-3.5 w-3.5" />
-                +80.000 transações oficiais analisadas
+                <span className="font-mono font-medium tracking-tight normal-case">+80.000</span> transações oficiais analisadas
               </div>
 
               <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight animate-fade-in [animation-delay:150ms]">
@@ -255,7 +255,7 @@ export default function AvaliacaoPublica() {
                   </div>
                   <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 mt-5 text-[11px] sm:text-xs text-white/70">
                     <span className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-[#D4AF37]" />Menos de 2 minutos</span>
-                    <span className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-[#D4AF37]" />100% gratuito</span>
+                    <span className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-[#D4AF37]" /><span className="font-mono font-medium tracking-tight">100%</span> gratuito</span>
                     <span className="flex items-center gap-1.5"><CheckCircle className="h-3.5 w-3.5 text-[#D4AF37]" />Sem cadastro inicial</span>
                   </div>
                 </div>
@@ -265,7 +265,7 @@ export default function AvaliacaoPublica() {
                 {HERO_STATS.map((stat, index) => (
                   <div key={index} className="text-center hover:scale-105 transition-transform duration-300 cursor-default">
                     <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-[#D4AF37] mx-auto mb-1 sm:mb-2" />
-                    <p className="text-lg sm:text-xl md:text-3xl font-bold">{stat.value}</p>
+                    <p className="text-lg sm:text-xl md:text-3xl font-mono font-medium tracking-tight">{stat.value}</p>
                     <p className="text-[10px] sm:text-xs md:text-sm text-white/60 leading-tight">{stat.label}</p>
                   </div>
                 ))}
@@ -286,7 +286,7 @@ export default function AvaliacaoPublica() {
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
               <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">Por Que Você Está Negociando no Escuro?</h3>
               <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
-                A diferença entre o preço anunciado e o valor real de venda pode chegar a <strong className="text-[#D4AF37]">30%</strong>, isto significa diferenças de até <strong className="text-[#D4AF37]">R$ 400.000</strong> ou mais.
+                A diferença entre o preço anunciado e o valor real de venda pode chegar a <span className="font-mono font-medium tracking-tight text-[#D4AF37]">30%</span>, isto significa diferenças de até <span className="font-mono font-medium tracking-tight text-[#D4AF37]">R$ 400.000</span> ou mais.
               </p>
             </div>
             <div ref={problemReveal.ref} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
@@ -440,14 +440,14 @@ export default function AvaliacaoPublica() {
         <section className="py-10 sm:py-12 md:py-14 px-4 bg-gradient-to-br from-[#D4AF37] to-[#c9a432]">
           <div className="container mx-auto max-w-3xl text-center px-2">
             <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Pronto para Descobrir o Valor do seu Imóvel?</h3>
-            <p className="text-[#0C2340]/80 text-sm sm:text-lg mb-8 sm:mb-10">Comece agora – leva apenas 30 segundos.</p>
+            <p className="text-[#0C2340]/80 text-sm sm:text-lg mb-8 sm:mb-10">Comece agora – leva apenas <span className="font-mono font-medium tracking-tight">30</span> segundos.</p>
             <Button onClick={() => goToWizard()} size="lg" className="bg-[#0C2340] hover:bg-[#0a1d33] text-white tracking-widest uppercase text-xs font-semibold px-10 py-4 rounded-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto max-w-xs sm:max-w-none">
               <span className="truncate">Quero saber o valor do meu imóvel</span>
               <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
             </Button>
             {weeklySlots >= 2 ? (
               <p className="text-[#0C2340] font-semibold text-sm sm:text-base mt-6 animate-pulse">
-                ⚡ Esta semana: <span className="text-lg font-bold">{weeklySlots}</span> avaliações gratuitas disponíveis
+                ⚡ Esta semana: <span className="text-lg font-mono font-medium tracking-tight">{weeklySlots}</span> avaliações gratuitas disponíveis
               </p>
             ) : (
               <p className="text-[#0C2340] font-semibold text-sm sm:text-base mt-6 animate-pulse">
@@ -455,7 +455,7 @@ export default function AvaliacaoPublica() {
               </p>
             )}
             <p className="text-[#0C2340]/60 text-xs sm:text-sm mt-3">
-              Resultado em 30 segundos • Sem compromisso • Dados 100% seguros
+              Resultado em <span className="font-mono font-medium tracking-tight">30</span> segundos • Sem compromisso • Dados <span className="font-mono font-medium tracking-tight">100%</span> seguros
             </p>
           </div>
         </section>

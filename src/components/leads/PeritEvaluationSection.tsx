@@ -219,7 +219,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
             <div className="p-2 bg-[#D4AF37]/10 rounded-lg w-fit">
               <Database className="h-5 w-5 text-[#D4AF37]" />
             </div>
-            <h5 className="font-semibold text-foreground text-sm">80.000+ transações oficiais analisadas</h5>
+            <h5 className="font-semibold text-foreground text-sm"><span className="font-mono font-medium tracking-tight">80.000+</span> transações oficiais analisadas</h5>
             <p className="text-xs text-muted-foreground">Nossa base é formada por dados reais de compra e venda registrados, não por preços de anúncios ou estimativas de portais.</p>
           </div>
 
@@ -262,7 +262,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
               Garantia de Validação Independente
             </h5>
             <p className="text-sm text-green-700">
-              Se a análise não revelar pelo menos um ponto crítico que valha mais que o investimento → <strong>reembolso 100%</strong>
+              Se a análise não revelar pelo menos um ponto crítico que valha mais que o investimento → reembolso <span className="font-mono font-medium tracking-tight">100%</span>
             </p>
           </div>
           
@@ -272,7 +272,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
               Garantia de Execução Profissional
             </h5>
             <p className="text-sm text-green-700">
-              Se não entregar no prazo de 5 dias úteis por falha operacional → <strong>reembolso 100% + compensação</strong>
+              Se não entregar no prazo de <span className="font-mono font-medium tracking-tight">5</span> dias úteis por falha operacional → reembolso <span className="font-mono font-medium tracking-tight">100%</span> + compensação
             </p>
           </div>
         </div>
@@ -303,11 +303,11 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
         <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 mb-4">
           <div className="bg-white/60 rounded-lg p-3 text-center min-w-[140px]">
             <p className="text-xs text-muted-foreground">Valor</p>
-            <p className="text-base sm:text-lg font-bold text-foreground">A partir de R$ 4.900</p>
+            <p className="text-base sm:text-lg font-mono font-medium tracking-tight text-foreground">A partir de R$ 4.900</p>
           </div>
           <div className="bg-white/60 rounded-lg p-3 text-center min-w-[140px]">
             <p className="text-xs text-muted-foreground">Economia Média</p>
-            <p className="text-base sm:text-lg font-bold text-green-600">R$ 180-450 mil</p>
+            <p className="text-base sm:text-lg font-mono font-medium tracking-tight text-green-600">R$ 180-450 mil</p>
           </div>
         </div>
 
@@ -322,9 +322,9 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
               <strong>{formatCurrency(valorPedido!)}</strong>{" "}
               mas o valor provável de mercado é{" "}
               <strong>{formatCurrency(valorMercado!)}</strong>.{" "}
-              Um investimento de R$ 4.900 no Parecer pode proteger até{" "}
-              <strong>{formatCurrency(roiDiff)}</strong> nesta negociação — um retorno de{" "}
-              <strong className="text-[#C9A84C] font-bold" style={{ fontSize: '1.2em' }}>{roiMultiplier}x</strong>{" "}
+              Um investimento de <span className="font-mono font-medium tracking-tight">R$ 4.900</span> no Parecer pode proteger até{" "}
+              <span className="font-mono font-medium tracking-tight">{formatCurrency(roiDiff)}</span> nesta negociação — um retorno de{" "}
+              <span className="font-mono font-medium tracking-tight text-[#C9A84C]" style={{ fontSize: '1.2em' }}>{roiMultiplier}x</span>{" "}
               sobre o investimento.
             </p>
           </div>
@@ -369,7 +369,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
         <div className="text-center space-y-3 sm:space-y-4">
           <p className="text-white/80 text-xs sm:text-sm">
             <strong className="text-[#D4AF37]">A Diferença Matemática:</strong> Compradores que usam Personal Shopper Imobiliário 
-            economizam em média 8-15% no valor final, economizam tempo e evitam surpresas futuras.
+            economizam em média <span className="font-mono font-medium tracking-tight">8-15%</span> no valor final, economizam tempo e evitam surpresas futuras.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center items-stretch sm:items-center">
