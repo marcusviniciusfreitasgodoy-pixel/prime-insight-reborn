@@ -88,10 +88,11 @@ interface QuickValuationData {
 
 interface QuickValuationResultProps {
   data: QuickValuationData;
+  intention?: "vender" | "comprar" | null;
   onNewValuation: () => void;
 }
 
-export function QuickValuationResult({ data, onNewValuation }: QuickValuationResultProps) {
+export function QuickValuationResult({ data, intention, onNewValuation }: QuickValuationResultProps) {
   const navigate = useNavigate();
   const [parecerRequested, setParecerRequested] = useState(false);
   const [isRequesting, setIsRequesting] = useState(false);
@@ -416,14 +417,22 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
             <Shield className="h-7 w-7 text-[#D4AF37]" />
           </div>
           <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
-            {spreadPercent >= 30
+            {intention === "vender"
+              ? "Anuncie no preço certo — sem deixar dinheiro na mesa"
+              : intention === "comprar"
+              ? "Negocie com a margem certa — sem pagar a mais"
+              : spreadPercent >= 30
               ? "Intervalo amplo — você precisa de precisão"
               : spreadPercent >= 15
               ? "Quer saber exatamente onde seu imóvel se posiciona?"
               : "Proteja seu patrimônio com uma análise completa"}
           </h3>
           <p className="text-white/70 text-sm max-w-lg mx-auto">
-            {spreadPercent >= 30
+            {intention === "vender"
+              ? "O Parecer Técnico define o valor exato para anunciar: nem alto demais (que afasta proposta), nem baixo demais (que deixa dinheiro na mesa)."
+              : intention === "comprar"
+              ? "O Parecer Técnico calcula o teto justo de proposta e a margem real de negociação, com base em transações registradas e nas características do imóvel."
+              : spreadPercent >= 30
               ? "Com essa variação, a estimativa online não é suficiente. Um Parecer Técnico presencial analisa os diferenciais do seu imóvel e define o valor com precisão."
               : "O Parecer Técnico Godoy Prime analisa 26 características específicas do seu imóvel para posicioná-lo com precisão dentro da faixa de mercado."}
           </p>
@@ -434,7 +443,13 @@ export function QuickValuationResult({ data, onNewValuation }: QuickValuationRes
             className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] tracking-widest uppercase text-xs font-semibold px-8 py-4 rounded-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
           >
             <MessageCircle className="mr-2 h-5 w-5" />
-            {isRequesting ? "Enviando..." : "Solicitar Parecer Técnico"}
+            {isRequesting
+              ? "Enviando..."
+              : intention === "vender"
+              ? "Quero anunciar no preço certo"
+              : intention === "comprar"
+              ? "Quero o teto justo de proposta"
+              : "Solicitar Parecer Técnico"}
           </Button>
           <p className="text-white/40 text-xs">🔒 Sem compromisso • Orçamento gratuito • Retorno em até 2h</p>
         </div>
