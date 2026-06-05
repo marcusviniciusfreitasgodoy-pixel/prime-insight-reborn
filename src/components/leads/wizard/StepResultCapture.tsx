@@ -1,6 +1,4 @@
 import { ShieldCheck, TrendingUp, ArrowLeft, MessageCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { GoogleEmailCapture } from "./GoogleEmailCapture";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/config/contact";
 
 export interface EstimativaState {
@@ -46,19 +44,6 @@ export function StepResultCapture({
   area,
 }: Props) {
   const { itbiData, estimativa: e } = estimativa;
-
-  const headline =
-    intention === "vender"
-      ? "Receba o laudo para anunciar no preço certo"
-      : intention === "comprar"
-      ? "Receba o laudo com a margem de negociação"
-      : "Receba o laudo completo por e-mail";
-  const subhead =
-    intention === "vender"
-      ? "Análise detalhada com o valor sugerido de anúncio e a faixa de venda esperada — direto no seu e-mail."
-      : intention === "comprar"
-      ? "Análise detalhada com o teto recomendado de proposta e a margem de negociação — direto no seu e-mail."
-      : "Preencha seus dados e enviamos a análise detalhada deste imóvel na hora, direto na sua caixa de entrada.";
 
   const whatsappLaudoUrl = whatsappUrl(
     WHATSAPP_MESSAGES.laudoCompletoDireto({
@@ -122,45 +107,28 @@ export function StepResultCapture({
         </p>
       </div>
 
-      <div className="rounded-xl border border-[#0C2340]/15 bg-white p-4 sm:p-5 space-y-3">
+      {/* Único caminho: contato direto com o especialista pelo WhatsApp */}
+      <div className="rounded-[2px] border border-[#0C2340]/15 bg-white p-4 sm:p-5 space-y-3">
         <div className="text-center">
-          <div className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[#0C2340]/60 font-semibold mb-1">
-            Opção 1 · Automático
+          <div className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[#C9A84C] font-semibold mb-1">
+            Próximo passo
           </div>
-          <h3 className="font-bold text-[#0C2340]">{headline}</h3>
-          <p className="text-xs text-muted-foreground mt-1">{subhead}</p>
-        </div>
-        <GoogleEmailCapture
-          prefilledEmail={prefilledEmail}
-          prefilledName={prefilledName}
-          googleVerified={googleVerified}
-          isSubmitting={isSubmitting}
-          onSubmit={onSubmit}
-          onBeforeGoogleRedirect={onBeforeGoogleRedirect}
-        />
-      </div>
-
-      {/* Caminho alternativo, claramente distinto: contato direto, sem promessa de laudo automático */}
-      <div className="rounded-xl border border-dashed border-[#0C2340]/15 bg-[#F8F6F0]/60 p-4 space-y-2">
-        <div className="text-center">
-          <div className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[#0C2340]/60 font-semibold mb-1">
-            Opção 2 · Humano
-          </div>
-          <p className="text-xs text-[#0C2340]/70">
-            Prefere falar agora com o especialista, sem preencher formulário?
+          <h3 className="font-bold text-[#0C2340]">Fale com o especialista pelo WhatsApp</h3>
+          <p className="text-xs text-[#0C2340]/70 mt-1">
+            Receba a análise detalhada direto na conversa, sem preencher formulário.
           </p>
         </div>
         <a
           href={whatsappLaudoUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 w-full h-11 rounded-md bg-[#25D366] hover:bg-[#1ebe5d] text-white font-semibold transition-colors"
+          className="flex items-center justify-center gap-2 w-full h-11 rounded-[2px] bg-[#25D366] hover:bg-[#1ebe5d] text-white font-semibold transition-colors"
         >
           <MessageCircle className="h-5 w-5" />
           Abrir conversa no WhatsApp
         </a>
         <p className="text-[11px] text-center text-muted-foreground">
-          Conversa direta com Marcus Godoy (CRECI-RJ 11841). Sem laudo automático — análise feita manualmente no chat.
+          Conversa direta com Marcus Godoy (CRECI-RJ 11841). Análise feita manualmente no chat.
         </p>
       </div>
     </div>
