@@ -434,6 +434,11 @@ export default function AvaliacaoPublica() {
                 </div>
               ))}
             </div>
+            <div className="mt-8 text-center">
+              <button onClick={scrollToSelector} className="font-mono text-xs sm:text-sm uppercase tracking-[0.18em] text-[#C4993A] hover:text-[#9E7B2A] transition-colors">
+                Começar minha avaliação →
+              </button>
+            </div>
           </div>
         </section>
 
