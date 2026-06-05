@@ -322,7 +322,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
               mas o valor provável de mercado é{" "}
               <strong>{formatCurrency(valorMercado!)}</strong>.{" "}
               Um investimento de <span className="font-mono font-medium tracking-tight">R$ 4.900</span> no Parecer pode proteger até{" "}
-              <span className="font-mono font-medium tracking-tight">{formatCurrency(roiDiff)}</span> nesta negociação — um retorno de{" "}
+              <span className="font-mono font-medium tracking-tight">{formatCurrency(roiDiff)}</span> nesta negociação, um retorno de{" "}
               <span className="font-mono font-medium tracking-tight text-[#C9A84C]" style={{ fontSize: '1.2em' }}>{roiMultiplier}x</span>{" "}
               sobre o investimento.
             </p>
