@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Home, Building2, ArrowRight, MapPin, Loader2 } from "lucide-react";
 import { useStreetSuggestions } from "@/hooks/useStreetSuggestions";
+import { BAIRROS_RIO, isBairroCoberturaForte, normalizeBairro } from "@/utils/bairrosRio";
 
 const TIPOLOGIAS = [
   { value: "Apartamento", label: "Apartamento", icon: Building2 },
@@ -13,17 +14,22 @@ const TIPOLOGIAS = [
 
 interface Props {
   tipologia: string;
+  bairro: string;
   logradouro: string;
   numero: string;
-  onChange: (patch: { tipologia?: string; logradouro?: string; numero?: string }) => void;
+  onChange: (patch: { tipologia?: string; bairro?: string; logradouro?: string; numero?: string }) => void;
   onNext: () => void;
 }
 
-export function StepAddress({ tipologia, logradouro, numero, onChange, onNext }: Props) {
+export function StepAddress({ tipologia, bairro, logradouro, numero, onChange, onNext }: Props) {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [streetSelected, setStreetSelected] = useState(!!logradouro);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const { data: suggestions, isLoading } = useStreetSuggestions(logradouro, "BARRA DA TIJUCA");
+  const bairroNormalized = normalizeBairro(bairro);
+  const { data: suggestions, isLoading } = useStreetSuggestions(
+    logradouro,
+    bairroNormalized || "BARRA DA TIJUCA",
+  );
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -35,7 +41,13 @@ export function StepAddress({ tipologia, logradouro, numero, onChange, onNext }:
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const canAdvance = !!tipologia && logradouro.trim().length >= 3;
+  const canAdvance =
+    !!tipologia &&
+    bairroNormalized.length >= 3 &&
+    logradouro.trim().length >= 3;
+
+  const showCoberturaNote =
+    bairroNormalized.length >= 3 && !isBairroCoberturaForte(bairroNormalized);
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-[250ms]">
@@ -69,8 +81,35 @@ export function StepAddress({ tipologia, logradouro, numero, onChange, onNext }:
       </div>
 
       <div className="space-y-2" ref={wrapperRef}>
+        <Label htmlFor="bairro" className="text-sm font-medium text-[#0C2340]">
+          Bairro
+        </Label>
+        <Input
+          id="bairro"
+          list="bairros-rio-list"
+          value={bairro}
+          onChange={(e) => onChange({ bairro: e.target.value })}
+          placeholder="Ex: Barra da Tijuca, Ipanema, Tijuca..."
+          className="h-12 rounded-[2px]"
+          autoComplete="off"
+          maxLength={80}
+        />
+        <datalist id="bairros-rio-list">
+          {BAIRROS_RIO.map((b) => (
+            <option key={b} value={b} />
+          ))}
+        </datalist>
+        {showCoberturaNote && (
+          <p className="text-xs text-[#6B6359] leading-relaxed pt-1">
+            Estimativa indicativa. Nossa base é mais densa na Zona Oeste do Rio.
+            Para outros bairros, recomendamos um Parecer Técnico para precisão.
+          </p>
+        )}
+      </div>
+
+      <div className="space-y-2">
         <Label htmlFor="logradouro" className="text-sm font-medium text-[#0C2340]">
-          Rua / Avenida (Barra da Tijuca)
+          Rua / Avenida
         </Label>
         <div className="relative">
           <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#0C2340]/40" />
@@ -83,9 +122,14 @@ export function StepAddress({ tipologia, logradouro, numero, onChange, onNext }:
               setStreetSelected(false);
             }}
             onFocus={() => setShowSuggestions(true)}
-            placeholder="Digite o nome da rua..."
-            className="pl-9 h-12"
+            placeholder={
+              bairroNormalized
+                ? "Digite o nome da rua..."
+                : "Preencha o bairro primeiro"
+            }
+            className="pl-9 h-12 rounded-[2px]"
             autoComplete="off"
+            disabled={bairroNormalized.length < 3}
           />
           {showSuggestions && logradouro.length >= 2 && (
             <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#0C2340]/15 rounded-lg shadow-lg max-h-64 overflow-y-auto z-[100]">
