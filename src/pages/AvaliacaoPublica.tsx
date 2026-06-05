@@ -460,15 +460,9 @@ export default function AvaliacaoPublica() {
               <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
             </Button>
             <div className="mt-8 pt-6 border-t border-white/10 space-y-2">
-              {weeklySlots >= 2 ? (
-                <p className="font-mono text-xs sm:text-sm text-[#CCC4B8]">
-                  Esta semana: <span className="text-white">{weeklySlots}</span> avaliações gratuitas disponíveis
-                </p>
-              ) : (
-                <p className="font-mono text-xs sm:text-sm text-[#CCC4B8]">
-                  Últimas vagas desta semana — garanta sua análise agora
-                </p>
-              )}
+              <p className="font-mono text-xs sm:text-sm text-[#CCC4B8]">
+                Atendemos no máximo <span className="text-white">4</span> clientes por mês.
+              </p>
               <p className="font-mono text-[11px] sm:text-xs text-[#8C8278]">
                 Resultado em <span className="text-[#CCC4B8]">30</span> segundos · Sem compromisso · Dados <span className="text-[#CCC4B8]">100%</span> seguros
               </p>
