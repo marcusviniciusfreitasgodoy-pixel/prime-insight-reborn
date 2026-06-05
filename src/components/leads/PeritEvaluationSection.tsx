@@ -255,22 +255,22 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
         </h4>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-green-50 border border-green-200 rounded-[2px] p-4">
-            <h5 className="font-semibold text-green-800 mb-2 flex items-center gap-2">
+          <div className="bg-[#FAFAF8] border border-[#C4993A]/30 rounded-[2px] p-4">
+            <h5 className="font-semibold text-[#0C2340] mb-2 flex items-center gap-2">
               <CheckCircle className="h-4 w-4" />
               Garantia de Validação Independente
             </h5>
-            <p className="text-sm text-green-700">
+            <p className="text-sm text-[#4A443C]">
               Se a análise não revelar pelo menos um ponto crítico que valha mais que o investimento → reembolso <span className="font-mono font-medium tracking-tight">100%</span>
             </p>
           </div>
           
-          <div className="bg-green-50 border border-green-200 rounded-[2px] p-4">
-            <h5 className="font-semibold text-green-800 mb-2 flex items-center gap-2">
+          <div className="bg-[#FAFAF8] border border-[#C4993A]/30 rounded-[2px] p-4">
+            <h5 className="font-semibold text-[#0C2340] mb-2 flex items-center gap-2">
               <Clock className="h-4 w-4" />
               Garantia de Execução Profissional
             </h5>
-            <p className="text-sm text-green-700">
+            <p className="text-sm text-[#4A443C]">
               Se não entregar no prazo de <span className="font-mono font-medium tracking-tight">5</span> dias úteis por falha operacional → reembolso <span className="font-mono font-medium tracking-tight">100%</span> + compensação
             </p>
           </div>
@@ -284,7 +284,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
           <Button
             onClick={handleCta}
             disabled={isRequesting}
-            className="bg-green-600 hover:bg-green-700 text-white"
+            className="bg-[#C4993A] hover:bg-[#9E7B2A] text-[#0C2340] font-mono uppercase tracking-[0.18em] text-xs rounded-[2px]"
           >
             <CheckCircle className="mr-2 h-4 w-4" />
             {isRequesting ? "Enviando..." : "Solicitar Parecer com Garantia Total"}
@@ -293,7 +293,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
       </div>
 
       {/* Seção 5: Investimento */}
-      <div className="bg-gradient-to-br from-accent/10 to-accent/5 border border-accent/30 rounded-[2px] p-4 sm:p-6 text-center">
+      <div className="bg-[#FAFAF8] border border-accent/30 rounded-[2px] p-4 sm:p-6 text-center">
         <h4 className="text-lg font-bold text-foreground mb-4 flex items-center justify-center gap-2">
           <Banknote className="h-5 w-5 text-accent" />
           Investimento
@@ -306,7 +306,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
           </div>
           <div className="bg-white/60 rounded-[2px] p-3 text-center min-w-[140px]">
             <p className="text-xs text-muted-foreground">Economia Média</p>
-            <p className="text-base sm:text-lg font-mono font-medium tracking-tight text-green-600">R$ 180-450 mil</p>
+            <p className="text-base sm:text-lg font-mono font-medium tracking-tight text-[#C4993A]">R$ 180-450 mil</p>
           </div>
         </div>
 
