@@ -8,78 +8,83 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 98%;
-    --foreground: 210 69% 15%;
-    --card: 0 0% 100%;
-    --card-foreground: 210 69% 15%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 210 69% 15%;
-    --primary: 210 69% 15%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 210 69% 15%;
-    --muted: 0 0% 96%;
-    --muted-foreground: 210 20% 50%;
-    --accent: 42 74% 52%;
-    --accent-foreground: 210 69% 15%;
-    --success: 160 75% 42%;
-    --success-foreground: 0 0% 100%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 210 20% 90%;
-    --input: 210 20% 90%;
-    --ring: 42 74% 52%;
-    --chart-1: 210 69% 15%;
-    --chart-2: 42 74% 52%;
-    --chart-3: 160 75% 42%;
-    --chart-4: 200 90% 50%;
-    --chart-5: 280 65% 60%;
-    --radius: 0.5rem;
-    --sidebar-background: 210 69% 15%;
-    --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 42 74% 52%;
-    --sidebar-primary-foreground: 210 69% 15%;
-    --sidebar-accent: 210 60% 20%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 210 60% 22%;
-    --sidebar-ring: 42 74% 52%;
+    /* Godoy Prime Realty — sober, technical, high-end */
+    /* Brand HEX → HSL:
+       navy #0C2340 · deep-navy #071829 · gold #C4993A · gold-escuro #9E7B2A
+       cream #F3EBE0 · branco-quente #FAFAF8 · texto #1A1714 · texto-2 #4A443C
+       texto-3 #7A726A · warm-gray #8C8278 · claro #F0E8DC · claro-2 #CCC4B8 */
+    --background: 60 20% 97%;            /* branco-quente */
+    --foreground: 30 13% 9%;              /* texto */
+    --card: 60 20% 97%;
+    --card-foreground: 30 13% 9%;
+    --popover: 60 20% 97%;
+    --popover-foreground: 30 13% 9%;
+    --primary: 214 68% 15%;               /* navy */
+    --primary-foreground: 60 20% 97%;
+    --secondary: 35 44% 92%;              /* cream */
+    --secondary-foreground: 214 68% 15%;
+    --muted: 36 33% 90%;                  /* claro */
+    --muted-foreground: 30 7% 45%;        /* texto-3 */
+    --accent: 41 54% 50%;                 /* gold */
+    --accent-foreground: 214 68% 15%;
+    --success: 41 54% 50%;
+    --success-foreground: 214 68% 15%;
+    --destructive: 30 8% 51%;             /* warm-gray (no red) */
+    --destructive-foreground: 60 20% 97%;
+    --border: 36 14% 76%;                 /* claro-2 */
+    --input: 36 14% 76%;
+    --ring: 41 54% 50%;
+    --chart-1: 214 68% 15%;
+    --chart-2: 41 54% 50%;
+    --chart-3: 42 58% 39%;
+    --chart-4: 30 8% 51%;
+    --chart-5: 30 7% 45%;
+    --radius: 2px;
+    --sidebar-background: 214 68% 15%;
+    --sidebar-foreground: 60 20% 97%;
+    --sidebar-primary: 41 54% 50%;
+    --sidebar-primary-foreground: 214 68% 15%;
+    --sidebar-accent: 210 71% 9%;         /* deep-navy */
+    --sidebar-accent-foreground: 60 20% 97%;
+    --sidebar-border: 210 71% 12%;
+    --sidebar-ring: 41 54% 50%;
   }
 
   .dark {
-    --background: 210 69% 15%;
-    --foreground: 0 0% 100%;
-    --card: 210 60% 18%;
-    --card-foreground: 0 0% 100%;
-    --popover: 210 60% 18%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 42 74% 52%;
-    --primary-foreground: 210 69% 15%;
-    --secondary: 210 50% 22%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 210 50% 22%;
-    --muted-foreground: 210 20% 70%;
-    --accent: 42 74% 52%;
-    --accent-foreground: 210 69% 15%;
-    --success: 160 75% 42%;
-    --success-foreground: 0 0% 100%;
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 210 50% 25%;
-    --input: 210 50% 25%;
-    --ring: 42 74% 52%;
-    --chart-1: 42 74% 52%;
-    --chart-2: 210 69% 15%;
-    --chart-3: 160 75% 42%;
-    --chart-4: 200 90% 50%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 210 69% 15%;
-    --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 42 74% 52%;
-    --sidebar-primary-foreground: 210 69% 15%;
-    --sidebar-accent: 210 60% 20%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 210 60% 22%;
-    --sidebar-ring: 42 74% 52%;
+    --background: 210 71% 9%;             /* deep-navy */
+    --foreground: 60 20% 97%;
+    --card: 214 68% 15%;
+    --card-foreground: 60 20% 97%;
+    --popover: 214 68% 15%;
+    --popover-foreground: 60 20% 97%;
+    --primary: 41 54% 50%;
+    --primary-foreground: 214 68% 15%;
+    --secondary: 214 50% 22%;
+    --secondary-foreground: 60 20% 97%;
+    --muted: 214 50% 22%;
+    --muted-foreground: 36 14% 76%;
+    --accent: 41 54% 50%;
+    --accent-foreground: 214 68% 15%;
+    --success: 41 54% 50%;
+    --success-foreground: 214 68% 15%;
+    --destructive: 30 8% 51%;
+    --destructive-foreground: 60 20% 97%;
+    --border: 214 50% 25%;
+    --input: 214 50% 25%;
+    --ring: 41 54% 50%;
+    --chart-1: 41 54% 50%;
+    --chart-2: 60 20% 97%;
+    --chart-3: 42 58% 39%;
+    --chart-4: 36 14% 76%;
+    --chart-5: 30 8% 51%;
+    --sidebar-background: 210 71% 9%;
+    --sidebar-foreground: 60 20% 97%;
+    --sidebar-primary: 41 54% 50%;
+    --sidebar-primary-foreground: 214 68% 15%;
+    --sidebar-accent: 214 68% 15%;
+    --sidebar-accent-foreground: 60 20% 97%;
+    --sidebar-border: 214 50% 22%;
+    --sidebar-ring: 41 54% 50%;
   }
 }
 
@@ -90,6 +95,38 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Lato', system-ui, sans-serif;
+    font-weight: 400;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  /* Technical numeric data — values, areas, percentages, credentials */
+  .font-mono,
+  [data-numeric] {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Brand signature: near-square corners. Override large radii and pills,
+ * except on circular avatars/icons that need a perfect circle. */
+@layer utilities {
+  .rounded-xl,
+  .rounded-2xl,
+  .rounded-3xl {
+    border-radius: var(--radius) !important;
+  }
+  /* Pill buttons → square. Keep rounded-full on square elements (avatars, icon dots). */
+  button.rounded-full,
+  a.rounded-full,
+  [role="button"].rounded-full {
+    border-radius: var(--radius) !important;
   }
 }
 
