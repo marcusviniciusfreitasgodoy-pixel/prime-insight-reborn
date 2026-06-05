@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Loader2 } from "lucide-react";
+import { Loader2, Home as HomeIcon, Search } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { sendLeadToCrm } from "@/lib/crmWebhook";
@@ -28,7 +28,8 @@ const MAX_FREE_EVALUATIONS = 2;
 const STORAGE_KEY = "wizard_state_v1";
 const BAIRRO = "BARRA DA TIJUCA";
 
-type WizardStep = "address" | "property" | "details" | "analyzing" | "result" | "thanks";
+type WizardStep = "intention" | "address" | "property" | "details" | "analyzing" | "result" | "thanks";
+export type Intention = "vender" | "comprar";
 
 interface FormData {
   tipologia: string;
@@ -61,7 +62,8 @@ interface Props {
 }
 
 export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
-  const [step, setStep] = useState<WizardStep>("address");
+  const [step, setStep] = useState<WizardStep>("intention");
+  const [intention, setIntention] = useState<Intention | null>(null);
   const [form, setForm] = useState<FormData>(initialForm);
   const [estimativa, setEstimativa] = useState<EstimativaState | null>(null);
   const [googleData, setGoogleData] = useState<{ email: string; nome: string } | null>(null);
@@ -121,6 +123,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
   // Tracking per step
   useEffect(() => {
     const map: Record<WizardStep, 1 | 2 | 3 | 4 | null> = {
+      intention: null,
       address: 1,
       property: 2,
       details: 3,
@@ -134,6 +137,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
   }, [step]);
 
   const stepIndex: Record<WizardStep, number> = {
+    intention: 1,
     address: 1,
     property: 2,
     details: 3,
@@ -450,12 +454,14 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
       >
         <QuickValuationResult
           data={finalData}
+          intention={intention}
           onNewValuation={() => {
             setFinalData(null);
             setEstimativa(null);
             setGoogleData(null);
             setForm(initialForm);
-            setStep("address");
+            setIntention(null);
+            setStep("intention");
           }}
         />
       </Suspense>
@@ -474,6 +480,58 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
           </div>
           <Progress value={progress} className="h-1.5 [&>div]:bg-[#C9A84C]" />
         </div>
+
+        {step === "intention" && (
+          <div className="space-y-5 animate-in fade-in duration-200">
+            <div className="text-center space-y-1.5">
+              <div className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[#C9A84C]">
+                ✦ Primeiro, conta pra gente
+              </div>
+              <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#0C2340]">
+                Qual é o seu objetivo?
+              </h2>
+              <p className="text-xs sm:text-sm text-[#4A443C]">
+                Mesma base de dados oficiais, dois enquadramentos diferentes.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {[
+                {
+                  key: "vender" as const,
+                  Icon: HomeIcon,
+                  title: "Tenho um imóvel",
+                  subtitle:
+                    "Quero saber por quanto ele realmente vende, para anunciar no preço certo.",
+                },
+                {
+                  key: "comprar" as const,
+                  Icon: Search,
+                  title: "Vou comprar um imóvel",
+                  subtitle:
+                    "Quero saber se o preço pedido é justo, antes de fazer uma proposta.",
+                },
+              ].map(({ key, Icon, title, subtitle }) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => {
+                    setIntention(key);
+                    setStep("address");
+                  }}
+                  className="group text-left rounded-[2px] border border-[#0C2340]/15 bg-white p-5 sm:p-6 transition-all duration-200 hover:border-[#C9A84C] hover:-translate-y-0.5"
+                >
+                  <Icon className="h-6 w-6 text-[#C9A84C] mb-3" />
+                  <h3 className="font-serif text-lg font-bold text-[#0C2340] mb-1.5">
+                    {title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#4A443C] leading-relaxed">
+                    {subtitle}
+                  </p>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {step === "address" && (
           <StepAddress
@@ -509,6 +567,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
         {step === "result" && estimativa && (
           <StepResultCapture
             estimativa={estimativa}
+            intention={intention}
             prefilledEmail={googleData?.email}
             prefilledName={googleData?.nome}
             googleVerified={!!googleData}
