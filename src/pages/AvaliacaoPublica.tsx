@@ -354,9 +354,9 @@ export default function AvaliacaoPublica() {
         </section>
 
         <RealCaseComparison />
-        <div className="bg-[#0C2340] pb-10 sm:pb-12 px-4">
+        <div className="bg-[#F3EBE0] pt-2 pb-8 px-4">
           <div className="container mx-auto max-w-5xl text-center">
-            <button onClick={scrollToSelector} className="font-mono text-xs sm:text-sm uppercase tracking-[0.18em] text-[#C4993A] hover:text-[#E0B958] transition-colors">
+            <button onClick={scrollToSelector} className="font-mono text-xs sm:text-sm uppercase tracking-[0.18em] text-[#C4993A] hover:text-[#9E7B2A] transition-colors">
               Começar minha avaliação →
             </button>
           </div>
