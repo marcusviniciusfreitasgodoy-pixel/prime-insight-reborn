@@ -5,35 +5,35 @@ const comparisons = [
     label: "Portal A",
     value: "R$ 2.000.000",
     badge: "Preço de Anúncio",
-    badgeColor: "bg-destructive/10 text-destructive",
-    cardStyle: "border-destructive/20 bg-red-50/50",
+    badgeColor: "border border-[#8C8278]/40 text-[#4A443C]",
+    cardStyle: "border-[#8C8278]/30 bg-[#F3EBE0]",
     icon: TrendingDown,
-    iconColor: "text-destructive",
+    iconColor: "text-[#8C8278]",
   },
   {
     label: "Portal B",
     value: "R$ 1.600.000",
     badge: "Preço de Anúncio",
-    badgeColor: "bg-destructive/10 text-destructive",
-    cardStyle: "border-destructive/20 bg-red-50/50",
+    badgeColor: "border border-[#8C8278]/40 text-[#4A443C]",
+    cardStyle: "border-[#8C8278]/30 bg-[#F3EBE0]",
     icon: TrendingDown,
-    iconColor: "text-destructive",
+    iconColor: "text-[#8C8278]",
   },
   {
     label: "Godoy Prime",
     value: "R$ 1.300.000",
     badge: "Transação Real",
-    badgeColor: "bg-[#D4AF37]/15 text-[#0C2340]",
-    cardStyle: "border-[#D4AF37] bg-[#D4AF37]/5 ring-2 ring-[#D4AF37]/20 shadow-lg",
+    badgeColor: "border border-[#C4993A] text-[#C4993A]",
+    cardStyle: "border-[#C4993A] bg-[#FAFAF8]",
     icon: CheckCircle,
-    iconColor: "text-[#D4AF37]",
+    iconColor: "text-[#C4993A]",
     highlight: true,
   },
 ];
 
 export function RealCaseComparison() {
   return (
-    <section className="py-10 sm:py-12 md:py-14 px-4 bg-gradient-to-b from-white to-[#D4AF37]/[0.05]">
+    <section className="py-10 sm:py-12 md:py-14 px-4 bg-[#FAFAF8]">
       <div className="container mx-auto max-w-5xl">
         {/* Header */}
         <div className="text-center mb-12 sm:mb-16">
@@ -55,22 +55,22 @@ export function RealCaseComparison() {
             return (
               <div
                 key={index}
-                className={`relative rounded-[2px] sm:rounded-[2px] p-5 sm:p-6 border-2 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${item.highlight ? "animate-glow-pulse" : ""} ${item.cardStyle}`}
+                className={`relative rounded-[2px] p-5 sm:p-6 border transition-colors duration-300 ${item.cardStyle}`}
               >
                 {item.highlight && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-[#D4AF37] text-[#0C2340] text-[10px] sm:text-xs font-bold rounded-full whitespace-nowrap">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 bg-[#C4993A] text-[#0C2340] font-mono text-[10px] uppercase tracking-[0.16em] rounded-[2px] whitespace-nowrap">
                     VALOR REAL DE MERCADO
                   </div>
                 )}
                 <div className="text-center space-y-3">
-                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-[2px] mx-auto flex items-center justify-center ${item.highlight ? "bg-[#D4AF37]/20" : "bg-destructive/10"}`}>
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-[2px] mx-auto flex items-center justify-center border ${item.highlight ? "border-[#C4993A]/40" : "border-[#8C8278]/30"}`}>
                     <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${item.iconColor}`} />
                   </div>
                   <p className="text-sm font-semibold text-[#0C2340]">{item.label}</p>
-                  <p className={`text-2xl sm:text-3xl font-mono font-medium tracking-tight ${item.highlight ? "text-[#0C2340]" : "text-destructive/80"}`}>
+                  <p className={`text-2xl sm:text-3xl font-mono font-medium tracking-tight ${item.highlight ? "text-[#0C2340]" : "text-[#4A443C]"}`}>
                     {item.value}
                   </p>
-                  <span className={`inline-block px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold ${item.badgeColor}`}>
+                  <span className={`inline-block px-2.5 py-0.5 rounded-[2px] font-mono text-[10px] uppercase tracking-[0.16em] ${item.badgeColor}`}>
                     {item.badge}
                   </span>
                 </div>
@@ -80,7 +80,7 @@ export function RealCaseComparison() {
         </div>
 
         {/* Alert banner */}
-        <div className="bg-[#0C2340] rounded-[2px] sm:rounded-[2px] p-4 sm:p-6 text-center mb-6">
+        <div className="bg-[#0C2340] rounded-[2px] p-4 sm:p-6 text-center mb-6">
           <div className="flex items-center justify-center gap-2 mb-2">
             <AlertTriangle className="h-5 w-5 text-[#D4AF37]" />
             <p className="text-white font-bold text-base sm:text-lg">
@@ -94,17 +94,17 @@ export function RealCaseComparison() {
 
         {/* Explanation */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="bg-red-50 border border-red-200 rounded-[2px] p-4 flex gap-3 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">
-            <TrendingDown className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
+          <div className="bg-[#F3EBE0] border border-[#8C8278]/30 rounded-[2px] p-4 flex gap-3 transition-colors">
+            <TrendingDown className="h-5 w-5 text-[#8C8278] shrink-0 mt-0.5" />
             <div>
-              <p className="font-semibold text-sm text-destructive mb-1">Portais Imobiliários</p>
+              <p className="font-semibold text-sm text-[#4A443C] mb-1">Portais Imobiliários</p>
               <p className="text-xs text-muted-foreground leading-relaxed">
                 Os preços apresentados se baseiam nos anúncios em divulgação. Portanto o ponto de vista da avaliação é favorável ao Vendedor sempre. Objetivo final é de atrair novos anunciantes.
               </p>
             </div>
           </div>
-          <div className="bg-[#D4AF37]/5 border border-[#D4AF37]/30 rounded-[2px] p-4 flex gap-3 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">
-            <CheckCircle className="h-5 w-5 text-[#D4AF37] shrink-0 mt-0.5" />
+          <div className="bg-[#FAFAF8] border border-[#C4993A]/40 rounded-[2px] p-4 flex gap-3 transition-colors">
+            <CheckCircle className="h-5 w-5 text-[#C4993A] shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-sm text-[#0C2340] mb-1">Godoy Prime</p>
               <p className="text-xs text-muted-foreground leading-relaxed">
