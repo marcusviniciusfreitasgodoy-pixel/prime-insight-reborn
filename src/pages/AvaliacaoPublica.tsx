@@ -271,7 +271,7 @@ export default function AvaliacaoPublica() {
               </p>
 
               {/* Card de entrada — escolha do tipo de imóvel */}
-              <div className="max-w-2xl mx-auto pt-6 animate-fade-in [animation-delay:450ms]">
+              <div id="seletor-topo" className="max-w-2xl mx-auto pt-6 animate-fade-in [animation-delay:450ms] scroll-mt-24">
                 <div className="bg-white/[0.06] backdrop-blur-md border border-white/15 rounded-2xl p-5 sm:p-7 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)]">
                   <p className="text-sm sm:text-base text-white/80 mb-4 font-medium">
                     Selecione o tipo do seu imóvel para começar:
