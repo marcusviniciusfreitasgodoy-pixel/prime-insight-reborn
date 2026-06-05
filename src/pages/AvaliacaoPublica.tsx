@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { RealCaseComparison } from "@/components/leads/RealCaseComparison";
+import marcusPhoto from "@/assets/marcus-godoy.png.asset.json";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
@@ -310,6 +311,47 @@ export default function AvaliacaoPublica() {
         </section>
 
         <RealCaseComparison />
+
+        {/* ============ AUTHORITY / WHO SIGNS ============ */}
+        <section className="py-10 sm:py-12 md:py-14 px-4 bg-[#F3EBE0]">
+          <div className="container mx-auto max-w-5xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 rounded-[2px] overflow-hidden">
+              <div className="aspect-[4/5] md:aspect-auto md:min-h-[420px] bg-[#1E1B18]">
+                <img
+                  src={marcusPhoto.url}
+                  alt="Marcus Godoy"
+                  className="w-full h-full object-cover"
+                  style={{ objectPosition: "top center", filter: "grayscale(100%) contrast(1.05) brightness(.95)" }}
+                />
+              </div>
+              <div className="bg-[#1E1B18] p-8 sm:p-10 md:p-12 flex flex-col justify-center">
+                <p className="font-mono text-[11px] sm:text-xs uppercase tracking-[0.22em] text-[#C4993A] mb-5">
+                  ✦ QUEM ASSINA SUA AVALIAÇÃO
+                </p>
+                <p className="font-serif italic text-xl sm:text-2xl md:text-[26px] leading-snug text-[#F3EBE0] mb-7">
+                  "O mercado não foi desenhado para o comprador. Aqui, o interesse é um só: o seu."
+                </p>
+                <p className="font-mono text-[11px] sm:text-xs uppercase tracking-[0.18em] text-[#CCC4B8] mb-6">
+                  MARCUS GODOY · PERSONAL SHOPPER IMOBILIÁRIO
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { label: "CRECI/RJ", value: "80.199" },
+                    { label: "PERITO", value: "TJRJ" },
+                    { label: "METODOLOGIA ABNT NBR", value: "14.653" },
+                  ].map((c) => (
+                    <span
+                      key={c.label}
+                      className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-[#CCC4B8] border border-[#CCC4B8]/30 px-2.5 py-1 rounded-[2px]"
+                    >
+                      {c.label} <span className="text-[#C4993A]">{c.value}</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* ============ SOLUTION ============ */}
         <section className="relative py-10 sm:py-12 md:py-14 px-4 bg-[#D4AF37]/[0.04] overflow-hidden">
