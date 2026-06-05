@@ -204,8 +204,29 @@ export default function AvaliacaoPublica() {
       </Helmet>
 
       <main className="min-h-screen bg-background">
+        {/* ============ STICKY CTA BAR ============ */}
+        <div
+          className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+            showStickyBar ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
+          }`}
+        >
+          <div className="bg-[#071829]/90 backdrop-blur-md border-b border-white/10">
+            <div className="container mx-auto px-4 py-2.5 flex items-center justify-between gap-3">
+              <span className="text-white/90 text-xs sm:text-sm font-medium truncate">
+                Saber o valor do meu imóvel
+              </span>
+              <button
+                onClick={scrollToSelector}
+                className="shrink-0 bg-[#C4993A] hover:bg-[#9E7B2A] text-[#0C2340] font-mono font-medium uppercase tracking-[0.18em] text-[11px] sm:text-xs px-3 sm:px-4 py-1.5 rounded-[2px] transition-colors"
+              >
+                Começar →
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* ============ HERO ============ */}
-        <section className="relative text-white overflow-hidden">
+        <section ref={heroRef} className="relative text-white overflow-hidden">
           <img src={heroBackground} alt="" loading="eager" decoding="async" fetchPriority="high" width={1920} height={1080} className="absolute inset-0 w-full h-full object-cover object-center" />
           <div className="absolute inset-0 bg-gradient-to-br from-[#0C2340]/95 via-[#0C2340]/90 to-[#1a3a5c]/85" />
           <div className="absolute inset-0 overflow-hidden">
