@@ -88,10 +88,11 @@ interface QuickValuationData {
 
 interface QuickValuationResultProps {
   data: QuickValuationData;
+  intention?: "vender" | "comprar" | null;
   onNewValuation: () => void;
 }
 
-export function QuickValuationResult({ data, onNewValuation }: QuickValuationResultProps) {
+export function QuickValuationResult({ data, intention, onNewValuation }: QuickValuationResultProps) {
   const navigate = useNavigate();
   const [parecerRequested, setParecerRequested] = useState(false);
   const [isRequesting, setIsRequesting] = useState(false);
