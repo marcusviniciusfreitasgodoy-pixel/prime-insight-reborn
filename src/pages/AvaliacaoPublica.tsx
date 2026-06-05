@@ -277,10 +277,10 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ PROBLEM ============ */}
-        <section className="relative py-10 sm:py-12 md:py-14 px-4 bg-[#0C2340]/[0.03] overflow-hidden">
+        <section className="relative py-10 sm:py-12 md:py-14 px-4 bg-[#F3EBE0] overflow-hidden">
           {/* Decorative SVG elements */}
-          <div className="absolute top-10 -right-20 w-64 h-64 rounded-full border border-destructive/10 opacity-40" />
-          <div className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full border border-destructive/5 opacity-30" />
+          <div className="absolute top-10 -right-20 w-64 h-64 rounded-full border border-[#8C8278]/15 opacity-40" />
+          <div className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full border border-[#8C8278]/10 opacity-30" />
           <div className="container mx-auto max-w-5xl relative z-10">
             <div className="text-center mb-8 sm:mb-10">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
@@ -289,11 +289,15 @@ export default function AvaliacaoPublica() {
                 A diferença entre o preço anunciado e o valor real de venda pode chegar a <span className="font-mono font-medium tracking-tight text-[#D4AF37]">30%</span>, isto significa diferenças de até <span className="font-mono font-medium tracking-tight text-[#D4AF37]">R$ 400.000</span> ou mais.
               </p>
             </div>
-            <div ref={problemReveal.ref} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+            <div ref={problemReveal.ref} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 items-stretch">
               {PROBLEMS.map((problem, index) => (
-                <div key={index} className={`group flex flex-row items-start gap-4 bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 border border-gray-100/60 border-l-4 border-l-destructive hover:border-l-[6px] hover:shadow-[0_8px_30px_-8px_rgba(220,38,38,0.25)] hover:-translate-y-1 transition-all duration-500 ${problemReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: `${index * 150}ms` }}>
-                  <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-destructive/10 flex items-center justify-center group-hover:bg-destructive/20 transition-colors duration-300">
-                    <problem.icon className="h-6 w-6 sm:h-7 sm:w-7 text-destructive group-hover:rotate-12 transition-transform duration-500" />
+                <div
+                  key={index}
+                  className={`group flex flex-row items-start gap-4 bg-[#FAFAF8] p-5 sm:p-6 border border-[#8C8278]/20 border-l-4 border-l-[#8C8278] hover:border-l-[#0C2340] transition-colors duration-500 h-full ${problemReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                  style={{ transitionDelay: `${index * 150}ms`, borderRadius: '2px' }}
+                >
+                  <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-[#8C8278]/10 flex items-center justify-center" style={{ borderRadius: '2px' }}>
+                    <problem.icon className="h-6 w-6 sm:h-7 sm:w-7 text-[#8C8278]" />
                   </div>
                   <div>
                     <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-1">{problem.title}</h4>
