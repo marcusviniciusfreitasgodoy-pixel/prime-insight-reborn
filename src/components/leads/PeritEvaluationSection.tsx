@@ -86,7 +86,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
   return (
     <div className="space-y-10">
       {/* Seção 1: Exposição do Problema */}
-      <div className="bg-red-50 border border-red-200 rounded-2xl p-4 sm:p-6">
+      <div className="bg-red-50 border border-red-200 rounded-[2px] p-4 sm:p-6">
         <div className="text-center space-y-3 sm:space-y-4">
           <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-red-800 leading-tight">
             Você Está Negociando Sozinho Contra Vendedor + Corretor + Imobiliária
@@ -95,7 +95,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
             Todos Lucrando Quando Você Paga Caro.<br />
             Chegou a Hora de Ter um Defensor Técnico Exclusivo ao seu lado.
           </p>
-          <div className="bg-white/80 rounded-xl p-3 sm:p-4 max-w-2xl mx-auto">
+          <div className="bg-white/80 rounded-[2px] p-3 sm:p-4 max-w-2xl mx-auto">
             <p className="text-red-900 font-medium text-sm sm:text-base">
               "Três pessoas defendendo preço alto. <strong className="text-red-700">Zero pessoas defendendo você.</strong>"
             </p>
@@ -124,10 +124,10 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
             return (
               <div 
                 key={index}
-                className="bg-card border border-border rounded-xl p-4 hover:border-primary/50 hover:shadow-md transition-all"
+                className="bg-card border border-border rounded-[2px] p-4 hover:border-primary/50 hover:shadow-md transition-all"
               >
                 <div className="flex items-start gap-3">
-                  <div className="p-2 bg-primary/10 rounded-lg shrink-0">
+                  <div className="p-2 bg-primary/10 rounded-[2px] shrink-0">
                     <Icon className="h-5 w-5 text-primary" />
                   </div>
                   <div className="flex-1">
@@ -155,14 +155,14 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
       </div>
 
       {/* Seção 3: Autoridade - Marcus Godoy */}
-      <div className="bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/20 rounded-2xl p-4 sm:p-6 overflow-hidden">
+      <div className="bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/20 rounded-[2px] p-4 sm:p-6 overflow-hidden">
         <div className="flex flex-col md:flex-row gap-4 sm:gap-6 items-center">
           {/* Foto */}
           <div className="w-full md:w-1/3 flex-shrink-0">
             <img 
               src={marcusGodoyImg} 
               alt="Marcus Godoy - Perito Avaliador" 
-              className="w-full max-w-[280px] mx-auto md:max-w-none h-auto rounded-xl object-cover"
+              className="w-full max-w-[280px] mx-auto md:max-w-none h-auto rounded-[2px] object-cover"
               loading="lazy"
               decoding="async"
               width={400}
@@ -207,24 +207,24 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
         </h4>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white border border-[#D4AF37]/40 rounded-xl p-4 space-y-2">
-            <div className="p-2 bg-[#D4AF37]/10 rounded-lg w-fit">
+          <div className="bg-white border border-[#D4AF37]/40 rounded-[2px] p-4 space-y-2">
+            <div className="p-2 bg-[#D4AF37]/10 rounded-[2px] w-fit">
               <FileText className="h-5 w-5 text-[#D4AF37]" />
             </div>
             <h5 className="font-semibold text-foreground text-sm">Perito Avaliador Credenciado pelo TJRJ</h5>
             <p className="text-xs text-muted-foreground">Habilitado judicialmente para emitir laudos com validade legal em processos judiciais e extrajudiciais.</p>
           </div>
 
-          <div className="bg-white border border-[#D4AF37]/40 rounded-xl p-4 space-y-2">
-            <div className="p-2 bg-[#D4AF37]/10 rounded-lg w-fit">
+          <div className="bg-white border border-[#D4AF37]/40 rounded-[2px] p-4 space-y-2">
+            <div className="p-2 bg-[#D4AF37]/10 rounded-[2px] w-fit">
               <Database className="h-5 w-5 text-[#D4AF37]" />
             </div>
             <h5 className="font-semibold text-foreground text-sm"><span className="font-mono font-medium tracking-tight">80.000+</span> transações oficiais analisadas</h5>
             <p className="text-xs text-muted-foreground">Nossa base é formada por dados reais de compra e venda registrados, não por preços de anúncios ou estimativas de portais.</p>
           </div>
 
-          <div className="bg-white border border-[#D4AF37]/40 rounded-xl p-4 space-y-2">
-            <div className="p-2 bg-[#D4AF37]/10 rounded-lg w-fit">
+          <div className="bg-white border border-[#D4AF37]/40 rounded-[2px] p-4 space-y-2">
+            <div className="p-2 bg-[#D4AF37]/10 rounded-[2px] w-fit">
               <MapPin className="h-5 w-5 text-[#D4AF37]" />
             </div>
             <h5 className="font-semibold text-foreground text-sm">Especialização na Barra da Tijuca</h5>
@@ -256,7 +256,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
         </h4>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+          <div className="bg-green-50 border border-green-200 rounded-[2px] p-4">
             <h5 className="font-semibold text-green-800 mb-2 flex items-center gap-2">
               <CheckCircle className="h-4 w-4" />
               Garantia de Validação Independente
@@ -266,7 +266,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
             </p>
           </div>
           
-          <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+          <div className="bg-green-50 border border-green-200 rounded-[2px] p-4">
             <h5 className="font-semibold text-green-800 mb-2 flex items-center gap-2">
               <Clock className="h-4 w-4" />
               Garantia de Execução Profissional
@@ -294,18 +294,18 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
       </div>
 
       {/* Seção 5: Investimento */}
-      <div className="bg-gradient-to-br from-accent/10 to-accent/5 border border-accent/30 rounded-2xl p-4 sm:p-6 text-center">
+      <div className="bg-gradient-to-br from-accent/10 to-accent/5 border border-accent/30 rounded-[2px] p-4 sm:p-6 text-center">
         <h4 className="text-lg font-bold text-foreground mb-4 flex items-center justify-center gap-2">
           <Banknote className="h-5 w-5 text-accent" />
           Investimento
         </h4>
         
         <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 mb-4">
-          <div className="bg-white/60 rounded-lg p-3 text-center min-w-[140px]">
+          <div className="bg-white/60 rounded-[2px] p-3 text-center min-w-[140px]">
             <p className="text-xs text-muted-foreground">Valor</p>
             <p className="text-base sm:text-lg font-mono font-medium tracking-tight text-foreground">A partir de R$ 4.900</p>
           </div>
-          <div className="bg-white/60 rounded-lg p-3 text-center min-w-[140px]">
+          <div className="bg-white/60 rounded-[2px] p-3 text-center min-w-[140px]">
             <p className="text-xs text-muted-foreground">Economia Média</p>
             <p className="text-base sm:text-lg font-mono font-medium tracking-tight text-green-600">R$ 180-450 mil</p>
           </div>
@@ -316,7 +316,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
         </p>
 
         {hasROI && roiMultiplier >= 1 && (
-          <div className="mt-4 bg-white/80 border border-accent/30 rounded-xl p-3 sm:p-4">
+          <div className="mt-4 bg-white/80 border border-accent/30 rounded-[2px] p-3 sm:p-4">
             <p className="text-sm text-foreground">
               Para o imóvel que você consultou, o vendedor pede{" "}
               <strong>{formatCurrency(valorPedido!)}</strong>{" "}
@@ -344,7 +344,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
       </div>
 
       {/* Seção 6: Sistema Representação Blindada (Oferta Complementar) */}
-      <div className="bg-[#0C2340] rounded-2xl p-4 sm:p-6 text-white">
+      <div className="bg-[#0C2340] rounded-[2px] p-4 sm:p-6 text-white">
         <div className="text-center mb-4 sm:mb-6">
           <h4 className="text-base sm:text-lg font-bold mb-2">
             🚀 Quer Representação Completa Durante Todo o Processo?
@@ -358,7 +358,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
           {primeBuyerPhases.map((phase, index) => (
             <div 
               key={index}
-              className="bg-white/10 border border-white/20 rounded-lg px-2 sm:px-3 py-2 text-center"
+              className="bg-white/10 border border-white/20 rounded-[2px] px-2 sm:px-3 py-2 text-center"
             >
               <div className="text-[#D4AF37] font-bold text-[10px] sm:text-xs mb-0.5">Fase {phase.phase}</div>
               <div className="text-white text-[10px] sm:text-xs font-medium">{phase.title}</div>

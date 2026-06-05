@@ -55,7 +55,7 @@ export function RealCaseComparison() {
             return (
               <div
                 key={index}
-                className={`relative rounded-xl sm:rounded-2xl p-5 sm:p-6 border-2 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${item.highlight ? "animate-glow-pulse" : ""} ${item.cardStyle}`}
+                className={`relative rounded-[2px] sm:rounded-[2px] p-5 sm:p-6 border-2 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${item.highlight ? "animate-glow-pulse" : ""} ${item.cardStyle}`}
               >
                 {item.highlight && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-[#D4AF37] text-[#0C2340] text-[10px] sm:text-xs font-bold rounded-full whitespace-nowrap">
@@ -63,7 +63,7 @@ export function RealCaseComparison() {
                   </div>
                 )}
                 <div className="text-center space-y-3">
-                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl mx-auto flex items-center justify-center ${item.highlight ? "bg-[#D4AF37]/20" : "bg-destructive/10"}`}>
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-[2px] mx-auto flex items-center justify-center ${item.highlight ? "bg-[#D4AF37]/20" : "bg-destructive/10"}`}>
                     <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${item.iconColor}`} />
                   </div>
                   <p className="text-sm font-semibold text-[#0C2340]">{item.label}</p>
@@ -80,7 +80,7 @@ export function RealCaseComparison() {
         </div>
 
         {/* Alert banner */}
-        <div className="bg-[#0C2340] rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center mb-6">
+        <div className="bg-[#0C2340] rounded-[2px] sm:rounded-[2px] p-4 sm:p-6 text-center mb-6">
           <div className="flex items-center justify-center gap-2 mb-2">
             <AlertTriangle className="h-5 w-5 text-[#D4AF37]" />
             <p className="text-white font-bold text-base sm:text-lg">
@@ -94,7 +94,7 @@ export function RealCaseComparison() {
 
         {/* Explanation */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex gap-3 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">
+          <div className="bg-red-50 border border-red-200 rounded-[2px] p-4 flex gap-3 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">
             <TrendingDown className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-sm text-destructive mb-1">Portais Imobiliários</p>
@@ -103,7 +103,7 @@ export function RealCaseComparison() {
               </p>
             </div>
           </div>
-          <div className="bg-[#D4AF37]/5 border border-[#D4AF37]/30 rounded-xl p-4 flex gap-3 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">
+          <div className="bg-[#D4AF37]/5 border border-[#D4AF37]/30 rounded-[2px] p-4 flex gap-3 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">
             <CheckCircle className="h-5 w-5 text-[#D4AF37] shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-sm text-[#0C2340] mb-1">Godoy Prime</p>

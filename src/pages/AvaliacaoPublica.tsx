@@ -273,7 +273,7 @@ export default function AvaliacaoPublica() {
 
               {/* Card de entrada — escolha do tipo de imóvel */}
               <div id="seletor-topo" className="max-w-2xl mx-auto pt-6 animate-fade-in [animation-delay:450ms] scroll-mt-24">
-                <div className="bg-white/[0.06] backdrop-blur-md border border-white/15 rounded-2xl p-5 sm:p-7 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)]">
+                <div className="bg-white/[0.06] backdrop-blur-md border border-white/15 rounded-[2px] p-5 sm:p-7 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)]">
                   <p className="text-sm sm:text-base text-white/80 mb-4 font-medium">
                     Selecione o tipo do seu imóvel para começar:
                   </p>
@@ -286,7 +286,7 @@ export default function AvaliacaoPublica() {
                       <button
                         key={tipo}
                         onClick={() => goToWizard(tipo)}
-                        className="group flex flex-col items-center justify-center gap-2 bg-white/5 hover:bg-[#D4AF37] hover:text-[#0C2340] border border-white/20 hover:border-[#D4AF37] rounded-xl py-4 sm:py-5 px-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-10px_rgba(212,175,55,0.5)]"
+                        className="group flex flex-col items-center justify-center gap-2 bg-white/5 hover:bg-[#D4AF37] hover:text-[#0C2340] border border-white/20 hover:border-[#D4AF37] rounded-[2px] py-4 sm:py-5 px-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-10px_rgba(212,175,55,0.5)]"
                       >
                         <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-[#D4AF37] group-hover:text-[#0C2340] transition-colors" />
                         <span className="text-xs sm:text-sm font-semibold tracking-wide">{label}</span>
@@ -537,7 +537,7 @@ export default function AvaliacaoPublica() {
             </div>
             <div ref={personaReveal.ref} className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
               {PERSONAS.map((persona, index) => (
-                <div key={index} className={`group relative bg-white/8 backdrop-blur-md rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/60 hover:bg-white/15 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transition-all duration-500 text-left ${personaReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: `${index * 200}ms` }}>
+                <div key={index} className={`group relative bg-white/8 backdrop-blur-md rounded-[2px] sm:rounded-[2px] p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/60 hover:bg-white/15 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transition-all duration-500 text-left ${personaReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: `${index * 200}ms` }}>
                   {/* Glow circle behind icon */}
                   <div className="relative mb-4 w-16 h-16 flex items-center justify-center">
                     <div className="absolute inset-0 rounded-full bg-[#D4AF37]/0 group-hover:bg-[#D4AF37]/20 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all duration-500" />
@@ -569,7 +569,7 @@ export default function AvaliacaoPublica() {
 
             <div ref={serviceReveal.ref} className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
               {/* Card 1 */}
-              <div className={`group relative bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              <div className={`group relative bg-white/10 backdrop-blur-sm rounded-[2px] sm:rounded-[2px] p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                 <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-white/[0.06] group-hover:text-white/[0.12] transition-all duration-500 select-none leading-none">01</span>
                 <Shield className="h-8 w-8 text-[#D4AF37] mb-4 group-hover:scale-110 transition-transform duration-300" />
                 <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-left">Parecer Godoy Prime</h4>
@@ -580,7 +580,7 @@ export default function AvaliacaoPublica() {
               </div>
 
               {/* Card 2 — Compra Blindada */}
-              <div className={`group relative bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '200ms' }}>
+              <div className={`group relative bg-white/10 backdrop-blur-sm rounded-[2px] sm:rounded-[2px] p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '200ms' }}>
                 <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-white/[0.06] group-hover:text-white/[0.12] transition-all duration-500 select-none leading-none">02</span>
                 <Lock className="h-8 w-8 text-[#D4AF37] mb-4 group-hover:scale-110 transition-transform duration-300" />
                 <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-left">Compra Blindada</h4>
@@ -590,7 +590,7 @@ export default function AvaliacaoPublica() {
               </div>
 
               {/* Card 3 — Prime Buyer Experience — Highlighted */}
-              <div className={`group relative bg-[#D4AF37]/15 backdrop-blur-sm rounded-xl sm:rounded-2xl pt-9 sm:pt-10 px-6 sm:px-8 pb-6 sm:pb-8 border-2 border-[#D4AF37]/50 hover:-translate-y-2 hover:shadow-[0_12px_40px_-8px_rgba(212,175,55,0.2)] transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '400ms' }}>
+              <div className={`group relative bg-[#D4AF37]/15 backdrop-blur-sm rounded-[2px] sm:rounded-[2px] pt-9 sm:pt-10 px-6 sm:px-8 pb-6 sm:pb-8 border-2 border-[#D4AF37]/50 hover:-translate-y-2 hover:shadow-[0_12px_40px_-8px_rgba(212,175,55,0.2)] transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '400ms' }}>
                 <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-[#D4AF37]/[0.1] group-hover:text-[#D4AF37]/[0.2] transition-all duration-500 select-none leading-none">03</span>
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#D4AF37] text-[#0C2340] text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-b-full shadow-md whitespace-nowrap">
                   Mais Completo
@@ -663,14 +663,14 @@ export default function AvaliacaoPublica() {
               ] as const).map(({ key, label, icon: Icon, color, iconColor }) => (
                 <div key={key}>
                   <div className="flex items-center gap-2 mb-4">
-                    <div className={`w-8 h-8 rounded-lg ${color} flex items-center justify-center`}>
+                    <div className={`w-8 h-8 rounded-[2px] ${color} flex items-center justify-center`}>
                       <Icon className={`h-4 w-4 ${iconColor}`} />
                     </div>
                     <h4 className="font-bold text-lg text-[#0C2340]">{label}</h4>
                   </div>
                   <Accordion type="single" collapsible className="space-y-2">
                     {FAQ_DATA.filter((f) => f.category === key).map((faq, index) => (
-                      <AccordionItem key={`${key}-${index}`} value={`${key}-${index}`} className="bg-white rounded-xl border border-gray-100 px-4 hover:border-[#D4AF37]/20 hover:shadow-sm transition-all duration-300 data-[state=open]:bg-[#D4AF37]/5 data-[state=open]:border-[#D4AF37]/30">
+                      <AccordionItem key={`${key}-${index}`} value={`${key}-${index}`} className="bg-white rounded-[2px] border border-gray-100 px-4 hover:border-[#D4AF37]/20 hover:shadow-sm transition-all duration-300 data-[state=open]:bg-[#D4AF37]/5 data-[state=open]:border-[#D4AF37]/30">
                         <AccordionTrigger className="hover:no-underline py-4">
                           <span className="text-left font-medium text-[#0C2340]">{faq.question}</span>
                         </AccordionTrigger>
