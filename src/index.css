@@ -114,6 +114,22 @@ All colors MUST be HSL.
   }
 }
 
+/* Brand signature: near-square corners. Override large radii and pills,
+ * except on circular avatars/icons that need a perfect circle. */
+@layer utilities {
+  .rounded-xl,
+  .rounded-2xl,
+  .rounded-3xl {
+    border-radius: var(--radius) !important;
+  }
+  /* Pill buttons → square. Keep rounded-full on square elements (avatars, icon dots). */
+  button.rounded-full,
+  a.rounded-full,
+  [role="button"].rounded-full {
+    border-radius: var(--radius) !important;
+  }
+}
+
 /* Map marker pulse animation */
 @keyframes pulse-ring {
   0% {
