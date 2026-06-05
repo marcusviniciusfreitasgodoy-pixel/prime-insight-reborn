@@ -255,7 +255,7 @@ export default function AvaliacaoPublica() {
                   </div>
                   <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 mt-5 text-[11px] sm:text-xs text-white/70">
                     <span className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-[#D4AF37]" />Menos de 2 minutos</span>
-                    <span className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-[#D4AF37]" />100% gratuito</span>
+                    <span className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-[#D4AF37]" /><span className="font-mono font-medium tracking-tight">100%</span> gratuito</span>
                     <span className="flex items-center gap-1.5"><CheckCircle className="h-3.5 w-3.5 text-[#D4AF37]" />Sem cadastro inicial</span>
                   </div>
                 </div>
@@ -440,14 +440,14 @@ export default function AvaliacaoPublica() {
         <section className="py-10 sm:py-12 md:py-14 px-4 bg-gradient-to-br from-[#D4AF37] to-[#c9a432]">
           <div className="container mx-auto max-w-3xl text-center px-2">
             <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Pronto para Descobrir o Valor do seu Imóvel?</h3>
-            <p className="text-[#0C2340]/80 text-sm sm:text-lg mb-8 sm:mb-10">Comece agora – leva apenas 30 segundos.</p>
+            <p className="text-[#0C2340]/80 text-sm sm:text-lg mb-8 sm:mb-10">Comece agora – leva apenas <span className="font-mono font-medium tracking-tight">30</span> segundos.</p>
             <Button onClick={() => goToWizard()} size="lg" className="bg-[#0C2340] hover:bg-[#0a1d33] text-white tracking-widest uppercase text-xs font-semibold px-10 py-4 rounded-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto max-w-xs sm:max-w-none">
               <span className="truncate">Quero saber o valor do meu imóvel</span>
               <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
             </Button>
             {weeklySlots >= 2 ? (
               <p className="text-[#0C2340] font-semibold text-sm sm:text-base mt-6 animate-pulse">
-                ⚡ Esta semana: <span className="text-lg font-bold">{weeklySlots}</span> avaliações gratuitas disponíveis
+                ⚡ Esta semana: <span className="text-lg font-mono font-medium tracking-tight">{weeklySlots}</span> avaliações gratuitas disponíveis
               </p>
             ) : (
               <p className="text-[#0C2340] font-semibold text-sm sm:text-base mt-6 animate-pulse">
@@ -455,7 +455,7 @@ export default function AvaliacaoPublica() {
               </p>
             )}
             <p className="text-[#0C2340]/60 text-xs sm:text-sm mt-3">
-              Resultado em 30 segundos • Sem compromisso • Dados 100% seguros
+              Resultado em <span className="font-mono font-medium tracking-tight">30</span> segundos • Sem compromisso • Dados <span className="font-mono font-medium tracking-tight">100%</span> seguros
             </p>
           </div>
         </section>
