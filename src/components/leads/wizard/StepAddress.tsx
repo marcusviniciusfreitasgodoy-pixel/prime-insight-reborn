@@ -80,7 +80,7 @@ export function StepAddress({ tipologia, bairro, logradouro, numero, onChange, o
         </div>
       </div>
 
-      <div className="space-y-2" ref={wrapperRef}>
+      <div className="space-y-2">
         <Label htmlFor="bairro" className="text-sm font-medium text-[#0C2340]">
           Bairro
         </Label>
@@ -107,7 +107,7 @@ export function StepAddress({ tipologia, bairro, logradouro, numero, onChange, o
         )}
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-2" ref={wrapperRef}>
         <Label htmlFor="logradouro" className="text-sm font-medium text-[#0C2340]">
           Rua / Avenida
         </Label>
