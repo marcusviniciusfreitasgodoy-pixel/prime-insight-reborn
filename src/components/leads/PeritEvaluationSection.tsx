@@ -369,7 +369,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
         <div className="text-center space-y-3 sm:space-y-4">
           <p className="text-white/80 text-xs sm:text-sm">
             <strong className="text-[#D4AF37]">A Diferença Matemática:</strong> Compradores que usam Personal Shopper Imobiliário 
-            economizam em média 8-15% no valor final, economizam tempo e evitam surpresas futuras.
+            economizam em média <span className="font-mono font-medium tracking-tight">8-15%</span> no valor final, economizam tempo e evitam surpresas futuras.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center items-stretch sm:items-center">
