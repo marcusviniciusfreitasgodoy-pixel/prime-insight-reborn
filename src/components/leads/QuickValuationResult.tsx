@@ -393,6 +393,56 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
               </p>
             </div>
 
+            {/* Ficha do Laudo — campos do exemplo do laudo (hero) */}
+            <div className="rounded-[2px] border border-[#0C2340]/15 bg-[#FAFAF8] p-3 sm:p-4 space-y-3">
+              <h4 className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#0C2340]">
+                Ficha do laudo
+              </h4>
+
+              {/* Barra de confiança da estimativa */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-[11px] sm:text-xs text-[#0C2340]/80">
+                  <span>Confiança da estimativa</span>
+                  <span className="font-mono text-[#0C2340]">
+                    {Math.max(10, Math.min(95, Math.round(100 - spreadPercent * 2)))}%
+                  </span>
+                </div>
+                <div className="h-1 w-full bg-[#0C2340]/10 rounded-[2px] overflow-hidden">
+                  <div
+                    className="h-full bg-[#C4993A] rounded-[2px]"
+                    style={{
+                      width: `${Math.max(10, Math.min(95, Math.round(100 - spreadPercent * 2)))}%`,
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="divide-y divide-[#0C2340]/10 text-[12px] sm:text-sm">
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-[#0C2340]/80">Faixa provável</span>
+                  <span className="font-mono text-[#0C2340]">
+                    {formatCurrency(data.estimativa!.min, true)} – {formatCurrency(data.estimativa!.max, true)}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-[#0C2340]/80">Preço por m² (provável)</span>
+                  <span className="font-mono text-[#0C2340]">
+                    {formatCurrency(data.itbiData!.med_m2)}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-[#0C2340]/80">Margem de negociação</span>
+                  <span className="font-mono text-[#0C2340]">
+                    ~{Math.round(spreadPercent)}%
+                  </span>
+                </div>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-[#0C2340]/80">Base ABNT NBR 14.653</span>
+                  <span className="font-mono text-[#0C2340]">Sim</span>
+                </div>
+              </div>
+            </div>
+
             {/* Aviso: estimativa por rua, não por condomínio */}
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 flex items-start gap-2">
               <Info className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
