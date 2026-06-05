@@ -433,34 +433,46 @@ export default function AvaliacaoPublica() {
           </div>
         </section>
 
-        {/* ============ WAVE DIVIDER (dark to gold) ============ */}
-        <div className="relative h-16 sm:h-20 bg-[#0C2340]">
-          <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1440 80" preserveAspectRatio="none">
-            <path d="M0,20 C480,80 960,0 1440,40 L1440,80 L0,80 Z" fill="#D4AF37" />
-          </svg>
-        </div>
-
         {/* ============ CTA ============ */}
-        <section className="py-10 sm:py-12 md:py-14 px-4 bg-gradient-to-br from-[#D4AF37] to-[#c9a432]">
-          <div className="container mx-auto max-w-3xl text-center px-2">
-            <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight">Pronto para Descobrir o Valor do seu Imóvel?</h3>
-            <p className="text-[#0C2340]/80 text-sm sm:text-lg mb-8 sm:mb-10">Comece agora – leva apenas <span className="font-mono font-medium tracking-tight">30</span> segundos.</p>
-            <Button onClick={() => goToWizard()} size="lg" className="bg-[#0C2340] hover:bg-[#0a1d33] text-white tracking-widest uppercase text-xs font-semibold px-10 py-4 rounded-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto max-w-xs sm:max-w-none">
-              <span className="truncate">Quero saber o valor do meu imóvel</span>
+        <section className="relative overflow-hidden bg-[#071829] py-14 sm:py-20 md:py-24 px-4">
+          {/* Subtle gold glow accent */}
+          <div
+            className="pointer-events-none absolute -top-32 -right-32 w-[480px] h-[480px] opacity-[0.18]"
+            style={{ background: 'radial-gradient(circle, #C4993A 0%, transparent 60%)' }}
+          />
+          <div className="container mx-auto max-w-3xl relative z-10">
+            <p className="font-mono text-[11px] sm:text-xs font-medium tracking-[0.25em] uppercase text-[#C4993A] mb-5">
+              — Avaliação gratuita
+            </p>
+            <h3 className="font-serif text-2xl sm:text-3xl md:text-5xl font-bold text-white leading-[1.1] mb-5 max-w-2xl">
+              Pronto para descobrir o valor do seu imóvel?
+            </h3>
+            <p className="font-mono text-sm sm:text-base text-[#CCC4B8] mb-9 max-w-xl">
+              Comece agora — leva apenas <span className="text-white">30</span> segundos.
+            </p>
+            <Button
+              onClick={() => goToWizard()}
+              size="lg"
+              style={{ borderRadius: '2px' }}
+              className="bg-[#C4993A] hover:bg-[#9E7B2A] text-[#071829] tracking-[0.18em] uppercase text-xs font-semibold px-8 py-4 h-auto transition-colors duration-300 w-full sm:w-auto"
+            >
+              <span>Quero saber o valor do meu imóvel</span>
               <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
             </Button>
-            {weeklySlots >= 2 ? (
-              <p className="text-[#0C2340] font-semibold text-sm sm:text-base mt-6 animate-pulse">
-                ⚡ Esta semana: <span className="text-lg font-mono font-medium tracking-tight">{weeklySlots}</span> avaliações gratuitas disponíveis
+            <div className="mt-8 pt-6 border-t border-white/10 space-y-2">
+              {weeklySlots >= 2 ? (
+                <p className="font-mono text-xs sm:text-sm text-[#CCC4B8]">
+                  Esta semana: <span className="text-white">{weeklySlots}</span> avaliações gratuitas disponíveis
+                </p>
+              ) : (
+                <p className="font-mono text-xs sm:text-sm text-[#CCC4B8]">
+                  Últimas vagas desta semana — garanta sua análise agora
+                </p>
+              )}
+              <p className="font-mono text-[11px] sm:text-xs text-[#8C8278]">
+                Resultado em <span className="text-[#CCC4B8]">30</span> segundos · Sem compromisso · Dados <span className="text-[#CCC4B8]">100%</span> seguros
               </p>
-            ) : (
-              <p className="text-[#0C2340] font-semibold text-sm sm:text-base mt-6 animate-pulse">
-                🔥 Últimas vagas desta semana — garanta sua análise agora
-              </p>
-            )}
-            <p className="text-[#0C2340]/60 text-xs sm:text-sm mt-3">
-              Resultado em <span className="font-mono font-medium tracking-tight">30</span> segundos • Sem compromisso • Dados <span className="font-mono font-medium tracking-tight">100%</span> seguros
-            </p>
+            </div>
           </div>
         </section>
 
