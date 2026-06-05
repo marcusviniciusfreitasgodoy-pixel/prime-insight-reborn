@@ -19,6 +19,7 @@ import { StepResultCapture, EstimativaState } from "./StepResultCapture";
 import { AnalyzingLoader } from "./AnalyzingLoader";
 import { LimitExceededScreen } from "../LimitExceededScreen";
 import type { QuickValuationData } from "../QuickValuationForm";
+import { normalizeBairro } from "@/utils/bairrosRio";
 
 const QuickValuationResult = lazy(() =>
   import("../QuickValuationResult").then((m) => ({ default: m.QuickValuationResult })),
@@ -26,13 +27,13 @@ const QuickValuationResult = lazy(() =>
 
 const MAX_FREE_EVALUATIONS = 2;
 const STORAGE_KEY = "wizard_state_v1";
-const BAIRRO = "BARRA DA TIJUCA";
 
 type WizardStep = "intention" | "address" | "property" | "details" | "analyzing" | "result" | "thanks";
 export type Intention = "vender" | "comprar";
 
 interface FormData {
   tipologia: string;
+  bairro: string;
   logradouro: string;
   numero: string;
   area: string;
@@ -42,6 +43,7 @@ interface FormData {
 
 const initialForm: FormData = {
   tipologia: "Apartamento",
+  bairro: "",
   logradouro: "",
   numero: "",
   area: "",
@@ -151,9 +153,10 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
     setStep("analyzing");
     const start = Date.now();
     const areaNum = parseFloat(form.area);
+    const bairroNorm = normalizeBairro(form.bairro) || "BARRA DA TIJUCA";
     try {
       const { data: statsData, error } = await supabase.rpc("get_itbi_stats_filtered", {
-        p_bairro: BAIRRO,
+        p_bairro: bairroNorm,
         p_logradouro: form.logradouro.trim() || null,
         p_uso: "Residencial",
       });
@@ -206,6 +209,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
     if (!estimativa) return;
     setIsSubmitting(true);
     const areaNum = parseFloat(form.area);
+    const bairroNorm = normalizeBairro(form.bairro) || "BARRA DA TIJUCA";
     const { itbiData, estimativa: est } = estimativa;
     const finalOrigem = data.googleVerified ? `${origem}_google` : origem;
 
@@ -243,7 +247,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
           p_email: data.email,
           p_nome: data.nome,
           p_telefone: data.telefone,
-          p_bairro_interesse: BAIRRO,
+          p_bairro_interesse: bairroNorm,
           p_area_interesse: areaNum,
           p_quartos: form.quartos || null,
           p_banheiros: form.details.banheiros || null,
@@ -259,7 +263,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
           nome: data.nome,
           email: data.email,
           telefone: data.telefone,
-          bairro_interesse: BAIRRO,
+          bairro_interesse: bairroNorm,
           area_interesse: areaNum,
           quartos: form.quartos || null,
           banheiros: form.details.banheiros || null,
@@ -286,8 +290,8 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
         await supabase.from("valuations").insert({
           user_id: null,
           origin: "public",
-          logradouro: form.logradouro.trim() || BAIRRO,
-          bairro: BAIRRO,
+          logradouro: form.logradouro.trim() || bairroNorm,
+          bairro: bairroNorm,
           property_area_m2: areaNum,
           property_type: form.tipologia.toLowerCase(),
           itbi_min_m2: itbiData.min_m2,
@@ -327,7 +331,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
             leadEmail: data.email,
             leadPhone: data.telefone,
             interesse: "compra",
-            bairro: BAIRRO,
+            bairro: bairroNorm,
             area: areaNum,
             tipologia: form.tipologia,
             quartos: form.quartos,
@@ -363,7 +367,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
         nome: data.nome,
         email: data.email,
         telefone: data.telefone,
-        bairro: BAIRRO,
+        bairro: bairroNorm,
         logradouro: form.logradouro.trim() || null,
         numero: form.numero || null,
         area_m2: areaNum,
@@ -407,7 +411,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
       sessionStorage.removeItem(STORAGE_KEY);
 
       setFinalData({
-        bairro: BAIRRO,
+        bairro: bairroNorm,
         logradouro: form.logradouro.trim(),
         area_m2: areaNum,
         tipologia: form.tipologia,
@@ -535,6 +539,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
         {step === "address" && (
           <StepAddress
             tipologia={form.tipologia}
+            bairro={form.bairro}
             logradouro={form.logradouro}
             numero={form.numero}
             onChange={(p) => setForm((f) => ({ ...f, ...p }))}
@@ -574,7 +579,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
             onSubmit={handleCaptureSubmit}
             onBeforeGoogleRedirect={persistForGoogle}
             onBack={() => setStep("details")}
-            bairro={BAIRRO}
+            bairro={normalizeBairro(form.bairro) || "BARRA DA TIJUCA"}
             tipologia={form.tipologia}
             area={parseFloat(form.area) || undefined}
           />
