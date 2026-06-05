@@ -300,6 +300,67 @@ export default function AvaliacaoPublica() {
                 </div>
               </div>
 
+              {/* Prévia ilustrativa do laudo */}
+              <div className="max-w-2xl mx-auto pt-4 animate-fade-in [animation-delay:550ms]">
+                <div className="bg-[#FAFAF8] border border-[#0C2340]/15 rounded-[2px] overflow-hidden text-left shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)]">
+                  {/* Topo */}
+                  <div className="bg-[#0C2340] px-5 py-3 flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <img src={godoyLogo} alt="" width={24} height={24} className="h-6 w-auto" />
+                      <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-white/85">
+                        Parecer de valor · Exemplo
+                      </span>
+                    </div>
+                    <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.14em] text-[#C4993A]/90 border border-[#C4993A]/40 px-2 py-0.5 rounded-[2px]">
+                      Exemplo de avaliação
+                    </span>
+                  </div>
+
+                  <div className="p-5 sm:p-6 space-y-5">
+                    <div>
+                      <p className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.16em] text-[#4A443C] mb-1.5">
+                        Valor estimado de transação
+                      </p>
+                      <p className="font-mono font-medium text-3xl sm:text-4xl tracking-tight text-[#0C2340]">
+                        R$ 1.310.000
+                      </p>
+                    </div>
+
+                    <div>
+                      <div className="flex items-baseline justify-between mb-2">
+                        <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-[#4A443C]">
+                          Faixa provável
+                        </span>
+                        <span className="font-mono text-[11px] sm:text-xs text-[#0C2340]">
+                          R$ 1,24M – R$ 1,38M
+                        </span>
+                      </div>
+                      <div className="h-1 w-full bg-[#0C2340]/10 rounded-[2px] overflow-hidden">
+                        <div className="h-full bg-[#C4993A]" style={{ width: "60%" }} />
+                      </div>
+                    </div>
+
+                    <div className="divide-y divide-[#0C2340]/10 border-t border-b border-[#0C2340]/10">
+                      {[
+                        ["Anúncio médio na região", "R$ 1.580.000"],
+                        ["Preço por m²", "R$ 13.230"],
+                        ["Margem de negociação", "~12%"],
+                        ["Base ABNT NBR 14.653", "Sim"],
+                      ].map(([label, value]) => (
+                        <div key={label} className="flex items-center justify-between py-2.5">
+                          <span className="text-xs sm:text-sm text-[#4A443C]">{label}</span>
+                          <span className="font-mono text-xs sm:text-sm text-[#0C2340]">{value}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8C8278]">
+                      Exemplo ilustrativo · não representa um resultado real
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-8 pt-6 sm:pt-8 border-t border-white/10 mt-6 sm:mt-8 animate-fade-in [animation-delay:600ms]">
                 {HERO_STATS.map((stat, index) => (
                   <div key={index} className="text-center hover:scale-105 transition-transform duration-300 cursor-default">
