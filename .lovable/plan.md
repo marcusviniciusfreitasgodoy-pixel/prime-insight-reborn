@@ -1,48 +1,46 @@
-# Plano: Hero enxuta + remoção do formulário inline
+## Objetivo
 
-Escopo restrito: apenas a **hero** e a **remoção da seção de formulário** em `src/pages/AvaliacaoPublica.tsx`. Todas as demais seções (Problema, Solução, Personas, Pós-avaliação, FAQ, Footer, etc.) permanecem **intactas**.
+Permitir que o usuário avalie imóveis em qualquer bairro do Rio de Janeiro, removendo a trava atual em "BARRA DA TIJUCA" no fluxo `/avaliacao-publica` e `/avaliacao-direta`.
 
-## 1. Nova Hero (inspirada na calculadora do Quinto Andar)
+## O que está travado hoje
 
-Estilo premium clássico alinhado à marca (Navy `#0C2340` + Gold `#C9A84C`):
+1. `src/components/leads/wizard/ValuationWizard.tsx` define `const BAIRRO = "BARRA DA TIJUCA"` e passa esse valor fixo para todas as etapas e para a gravação do lead.
+2. `src/components/leads/wizard/StepAddress.tsx` não tem campo de bairro, o label do input diz "Rua / Avenida (Barra da Tijuca)" e chama `useStreetSuggestions(logradouro, "BARRA DA TIJUCA")`.
+3. `src/hooks/useStreetSuggestions.ts` aceita bairro como parâmetro mas usa `BARRA DA TIJUCA` como default.
 
-- Fundo navy com foto da Barra com overlay escuro (manter asset atual).
-- **Headline:** "Saiba quanto vale seu imóvel com dados oficiais de transações reais" (com "dados oficiais" em gold).
-- **Subcopy:** "Avaliação gratuita em 4 passos. Sem cadastro até ver o resultado."
-- **Trust badge** acima do headline: "+80.000 transações oficiais analisadas".
-- **Card central de entrada** (substitui o form longo) com:
-  - 3 botões grandes de tipo de imóvel: **Apartamento / Casa / Cobertura** (com ícones Lucide).
-  - Cada botão navega para `/avaliacao-direta?tipo=apartamento|casa|cobertura`.
-  - Microcopy abaixo: "Resultado em menos de 2 minutos. 100% gratuito."
-- **Stats compactos** (`HERO_STATS`) em linha logo abaixo do card.
-- Botão "Consultar Valor" do header continua → `/avaliacao-direta`.
+Resultado: digitar "Atlântica" (Copacabana) ou "Delfim Moreira" (Leblon) retorna sempre "Nenhum resultado", como visto na sessão.
 
-## 2. Remoção do formulário inline
+## Mudanças
 
-Remover da página principal (aprox. linhas 347–374) e suas dependências locais não usadas em outras seções:
+### 1. `StepAddress.tsx` — adicionar campo de bairro
+- Inserir um novo campo "Bairro" antes do campo de rua, com autocomplete simples (input livre + sugestões via uma nova RPC ou lista estática dos bairros do Rio).
+- Atualizar o label do campo de rua para "Rua / Avenida" (sem "Barra da Tijuca").
+- Passar o bairro digitado para `useStreetSuggestions(logradouro, bairro)`.
+- Validar: avançar só com bairro preenchido (≥3 chars) e rua preenchida.
+- Quando a busca de rua não retornar nada na base ITBI, o fallback já existente para a API da Prefeitura do Rio (`search-logradouros-prefeitura`) cobre os demais bairros automaticamente.
 
-- Componentes: `QuickValuationForm`, `QuickValuationResult`, `LoadingScreen`.
-- Estado: `step`, `valuationData`, `formRef`, `resultRef`.
-- Handlers: `handleQuickValuationComplete`, `handleNewValuation`, `scrollToForm`.
-- Imports não utilizados: `Search`, `BarChart`, `Sparkles`, `Calculator` (manter os usados em outras seções).
-- Manter `weeklySlots` (usado em CTAs das outras seções).
+### 2. `ValuationWizard.tsx` — bairro dinâmico
+- Remover a constante `BAIRRO = "BARRA DA TIJUCA"`.
+- Adicionar `bairro: string` ao `FormData` (default vazio).
+- Passar `form.bairro` para `StepAddress` e para a função `runEstimate` (que chama `get_itbi_stats_filtered`) e para o registro do lead (`bairro_interesse`).
 
-## 3. CTAs do restante da página
+### 3. Aviso de cobertura de dados
+- Abaixo do seletor de bairro, mostrar uma nota discreta em warm-gray quando o bairro não for da Zona Oeste cobre forte (Barra, Recreio, Jacarepaguá, Joá, Itanhangá, Camorim): "Estimativa indicativa: nossa base é mais densa na Zona Oeste do Rio. Para outros bairros, recomendamos um Parecer Técnico."
+- Estilo segue o padrão da marca (Lato, sem vermelho, raio 2px, sem ícone de alerta colorido).
 
-Todos os botões que hoje chamam `scrollToForm()` passam a navegar para `/avaliacao-direta` (com `?persona=...` quando aplicável, apenas para analytics). **Nenhuma seção é editada além da troca do handler do botão.**
-
-## 4. Pré-seleção no Wizard
-
-`src/components/valuation/ValuationWizard.tsx`: ler `?tipo=...` na montagem e pré-selecionar o tipo no Step 1. `?persona=...` apenas dispara evento de analytics.
-
-## Arquivos afetados
-
-- `src/pages/AvaliacaoPublica.tsx` — hero reescrita, form removido, CTAs apontando para `/avaliacao-direta`.
-- `src/components/valuation/ValuationWizard.tsx` — leitura de `?tipo` para pré-seleção.
+### 4. Não alterar
+- Backend RPC `get_itbi_stats_filtered` já aceita qualquer bairro, não precisa migração.
+- Página `/avaliacao-imobiliaria` (laudo profissional) permanece com Barra como default, fora do escopo.
+- Mapa, dashboards admin e histórico continuam focados em Barra (são módulos internos).
 
 ## Detalhes técnicos
 
-- Navegação via `useNavigate()` do react-router (já em uso no arquivo).
-- Tokens semânticos do design system (`bg-primary`, `text-gold`, etc.) — sem cores hardcoded.
-- Tracking Meta Pixel mantido: disparar `Lead` / evento custom no clique dos botões de tipo na hero.
-- Sem alterações de schema, RLS ou edge functions.
+- Lista de bairros do Rio: criar um array estático em `src/utils/bairrosRio.ts` (~165 bairros oficiais) usado para autocomplete do campo bairro. Alternativa: chamar a Prefeitura via edge function existente; mantém-se simples com lista estática.
+- Validação no submit: normalizar `bairro` para uppercase trim antes de salvar (igual ao formato `itbi_transactions.bairro`).
+- Persistência localStorage `wizard_state_v1` ganha o campo `bairro` (compatível com estados antigos: default vazio).
+
+## Fora do escopo
+
+- Reescrever copy institucional ("foco Barra da Tijuca").
+- Ampliar base ITBI para outros bairros.
+- Mudanças visuais além da inserção do novo campo.
