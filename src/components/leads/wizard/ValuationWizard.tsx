@@ -577,7 +577,6 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
             googleVerified={!!googleData}
             isSubmitting={isSubmitting}
             onSubmit={handleCaptureSubmit}
-            onBeforeGoogleRedirect={persistForGoogle}
             onBack={() => setStep("details")}
             bairro={normalizeBairro(form.bairro) || "BARRA DA TIJUCA"}
             tipologia={form.tipologia}
