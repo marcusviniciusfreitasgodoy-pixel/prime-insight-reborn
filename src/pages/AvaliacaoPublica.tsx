@@ -361,9 +361,9 @@ export default function AvaliacaoPublica() {
             </div>
             <div ref={personaReveal.ref} className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
               {PERSONAS.map((persona, index) => (
-                <div key={index} className={`group relative bg-white/8 backdrop-blur-md rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/60 hover:bg-white/15 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transition-all duration-500 text-center ${personaReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: `${index * 200}ms` }}>
+                <div key={index} className={`group relative bg-white/8 backdrop-blur-md rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/60 hover:bg-white/15 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transition-all duration-500 text-left ${personaReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: `${index * 200}ms` }}>
                   {/* Glow circle behind icon */}
-                  <div className="relative mx-auto mb-4 w-16 h-16 flex items-center justify-center">
+                  <div className="relative mb-4 w-16 h-16 flex items-center justify-center">
                     <div className="absolute inset-0 rounded-full bg-[#D4AF37]/0 group-hover:bg-[#D4AF37]/20 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all duration-500" />
                     <persona.icon className="relative h-8 w-8 text-[#D4AF37] group-hover:scale-110 transition-transform duration-300" />
                   </div>
