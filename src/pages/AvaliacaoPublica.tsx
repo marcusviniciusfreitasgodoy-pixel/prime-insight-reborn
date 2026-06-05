@@ -43,6 +43,7 @@ import {
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import godoyLogo from "@/assets/godoy-logo-symbol.png";
 import heroBackground from "@/assets/hero-barra-luxury.jpg";
+import luxuryBleed from "@/assets/luxury-interior-bleed.jpg";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const HERO_STATS = [
