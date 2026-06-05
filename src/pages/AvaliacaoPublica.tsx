@@ -43,6 +43,7 @@ import {
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import godoyLogo from "@/assets/godoy-logo-symbol.png";
 import heroBackground from "@/assets/hero-barra-luxury.jpg";
+import luxuryBleed from "@/assets/luxury-interior-bleed.jpg";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const HERO_STATS = [
@@ -465,49 +466,66 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ SOLUTION ============ */}
-        <section className="relative py-10 sm:py-12 md:py-14 px-4 bg-[#D4AF37]/[0.04] overflow-hidden">
-          {/* Decorative SVG elements */}
-          <div className="absolute top-20 -left-16 w-48 h-48 rounded-full border border-[#D4AF37]/15 opacity-50" />
-          <div className="absolute bottom-10 -right-20 w-72 h-72 rounded-full border border-[#D4AF37]/10 opacity-30" />
-          <div className="container mx-auto max-w-5xl relative z-10">
-            <div className="text-center mb-8 sm:mb-10">
-              <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
-              <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">A Solução Que Muda Tudo</h3>
-              <p className="text-left text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">Avaliação imparcial baseada em dados de transações reais e não em plataformas que privilegiam Vendedores, achismos ou opiniões de vizinhos</p>
-            </div>
-            <div ref={solutionReveal.ref} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-              {SOLUTIONS.map((solution, index) => (
-                <div key={index} className={`group bg-white/80 rounded-xl sm:rounded-2xl overflow-hidden border border-gray-100/60 hover:-translate-y-2 hover:shadow-[0_12px_40px_-10px_rgba(212,175,55,0.25)] transition-all duration-500 ${solutionReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: `${index * 150}ms` }}>
-                  {/* Gold ribbon header */}
-                  <div className="bg-gradient-to-r from-[#D4AF37]/20 via-[#D4AF37]/10 to-[#D4AF37]/20 py-4 flex justify-center group-hover:from-[#D4AF37]/30 group-hover:via-[#D4AF37]/20 group-hover:to-[#D4AF37]/30 transition-all duration-400">
-                    <div className="w-12 h-12 rounded-full bg-white shadow-md flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-shadow duration-400">
-                      <solution.icon className="h-6 w-6 text-[#D4AF37] group-hover:scale-110 transition-transform duration-300" />
+        <section className="py-12 sm:py-14 md:py-16 px-4 bg-[#D4AF37]/[0.04]">
+          <div className="container mx-auto max-w-6xl">
+            <div ref={solutionReveal.ref} className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 items-start">
+              {/* Coluna esquerda — texto */}
+              <div className="md:col-span-5">
+                <p className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#C4993A] mb-4">
+                  ✦ A Solução
+                </p>
+                <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-[#0C2340] leading-tight mb-5">
+                  A Solução Que Muda Tudo
+                </h3>
+                <p className="text-sm sm:text-base text-[#4A443C] leading-relaxed mb-6">
+                  Avaliação imparcial baseada em dados de transações reais — e não em plataformas que privilegiam vendedores, achismos ou opiniões de vizinhos.
+                </p>
+                <button
+                  onClick={scrollToSelector}
+                  className="font-mono text-xs sm:text-sm uppercase tracking-[0.18em] text-[#C4993A] hover:text-[#9E7B2A] transition-colors"
+                >
+                  Começar minha avaliação →
+                </button>
+              </div>
+
+              {/* Coluna direita — lista de pontos */}
+              <ul className="md:col-span-7 divide-y divide-[#0C2340]/10 border-t border-b border-[#0C2340]/10">
+                {SOLUTIONS.map((solution, index) => (
+                  <li
+                    key={index}
+                    className={`py-5 sm:py-6 flex gap-4 transition-all duration-500 ${
+                      solutionReveal.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                    }`}
+                    style={{ transitionDelay: `${index * 120}ms` }}
+                  >
+                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#C4993A] shrink-0" aria-hidden />
+                    <div>
+                      <h4 className="font-serif text-lg sm:text-xl font-bold text-[#0C2340] mb-1.5">
+                        {solution.title}
+                      </h4>
+                      <p className="text-sm text-[#4A443C] leading-relaxed mb-2">{solution.description}</p>
+                      <p className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.16em] text-[#8C8278]">
+                        {solution.highlight}
+                      </p>
                     </div>
-                  </div>
-                  <div className="p-6 sm:p-7">
-                    <h4 className="font-bold text-base sm:text-lg text-[#0C2340] mb-2 text-left">{solution.title}</h4>
-                    <p className="text-muted-foreground text-xs sm:text-sm mb-4 leading-relaxed">{solution.description}</p>
-                    <div className="inline-flex items-center gap-1.5 bg-[#D4AF37]/10 text-[#0C2340]/80 text-[11px] font-medium px-3 py-1.5 rounded-full">
-                      <CheckCircle className="h-3 w-3 text-[#D4AF37] flex-shrink-0" />
-                      {solution.highlight}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-8 text-center">
-              <button onClick={scrollToSelector} className="font-mono text-xs sm:text-sm uppercase tracking-[0.18em] text-[#C4993A] hover:text-[#9E7B2A] transition-colors">
-                Começar minha avaliação →
-              </button>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </section>
 
-        {/* ============ WAVE DIVIDER ============ */}
-        <div className="relative h-16 sm:h-20 bg-[#D4AF37]/[0.04]">
-          <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1440 80" preserveAspectRatio="none">
-            <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,40 L1440,80 L0,80 Z" fill="#0C2340" />
-          </svg>
+        {/* ============ FULL-BLEED LUXURY IMAGE ============ */}
+        <div className="relative w-full h-56 sm:h-72 md:h-96 overflow-hidden bg-[#0C2340]">
+          <img
+            src={luxuryBleed}
+            alt="Interior de imóvel de alto padrão na Barra da Tijuca"
+            loading="lazy"
+            width={1920}
+            height={1080}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0C2340]/10 via-transparent to-[#0C2340]/40" />
         </div>
 
         {/* ============ PARA QUEM ============ */}
