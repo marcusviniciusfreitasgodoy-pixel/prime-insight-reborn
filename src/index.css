@@ -128,6 +128,12 @@ All colors MUST be HSL.
   [role="button"].rounded-full {
     border-radius: var(--radius) !important;
   }
+  /* Kill diffuse colored shadows on buttons — brand uses borders, not glow. */
+  button,
+  a[role="button"],
+  [role="button"] {
+    box-shadow: none !important;
+  }
 }
 
 /* Map marker pulse animation */
