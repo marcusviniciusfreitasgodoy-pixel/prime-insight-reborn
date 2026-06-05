@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { RealCaseComparison } from "@/components/leads/RealCaseComparison";
-import marcusPhoto from "@/assets/marcus-godoy.png.asset.json";
+import marcusPhoto from "@/assets/marcus-godoy-portrait.jpg.asset.json";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
