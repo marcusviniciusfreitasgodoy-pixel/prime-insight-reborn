@@ -470,16 +470,15 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
 
   return (
     <Card className="border-[#0C2340]/10 shadow-xl bg-white" ref={topRef}>
-      <CardContent className="p-5 sm:p-7 space-y-5">
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-[11px] text-[#0C2340]/60">
-            <span>
-              Passo {stepIndex[step]} de 4
-            </span>
-            <span>{Math.round(progress)}%</span>
+      <CardContent className="p-0">
+        <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-[#0C2340]/10 px-5 sm:px-7 py-3 space-y-1.5">
+          <div className="flex items-center justify-between font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.16em] text-[#0C2340]/70">
+            <span>Passo {stepIndex[step]} de 4</span>
+            <span className="text-[#C9A84C]">{Math.round(progress)}%</span>
           </div>
-          <Progress value={progress} className="h-1.5 [&>div]:bg-[#C9A84C]" />
+          <Progress value={progress} className="h-1 [&>div]:bg-[#C9A84C]" />
         </div>
+        <div className="p-5 sm:p-7 space-y-5">
 
         {step === "intention" && (
           <div className="space-y-5 animate-in fade-in duration-200">
