@@ -579,7 +579,7 @@ export default function AvaliacaoPublica() {
                 </p>
               </div>
 
-              {/* Card 2 — Compra Blindada */}
+              {/* Card 2: Compra Blindada */}
               <div className={`group relative bg-white/10 backdrop-blur-sm rounded-[2px] sm:rounded-[2px] p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '200ms' }}>
                 <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-white/[0.06] group-hover:text-white/[0.12] transition-all duration-500 select-none leading-none">02</span>
                 <Lock className="h-8 w-8 text-[#D4AF37] mb-4 group-hover:scale-110 transition-transform duration-300" />
