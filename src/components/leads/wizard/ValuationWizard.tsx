@@ -579,6 +579,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
             area={parseFloat(form.area) || undefined}
           />
         )}
+        </div>
       </CardContent>
     </Card>
   );
