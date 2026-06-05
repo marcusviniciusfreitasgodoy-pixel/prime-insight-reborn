@@ -395,7 +395,7 @@ export default function AvaliacaoPublica() {
               {/* Card 1 */}
               <div className={`group relative bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                 <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-white/[0.06] group-hover:text-white/[0.12] transition-all duration-500 select-none leading-none">01</span>
-                <Shield className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <Shield className="h-8 w-8 text-[#D4AF37] mb-4 group-hover:scale-110 transition-transform duration-300" />
                 <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-left">Parecer Godoy Prime</h4>
                 <p className="text-white/60 text-xs sm:text-sm text-left leading-relaxed whitespace-pre-line">
                   Você já tem um imóvel em vista e quer saber se o preço é justo{"\n"}
@@ -406,7 +406,7 @@ export default function AvaliacaoPublica() {
               {/* Card 2 — Compra Blindada */}
               <div className={`group relative bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/15 hover:border-[#D4AF37]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-500 overflow-hidden ${serviceReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '200ms' }}>
                 <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-bold text-white/[0.06] group-hover:text-white/[0.12] transition-all duration-500 select-none leading-none">02</span>
-                <Lock className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <Lock className="h-8 w-8 text-[#D4AF37] mb-4 group-hover:scale-110 transition-transform duration-300" />
                 <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-left">Compra Blindada</h4>
                 <p className="text-white/60 text-xs sm:text-sm text-left leading-relaxed">
                   Proteção completa para quem já encontrou o imóvel. Inclui laudo técnico com vistoria presencial + condução integral da negociação + due diligence documental + acompanhamento até a assinatura do contrato. Tudo com um único especialista ao seu lado.
@@ -419,7 +419,7 @@ export default function AvaliacaoPublica() {
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#D4AF37] text-[#0C2340] text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-b-full shadow-md whitespace-nowrap">
                   Mais Completo
                 </div>
-                <Sparkles className="h-8 w-8 text-[#D4AF37] mx-auto mb-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500" />
+                <Sparkles className="h-8 w-8 text-[#D4AF37] mb-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500" />
                 <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-left">Prime Buyer Experience</h4>
                 <p className="text-white/60 text-xs sm:text-sm text-left leading-relaxed">
                   Representação completa durante todo o processo de compra: curadoria, análise técnica, negociação blindada e acompanhamento total do início ao fechamento.
