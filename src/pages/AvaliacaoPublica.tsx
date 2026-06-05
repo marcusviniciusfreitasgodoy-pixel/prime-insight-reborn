@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { RealCaseComparison } from "@/components/leads/RealCaseComparison";
 import marcusPhoto from "@/assets/marcus-godoy.png.asset.json";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -133,6 +133,23 @@ export default function AvaliacaoPublica() {
     navigate(`/avaliacao-direta${qs}`);
   };
 
+  const scrollToSelector = () => {
+    document.getElementById("seletor-topo")?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
+  const heroRef = useRef<HTMLElement | null>(null);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      { threshold: 0, rootMargin: "-80px 0px 0px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -187,8 +204,29 @@ export default function AvaliacaoPublica() {
       </Helmet>
 
       <main className="min-h-screen bg-background">
+        {/* ============ STICKY CTA BAR ============ */}
+        <div
+          className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+            showStickyBar ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
+          }`}
+        >
+          <div className="bg-[#071829]/90 backdrop-blur-md border-b border-white/10">
+            <div className="container mx-auto px-4 py-2.5 flex items-center justify-between gap-3">
+              <span className="text-white/90 text-xs sm:text-sm font-medium truncate">
+                Saber o valor do meu imóvel
+              </span>
+              <button
+                onClick={scrollToSelector}
+                className="shrink-0 bg-[#C4993A] hover:bg-[#9E7B2A] text-[#0C2340] font-mono font-medium uppercase tracking-[0.18em] text-[11px] sm:text-xs px-3 sm:px-4 py-1.5 rounded-[2px] transition-colors"
+              >
+                Começar →
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* ============ HERO ============ */}
-        <section className="relative text-white overflow-hidden">
+        <section ref={heroRef} className="relative text-white overflow-hidden">
           <img src={heroBackground} alt="" loading="eager" decoding="async" fetchPriority="high" width={1920} height={1080} className="absolute inset-0 w-full h-full object-cover object-center" />
           <div className="absolute inset-0 bg-gradient-to-br from-[#0C2340]/95 via-[#0C2340]/90 to-[#1a3a5c]/85" />
           <div className="absolute inset-0 overflow-hidden">
@@ -233,7 +271,7 @@ export default function AvaliacaoPublica() {
               </p>
 
               {/* Card de entrada — escolha do tipo de imóvel */}
-              <div className="max-w-2xl mx-auto pt-6 animate-fade-in [animation-delay:450ms]">
+              <div id="seletor-topo" className="max-w-2xl mx-auto pt-6 animate-fade-in [animation-delay:450ms] scroll-mt-24">
                 <div className="bg-white/[0.06] backdrop-blur-md border border-white/15 rounded-2xl p-5 sm:p-7 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)]">
                   <p className="text-sm sm:text-base text-white/80 mb-4 font-medium">
                     Selecione o tipo do seu imóvel para começar:
@@ -307,10 +345,22 @@ export default function AvaliacaoPublica() {
                 </div>
               ))}
             </div>
+            <div className="mt-8 text-center">
+              <button onClick={scrollToSelector} className="font-mono text-xs sm:text-sm uppercase tracking-[0.18em] text-[#C4993A] hover:text-[#9E7B2A] transition-colors">
+                Começar minha avaliação →
+              </button>
+            </div>
           </div>
         </section>
 
         <RealCaseComparison />
+        <div className="bg-[#F3EBE0] pt-2 pb-8 px-4">
+          <div className="container mx-auto max-w-5xl text-center">
+            <button onClick={scrollToSelector} className="font-mono text-xs sm:text-sm uppercase tracking-[0.18em] text-[#C4993A] hover:text-[#9E7B2A] transition-colors">
+              Começar minha avaliação →
+            </button>
+          </div>
+        </div>
 
         {/* ============ AUTHORITY / WHO SIGNS ============ */}
         <section className="py-10 sm:py-12 md:py-14 px-4 bg-[#F3EBE0]">
@@ -383,6 +433,11 @@ export default function AvaliacaoPublica() {
                   </div>
                 </div>
               ))}
+            </div>
+            <div className="mt-8 text-center">
+              <button onClick={scrollToSelector} className="font-mono text-xs sm:text-sm uppercase tracking-[0.18em] text-[#C4993A] hover:text-[#9E7B2A] transition-colors">
+                Começar minha avaliação →
+              </button>
             </div>
           </div>
         </section>
