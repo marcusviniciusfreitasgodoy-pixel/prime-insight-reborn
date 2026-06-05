@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { RealCaseComparison } from "@/components/leads/RealCaseComparison";
 import marcusPhoto from "@/assets/marcus-godoy.png.asset.json";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -132,6 +132,23 @@ export default function AvaliacaoPublica() {
     const qs = tipo ? `?tipo=${tipo}` : "";
     navigate(`/avaliacao-direta${qs}`);
   };
+
+  const scrollToSelector = () => {
+    document.getElementById("seletor-topo")?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
+  const heroRef = useRef<HTMLElement | null>(null);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      { threshold: 0, rootMargin: "-80px 0px 0px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <>
