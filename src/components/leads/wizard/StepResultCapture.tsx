@@ -15,6 +15,7 @@ export interface EstimativaState {
 
 interface Props {
   estimativa: EstimativaState;
+  intention?: "vender" | "comprar" | null;
   prefilledEmail?: string;
   prefilledName?: string;
   googleVerified: boolean;
@@ -32,6 +33,7 @@ const fmt = (v: number) =>
 
 export function StepResultCapture({
   estimativa,
+  intention,
   prefilledEmail,
   prefilledName,
   googleVerified,
@@ -44,6 +46,19 @@ export function StepResultCapture({
   area,
 }: Props) {
   const { itbiData, estimativa: e } = estimativa;
+
+  const headline =
+    intention === "vender"
+      ? "Receba o laudo para anunciar no preço certo"
+      : intention === "comprar"
+      ? "Receba o laudo com a margem de negociação"
+      : "Receba o laudo completo por e-mail";
+  const subhead =
+    intention === "vender"
+      ? "Análise detalhada com o valor sugerido de anúncio e a faixa de venda esperada — direto no seu e-mail."
+      : intention === "comprar"
+      ? "Análise detalhada com o teto recomendado de proposta e a margem de negociação — direto no seu e-mail."
+      : "Preencha seus dados e enviamos a análise detalhada deste imóvel na hora, direto na sua caixa de entrada.";
 
   const whatsappLaudoUrl = whatsappUrl(
     WHATSAPP_MESSAGES.laudoCompletoDireto({
@@ -112,10 +127,8 @@ export function StepResultCapture({
           <div className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[#0C2340]/60 font-semibold mb-1">
             Opção 1 · Automático
           </div>
-          <h3 className="font-bold text-[#0C2340]">Receba o laudo completo por e-mail</h3>
-          <p className="text-xs text-muted-foreground mt-1">
-            Preencha seus dados e enviamos a análise detalhada deste imóvel na hora, direto na sua caixa de entrada.
-          </p>
+          <h3 className="font-bold text-[#0C2340]">{headline}</h3>
+          <p className="text-xs text-muted-foreground mt-1">{subhead}</p>
         </div>
         <GoogleEmailCapture
           prefilledEmail={prefilledEmail}
