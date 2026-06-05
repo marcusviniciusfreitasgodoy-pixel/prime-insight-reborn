@@ -345,10 +345,22 @@ export default function AvaliacaoPublica() {
                 </div>
               ))}
             </div>
+            <div className="mt-8 text-center">
+              <button onClick={scrollToSelector} className="font-mono text-xs sm:text-sm uppercase tracking-[0.18em] text-[#C4993A] hover:text-[#9E7B2A] transition-colors">
+                Começar minha avaliação →
+              </button>
+            </div>
           </div>
         </section>
 
         <RealCaseComparison />
+        <div className="bg-[#0C2340] pb-10 sm:pb-12 px-4">
+          <div className="container mx-auto max-w-5xl text-center">
+            <button onClick={scrollToSelector} className="font-mono text-xs sm:text-sm uppercase tracking-[0.18em] text-[#C4993A] hover:text-[#E0B958] transition-colors">
+              Começar minha avaliação →
+            </button>
+          </div>
+        </div>
 
         {/* ============ AUTHORITY / WHO SIGNS ============ */}
         <section className="py-10 sm:py-12 md:py-14 px-4 bg-[#F3EBE0]">
