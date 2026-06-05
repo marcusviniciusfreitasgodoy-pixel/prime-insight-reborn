@@ -42,7 +42,7 @@ export function RealCaseComparison() {
             Quanto Você Pagaria a Mais?
           </h3>
           <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
-            Veja esse caso real: Apartamento de 99m² na Avenida Lucio Costa na Barra da Tijuca avaliado por 2 portais imobiliários muito conhecidos e a nossa ferramenta.
+            Veja esse caso real: Apartamento de <span className="font-mono font-medium tracking-tight">99m²</span> na Avenida Lucio Costa na Barra da Tijuca avaliado por <span className="font-mono font-medium tracking-tight">2</span> portais imobiliários muito conhecidos e a nossa ferramenta.
             <br />
             Veja a diferença que a <strong className="text-[#0C2340]">fonte de dados</strong> faz.
           </p>
@@ -67,7 +67,7 @@ export function RealCaseComparison() {
                     <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${item.iconColor}`} />
                   </div>
                   <p className="text-sm font-semibold text-[#0C2340]">{item.label}</p>
-                  <p className={`text-2xl sm:text-3xl font-bold ${item.highlight ? "text-[#0C2340]" : "text-destructive/80"}`}>
+                  <p className={`text-2xl sm:text-3xl font-mono font-medium tracking-tight ${item.highlight ? "text-[#0C2340]" : "text-destructive/80"}`}>
                     {item.value}
                   </p>
                   <span className={`inline-block px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold ${item.badgeColor}`}>
@@ -84,7 +84,7 @@ export function RealCaseComparison() {
           <div className="flex items-center justify-center gap-2 mb-2">
             <AlertTriangle className="h-5 w-5 text-[#D4AF37]" />
             <p className="text-white font-bold text-base sm:text-lg">
-              Diferença de até <span className="text-[#D4AF37]">R$ 700 mil</span> no mesmo imóvel
+              Diferença de até <span className="font-mono font-medium tracking-tight text-[#D4AF37]">R$ 700 mil</span> no mesmo imóvel
             </p>
           </div>
           <p className="text-white/70 text-sm">
