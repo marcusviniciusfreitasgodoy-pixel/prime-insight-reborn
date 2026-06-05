@@ -86,18 +86,17 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
   return (
     <div className="space-y-10">
       {/* Seção 1: Exposição do Problema */}
-      <div className="bg-red-50 border border-red-200 rounded-[2px] p-4 sm:p-6">
-        <div className="text-center space-y-3 sm:space-y-4">
-          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-red-800 leading-tight">
-            Você Está Negociando Sozinho Contra Vendedor + Corretor + Imobiliária
+      <div className="bg-[#F3EBE0] border-l-2 border-[#8C8278] rounded-[2px] p-4 sm:p-6">
+        <div className="text-left space-y-3 sm:space-y-4">
+          <h3 className="font-serif text-lg sm:text-xl md:text-2xl font-bold text-[#0C2340] leading-tight">
+            Você Está Negociando Sozinho Contra Vendedor, Corretor e Imobiliária
           </h3>
-          <p className="text-red-700 text-xs sm:text-sm md:text-base">
-            Todos Lucrando Quando Você Paga Caro.<br />
-            Chegou a Hora de Ter um Defensor Técnico Exclusivo ao seu lado.
+          <p className="text-[#4A443C] text-xs sm:text-sm md:text-base">
+            Todos lucrando quando você paga caro. Chegou a hora de ter um defensor técnico exclusivo ao seu lado.
           </p>
-          <div className="bg-white/80 rounded-[2px] p-3 sm:p-4 max-w-2xl mx-auto">
-            <p className="text-red-900 font-medium text-sm sm:text-base">
-              "Três pessoas defendendo preço alto. <strong className="text-red-700">Zero pessoas defendendo você.</strong>"
+          <div className="bg-[#FAFAF8] border border-[#8C8278]/30 rounded-[2px] p-3 sm:p-4 max-w-2xl">
+            <p className="font-serif italic text-[#0C2340] text-sm sm:text-base">
+              "Três pessoas defendendo preço alto. <strong className="not-italic font-semibold text-[#0C2340]">Zero pessoas defendendo você.</strong>"
             </p>
           </div>
         </div>
@@ -155,7 +154,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
       </div>
 
       {/* Seção 3: Autoridade - Marcus Godoy */}
-      <div className="bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/20 rounded-[2px] p-4 sm:p-6 overflow-hidden">
+      <div className="bg-[#FAFAF8] border border-[#0C2340]/15 rounded-[2px] p-4 sm:p-6 overflow-hidden">
         <div className="flex flex-col md:flex-row gap-4 sm:gap-6 items-center">
           {/* Foto */}
           <div className="w-full md:w-1/3 flex-shrink-0">
