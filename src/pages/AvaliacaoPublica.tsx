@@ -303,11 +303,11 @@ export default function AvaliacaoPublica() {
 
               {/* Prévia ilustrativa da Estimativa de Mercado */}
               <div className="max-w-2xl mx-auto pt-4 animate-fade-in [animation-delay:550ms]">
-                <div className="bg-[#1A1208] border border-[#C4993A]/30 rounded-[4px] overflow-hidden text-left shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)]">
+                <div className="bg-[#0C2340] border border-[#C9A84C]/30 rounded-[2px] overflow-hidden text-left shadow-[0_20px_60px_-20px_rgba(0,0,0,0.4)]">
                   {/* Topo */}
-                  <div className="px-5 sm:px-6 py-4 flex items-center gap-2 border-b border-[#C4993A]/20">
-                    <ArrowRight className="h-3.5 w-3.5 -rotate-45 text-[#C4993A]" />
-                    <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.28em] text-[#C4993A]">
+                  <div className="px-5 sm:px-6 py-4 flex items-center gap-2 border-b border-[#C9A84C]/20">
+                    <ArrowRight className="h-3.5 w-3.5 -rotate-45 text-[#C9A84C]" />
+                    <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.28em] text-[#C9A84C]">
                       Estimativa de Mercado · Prime Circle
                     </span>
                   </div>
@@ -322,10 +322,10 @@ export default function AvaliacaoPublica() {
                       ].map((item) => (
                         <div
                           key={item.label}
-                          className={`rounded-[3px] px-2 sm:px-3 py-4 sm:py-5 text-center border ${
+                          className={`rounded-[2px] px-2 sm:px-3 py-4 sm:py-5 text-center border ${
                             item.highlight
-                              ? "bg-[#2A1D0C] border-[#C4993A]/60"
-                              : "bg-[#241810] border-white/5"
+                              ? "bg-[#132b4d] border-[#C9A84C]/60"
+                              : "bg-[#0a1a2e] border-white/10"
                           }`}
                         >
                           <p className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.22em] text-white/55 mb-2">
@@ -333,7 +333,7 @@ export default function AvaliacaoPublica() {
                           </p>
                           <p
                             className={`font-serif text-base sm:text-xl tracking-tight ${
-                              item.highlight ? "text-[#D4AF37]" : "text-white/90"
+                              item.highlight ? "text-[#C9A84C]" : "text-white/90"
                             }`}
                           >
                             {item.value}
@@ -353,19 +353,19 @@ export default function AvaliacaoPublica() {
 
                     {/* Base de transações */}
                     <p className="text-xs sm:text-sm text-white/70 leading-relaxed">
-                      Baseado em <span className="font-mono font-semibold text-[#D4AF37]">89</span>{" "}
+                      Baseado em <span className="font-mono font-semibold text-[#C9A84C]">89</span>{" "}
                       transações reais realizadas na região nos últimos 12 meses
                     </p>
 
                     {/* Tipo/Localização + Área */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
-                      <div className="rounded-[3px] bg-[#241810] border border-white/5 px-3 sm:px-4 py-3">
+                      <div className="rounded-[2px] bg-[#0a1a2e] border border-white/10 px-3 sm:px-4 py-3">
                         <p className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.22em] text-white/55 mb-1.5">
                           Tipo · Localização
                         </p>
                         <p className="text-sm text-white/90">Apartamento · Barra da Tijuca</p>
                       </div>
-                      <div className="rounded-[3px] bg-[#241810] border border-white/5 px-3 sm:px-4 py-3">
+                      <div className="rounded-[2px] bg-[#0a1a2e] border border-white/10 px-3 sm:px-4 py-3">
                         <p className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.22em] text-white/55 mb-1.5">
                           Área
                         </p>
@@ -376,8 +376,8 @@ export default function AvaliacaoPublica() {
                 </div>
 
                 {/* Disclaimer separado */}
-                <div className="mt-3 bg-[#1A1208] border border-[#C4993A]/15 rounded-[4px] px-5 sm:px-6 py-4 flex gap-3">
-                  <ArrowRight className="h-3.5 w-3.5 -rotate-45 text-[#C4993A] mt-1 shrink-0" />
+                <div className="mt-3 bg-[#0C2340] border border-[#C9A84C]/15 rounded-[2px] px-5 sm:px-6 py-4 flex gap-3">
+                  <ArrowRight className="h-3.5 w-3.5 -rotate-45 text-[#C9A84C] mt-1 shrink-0" />
                   <p className="text-[11px] sm:text-xs text-white/60 leading-relaxed">
                     Estimativa estatística baseada em transações reais da região nos últimos 12 meses.
                     Não é laudo formal nos termos da NBR 14653. Para imóveis exclusivos, a variação
