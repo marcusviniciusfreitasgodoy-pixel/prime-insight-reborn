@@ -301,64 +301,89 @@ export default function AvaliacaoPublica() {
                 </div>
               </div>
 
-              {/* Prévia ilustrativa do laudo */}
+              {/* Prévia ilustrativa da Estimativa de Mercado */}
               <div className="max-w-2xl mx-auto pt-4 animate-fade-in [animation-delay:550ms]">
-                <div className="bg-[#FAFAF8] border border-[#0C2340]/15 rounded-[2px] overflow-hidden text-left shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)]">
+                <div className="bg-[#1A1208] border border-[#C4993A]/30 rounded-[4px] overflow-hidden text-left shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)]">
                   {/* Topo */}
-                  <div className="bg-[#0C2340] px-5 py-3 flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <img src={godoyLogo} alt="" width={24} height={24} className="h-6 w-auto" />
-                      <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-white/85">
-                        Parecer de valor · Exemplo
-                      </span>
-                    </div>
-                    <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.14em] text-[#C4993A]/90 border border-[#C4993A]/40 px-2 py-0.5 rounded-[2px]">
-                      Exemplo de avaliação
+                  <div className="px-5 sm:px-6 py-4 flex items-center gap-2 border-b border-[#C4993A]/20">
+                    <ArrowRight className="h-3.5 w-3.5 -rotate-45 text-[#C4993A]" />
+                    <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.28em] text-[#C4993A]">
+                      Estimativa de Mercado · Prime Circle
                     </span>
                   </div>
 
                   <div className="p-5 sm:p-6 space-y-5">
-                    <div>
-                      <p className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.16em] text-[#4A443C] mb-1.5">
-                        Valor estimado de transação
-                      </p>
-                      <p className="font-mono font-medium text-3xl sm:text-4xl tracking-tight text-[#0C2340]">
-                        R$ 1.310.000
-                      </p>
-                    </div>
-
-                    <div>
-                      <div className="flex items-baseline justify-between mb-2">
-                        <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-[#4A443C]">
-                          Faixa provável
-                        </span>
-                        <span className="font-mono text-[11px] sm:text-xs text-[#0C2340]">
-                          R$ 1,24M – R$ 1,38M
-                        </span>
-                      </div>
-                      <div className="h-1 w-full bg-[#0C2340]/10 rounded-[2px] overflow-hidden">
-                        <div className="h-full bg-[#C4993A]" style={{ width: "60%" }} />
-                      </div>
-                    </div>
-
-                    <div className="divide-y divide-[#0C2340]/10 border-t border-b border-[#0C2340]/10">
+                    {/* 3 boxes: Mínimo / Médio / Máximo */}
+                    <div className="grid grid-cols-3 gap-2 sm:gap-3">
                       {[
-                        ["Anúncio médio na região", "R$ 1.580.000"],
-                        ["Preço por m²", "R$ 13.230"],
-                        ["Margem de negociação", "~12%"],
-                        ["Base ABNT NBR 14.653", "Sim"],
-                      ].map(([label, value]) => (
-                        <div key={label} className="flex items-center justify-between py-2.5">
-                          <span className="text-xs sm:text-sm text-[#4A443C]">{label}</span>
-                          <span className="font-mono text-xs sm:text-sm text-[#0C2340]">{value}</span>
+                        { label: "Mínimo", value: "R$ 1.180.000", highlight: false },
+                        { label: "Médio", value: "R$ 1.250.000", highlight: true },
+                        { label: "Máximo", value: "R$ 1.310.000", highlight: false },
+                      ].map((item) => (
+                        <div
+                          key={item.label}
+                          className={`rounded-[3px] px-2 sm:px-3 py-4 sm:py-5 text-center border ${
+                            item.highlight
+                              ? "bg-[#2A1D0C] border-[#C4993A]/60"
+                              : "bg-[#241810] border-white/5"
+                          }`}
+                        >
+                          <p className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.22em] text-white/55 mb-2">
+                            {item.label}
+                          </p>
+                          <p
+                            className={`font-serif text-base sm:text-xl tracking-tight ${
+                              item.highlight ? "text-[#D4AF37]" : "text-white/90"
+                            }`}
+                          >
+                            {item.value}
+                          </p>
                         </div>
                       ))}
                     </div>
 
-                    <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#8C8278]">
-                      Exemplo ilustrativo · não representa um resultado real
+                    {/* R$/m² */}
+                    <p className="font-mono text-[11px] sm:text-xs text-white/55">
+                      R$/m²: mín <span className="text-white/85">R$ 8.310</span> · médio{" "}
+                      <span className="text-white/85">R$ 8.803</span> · máx{" "}
+                      <span className="text-white/85">R$ 9.225</span>
                     </p>
+
+                    <div className="border-t border-dashed border-white/15" />
+
+                    {/* Base de transações */}
+                    <p className="text-xs sm:text-sm text-white/70 leading-relaxed">
+                      Baseado em <span className="font-mono font-semibold text-[#D4AF37]">89</span>{" "}
+                      transações reais realizadas na região nos últimos 12 meses
+                    </p>
+
+                    {/* Tipo/Localização + Área */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                      <div className="rounded-[3px] bg-[#241810] border border-white/5 px-3 sm:px-4 py-3">
+                        <p className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.22em] text-white/55 mb-1.5">
+                          Tipo · Localização
+                        </p>
+                        <p className="text-sm text-white/90">Apartamento · Barra da Tijuca</p>
+                      </div>
+                      <div className="rounded-[3px] bg-[#241810] border border-white/5 px-3 sm:px-4 py-3">
+                        <p className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.22em] text-white/55 mb-1.5">
+                          Área
+                        </p>
+                        <p className="text-sm text-white/90">142 m²</p>
+                      </div>
+                    </div>
                   </div>
+                </div>
+
+                {/* Disclaimer separado */}
+                <div className="mt-3 bg-[#1A1208] border border-[#C4993A]/15 rounded-[4px] px-5 sm:px-6 py-4 flex gap-3">
+                  <ArrowRight className="h-3.5 w-3.5 -rotate-45 text-[#C4993A] mt-1 shrink-0" />
+                  <p className="text-[11px] sm:text-xs text-white/60 leading-relaxed">
+                    Estimativa estatística baseada em transações reais da região nos últimos 12 meses.
+                    Não é laudo formal nos termos da NBR 14653. Para imóveis exclusivos, a variação
+                    pode chegar a 15%. Para o Parecer Técnico formal com validação do especialista
+                    credenciado, acesse a plataforma.
+                  </p>
                 </div>
               </div>
 
