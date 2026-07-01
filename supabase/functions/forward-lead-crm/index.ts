@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -7,9 +8,7 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const DATEAHOME_WEBHOOK_URL =
-  Deno.env.get("DATEAHOME_WEBHOOK_URL") ||
-  "https://api.dateahome.com/webhook/lead/b00e8651-dd31-41fc-a0f0-32a06044f3ee";
+const DATEAHOME_WEBHOOK_URL = Deno.env.get("DATEAHOME_WEBHOOK_URL");
 
 // Extracts DDD (2 digits) and the remaining phone number from a Brazilian phone string.
 function splitPhone(raw: unknown): { ddd: string; phone: string } {
@@ -60,11 +59,48 @@ serve(async (req: Request) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Require a valid Supabase JWT (blocks arbitrary anonymous flooders).
+  const authHeader = req.headers.get("Authorization");
+  if (!authHeader?.startsWith("Bearer ")) {
+    return new Response(JSON.stringify({ ok: false, error: "unauthorized" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+  try {
+    const authClient = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_ANON_KEY")!,
+      { global: { headers: { Authorization: authHeader } } },
+    );
+    const { data: claims, error: claimsErr } = await authClient.auth.getClaims(
+      authHeader.replace("Bearer ", ""),
+    );
+    if (claimsErr || !claims?.claims) {
+      return new Response(JSON.stringify({ ok: false, error: "unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+  } catch (_e) {
+    return new Response(JSON.stringify({ ok: false, error: "unauthorized" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
   const apiKey = Deno.env.get("DATEAHOME_API_KEY");
   if (!apiKey) {
     console.error("[forward-lead-crm] DATEAHOME_API_KEY not configured");
     return new Response(
       JSON.stringify({ ok: false, error: "missing_api_key" }),
+      { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+    );
+  }
+  if (!DATEAHOME_WEBHOOK_URL) {
+    console.error("[forward-lead-crm] DATEAHOME_WEBHOOK_URL not configured");
+    return new Response(
+      JSON.stringify({ ok: false, error: "missing_webhook_url" }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
