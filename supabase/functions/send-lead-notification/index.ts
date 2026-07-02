@@ -42,6 +42,7 @@ interface LeadNotificationRequest {
   banheiros?: number;
   suites?: number;
   vagas?: number;
+  andar?: number | string;
   diferenciais?: string;
   estimativaMin?: number;
   estimativaMed?: number;
@@ -85,15 +86,16 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
   const propertyInfo = `
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8f9fa;border-radius:8px;margin:20px 0;border:1px solid #e9ecef;">
       <tr><td style="padding:18px 20px;">
-        <h4 style="margin:0 0 12px 0;color:#0C2340;font-size:15px;font-family:'Segoe UI',Arial,sans-serif;">📍 Imóvel Analisado</h4>
+        <h4 style="margin:0 0 12px 0;color:#0C2340;font-size:15px;font-family:'Segoe UI',Arial,sans-serif;">Imovel analisado</h4>
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:'Segoe UI',Arial,sans-serif;font-size:14px;color:#444;">
-          ${data.bairro ? `<tr><td style="padding:4px 0;width:100px;color:#888;">Bairro</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(data.bairro)}</td></tr>` : ""}
+          ${data.enderecoImovelAnalise ? `<tr><td style="padding:4px 0;width:110px;color:#888;">Endereço</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(data.enderecoImovelAnalise)}</td></tr>` : (data.bairro ? `<tr><td style="padding:4px 0;width:110px;color:#888;">Bairro</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(data.bairro)}</td></tr>` : "")}
           ${data.tipologia ? `<tr><td style="padding:4px 0;color:#888;">Tipo</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(data.tipologia)}</td></tr>` : ""}
           ${data.area ? `<tr><td style="padding:4px 0;color:#888;">Área</td><td style="padding:4px 0;font-weight:600;">${data.area} m²</td></tr>` : ""}
           ${data.quartos ? `<tr><td style="padding:4px 0;color:#888;">Quartos</td><td style="padding:4px 0;font-weight:600;">${data.quartos}</td></tr>` : ""}
           ${data.suites ? `<tr><td style="padding:4px 0;color:#888;">Suítes</td><td style="padding:4px 0;font-weight:600;">${data.suites}</td></tr>` : ""}
           ${data.banheiros ? `<tr><td style="padding:4px 0;color:#888;">Banheiros</td><td style="padding:4px 0;font-weight:600;">${data.banheiros}</td></tr>` : ""}
           ${data.vagas ? `<tr><td style="padding:4px 0;color:#888;">Vagas</td><td style="padding:4px 0;font-weight:600;">${data.vagas}</td></tr>` : ""}
+          ${data.andar ? `<tr><td style="padding:4px 0;color:#888;">Andar</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(String(data.andar))}</td></tr>` : ""}
         </table>
       </td></tr>
     </table>
@@ -103,19 +105,19 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0C2340;border-radius:10px;margin:24px 0;">
       <tr><td style="padding:22px 20px;text-align:center;">
         <p style="margin:0 0 4px 0;color:#D4AF37;font-size:13px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;font-family:'Segoe UI',Arial,sans-serif;">Sua Estimativa Preliminar</p>
-        <p style="margin:0 0 18px 0;color:rgba(255,255,255,0.7);font-size:12px;font-family:'Segoe UI',Arial,sans-serif;">Baseado em transações ITBI da região</p>
+        <p style="margin:0 0 18px 0;color:rgba(255,255,255,0.7);font-size:12px;font-family:'Segoe UI',Arial,sans-serif;">Baseada em transacoes reais e oficiais registradas</p>
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td width="33%" align="center" style="padding:8px 4px;border-right:1px solid rgba(255,255,255,0.15);">
-              <p style="margin:0 0 6px 0;color:rgba(255,255,255,0.65);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-family:'Segoe UI',Arial,sans-serif;">Mínimo</p>
+              <p style="margin:0 0 6px 0;color:rgba(255,255,255,0.65);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-family:'Segoe UI',Arial,sans-serif;">Minimo</p>
               <p style="margin:0;color:#ffffff;font-size:16px;font-weight:600;font-family:'Segoe UI',Arial,sans-serif;">${formatCurrency(data.estimativaMin)}</p>
             </td>
             <td width="34%" align="center" style="padding:8px 4px;border-right:1px solid rgba(255,255,255,0.15);">
-              <p style="margin:0 0 6px 0;color:#D4AF37;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-weight:700;font-family:'Segoe UI',Arial,sans-serif;">Mais Provável</p>
+              <p style="margin:0 0 6px 0;color:#D4AF37;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-weight:700;font-family:'Segoe UI',Arial,sans-serif;">Mais provavel</p>
               <p style="margin:0;color:#D4AF37;font-size:22px;font-weight:700;font-family:'Segoe UI',Arial,sans-serif;">${formatCurrency(data.estimativaMed)}</p>
             </td>
             <td width="33%" align="center" style="padding:8px 4px;">
-              <p style="margin:0 0 6px 0;color:rgba(255,255,255,0.65);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-family:'Segoe UI',Arial,sans-serif;">Máximo</p>
+              <p style="margin:0 0 6px 0;color:rgba(255,255,255,0.65);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-family:'Segoe UI',Arial,sans-serif;">Maximo</p>
               <p style="margin:0;color:#ffffff;font-size:16px;font-weight:600;font-family:'Segoe UI',Arial,sans-serif;">${formatCurrency(data.estimativaMax)}</p>
             </td>
           </tr>
@@ -124,79 +126,67 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
     </table>
   ` : "";
 
-  const ruaCondominioWarning = `
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fffbeb;border-left:4px solid #f59e0b;border-radius:4px;margin:20px 0;">
-      <tr><td style="padding:14px 16px;font-family:'Segoe UI',Arial,sans-serif;">
-        <p style="margin:0 0 6px 0;color:#92400e;font-size:13px;font-weight:700;">⚠️ Importante: estimativa por rua, não por condomínio</p>
-        <p style="margin:0;color:#78350f;font-size:13px;line-height:1.5;">
-          Esta análise considera o <strong>logradouro e bairro</strong>, mas não diferencia condomínios específicos (padrão construtivo, lazer, conservação, andar, vista). Imóveis na mesma rua podem ter valores reais bem diferentes.
+  const m2Section = data.itbiMinM2 && data.itbiMedM2 && data.itbiMaxM2 ? `
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8f9fa;border-radius:8px;margin:20px 0;border:1px solid #e9ecef;">
+      <tr><td style="padding:18px 20px;font-family:'Segoe UI',Arial,sans-serif;">
+        <h4 style="margin:0 0 10px 0;color:#0C2340;font-size:15px;">R$/m2 na regiao</h4>
+        <p style="margin:0 0 6px 0;color:#333;font-size:14px;">
+          ${formatCurrency(data.itbiMinM2)} a ${formatCurrency(data.itbiMaxM2)} (mediana ${formatCurrency(data.itbiMedM2)})
         </p>
+        ${data.itbiTransactionCount ? `<p style="margin:0;color:#666;font-size:13px;">Base: ${data.itbiTransactionCount} transacoes reais e oficiais registradas</p>` : ""}
       </td></tr>
     </table>
+  ` : "";
+
+  const ressalvaSection = `
+    <p style="margin:20px 0 0 0;color:#555;font-size:14px;line-height:1.6;font-family:'Segoe UI',Arial,sans-serif;">
+      Esta e uma estimativa preliminar baseada em transacoes reais e oficiais da regiao. Para imoveis exclusivos, a variacao pode chegar a 15%. Ela considera a rua e o bairro, mas nao os diferenciais do seu condominio e da sua unidade.
+    </p>
   `;
 
   if (notificationType === "initial" || notificationType === "returning") {
-    emailSubject = "📊 Sua Avaliação Preliminar - Godoy Prime Realty";
-    headerTitle = "Sua Avaliação Preliminar está Pronta";
-    headerSubtitle = "Análise baseada em transações oficiais da região";
+    emailSubject = "Godoy Prime Realty | Analise Preliminar";
+    headerTitle = "Analise Preliminar";
+    headerSubtitle = "Godoy Prime Realty";
 
     mainContent = `
       <p style="margin:0 0 16px 0;color:#333;font-size:15px;font-family:'Segoe UI',Arial,sans-serif;">
-        Olá <strong>${escapeHtml(data.leadName)}</strong>,
+        Ola <strong>${escapeHtml(data.leadName)}</strong>, segue o resumo da sua avaliacao online, com os mesmos dados exibidos no site.
       </p>
-      <p style="margin:0 0 8px 0;color:#555;font-size:15px;line-height:1.6;font-family:'Segoe UI',Arial,sans-serif;">
-        Recebemos sua solicitação e processamos uma estimativa preliminar de valor com base nos dados oficiais de transações ITBI dos últimos 12 meses na sua região.
-      </p>
-
-      ${estimativaSection}
 
       ${propertyInfo}
 
-      ${ruaCondominioWarning}
+      ${estimativaSection}
 
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;margin:24px 0;">
-        <tr><td style="padding:18px 20px;font-family:'Segoe UI',Arial,sans-serif;">
-          <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">⚡ Quer uma Avaliação Mais Precisa?</h4>
-          <p style="margin:0;color:#78350f;font-size:14px;line-height:1.6;">
-            O <strong>Parecer Técnico Completo</strong> considera os 26 diferenciais específicos do seu imóvel (padrão, conservação, vista, lazer, documentação) e pode revelar um valor <strong>15% a 30% superior</strong> ou identificar problemas que afetam o preço.
-          </p>
-        </td></tr>
-      </table>
+      ${m2Section}
+
+      ${ressalvaSection}
     `;
 
     ctaSection = `
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0;">
-        <tr><td align="center">
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
-            <tr><td style="background:#D4AF37;border-radius:8px;">
-              <a href="${whatsappUrl(WHATSAPP_MESSAGES.parecerLeadNotification(data.leadName))}" style="display:inline-block;padding:16px 36px;color:#0C2340;text-decoration:none;font-weight:700;font-size:16px;font-family:'Segoe UI',Arial,sans-serif;">
-                📋 Solicitar Parecer Técnico Completo
-              </a>
-            </td></tr>
-          </table>
-          <p style="margin:12px 0 0 0;color:#888;font-size:12px;font-family:'Segoe UI',Arial,sans-serif;">Atendimento direto via WhatsApp com especialista CRECI-RJ 11841</p>
-        </td></tr>
-      </table>
+      <p style="margin:24px 0 0 0;color:#333;font-size:14px;line-height:1.6;font-family:'Segoe UI',Arial,sans-serif;">
+        Quer o <strong>Parecer Tecnico</strong> presencial, que avalia o estado, os riscos e as caracteristicas especificas do seu imovel segundo a metodologia ABNT NBR 14.653? Responda este e-mail ou aguarde o contato de um especialista em ate 2h uteis.
+      </p>
     `;
 
   } else {
-    emailSubject = "✅ Parecer Técnico Solicitado - Godoy Prime Realty";
-    headerTitle = "Recebemos sua Solicitação";
-    headerSubtitle = "Parecer Técnico em andamento";
+    emailSubject = "Godoy Prime Realty | Parecer Tecnico solicitado";
+    headerTitle = "Recebemos sua solicitacao";
+    headerSubtitle = "Parecer Tecnico em andamento";
 
     mainContent = `
       <p style="margin:0 0 16px 0;color:#333;font-size:15px;font-family:'Segoe UI',Arial,sans-serif;">
-        Olá <strong>${escapeHtml(data.leadName)}</strong>,
+        Ola <strong>${escapeHtml(data.leadName)}</strong>,
       </p>
       <p style="margin:0 0 16px 0;color:#555;font-size:15px;line-height:1.6;font-family:'Segoe UI',Arial,sans-serif;">
-        <strong>Excelente decisão.</strong> Recebemos sua solicitação de Parecer Técnico Godoy Prime e nossa equipe já está analisando os dados do seu imóvel.
+        <strong>Excelente decisao.</strong> Recebemos sua solicitacao de Parecer Tecnico Godoy Prime e nossa equipe ja esta analisando os dados do seu imovel.
       </p>
 
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ecfdf5;border-left:4px solid #10b981;border-radius:4px;margin:20px 0;">
         <tr><td style="padding:16px 20px;font-family:'Segoe UI',Arial,sans-serif;">
-          <h4 style="margin:0 0 6px 0;color:#065f46;font-size:15px;">✅ Solicitação Confirmada</h4>
+          <h4 style="margin:0 0 6px 0;color:#065f46;font-size:15px;">Solicitacao confirmada</h4>
           <p style="margin:0;color:#047857;font-size:14px;line-height:1.6;">
-            Um especialista entrará em contato em até <strong>2 horas úteis</strong> para apresentar a análise completa.
+            Um especialista entrara em contato em ate <strong>2 horas uteis</strong> para apresentar a analise completa.
           </p>
         </td></tr>
       </table>
@@ -205,14 +195,16 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
 
       ${estimativaSection}
 
+      ${m2Section}
+
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;margin:20px 0;">
         <tr><td style="padding:18px 20px;font-family:'Segoe UI',Arial,sans-serif;">
-          <h4 style="margin:0 0 10px 0;color:#0C2340;font-size:15px;">🎯 O que esperar:</h4>
+          <h4 style="margin:0 0 10px 0;color:#0C2340;font-size:15px;">O que esperar</h4>
           <ul style="margin:0;padding-left:20px;color:#374151;font-size:14px;line-height:1.7;">
-            <li>Análise personalizada com os 26 fatores técnicos</li>
-            <li>Comparativo com transações reais da região</li>
-            <li>Orientação estratégica para ${isVenda ? 'venda' : 'compra'}</li>
-            <li>Conformidade NBR 14653-2</li>
+            <li>Analise personalizada com os 26 fatores tecnicos</li>
+            <li>Comparativo com transacoes reais e oficiais da regiao</li>
+            <li>Orientacao estrategica para ${isVenda ? 'venda' : 'compra'}</li>
+            <li>Metodologia ABNT NBR 14.653</li>
           </ul>
         </td></tr>
       </table>
@@ -224,11 +216,11 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
           <table role="presentation" cellpadding="0" cellspacing="0" border="0">
             <tr><td style="background:#25D366;border-radius:8px;">
               <a href="https://wa.me/${PHONE.e164}" style="display:inline-block;padding:16px 36px;color:#ffffff;text-decoration:none;font-weight:700;font-size:16px;font-family:'Segoe UI',Arial,sans-serif;">
-                📱 Falar Agora no WhatsApp
+                Falar agora no WhatsApp
               </a>
             </td></tr>
           </table>
-          <p style="margin:12px 0 0 0;color:#888;font-size:12px;font-family:'Segoe UI',Arial,sans-serif;">${PHONE.display} — Marcus Godoy</p>
+          <p style="margin:12px 0 0 0;color:#888;font-size:12px;font-family:'Segoe UI',Arial,sans-serif;">${PHONE.display} | Marcus Godoy</p>
         </td></tr>
       </table>
     `;
@@ -258,16 +250,15 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
         </td></tr>
         <!-- Footer -->
         <tr><td style="background:#f8fafc;padding:24px;text-align:center;border-top:1px solid #e5e7eb;">
-          <p style="margin:0 0 4px 0;color:#0C2340;font-size:13px;font-weight:700;">Marcus Godoy — CRECI-RJ 11841</p>
-          <p style="margin:0 0 12px 0;color:#6b7280;font-size:12px;">Especialista em Imóveis de Alto Padrão na Barra da Tijuca</p>
+          <p style="margin:0 0 4px 0;color:#0C2340;font-size:13px;font-weight:700;">Godoy Prime Realty — CRECI-RJ 11841</p>
+          <p style="margin:0 0 12px 0;color:#6b7280;font-size:12px;">Marcus Godoy, especialista em imoveis de alto padrao na Barra da Tijuca</p>
           <p style="margin:0;color:#6b7280;font-size:12px;">
             <a href="https://godoyprime.com.br" style="color:#0C2340;text-decoration:none;font-weight:600;">godoyprime.com.br</a>
             &nbsp;·&nbsp;
             <a href="${PHONE.tel}" style="color:#0C2340;text-decoration:none;font-weight:600;">${PHONE.display}</a>
           </p>
           <p style="margin:14px 0 0 0;color:#9ca3af;font-size:11px;line-height:1.5;">
-            Você recebeu este email porque solicitou uma avaliação na nossa plataforma.<br>
-            Este conteúdo é informativo e não substitui um Parecer Técnico formal.
+            Voce recebeu este e-mail porque solicitou uma avaliacao na nossa plataforma.
           </p>
         </td></tr>
       </table>
@@ -539,30 +530,30 @@ const handler = async (req: Request): Promise<Response> => {
 
         // Bloco detalhado do imóvel (mesmos campos exibidos no site)
         const imovelLinhas = [
-          data.enderecoImovelAnalise ? `📍 Endereço: ${data.enderecoImovelAnalise}` : (data.bairro ? `📍 Bairro: ${data.bairro}` : ""),
-          data.tipologia ? `🏢 Tipo: ${data.tipologia}` : "",
-          data.area ? `📐 Área: ${data.area} m²` : "",
-          data.quartos ? `🛏️ Quartos: ${data.quartos}` : "",
-          data.suites ? `🛁 Suítes: ${data.suites}` : "",
-          data.banheiros ? `🚿 Banheiros: ${data.banheiros}` : "",
-          data.vagas ? `🚗 Vagas: ${data.vagas}` : "",
-          data.diferenciais ? `✨ Diferenciais: ${data.diferenciais}` : "",
+          data.enderecoImovelAnalise ? `Endereco: ${data.enderecoImovelAnalise}` : (data.bairro ? `Bairro: ${data.bairro}` : ""),
+          data.tipologia ? `Tipo: ${data.tipologia}` : "",
+          data.area ? `Area: ${data.area} m2` : "",
+          data.quartos ? `Quartos: ${data.quartos}` : "",
+          data.suites ? `Suites: ${data.suites}` : "",
+          data.banheiros ? `Banheiros: ${data.banheiros}` : "",
+          data.vagas ? `Vagas: ${data.vagas}` : "",
+          data.andar ? `Andar: ${data.andar}` : "",
         ].filter(Boolean).join("\n");
 
         const faixaBlock = (data.estimativaMin && data.estimativaMed && data.estimativaMax)
-          ? `\n\n💰 *Estimativa Preliminar*\nMínimo: ${formatCurrency(data.estimativaMin)}\nMais Provável: ${formatCurrency(data.estimativaMed)}\nMáximo: ${formatCurrency(data.estimativaMax)}`
+          ? `\n\n*Estimativa Preliminar*\nMinimo: ${formatCurrency(data.estimativaMin)}\nMais provavel: ${formatCurrency(data.estimativaMed)}\nMaximo: ${formatCurrency(data.estimativaMax)}`
           : "";
 
         const m2Block = (data.itbiMinM2 && data.itbiMedM2 && data.itbiMaxM2)
-          ? `\n\n📊 *R$/m² na região*\n${formatCurrency(data.itbiMinM2)} – ${formatCurrency(data.itbiMedM2)} – ${formatCurrency(data.itbiMaxM2)}${data.itbiTransactionCount ? `\nBase: ${data.itbiTransactionCount} transações ITBI` : ""}`
+          ? `\n\n*R$/m2 na regiao*\n${formatCurrency(data.itbiMinM2)} a ${formatCurrency(data.itbiMaxM2)} (mediana ${formatCurrency(data.itbiMedM2)})${data.itbiTransactionCount ? `\nBase: ${data.itbiTransactionCount} transacoes reais e oficiais registradas` : ""}`
           : "";
 
         // Message to client
         let clientMsg = "";
         if (notificationType === "initial" || notificationType === "returning") {
-          clientMsg = `🏠 *Godoy Prime Realty — Laudo Preliminar*\n\nOlá ${data.leadName}! 👋\n\nSegue o resumo da sua avaliação online, com os MESMOS dados exibidos no site:\n\n*Imóvel analisado*\n${imovelLinhas}${faixaBlock}${m2Block}\n\n⚠️ Esta é uma *estimativa algorítmica* baseada em transações ITBI oficiais. Para imóveis exclusivos, a variação pode chegar a 15%.\n\n📋 Quer o *Parecer Técnico Completo* com validação manual do especialista (NBR 14653-2)? Responda *PARECER* e um especialista entra em contato em até 2h úteis.\n\nGodoy Prime Realty — CRECI-RJ 11841`;
+          clientMsg = `*Godoy Prime Realty — Analise Preliminar*\n\nOla ${data.leadName}, segue o resumo da sua avaliacao online, com os mesmos dados exibidos no site.\n\n*Imovel analisado*\n${imovelLinhas}${faixaBlock}${m2Block}\n\nEsta e uma estimativa preliminar baseada em transacoes reais e oficiais da regiao. Para imoveis exclusivos, a variacao pode chegar a 15%. Ela considera a rua e o bairro, mas nao os diferenciais do seu condominio e da sua unidade.\n\nQuer o *Parecer Tecnico* presencial, que avalia o estado, os riscos e as caracteristicas especificas do seu imovel segundo a metodologia ABNT NBR 14.653? Responda *PARECER* e um especialista entra em contato em ate 2h uteis.\n\nGodoy Prime Realty — CRECI-RJ 11841`;
         } else {
-          clientMsg = `✅ *Godoy Prime Realty — Parecer Solicitado*\n\nOlá ${data.leadName}!\n\nRecebemos sua solicitação de *Parecer Técnico Completo*. 🎉\n\n*Imóvel analisado*\n${imovelLinhas}${faixaBlock}${m2Block}\n\nUm especialista entrará em contato em até *2h úteis* para iniciar a análise presencial.\n\nGodoy Prime Realty — CRECI-RJ 11841`;
+          clientMsg = `*Godoy Prime Realty — Parecer Tecnico solicitado*\n\nOla ${data.leadName}, recebemos sua solicitacao de *Parecer Tecnico*.\n\n*Imovel analisado*\n${imovelLinhas}${faixaBlock}${m2Block}\n\nUm especialista entrara em contato em ate *2h uteis* para iniciar a analise presencial.\n\nGodoy Prime Realty — CRECI-RJ 11841`;
         }
 
         // Message to broker
