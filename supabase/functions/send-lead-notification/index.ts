@@ -145,53 +145,34 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
   `;
 
   if (notificationType === "initial" || notificationType === "returning") {
-    emailSubject = "📊 Sua Avaliação Preliminar - Godoy Prime Realty";
-    headerTitle = "Sua Avaliação Preliminar está Pronta";
-    headerSubtitle = "Análise baseada em transações oficiais da região";
+    emailSubject = "Godoy Prime Realty | Analise Preliminar";
+    headerTitle = "Analise Preliminar";
+    headerSubtitle = "Godoy Prime Realty";
 
     mainContent = `
       <p style="margin:0 0 16px 0;color:#333;font-size:15px;font-family:'Segoe UI',Arial,sans-serif;">
-        Olá <strong>${escapeHtml(data.leadName)}</strong>,
+        Ola <strong>${escapeHtml(data.leadName)}</strong>, segue o resumo da sua avaliacao online, com os mesmos dados exibidos no site.
       </p>
-      <p style="margin:0 0 8px 0;color:#555;font-size:15px;line-height:1.6;font-family:'Segoe UI',Arial,sans-serif;">
-        Recebemos sua solicitação e processamos uma estimativa preliminar de valor com base nos dados oficiais de transações ITBI dos últimos 12 meses na sua região.
-      </p>
-
-      ${estimativaSection}
 
       ${propertyInfo}
 
-      ${ruaCondominioWarning}
+      ${estimativaSection}
 
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;margin:24px 0;">
-        <tr><td style="padding:18px 20px;font-family:'Segoe UI',Arial,sans-serif;">
-          <h4 style="margin:0 0 8px 0;color:#92400e;font-size:15px;">⚡ Quer uma Avaliação Mais Precisa?</h4>
-          <p style="margin:0;color:#78350f;font-size:14px;line-height:1.6;">
-            O <strong>Parecer Técnico Completo</strong> considera os 26 diferenciais específicos do seu imóvel (padrão, conservação, vista, lazer, documentação) e pode revelar um valor <strong>15% a 30% superior</strong> ou identificar problemas que afetam o preço.
-          </p>
-        </td></tr>
-      </table>
+      ${m2Section}
+
+      ${ressalvaSection}
     `;
 
     ctaSection = `
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0;">
-        <tr><td align="center">
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
-            <tr><td style="background:#D4AF37;border-radius:8px;">
-              <a href="${whatsappUrl(WHATSAPP_MESSAGES.parecerLeadNotification(data.leadName))}" style="display:inline-block;padding:16px 36px;color:#0C2340;text-decoration:none;font-weight:700;font-size:16px;font-family:'Segoe UI',Arial,sans-serif;">
-                📋 Solicitar Parecer Técnico Completo
-              </a>
-            </td></tr>
-          </table>
-          <p style="margin:12px 0 0 0;color:#888;font-size:12px;font-family:'Segoe UI',Arial,sans-serif;">Atendimento direto via WhatsApp com especialista CRECI-RJ 11841</p>
-        </td></tr>
-      </table>
+      <p style="margin:24px 0 0 0;color:#333;font-size:14px;line-height:1.6;font-family:'Segoe UI',Arial,sans-serif;">
+        Quer o <strong>Parecer Tecnico</strong> presencial, que avalia o estado, os riscos e as caracteristicas especificas do seu imovel segundo a metodologia ABNT NBR 14.653? Responda este e-mail ou aguarde o contato de um especialista em ate 2h uteis.
+      </p>
     `;
 
   } else {
-    emailSubject = "✅ Parecer Técnico Solicitado - Godoy Prime Realty";
-    headerTitle = "Recebemos sua Solicitação";
-    headerSubtitle = "Parecer Técnico em andamento";
+    emailSubject = "Godoy Prime Realty | Parecer Tecnico solicitado";
+    headerTitle = "Recebemos sua solicitacao";
+    headerSubtitle = "Parecer Tecnico em andamento";
 
     mainContent = `
       <p style="margin:0 0 16px 0;color:#333;font-size:15px;font-family:'Segoe UI',Arial,sans-serif;">
