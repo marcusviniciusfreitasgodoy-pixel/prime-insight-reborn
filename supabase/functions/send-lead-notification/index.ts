@@ -126,15 +126,22 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
     </table>
   ` : "";
 
-  const ruaCondominioWarning = `
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fffbeb;border-left:4px solid #f59e0b;border-radius:4px;margin:20px 0;">
-      <tr><td style="padding:14px 16px;font-family:'Segoe UI',Arial,sans-serif;">
-        <p style="margin:0 0 6px 0;color:#92400e;font-size:13px;font-weight:700;">⚠️ Importante: estimativa por rua, não por condomínio</p>
-        <p style="margin:0;color:#78350f;font-size:13px;line-height:1.5;">
-          Esta análise considera o <strong>logradouro e bairro</strong>, mas não diferencia condomínios específicos (padrão construtivo, lazer, conservação, andar, vista). Imóveis na mesma rua podem ter valores reais bem diferentes.
+  const m2Section = data.itbiMinM2 && data.itbiMedM2 && data.itbiMaxM2 ? `
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8f9fa;border-radius:8px;margin:20px 0;border:1px solid #e9ecef;">
+      <tr><td style="padding:18px 20px;font-family:'Segoe UI',Arial,sans-serif;">
+        <h4 style="margin:0 0 10px 0;color:#0C2340;font-size:15px;">R$/m2 na regiao</h4>
+        <p style="margin:0 0 6px 0;color:#333;font-size:14px;">
+          ${formatCurrency(data.itbiMinM2)} a ${formatCurrency(data.itbiMaxM2)} (mediana ${formatCurrency(data.itbiMedM2)})
         </p>
+        ${data.itbiTransactionCount ? `<p style="margin:0;color:#666;font-size:13px;">Base: ${data.itbiTransactionCount} transacoes reais e oficiais registradas</p>` : ""}
       </td></tr>
     </table>
+  ` : "";
+
+  const ressalvaSection = `
+    <p style="margin:20px 0 0 0;color:#555;font-size:14px;line-height:1.6;font-family:'Segoe UI',Arial,sans-serif;">
+      Esta e uma estimativa preliminar baseada em transacoes reais e oficiais da regiao. Para imoveis exclusivos, a variacao pode chegar a 15%. Ela considera a rua e o bairro, mas nao os diferenciais do seu condominio e da sua unidade.
+    </p>
   `;
 
   if (notificationType === "initial" || notificationType === "returning") {
