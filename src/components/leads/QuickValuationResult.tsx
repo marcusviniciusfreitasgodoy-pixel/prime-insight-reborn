@@ -45,18 +45,18 @@ import { PHONE, WHATSAPP_MESSAGES, whatsappUrl, CTA_LABELS } from "@/config/cont
 const PropertyMap = lazy(() => import("@/components/map/PropertyMap").then(m => ({ default: m.PropertyMap })));
 
 const PARECER_FAQ = [
-  { category: "servico", question: "O que exatamente é o Parecer Técnico Godoy Prime?", answer: "É uma análise completa e personalizada do seu imóvel, elaborada por Marcus Godoy, perito avaliador credenciado pelo Tribunal de Justiça do Rio de Janeiro. Inclui visita técnica, análise de 26 características que impactam o valor, comparativo com transações recentes, e um laudo profissional que você pode usar em negociações, financiamentos e processos judiciais." },
+  { category: "servico", question: "O que exatamente é o Parecer Técnico Godoy Prime?", answer: "É uma análise completa e personalizada do seu imóvel, elaborada por Marcus Godoy, perito avaliador credenciado pelo Tribunal de Justiça do Rio de Janeiro. Inclui visita técnica, análise de 26 características que impactam o valor, comparativo com transações reais e oficiais, e um documento profissional que você pode usar em negociações, financiamentos e processos judiciais." },
   { category: "servico", question: "Qual a diferença entre a avaliação gratuita e o Parecer Técnico?", answer: "A avaliação gratuita usa médias estatísticas da região. O Parecer Técnico considera os diferenciais ESPECÍFICOS do seu imóvel: vista, andar, reforma, estado de conservação, posição solar, infraestrutura do condomínio, etc. Essas características podem representar uma diferença de 15% a 30% no valor final." },
-  { category: "servico", question: "O Parecer Técnico tem validade jurídica?", answer: "Sim. O laudo é assinado por perito avaliador credenciado, seguindo a metodologia NBR 14653-2 da ABNT. Pode ser usado em inventários, divórcios, financiamentos bancários, disputas judiciais e qualquer situação que exija comprovação técnica do valor do imóvel." },
-  { category: "processo", question: "Como funciona o processo do Parecer Técnico?", answer: "1) Você solicita pelo WhatsApp; 2) Agendamos uma visita técnica ao imóvel (duração: 1-2 horas); 3) Analisamos os dados e comparamos com transações recentes; 4) Em até 5 dias úteis, você recebe o laudo completo em PDF com todos os detalhes da avaliação, inclusive fotos." },
+  { category: "servico", question: "O Parecer Técnico tem validade jurídica?", answer: "Sim. O Parecer é assinado por perito avaliador credenciado, seguindo a metodologia NBR 14653-2 da ABNT. Pode ser usado em inventários, divórcios, financiamentos bancários, disputas judiciais e qualquer situação que exija comprovação técnica do valor do imóvel." },
+  { category: "processo", question: "Como funciona o processo do Parecer Técnico?", answer: "1) Você solicita pelo WhatsApp; 2) Agendamos uma visita técnica ao imóvel (duração: 1 a 2 horas); 3) Analisamos os dados e comparamos com transações reais e oficiais recentes; 4) Em até 7 dias úteis após a vistoria, você recebe o Parecer completo em PDF com todos os detalhes da avaliação, inclusive fotos." },
   { category: "processo", question: "Preciso estar presente na visita técnica?", answer: "Recomendamos que você ou alguém de confiança esteja presente para esclarecer dúvidas sobre reformas realizadas, histórico do imóvel e características que não são visíveis. Mas se não for possível, podemos realizar a vistoria com acesso ao imóvel." },
-  { category: "processo", question: "Quanto tempo leva para receber o laudo?", answer: "O prazo padrão é de 5 dias úteis após a visita técnica. Em casos urgentes (inventários, propostas em andamento), oferecemos opção expressa com entrega em 48 horas mediante taxa adicional." },
+  { category: "processo", question: "Quanto tempo leva para receber o Parecer?", answer: "O prazo padrão é de 7 dias úteis após a vistoria. Em casos urgentes (inventários, propostas em andamento), oferecemos opção expressa com entrega em 48 horas mediante taxa adicional." },
   { category: "investimento", question: "Quanto custa o Parecer Técnico?", answer: "O investimento varia de acordo com a tipologia e complexidade do imóvel. Apartamentos padrão partem de R$ 4.900. Casas, coberturas e imóveis de alto padrão têm valores específicos. Entre em contato para um orçamento personalizado sem compromisso." },
   { category: "investimento", question: "Vale a pena investir no Parecer Técnico?", answer: "Considere: a diferença entre precificar corretamente e errar pode ser de R$ 50.000 a R$ 500.000 ou mais. Clientes que usam nosso parecer garantem economia e argumentos para uma boa negociação. O investimento se paga dezenas de vezes." },
   { category: "investimento", question: "E se eu não concordar com o valor do Parecer?", answer: "Oferecemos garantia de satisfação. Se você discordar fundamentadamente do valor apresentado, agendamos uma reunião para revisar os critérios. Nossa metodologia é transparente: você vê exatamente como chegamos a cada número. Em casos excepcionais, podemos refazer a análise sem custo adicional." },
   { category: "confianca", question: "Quem é Marcus Godoy?", answer: "Marcus Godoy é corretor de imóveis (CRECI 80.199) e perito avaliador credenciado pelo Tribunal de Justiça do Rio de Janeiro, com especialização em imóveis de alto padrão na Barra da Tijuca. A Godoy Prime Realty (CRECI 11841-PJ) é sua empresa especializada em consultoria imobiliária premium." },
-  { category: "confianca", question: "Vocês têm alguma certificação ou credenciamento?", answer: "Sim. Somos registrados no CRECI-RJ (11841-PJ), Perito Avaliador credenciado junto ao Tribunal de Justiça do Rio de Janeiro. Seguimos a metodologia NBR 14653-2 da ABNT para avaliações, e utilizamos dados oficiais de transações registradas na cidade do Rio de Janeiro. Nossos laudos são aceitos por bancos, cartórios e tribunais." },
-  { category: "confianca", question: "Posso ver exemplos de laudos anteriores?", answer: "Por questões de confidencialidade, não compartilhamos laudos de outros clientes. Porém, podemos mostrar a estrutura e o nível de detalhe do documento durante nossa conversa no WhatsApp, para que você veja exatamente o que receberá." },
+  { category: "confianca", question: "Vocês têm alguma certificação ou credenciamento?", answer: "Sim. Somos registrados no CRECI-RJ (11841-PJ), Perito Avaliador credenciado junto ao Tribunal de Justiça do Rio de Janeiro. Seguimos a metodologia NBR 14653-2 da ABNT para avaliações, e utilizamos transações reais e oficiais registradas na cidade do Rio de Janeiro. Nossos Pareceres são aceitos por bancos e tribunais." },
+  { category: "confianca", question: "Posso ver exemplos de Pareceres anteriores?", answer: "Por questões de confidencialidade, não compartilhamos Pareceres de outros clientes. Porém, podemos mostrar a estrutura e o nível de detalhe do documento durante nossa conversa no WhatsApp, para que você veja exatamente o que receberá." },
 ];
 
 interface QuickValuationData {
@@ -393,16 +393,16 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
               </p>
             </div>
 
-            {/* Ficha do Laudo — campos do exemplo do laudo (hero) */}
+            {/* Ficha da análise preliminar, campos espelhados do exemplo (hero) */}
             <div className="rounded-[2px] border border-[#0C2340]/15 bg-[#FAFAF8] p-3 sm:p-4 space-y-3">
               <h4 className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#0C2340]">
-                Ficha do laudo
+                Ficha da análise preliminar
               </h4>
 
               {/* Barra de confiança da estimativa */}
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between text-[11px] sm:text-xs text-[#0C2340]/80">
-                  <span>Confiança da estimativa</span>
+                  <span>Confiança preliminar</span>
                   <span className="font-mono text-[#0C2340]">
                     {Math.max(10, Math.min(95, Math.round(100 - spreadPercent * 2)))}%
                   </span>
@@ -415,6 +415,9 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
                     }}
                   />
                 </div>
+                <p className="text-[10px] sm:text-[11px] text-[#0C2340]/60 leading-snug">
+                  Confiança preliminar. Sobe significativamente com a vistoria presencial do Parecer.
+                </p>
               </div>
 
               <div className="divide-y divide-[#0C2340]/10 text-[12px] sm:text-sm">
@@ -430,15 +433,20 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
                     {formatCurrency(data.itbiData!.med_m2)}
                   </span>
                 </div>
-                <div className="flex items-center justify-between py-2">
-                  <span className="text-[#0C2340]/80">Margem de negociação</span>
-                  <span className="font-mono text-[#0C2340]">
-                    ~{Math.round(spreadPercent)}%
-                  </span>
+                <div className="py-2 space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#0C2340]/80">Amplitude da faixa (spread)</span>
+                    <span className="font-mono text-[#0C2340]">
+                      {Math.round(spreadPercent)}%
+                    </span>
+                  </div>
+                  <p className="text-[10px] sm:text-[11px] text-[#0C2340]/60 leading-snug">
+                    Indica a incerteza da estimativa online, não um desconto disponível. Uma análise presencial estreita essa faixa.
+                  </p>
                 </div>
                 <div className="flex items-center justify-between py-2">
-                  <span className="text-[#0C2340]/80">Base ABNT NBR 14.653</span>
-                  <span className="font-mono text-[#0C2340]">Sim</span>
+                  <span className="text-[#0C2340]/80">Base de dados</span>
+                  <span className="font-mono text-[#0C2340] text-right text-[11px] sm:text-xs">Transações reais e oficiais registradas</span>
                 </div>
               </div>
             </div>
