@@ -71,7 +71,7 @@ export default function AvaliacaoDireta() {
         <footer className="py-8 px-6 border-t border-slate-200">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.15em] text-slate-400 font-bold">
             <p className="text-center md:text-left">
-              © {new Date().getFullYear()} {BRAND.name} — {BRAND.creci}
+              © {new Date().getFullYear()} {BRAND.name}, {BRAND.creci}
             </p>
             <div className="flex flex-wrap justify-center gap-6 sm:gap-8">
               <a
