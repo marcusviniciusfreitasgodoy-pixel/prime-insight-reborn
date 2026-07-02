@@ -112,28 +112,28 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
 
   const getSpreadInfo = (spread: number) => {
     if (spread < 5) return {
-      icon: "✅",
+      icon: null,
       label: "Alta Precisão",
       message: "As transações neste endereço são muito consistentes. Estimativa com alto grau de confiança.",
       color: "bg-green-50 border-green-200 text-green-800",
       badgeColor: "bg-green-100 text-green-700 border-green-300",
     };
     if (spread < 15) return {
-      icon: "📊",
+      icon: null,
       label: "Boa Referência",
       message: "Intervalo saudável de mercado. Valores refletem variações naturais entre unidades.",
       color: "bg-blue-50 border-blue-200 text-blue-800",
       badgeColor: "bg-blue-100 text-blue-700 border-blue-300",
     };
     if (spread < 30) return {
-      icon: "⚠️",
+      icon: null,
       label: "Intervalo Amplo",
       message: "Há variação significativa nas transações. Diferenciais do imóvel (andar, vista, reforma) podem posicioná-lo em qualquer faixa. Um Parecer Técnico ajuda a definir com precisão.",
       color: "bg-amber-50 border-amber-200 text-amber-800",
       badgeColor: "bg-amber-100 text-amber-700 border-amber-300",
     };
     return {
-      icon: "🔍",
+      icon: null,
       label: "Requer Análise",
       message: "O intervalo é amplo demais para uma estimativa confiável online. Um Parecer Técnico presencial é altamente recomendado para definir o valor justo.",
       color: "bg-red-50 border-red-200 text-red-800",
