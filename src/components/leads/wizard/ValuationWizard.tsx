@@ -25,7 +25,7 @@ const QuickValuationResult = lazy(() =>
   import("../QuickValuationResult").then((m) => ({ default: m.QuickValuationResult })),
 );
 
-const MAX_FREE_EVALUATIONS = 2;
+const MAX_FREE_EVALUATIONS = Number.POSITIVE_INFINITY;
 const STORAGE_KEY = "wizard_state_v1";
 
 type WizardStep = "intention" | "address" | "property" | "details" | "analyzing" | "result" | "thanks";
