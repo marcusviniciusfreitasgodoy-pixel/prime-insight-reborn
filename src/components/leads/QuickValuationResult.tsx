@@ -361,7 +361,6 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
             {hasData && (
               <div className={`rounded-lg p-3 border ${spreadInfo.color}`}>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-base">{spreadInfo.icon}</span>
                   <Badge variant="outline" className={`text-xs font-semibold ${spreadInfo.badgeColor}`}>
                     {spreadInfo.label}
                   </Badge>
