@@ -312,8 +312,8 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     // Public endpoint: called from the anonymous /avaliacao-direta flow.
-    // Abuse mitigation: DB rate limit (check_lead_rate_limit, 3 leads / 5min / email),
-    // required-field validation below, and Resend/Z-API keys stay server-side.
+    // Test mode: consultation limit is disabled in check_lead_rate_limit.
+    // Required-field validation below, and Resend/Z-API keys stay server-side.
 
     const data: LeadNotificationRequest = await req.json();
     console.log("Received notification request:", JSON.stringify(data, null, 2));

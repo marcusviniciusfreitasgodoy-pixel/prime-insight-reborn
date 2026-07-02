@@ -60,7 +60,7 @@ serve(async (req: Request) => {
   }
 
   // Public endpoint: called from anonymous /avaliacao-direta flow.
-  // Protection: DB-level rate limiting via check_lead_rate_limit + server-side
+  // Test mode: consultation limit is disabled in check_lead_rate_limit.
   // API key kept in DATEAHOME_API_KEY (never exposed to browser).
 
   const apiKey = Deno.env.get("DATEAHOME_API_KEY");
