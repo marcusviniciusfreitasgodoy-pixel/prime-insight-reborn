@@ -360,7 +360,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
         })
         .catch((e) => {
           console.error("notification exception:", e);
-          toast.error("Cadastro feito, mas falhou o disparo do laudo automático.");
+          toast.error("Cadastro feito, mas falhou o disparo da análise automática.");
         });
 
       sendLeadToCrm("avaliacao_direta_wizard", {

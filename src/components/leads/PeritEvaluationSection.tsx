@@ -211,7 +211,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
               <FileText className="h-5 w-5 text-[#D4AF37]" />
             </div>
             <h5 className="font-semibold text-foreground text-sm">Perito Avaliador Credenciado pelo TJRJ</h5>
-            <p className="text-xs text-muted-foreground">Habilitado judicialmente para emitir laudos com validade legal em processos judiciais e extrajudiciais.</p>
+            <p className="text-xs text-muted-foreground">Habilitado judicialmente para emitir Pareceres com validade legal em processos judiciais e extrajudiciais.</p>
           </div>
 
           <div className="bg-white border border-[#D4AF37]/40 rounded-[2px] p-4 space-y-2">
@@ -232,7 +232,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
         </div>
 
         <p className="text-center text-xs text-muted-foreground/70 italic">
-          Quando os primeiros laudos forem entregues, esta seção trará os resultados reais de nossos clientes.
+          Quando os primeiros Pareceres forem entregues, esta seção trará os resultados reais de nossos clientes.
         </p>
 
         <div className="text-center">
@@ -251,7 +251,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
       {/* Seção 4: Garantia Dupla */}
       <div className="space-y-4">
         <h4 className="text-lg font-bold text-foreground text-center">
-          🛡️ Garantia Dupla
+          Garantia Dupla
         </h4>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -271,7 +271,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
               Garantia de Execução Profissional
             </h5>
             <p className="text-sm text-[#4A443C]">
-              Se não entregar no prazo de <span className="font-mono font-medium tracking-tight">5</span> dias úteis por falha operacional → reembolso <span className="font-mono font-medium tracking-tight">100%</span> + compensação
+              Se não entregar no prazo de <span className="font-mono font-medium tracking-tight">7</span> dias úteis após a vistoria por falha operacional → reembolso <span className="font-mono font-medium tracking-tight">100%</span> + compensação
             </p>
           </div>
         </div>
@@ -305,7 +305,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
             <p className="text-base sm:text-lg font-mono font-medium tracking-tight text-foreground">A partir de R$ 4.900</p>
           </div>
           <div className="bg-white/60 rounded-[2px] p-3 text-center min-w-[140px]">
-            <p className="text-xs text-muted-foreground">Economia Média</p>
+            <p className="text-xs text-muted-foreground">Potencial de economia</p>
             <p className="text-base sm:text-lg font-mono font-medium tracking-tight text-[#C4993A]">R$ 180-450 mil</p>
           </div>
         </div>
@@ -346,7 +346,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
       <div className="bg-[#0C2340] rounded-[2px] p-4 sm:p-6 text-white">
         <div className="text-center mb-4 sm:mb-6">
           <h4 className="text-base sm:text-lg font-bold mb-2">
-            🚀 Quer Representação Completa Durante Todo o Processo?
+            Quer Representação Completa Durante Todo o Processo?
           </h4>
           <p className="text-white/70 text-xs sm:text-sm">
             Sistema de Representação Blindada: Prime Buyer Experience

@@ -78,8 +78,8 @@ export const WHATSAPP_MESSAGES = {
   agendarPresencial: () =>
     "Olá! Vim pela avaliação online e gostaria de agendar uma avaliação presencial gratuita.",
 
-  /** Laudo completo direto via WhatsApp a partir do resultado preliminar (/avaliacao-direta). */
-  laudoCompletoDireto: (p?: {
+  /** Análise preliminar completa direto via WhatsApp a partir do resultado preliminar (/avaliacao-direta). */
+  analisePreliminarDireto: (p?: {
     bairro?: string;
     tipologia?: string;
     area?: number;
@@ -98,7 +98,7 @@ export const WHATSAPP_MESSAGES = {
         : "";
     return `Olá! Acabei de fazer a avaliação online${
       detalhes ? ` (${detalhes})` : ""
-    }.${linhaEst}\n\nQuero receber o laudo completo do especialista por aqui.`;
+    }.${linhaEst}\n\nQuero receber a análise preliminar completa do especialista por aqui.`;
   },
 } as const;
 

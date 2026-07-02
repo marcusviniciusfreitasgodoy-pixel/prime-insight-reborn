@@ -380,7 +380,7 @@ export default function AvaliacaoPublica() {
                   <ArrowRight className="h-3.5 w-3.5 -rotate-45 text-[#C9A84C] mt-1 shrink-0" />
                   <p className="text-[11px] sm:text-xs text-white/60 leading-relaxed">
                     Estimativa estatística baseada em transações reais da região nos últimos 12 meses.
-                    Não é laudo formal nos termos da NBR 14653. Para imóveis exclusivos, a variação
+                    Não é Parecer formal nos termos da NBR 14653. Para imóveis exclusivos, a variação
                     pode chegar a 15%. Para o Parecer Técnico formal com validação do especialista
                     credenciado, acesse a plataforma.
                   </p>
@@ -612,7 +612,7 @@ export default function AvaliacaoPublica() {
                 <Lock className="h-8 w-8 text-[#D4AF37] mb-4 group-hover:scale-110 transition-transform duration-300" />
                 <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-left">Compra Blindada</h4>
                 <p className="text-white/60 text-xs sm:text-sm text-left leading-relaxed">
-                  Proteção completa para quem já encontrou o imóvel. Inclui laudo técnico com vistoria presencial + condução integral da negociação + due diligence documental + acompanhamento até a assinatura do contrato. Tudo com um único especialista ao seu lado.
+                  Proteção completa para quem já encontrou o imóvel. Inclui Parecer técnico com vistoria presencial + condução integral da negociação + due diligence documental + acompanhamento até a assinatura do contrato. Tudo com um único especialista ao seu lado.
                 </p>
               </div>
 
@@ -749,7 +749,7 @@ export default function AvaliacaoPublica() {
             </div>
             <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
               <p className="text-white/40 text-xs">© {new Date().getFullYear()} Godoy Prime Realty. Todos os direitos reservados.</p>
-              <p className="text-white/30 text-[10px] leading-relaxed max-w-xl">Aviso: Esta é uma estimativa automática baseada em dados históricos de transações oficiais. Não substitui um laudo técnico assinado por perito avaliador.</p>
+              <p className="text-white/30 text-[10px] leading-relaxed max-w-xl">Aviso: Esta é uma estimativa automática baseada em dados históricos de transações oficiais. Não substitui um Parecer técnico assinado por perito avaliador.</p>
               <div className="flex items-center gap-4">
                 <Link to="/politica-privacidade" className="text-white/40 text-xs hover:text-[#D4AF37] transition-colors">Política de Privacidade</Link>
                 <span className="text-white/20">|</span>
