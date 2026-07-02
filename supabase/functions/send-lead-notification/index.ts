@@ -105,19 +105,19 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0C2340;border-radius:10px;margin:24px 0;">
       <tr><td style="padding:22px 20px;text-align:center;">
         <p style="margin:0 0 4px 0;color:#D4AF37;font-size:13px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;font-family:'Segoe UI',Arial,sans-serif;">Sua Estimativa Preliminar</p>
-        <p style="margin:0 0 18px 0;color:rgba(255,255,255,0.7);font-size:12px;font-family:'Segoe UI',Arial,sans-serif;">Baseado em transações ITBI da região</p>
+        <p style="margin:0 0 18px 0;color:rgba(255,255,255,0.7);font-size:12px;font-family:'Segoe UI',Arial,sans-serif;">Baseada em transacoes reais e oficiais registradas</p>
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td width="33%" align="center" style="padding:8px 4px;border-right:1px solid rgba(255,255,255,0.15);">
-              <p style="margin:0 0 6px 0;color:rgba(255,255,255,0.65);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-family:'Segoe UI',Arial,sans-serif;">Mínimo</p>
+              <p style="margin:0 0 6px 0;color:rgba(255,255,255,0.65);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-family:'Segoe UI',Arial,sans-serif;">Minimo</p>
               <p style="margin:0;color:#ffffff;font-size:16px;font-weight:600;font-family:'Segoe UI',Arial,sans-serif;">${formatCurrency(data.estimativaMin)}</p>
             </td>
             <td width="34%" align="center" style="padding:8px 4px;border-right:1px solid rgba(255,255,255,0.15);">
-              <p style="margin:0 0 6px 0;color:#D4AF37;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-weight:700;font-family:'Segoe UI',Arial,sans-serif;">Mais Provável</p>
+              <p style="margin:0 0 6px 0;color:#D4AF37;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-weight:700;font-family:'Segoe UI',Arial,sans-serif;">Mais provavel</p>
               <p style="margin:0;color:#D4AF37;font-size:22px;font-weight:700;font-family:'Segoe UI',Arial,sans-serif;">${formatCurrency(data.estimativaMed)}</p>
             </td>
             <td width="33%" align="center" style="padding:8px 4px;">
-              <p style="margin:0 0 6px 0;color:rgba(255,255,255,0.65);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-family:'Segoe UI',Arial,sans-serif;">Máximo</p>
+              <p style="margin:0 0 6px 0;color:rgba(255,255,255,0.65);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-family:'Segoe UI',Arial,sans-serif;">Maximo</p>
               <p style="margin:0;color:#ffffff;font-size:16px;font-weight:600;font-family:'Segoe UI',Arial,sans-serif;">${formatCurrency(data.estimativaMax)}</p>
             </td>
           </tr>
