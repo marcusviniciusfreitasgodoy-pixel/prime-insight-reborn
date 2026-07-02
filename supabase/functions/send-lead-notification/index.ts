@@ -42,6 +42,7 @@ interface LeadNotificationRequest {
   banheiros?: number;
   suites?: number;
   vagas?: number;
+  andar?: number | string;
   diferenciais?: string;
   estimativaMin?: number;
   estimativaMed?: number;
