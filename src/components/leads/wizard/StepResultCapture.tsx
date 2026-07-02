@@ -76,8 +76,8 @@ export function StepResultCapture({
     });
   };
 
-  const whatsappLaudoUrl = whatsappUrl(
-    WHATSAPP_MESSAGES.laudoCompletoDireto({
+  const whatsappAnaliseUrl = whatsappUrl(
+    WHATSAPP_MESSAGES.analisePreliminarDireto({
       bairro,
       tipologia,
       area,
@@ -138,7 +138,7 @@ export function StepResultCapture({
         </p>
       </div>
 
-      {/* Formulário principal: receber o laudo completo na tela, e-mail e WhatsApp */}
+      {/* Formulário principal: receber a análise preliminar completa na tela, e-mail e WhatsApp */}
       <form
         onSubmit={handleSubmit}
         className="rounded-[2px] border border-[#0C2340]/15 bg-white p-4 sm:p-5 space-y-4"
@@ -147,9 +147,9 @@ export function StepResultCapture({
           <div className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[#C9A84C] font-semibold mb-1">
             Próximo passo
           </div>
-          <h3 className="font-bold text-[#0C2340]">Receba seu laudo completo agora</h3>
+          <h3 className="font-bold text-[#0C2340]">Receba sua análise preliminar completa</h3>
           <p className="text-xs text-[#0C2340]/70 mt-1">
-            Você verá o laudo completo na tela e a mesma análise chega no seu e-mail e WhatsApp.
+            Você verá a análise completa na tela e a mesma análise chega no seu e-mail e WhatsApp.
           </p>
           <div className="mt-3 flex items-center justify-center gap-4 text-[11px] text-[#0C2340]/70">
             <span className="inline-flex items-center gap-1"><Monitor className="h-3.5 w-3.5 text-[#C9A84C]" /> Tela</span>
@@ -217,11 +217,11 @@ export function StepResultCapture({
               <Loader2 className="h-4 w-4 animate-spin" /> Enviando...
             </>
           ) : (
-            "Receber laudo completo"
+            "Ver minha análise preliminar"
           )}
         </button>
         <p className="text-[11px] text-center text-muted-foreground">
-          Seus dados ficam protegidos. Usamos apenas para enviar o laudo e, se preferir, falar com você.
+          Seus dados ficam protegidos. Usamos apenas para enviar a análise e, se preferir, falar com você.
         </p>
       </form>
 
@@ -239,7 +239,7 @@ export function StepResultCapture({
           </p>
         </div>
         <a
-          href={whatsappLaudoUrl}
+          href={whatsappAnaliseUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center gap-2 w-full h-11 rounded-[2px] border border-[#0C2340]/20 bg-white hover:bg-[#0C2340]/5 text-[#0C2340] font-semibold transition-colors"
