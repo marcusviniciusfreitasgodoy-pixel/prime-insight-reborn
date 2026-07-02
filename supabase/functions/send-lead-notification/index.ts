@@ -311,35 +311,9 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    // Validate JWT properly (rejects arbitrary strings; presence-only check is not enough).
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-    try {
-      const authClient = createClient(
-        Deno.env.get('SUPABASE_URL')!,
-        Deno.env.get('SUPABASE_ANON_KEY')!,
-        { global: { headers: { Authorization: authHeader } } },
-      );
-      const { data: claims, error: claimsErr } = await authClient.auth.getClaims(
-        authHeader.replace('Bearer ', ''),
-      );
-      if (claimsErr || !claims?.claims) {
-        return new Response(
-          JSON.stringify({ error: 'Unauthorized' }),
-          { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
-      }
-    } catch (_e) {
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
+    // Public endpoint: called from the anonymous /avaliacao-direta flow.
+    // Abuse mitigation: DB rate limit (check_lead_rate_limit, 3 leads / 5min / email),
+    // required-field validation below, and Resend/Z-API keys stay server-side.
 
     const data: LeadNotificationRequest = await req.json();
     console.log("Received notification request:", JSON.stringify(data, null, 2));
