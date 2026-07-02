@@ -301,12 +301,12 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
                 {gapDirection === "above"
                   ? `O vendedor pede ${formatCurrency(Math.abs(gapValue), true)} acima do valor provável de mercado`
                   : gapDirection === "below"
-                  ? `O preço pedido está ${formatCurrency(Math.abs(gapValue), true)} abaixo do valor provável — possível oportunidade`
+                  ? `O preço pedido está ${formatCurrency(Math.abs(gapValue), true)} abaixo do valor provável, possível oportunidade`
                   : "O preço pedido está alinhado com o valor de mercado"}
               </p>
               {gapDirection === "above" && Math.abs(gapPercent) > 10 && (
                 <p className="text-xs text-red-600 mt-2">
-                  ⚠️ Diferença significativa — recomendamos um Parecer Técnico para negociação fundamentada.
+                  Diferença significativa. Recomendamos um Parecer Técnico para negociação fundamentada.
                 </p>
               )}
             </div>
@@ -467,7 +467,7 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
         </CardContent>
       </Card>
 
-      {/* ===== SOLICITAR PARECER TÉCNICO — CTA destacado ===== */}
+      {/* ===== SOLICITAR PARECER TÉCNICO, CTA destacado ===== */}
       {!parecerRequested && (
         <div className="bg-gradient-to-br from-[#0C2340] to-[#1a3a5c] rounded-2xl p-6 sm:p-8 text-center space-y-4 shadow-xl">
           <div className="mx-auto w-14 h-14 rounded-full bg-[#D4AF37]/20 flex items-center justify-center">
@@ -475,11 +475,11 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
           </div>
           <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
             {intention === "vender"
-              ? "Anuncie no preço certo — sem deixar dinheiro na mesa"
+              ? "Anuncie no preço certo, sem deixar dinheiro na mesa"
               : intention === "comprar"
-              ? "Negocie com a margem certa — sem pagar a mais"
+              ? "Negocie com a margem certa, sem pagar a mais"
               : spreadPercent >= 30
-              ? "Intervalo amplo — você precisa de precisão"
+              ? "Intervalo amplo, você precisa de precisão"
               : spreadPercent >= 15
               ? "Quer saber exatamente onde seu imóvel se posiciona?"
               : "Proteja seu patrimônio com uma análise completa"}
@@ -508,7 +508,7 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
               ? "Quero o teto justo de proposta"
               : "Solicitar Parecer Técnico"}
           </Button>
-          <p className="text-white/40 text-xs">🔒 Sem compromisso • Orçamento gratuito • Retorno em até 2h</p>
+          <p className="text-white/40 text-xs">Sem compromisso • Orçamento gratuito • Retorno em até 2h</p>
         </div>
       )}
       <Card className="border-border shadow-lg">
@@ -526,7 +526,7 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
       {/* Aviso de limitação técnica */}
       <div className="bg-amber-50/80 border border-amber-200/60 rounded-lg p-3 sm:p-4 text-sm text-amber-800">
         <p>
-          ⚠️ Estimativa baseada em transações históricas. Uma análise técnica presencial considera diferenciais específicos do imóvel e pode representar diferença de 15-30% no valor final.
+          Estimativa baseada em transações reais e oficiais registradas. Uma análise técnica presencial considera diferenciais específicos do imóvel e pode representar diferença de 15% a 30% no valor final.
         </p>
       </div>
 
@@ -643,11 +643,11 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
                 </a>
               </p>
               <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-white/60 pt-2">
-                <span>🛡️ Garantia 100%</span>
+                <span>Garantia 100%</span>
                 <span className="text-white/30">•</span>
-                <span>⚡ Resposta em 2h úteis</span>
+                <span>Resposta em 2h úteis</span>
                 <span className="text-white/30">•</span>
-                <span>📋 Sem compromisso</span>
+                <span>Sem compromisso</span>
               </div>
             </div>
           </CardContent>
