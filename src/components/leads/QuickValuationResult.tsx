@@ -615,8 +615,8 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
               </h3>
               <p className="text-white/75 text-sm sm:text-base">
                 Proteja seu patrimônio com o <strong className="text-white">Parecer Técnico Godoy Prime</strong>.
-                Mais de <strong className="text-[#C9A84C]">R$ 180-450 mil</strong> em economia média por imóvel analisado —
-                investimento a partir de <strong className="text-white">R$ 4.900</strong> com garantia de reembolso 100%.
+                Potencial de economia de <strong className="text-[#C9A84C]">R$ 180-450 mil</strong> por imóvel analisado.
+                Investimento a partir de <strong className="text-white">R$ 4.900</strong> com garantia de reembolso 100%.
               </p>
               <div className="flex justify-center pt-2">
                 <Button
