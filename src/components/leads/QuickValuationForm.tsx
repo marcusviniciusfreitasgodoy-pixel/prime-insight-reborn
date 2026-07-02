@@ -53,7 +53,7 @@ interface QuickValuationFormProps {
   origem?: string;
 }
 
-const MAX_FREE_EVALUATIONS = 2;
+const MAX_FREE_EVALUATIONS = Number.POSITIVE_INFINITY;
 
 const TIPOLOGIAS = [
   { value: "Apartamento", label: "Apartamento" },
