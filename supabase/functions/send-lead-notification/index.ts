@@ -250,16 +250,15 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
         </td></tr>
         <!-- Footer -->
         <tr><td style="background:#f8fafc;padding:24px;text-align:center;border-top:1px solid #e5e7eb;">
-          <p style="margin:0 0 4px 0;color:#0C2340;font-size:13px;font-weight:700;">Marcus Godoy — CRECI-RJ 11841</p>
-          <p style="margin:0 0 12px 0;color:#6b7280;font-size:12px;">Especialista em Imóveis de Alto Padrão na Barra da Tijuca</p>
+          <p style="margin:0 0 4px 0;color:#0C2340;font-size:13px;font-weight:700;">Godoy Prime Realty — CRECI-RJ 11841</p>
+          <p style="margin:0 0 12px 0;color:#6b7280;font-size:12px;">Marcus Godoy, especialista em imoveis de alto padrao na Barra da Tijuca</p>
           <p style="margin:0;color:#6b7280;font-size:12px;">
             <a href="https://godoyprime.com.br" style="color:#0C2340;text-decoration:none;font-weight:600;">godoyprime.com.br</a>
             &nbsp;·&nbsp;
             <a href="${PHONE.tel}" style="color:#0C2340;text-decoration:none;font-weight:600;">${PHONE.display}</a>
           </p>
           <p style="margin:14px 0 0 0;color:#9ca3af;font-size:11px;line-height:1.5;">
-            Você recebeu este email porque solicitou uma avaliação na nossa plataforma.<br>
-            Este conteúdo é informativo e não substitui um Parecer Técnico formal.
+            Voce recebeu este e-mail porque solicitou uma avaliacao na nossa plataforma.
           </p>
         </td></tr>
       </table>
