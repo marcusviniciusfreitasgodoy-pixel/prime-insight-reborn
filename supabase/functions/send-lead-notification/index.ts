@@ -176,17 +176,17 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
 
     mainContent = `
       <p style="margin:0 0 16px 0;color:#333;font-size:15px;font-family:'Segoe UI',Arial,sans-serif;">
-        Olá <strong>${escapeHtml(data.leadName)}</strong>,
+        Ola <strong>${escapeHtml(data.leadName)}</strong>,
       </p>
       <p style="margin:0 0 16px 0;color:#555;font-size:15px;line-height:1.6;font-family:'Segoe UI',Arial,sans-serif;">
-        <strong>Excelente decisão.</strong> Recebemos sua solicitação de Parecer Técnico Godoy Prime e nossa equipe já está analisando os dados do seu imóvel.
+        <strong>Excelente decisao.</strong> Recebemos sua solicitacao de Parecer Tecnico Godoy Prime e nossa equipe ja esta analisando os dados do seu imovel.
       </p>
 
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ecfdf5;border-left:4px solid #10b981;border-radius:4px;margin:20px 0;">
         <tr><td style="padding:16px 20px;font-family:'Segoe UI',Arial,sans-serif;">
-          <h4 style="margin:0 0 6px 0;color:#065f46;font-size:15px;">✅ Solicitação Confirmada</h4>
+          <h4 style="margin:0 0 6px 0;color:#065f46;font-size:15px;">Solicitacao confirmada</h4>
           <p style="margin:0;color:#047857;font-size:14px;line-height:1.6;">
-            Um especialista entrará em contato em até <strong>2 horas úteis</strong> para apresentar a análise completa.
+            Um especialista entrara em contato em ate <strong>2 horas uteis</strong> para apresentar a analise completa.
           </p>
         </td></tr>
       </table>
@@ -195,14 +195,16 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
 
       ${estimativaSection}
 
+      ${m2Section}
+
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;margin:20px 0;">
         <tr><td style="padding:18px 20px;font-family:'Segoe UI',Arial,sans-serif;">
-          <h4 style="margin:0 0 10px 0;color:#0C2340;font-size:15px;">🎯 O que esperar:</h4>
+          <h4 style="margin:0 0 10px 0;color:#0C2340;font-size:15px;">O que esperar</h4>
           <ul style="margin:0;padding-left:20px;color:#374151;font-size:14px;line-height:1.7;">
-            <li>Análise personalizada com os 26 fatores técnicos</li>
-            <li>Comparativo com transações reais da região</li>
-            <li>Orientação estratégica para ${isVenda ? 'venda' : 'compra'}</li>
-            <li>Conformidade NBR 14653-2</li>
+            <li>Analise personalizada com os 26 fatores tecnicos</li>
+            <li>Comparativo com transacoes reais e oficiais da regiao</li>
+            <li>Orientacao estrategica para ${isVenda ? 'venda' : 'compra'}</li>
+            <li>Metodologia ABNT NBR 14.653</li>
           </ul>
         </td></tr>
       </table>
@@ -214,11 +216,11 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
           <table role="presentation" cellpadding="0" cellspacing="0" border="0">
             <tr><td style="background:#25D366;border-radius:8px;">
               <a href="https://wa.me/${PHONE.e164}" style="display:inline-block;padding:16px 36px;color:#ffffff;text-decoration:none;font-weight:700;font-size:16px;font-family:'Segoe UI',Arial,sans-serif;">
-                📱 Falar Agora no WhatsApp
+                Falar agora no WhatsApp
               </a>
             </td></tr>
           </table>
-          <p style="margin:12px 0 0 0;color:#888;font-size:12px;font-family:'Segoe UI',Arial,sans-serif;">${PHONE.display} — Marcus Godoy</p>
+          <p style="margin:12px 0 0 0;color:#888;font-size:12px;font-family:'Segoe UI',Arial,sans-serif;">${PHONE.display} | Marcus Godoy</p>
         </td></tr>
       </table>
     `;
