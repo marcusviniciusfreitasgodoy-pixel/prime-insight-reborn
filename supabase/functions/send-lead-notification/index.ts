@@ -530,30 +530,30 @@ const handler = async (req: Request): Promise<Response> => {
 
         // Bloco detalhado do imóvel (mesmos campos exibidos no site)
         const imovelLinhas = [
-          data.enderecoImovelAnalise ? `📍 Endereço: ${data.enderecoImovelAnalise}` : (data.bairro ? `📍 Bairro: ${data.bairro}` : ""),
-          data.tipologia ? `🏢 Tipo: ${data.tipologia}` : "",
-          data.area ? `📐 Área: ${data.area} m²` : "",
-          data.quartos ? `🛏️ Quartos: ${data.quartos}` : "",
-          data.suites ? `🛁 Suítes: ${data.suites}` : "",
-          data.banheiros ? `🚿 Banheiros: ${data.banheiros}` : "",
-          data.vagas ? `🚗 Vagas: ${data.vagas}` : "",
-          data.diferenciais ? `✨ Diferenciais: ${data.diferenciais}` : "",
+          data.enderecoImovelAnalise ? `Endereco: ${data.enderecoImovelAnalise}` : (data.bairro ? `Bairro: ${data.bairro}` : ""),
+          data.tipologia ? `Tipo: ${data.tipologia}` : "",
+          data.area ? `Area: ${data.area} m2` : "",
+          data.quartos ? `Quartos: ${data.quartos}` : "",
+          data.suites ? `Suites: ${data.suites}` : "",
+          data.banheiros ? `Banheiros: ${data.banheiros}` : "",
+          data.vagas ? `Vagas: ${data.vagas}` : "",
+          data.andar ? `Andar: ${data.andar}` : "",
         ].filter(Boolean).join("\n");
 
         const faixaBlock = (data.estimativaMin && data.estimativaMed && data.estimativaMax)
-          ? `\n\n💰 *Estimativa Preliminar*\nMínimo: ${formatCurrency(data.estimativaMin)}\nMais Provável: ${formatCurrency(data.estimativaMed)}\nMáximo: ${formatCurrency(data.estimativaMax)}`
+          ? `\n\n*Estimativa Preliminar*\nMinimo: ${formatCurrency(data.estimativaMin)}\nMais provavel: ${formatCurrency(data.estimativaMed)}\nMaximo: ${formatCurrency(data.estimativaMax)}`
           : "";
 
         const m2Block = (data.itbiMinM2 && data.itbiMedM2 && data.itbiMaxM2)
-          ? `\n\n📊 *R$/m² na região*\n${formatCurrency(data.itbiMinM2)} – ${formatCurrency(data.itbiMedM2)} – ${formatCurrency(data.itbiMaxM2)}${data.itbiTransactionCount ? `\nBase: ${data.itbiTransactionCount} transações ITBI` : ""}`
+          ? `\n\n*R$/m2 na regiao*\n${formatCurrency(data.itbiMinM2)} a ${formatCurrency(data.itbiMaxM2)} (mediana ${formatCurrency(data.itbiMedM2)})${data.itbiTransactionCount ? `\nBase: ${data.itbiTransactionCount} transacoes reais e oficiais registradas` : ""}`
           : "";
 
         // Message to client
         let clientMsg = "";
         if (notificationType === "initial" || notificationType === "returning") {
-          clientMsg = `🏠 *Godoy Prime Realty — Laudo Preliminar*\n\nOlá ${data.leadName}! 👋\n\nSegue o resumo da sua avaliação online, com os MESMOS dados exibidos no site:\n\n*Imóvel analisado*\n${imovelLinhas}${faixaBlock}${m2Block}\n\n⚠️ Esta é uma *estimativa algorítmica* baseada em transações ITBI oficiais. Para imóveis exclusivos, a variação pode chegar a 15%.\n\n📋 Quer o *Parecer Técnico Completo* com validação manual do especialista (NBR 14653-2)? Responda *PARECER* e um especialista entra em contato em até 2h úteis.\n\nGodoy Prime Realty — CRECI-RJ 11841`;
+          clientMsg = `*Godoy Prime Realty — Analise Preliminar*\n\nOla ${data.leadName}, segue o resumo da sua avaliacao online, com os mesmos dados exibidos no site.\n\n*Imovel analisado*\n${imovelLinhas}${faixaBlock}${m2Block}\n\nEsta e uma estimativa preliminar baseada em transacoes reais e oficiais da regiao. Para imoveis exclusivos, a variacao pode chegar a 15%. Ela considera a rua e o bairro, mas nao os diferenciais do seu condominio e da sua unidade.\n\nQuer o *Parecer Tecnico* presencial, que avalia o estado, os riscos e as caracteristicas especificas do seu imovel segundo a metodologia ABNT NBR 14.653? Responda *PARECER* e um especialista entra em contato em ate 2h uteis.\n\nGodoy Prime Realty — CRECI-RJ 11841`;
         } else {
-          clientMsg = `✅ *Godoy Prime Realty — Parecer Solicitado*\n\nOlá ${data.leadName}!\n\nRecebemos sua solicitação de *Parecer Técnico Completo*. 🎉\n\n*Imóvel analisado*\n${imovelLinhas}${faixaBlock}${m2Block}\n\nUm especialista entrará em contato em até *2h úteis* para iniciar a análise presencial.\n\nGodoy Prime Realty — CRECI-RJ 11841`;
+          clientMsg = `*Godoy Prime Realty — Parecer Tecnico solicitado*\n\nOla ${data.leadName}, recebemos sua solicitacao de *Parecer Tecnico*.\n\n*Imovel analisado*\n${imovelLinhas}${faixaBlock}${m2Block}\n\nUm especialista entrara em contato em ate *2h uteis* para iniciar a analise presencial.\n\nGodoy Prime Realty — CRECI-RJ 11841`;
         }
 
         // Message to broker
