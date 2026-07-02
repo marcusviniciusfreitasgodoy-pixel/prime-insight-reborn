@@ -86,15 +86,16 @@ async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
   const propertyInfo = `
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8f9fa;border-radius:8px;margin:20px 0;border:1px solid #e9ecef;">
       <tr><td style="padding:18px 20px;">
-        <h4 style="margin:0 0 12px 0;color:#0C2340;font-size:15px;font-family:'Segoe UI',Arial,sans-serif;">📍 Imóvel Analisado</h4>
+        <h4 style="margin:0 0 12px 0;color:#0C2340;font-size:15px;font-family:'Segoe UI',Arial,sans-serif;">Imovel analisado</h4>
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:'Segoe UI',Arial,sans-serif;font-size:14px;color:#444;">
-          ${data.bairro ? `<tr><td style="padding:4px 0;width:100px;color:#888;">Bairro</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(data.bairro)}</td></tr>` : ""}
+          ${data.enderecoImovelAnalise ? `<tr><td style="padding:4px 0;width:110px;color:#888;">Endereço</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(data.enderecoImovelAnalise)}</td></tr>` : (data.bairro ? `<tr><td style="padding:4px 0;width:110px;color:#888;">Bairro</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(data.bairro)}</td></tr>` : "")}
           ${data.tipologia ? `<tr><td style="padding:4px 0;color:#888;">Tipo</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(data.tipologia)}</td></tr>` : ""}
           ${data.area ? `<tr><td style="padding:4px 0;color:#888;">Área</td><td style="padding:4px 0;font-weight:600;">${data.area} m²</td></tr>` : ""}
           ${data.quartos ? `<tr><td style="padding:4px 0;color:#888;">Quartos</td><td style="padding:4px 0;font-weight:600;">${data.quartos}</td></tr>` : ""}
           ${data.suites ? `<tr><td style="padding:4px 0;color:#888;">Suítes</td><td style="padding:4px 0;font-weight:600;">${data.suites}</td></tr>` : ""}
           ${data.banheiros ? `<tr><td style="padding:4px 0;color:#888;">Banheiros</td><td style="padding:4px 0;font-weight:600;">${data.banheiros}</td></tr>` : ""}
           ${data.vagas ? `<tr><td style="padding:4px 0;color:#888;">Vagas</td><td style="padding:4px 0;font-weight:600;">${data.vagas}</td></tr>` : ""}
+          ${data.andar ? `<tr><td style="padding:4px 0;color:#888;">Andar</td><td style="padding:4px 0;font-weight:600;">${escapeHtml(String(data.andar))}</td></tr>` : ""}
         </table>
       </td></tr>
     </table>
