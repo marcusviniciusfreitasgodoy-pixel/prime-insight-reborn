@@ -302,9 +302,10 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    // Public endpoint: called from the anonymous /avaliacao-direta flow.
-    // Test mode: consultation limit is disabled in check_lead_rate_limit.
-    // Required-field validation below, and Resend/Z-API keys stay server-side.
+    // Public endpoint (called from the anonymous /avaliacao-direta flow), but
+    // we require that the leadEmail already exists in the `leads` table before
+    // sending anything. This prevents attackers from calling this function to
+    // spam arbitrary recipients via our Resend domain.
 
     const data: LeadNotificationRequest = await req.json();
     console.log("Received notification request:", JSON.stringify(data, null, 2));
@@ -315,6 +316,35 @@ const handler = async (req: Request): Promise<Response> => {
       return new Response(
         JSON.stringify({ error: "Missing required fields: leadName, leadEmail, leadPhone" }),
         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    // Verify the lead was actually created via the validated public form
+    // (which is RLS-protected and rate-limited). If the email is not present
+    // in the leads table, refuse to send.
+    try {
+      const adminClient = createClient(
+        Deno.env.get("SUPABASE_URL")!,
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+      );
+      const { data: leadRow, error: leadErr } = await adminClient
+        .from("leads")
+        .select("id")
+        .eq("email", String(data.leadEmail).toLowerCase().trim())
+        .limit(1)
+        .maybeSingle();
+      if (leadErr || !leadRow) {
+        console.error("Lead not found for email, refusing to send:", data.leadEmail, leadErr);
+        return new Response(
+          JSON.stringify({ error: "Unauthorized: lead not found" }),
+          { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
+    } catch (e) {
+      console.error("Lead validation failed:", e);
+      return new Response(
+        JSON.stringify({ error: "Unauthorized" }),
+        { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
