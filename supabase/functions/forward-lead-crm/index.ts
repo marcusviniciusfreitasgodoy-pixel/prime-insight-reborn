@@ -86,6 +86,41 @@ serve(async (req: Request) => {
     const email = (lead.email as string) || "";
     const { ddd, phone } = splitPhone(lead.telefone ?? lead.phone);
 
+    // Anti-abuse: only forward leads that already exist in our `leads` table
+    // (public inserts there are RLS-protected and rate-limited). CTA-only
+    // events without a persisted lead are ignored to prevent CRM flooding.
+    if (!email) {
+      return new Response(
+        JSON.stringify({ ok: false, error: "missing_email" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+    try {
+      const adminClient = createClient(
+        Deno.env.get("SUPABASE_URL")!,
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+      );
+      const { data: leadRow, error: leadErr } = await adminClient
+        .from("leads")
+        .select("id")
+        .eq("email", String(email).toLowerCase().trim())
+        .limit(1)
+        .maybeSingle();
+      if (leadErr || !leadRow) {
+        console.warn("[forward-lead-crm] lead not found, refusing:", email);
+        return new Response(
+          JSON.stringify({ ok: false, error: "lead_not_found" }),
+          { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        );
+      }
+    } catch (e) {
+      console.error("[forward-lead-crm] lead validation error:", e);
+      return new Response(
+        JSON.stringify({ ok: false, error: "validation_failed" }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
     const payload = {
       leadOrigin: buildLeadOrigin(body),
       name,
