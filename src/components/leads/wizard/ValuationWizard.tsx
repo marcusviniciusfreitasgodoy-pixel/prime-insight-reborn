@@ -135,6 +135,10 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
     };
     const n = map[step];
     if (n) trackWizardStep(n);
+    if (step === "result") {
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      (window as any).dataLayer.push({ event: "avaliacao_concluida" });
+    }
     topRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [step]);
 
