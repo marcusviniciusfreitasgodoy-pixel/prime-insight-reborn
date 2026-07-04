@@ -24,6 +24,9 @@ interface Props {
 export function StepAddress({ tipologia, bairro, logradouro, numero, onChange, onNext }: Props) {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [streetSelected, setStreetSelected] = useState(!!logradouro);
+  const [showBairroList, setShowBairroList] = useState(false);
+  const bairroWrapperRef = useRef<HTMLDivElement>(null);
+  const bairroInputRef = useRef<HTMLInputElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const bairroNormalized = normalizeBairro(bairro);
   const { data: suggestions, isLoading } = useStreetSuggestions(
@@ -36,10 +39,18 @@ export function StepAddress({ tipologia, bairro, logradouro, numero, onChange, o
       if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
         setShowSuggestions(false);
       }
+      if (bairroWrapperRef.current && !bairroWrapperRef.current.contains(e.target as Node)) {
+        setShowBairroList(false);
+      }
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
+
+  const bairroQuery = bairro.trim().toUpperCase();
+  const bairroMatches = bairroQuery
+    ? BAIRROS_RIO.filter((b) => b.includes(bairroQuery)).slice(0, 8)
+    : BAIRROS_RIO.slice(0, 8);
 
   const canAdvance =
     !!tipologia &&
@@ -80,25 +91,47 @@ export function StepAddress({ tipologia, bairro, logradouro, numero, onChange, o
         </div>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-2" ref={bairroWrapperRef}>
         <Label htmlFor="bairro" className="text-sm font-medium text-[#0C2340]">
           Bairro
         </Label>
-        <Input
-          id="bairro"
-          list="bairros-rio-list"
-          value={bairro}
-          onChange={(e) => onChange({ bairro: e.target.value })}
-          placeholder="Ex: Barra da Tijuca, Ipanema, Tijuca..."
-          className="h-12 rounded-[2px]"
-          autoComplete="off"
-          maxLength={80}
-        />
-        <datalist id="bairros-rio-list">
-          {BAIRROS_RIO.map((b) => (
-            <option key={b} value={b} />
-          ))}
-        </datalist>
+        <div className="relative">
+          <Input
+            id="bairro"
+            ref={bairroInputRef}
+            value={bairro}
+            onChange={(e) => {
+              onChange({ bairro: e.target.value });
+              setShowBairroList(true);
+            }}
+            onFocus={() => setShowBairroList(true)}
+            placeholder="Ex: Barra da Tijuca, Ipanema, Tijuca..."
+            className="h-12 rounded-[2px]"
+            autoComplete="off"
+            maxLength={80}
+          />
+          {showBairroList && bairroMatches.length > 0 && (
+            <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#0C2340]/15 rounded-lg shadow-lg max-h-64 overflow-y-auto z-[100]">
+              {bairroMatches.map((b) => (
+                <button
+                  key={b}
+                  type="button"
+                  onMouseDown={(e) => {
+                    // onMouseDown fires before the input's blur — prevents
+                    // the dropdown from closing before onClick lands.
+                    e.preventDefault();
+                    onChange({ bairro: b });
+                    setShowBairroList(false);
+                    bairroInputRef.current?.blur();
+                  }}
+                  className="w-full text-left px-3 py-2.5 hover:bg-[#C9A84C]/10 text-sm border-b border-[#0C2340]/5 last:border-0 font-medium text-[#0C2340]"
+                >
+                  {b}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
         {showCoberturaNote && (
           <p className="text-xs text-[#6B6359] leading-relaxed pt-1">
             Estimativa indicativa. Nossa base é mais densa na Zona Oeste do Rio.
