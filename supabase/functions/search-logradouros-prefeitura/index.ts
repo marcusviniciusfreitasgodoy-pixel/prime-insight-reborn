@@ -113,12 +113,15 @@ serve(async (req) => {
     console.log(`Searching Prefeitura API for: ${searchTerm} in ${bairroTerm || "all bairros"}`);
 
     // Build query for Prefeitura API
-    let whereClause = `completo LIKE '%${searchTerm}%'`;
+    // A camada da Prefeitura armazena nomes em formato misto
+    // ("Rua Jose Higino", "Tijuca"), então normalizamos com UPPER()
+    // para a busca ficar case-insensitive.
+    let whereClause = `UPPER(completo) LIKE '%${searchTerm}%'`;
     if (bairroTerm) {
-      whereClause += ` AND bairro = '${bairroTerm}'`;
+      whereClause += ` AND UPPER(bairro) = '${bairroTerm}'`;
     }
 
-    const url = `https://pgeo3.rio.rj.gov.br/arcgis/rest/services/CadLog/Trechos_Logradouros/MapServer/0/query?where=${encodeURIComponent(whereClause)}&outFields=logradouro,bairro,hierarquia,completo&returnGeometry=false&returnDistinctValues=true&f=json`;
+    const url = `https://pgeo3.rio.rj.gov.br/arcgis/rest/services/CadLog/Trechos_Logradouros/MapServer/0/query?where=${encodeURIComponent(whereClause)}&outFields=nome_parcial,bairro,hierarquia,completo&returnGeometry=false&returnDistinctValues=true&f=json`;
 
     const response = await fetch(url, {
       headers: { "Accept": "application/json" },
@@ -152,16 +155,20 @@ serve(async (req) => {
     }>();
 
     for (const feature of data.features) {
-      const { logradouro, bairro: featureBairro, hierarquia, completo } = feature.attributes;
-      const key = `${logradouro}|${featureBairro}`;
-      
+      // A camada da Prefeitura expõe "nome_parcial" (sem tipo logradouro)
+      // e "completo" (nome completo). Não existe mais campo "logradouro".
+      const { nome_parcial, bairro: featureBairro, hierarquia, completo } = feature.attributes;
+      const nomeBase = completo || nome_parcial;
+      if (!nomeBase || !featureBairro) continue;
+      const key = `${nomeBase}|${featureBairro}`;
+
       if (!uniqueLogradouros.has(key)) {
         uniqueLogradouros.set(key, {
-          logradouro: completo || logradouro,
-          logradouro_itbi: contractToITBI(completo || logradouro),
+          logradouro: nomeBase,
+          logradouro_itbi: contractToITBI(nomeBase),
           bairro: featureBairro,
           hierarquia: hierarquia || "",
-          completo: completo || logradouro,
+          completo: nomeBase,
         });
       }
     }
