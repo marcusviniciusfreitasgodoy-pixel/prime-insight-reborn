@@ -121,7 +121,7 @@ serve(async (req) => {
       whereClause += ` AND UPPER(bairro) = '${bairroTerm}'`;
     }
 
-    const url = `https://pgeo3.rio.rj.gov.br/arcgis/rest/services/CadLog/Trechos_Logradouros/MapServer/0/query?where=${encodeURIComponent(whereClause)}&outFields=logradouro,bairro,hierarquia,completo&returnGeometry=false&returnDistinctValues=true&f=json`;
+    const url = `https://pgeo3.rio.rj.gov.br/arcgis/rest/services/CadLog/Trechos_Logradouros/MapServer/0/query?where=${encodeURIComponent(whereClause)}&outFields=nome_parcial,bairro,hierarquia,completo&returnGeometry=false&returnDistinctValues=true&f=json`;
 
     const response = await fetch(url, {
       headers: { "Accept": "application/json" },
