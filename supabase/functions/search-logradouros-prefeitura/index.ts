@@ -113,9 +113,12 @@ serve(async (req) => {
     console.log(`Searching Prefeitura API for: ${searchTerm} in ${bairroTerm || "all bairros"}`);
 
     // Build query for Prefeitura API
-    let whereClause = `completo LIKE '%${searchTerm}%'`;
+    // A camada da Prefeitura armazena nomes em formato misto
+    // ("Rua Jose Higino", "Tijuca"), então normalizamos com UPPER()
+    // para a busca ficar case-insensitive.
+    let whereClause = `UPPER(completo) LIKE '%${searchTerm}%'`;
     if (bairroTerm) {
-      whereClause += ` AND bairro = '${bairroTerm}'`;
+      whereClause += ` AND UPPER(bairro) = '${bairroTerm}'`;
     }
 
     const url = `https://pgeo3.rio.rj.gov.br/arcgis/rest/services/CadLog/Trechos_Logradouros/MapServer/0/query?where=${encodeURIComponent(whereClause)}&outFields=logradouro,bairro,hierarquia,completo&returnGeometry=false&returnDistinctValues=true&f=json`;
