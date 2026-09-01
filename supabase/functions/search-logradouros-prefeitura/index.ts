@@ -155,16 +155,20 @@ serve(async (req) => {
     }>();
 
     for (const feature of data.features) {
-      const { logradouro, bairro: featureBairro, hierarquia, completo } = feature.attributes;
-      const key = `${logradouro}|${featureBairro}`;
-      
+      // A camada da Prefeitura expõe "nome_parcial" (sem tipo logradouro)
+      // e "completo" (nome completo). Não existe mais campo "logradouro".
+      const { nome_parcial, bairro: featureBairro, hierarquia, completo } = feature.attributes;
+      const nomeBase = completo || nome_parcial;
+      if (!nomeBase || !featureBairro) continue;
+      const key = `${nomeBase}|${featureBairro}`;
+
       if (!uniqueLogradouros.has(key)) {
         uniqueLogradouros.set(key, {
-          logradouro: completo || logradouro,
-          logradouro_itbi: contractToITBI(completo || logradouro),
+          logradouro: nomeBase,
+          logradouro_itbi: contractToITBI(nomeBase),
           bairro: featureBairro,
           hierarquia: hierarquia || "",
-          completo: completo || logradouro,
+          completo: nomeBase,
         });
       }
     }
