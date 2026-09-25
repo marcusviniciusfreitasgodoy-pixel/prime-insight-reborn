@@ -56,8 +56,14 @@
       // por cliques/submits que a Meta classifica como Lead sem fbq('track','Lead').
       // Eventos são disparados explicitamente via src/lib/metaPixel.ts.
       fbq('set', 'autoConfig', 'false', '858164903276236');
+      fbq('set', 'autoConfig', 'false', '1306687940478470');
       fbq('init', '858164903276236');
-      fbq('track', 'PageView');
+      fbq('init', '1306687940478470');
+      // fbq('track') dispararia em TODOS os pixels inicializados (duplicaria
+      // PageView no pixel 130). trackSingle entrega o evento uma única vez
+      // por pixel: mesmo comportamento no 858, espelhado no 130.
+      fbq('trackSingle', '858164903276236', 'PageView');
+      fbq('trackSingle', '1306687940478470', 'PageView');
     </script>
     <!-- End Meta Pixel Code -->
 
@@ -73,6 +79,9 @@
     <!-- Meta Pixel (noscript) -->
     <noscript><img height="1" width="1" style="display:none"
       src="https://www.facebook.com/tr?id=858164903276236&ev=PageView&noscript=1"
+    /></noscript>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1306687940478470&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Meta Pixel (noscript) -->
     <div id="root"></div>
