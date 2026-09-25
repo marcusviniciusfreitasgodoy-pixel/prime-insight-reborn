@@ -23,10 +23,22 @@ function safeFbq(...args: unknown[]) {
   }
 }
 
+const PIXEL_MAIN = "858164903276236";
+const PIXEL_SECONDARY = "1306687940478470";
+
 /** Conversão qualificada — usar APENAS após insert bem-sucedido em `leads`. */
 export function trackLead(params?: Record<string, unknown>) {
   console.log("[Pixel] Lead disparado", params ?? {});
-  safeFbq("track", "Lead", params ?? {});
+  // fbq('track') dispararia em TODOS os pixels inicializados (duplicaria o
+  // Lead no pixel secundário). trackSingle entrega o evento uma única vez
+  // por pixel: comportamento idêntico no pixel 858, espelhado no 130.
+  safeFbq("trackSingle", PIXEL_MAIN, "Lead", params ?? {});
+  safeFbq(
+    "trackSingle",
+    PIXEL_SECONDARY,
+    "Lead",
+    { ...(params ?? {}), content_name: "AvaliacaoConcluida" },
+  );
 }
 
 /** Clique em CTA / intenção de contato — NÃO é Lead. */
