@@ -70,7 +70,6 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
   const [intention, setIntention] = useState<Intention | null>(sellerProfile ? "vender" : null);
   const [form, setForm] = useState<FormData>(initialForm);
   const [estimativa, setEstimativa] = useState<EstimativaState | null>(null);
-  const [googleData, setGoogleData] = useState<{ email: string; nome: string } | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [limitExceeded, setLimitExceeded] = useState(false);
   const [evaluationCount, setEvaluationCount] = useState(0);
@@ -91,38 +90,6 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
     if (normalized) setForm((f) => ({ ...f, tipologia: normalized }));
   }, []);
 
-  // Restore from Google OAuth redirect
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    const fromGoogle = url.searchParams.get("from") === "google";
-    const stored = sessionStorage.getItem(STORAGE_KEY);
-    if (!stored) return;
-    // Restaura se vier explicitamente do Google OU se houver sessão Supabase ativa
-    // (cobre o caso novo em que redirect_uri não carrega mais ?from=google).
-    const tryRestore = async () => {
-      try {
-        const { data } = await supabase.auth.getUser();
-        if (!fromGoogle && !data.user) return;
-        const saved = JSON.parse(stored);
-        setForm(saved.form);
-        setEstimativa(saved.estimativa);
-        setStep("result");
-        if (data.user) {
-          setGoogleData({
-            email: data.user.email || "",
-            nome: (data.user.user_metadata?.full_name as string) || "",
-          });
-        }
-        if (fromGoogle) {
-          url.searchParams.delete("from");
-          window.history.replaceState({}, "", url.toString());
-        }
-      } catch {
-        sessionStorage.removeItem(STORAGE_KEY);
-      }
-    };
-    tryRestore();
-  }, []);
 
   // Tracking per step
   useEffect(() => {
@@ -203,13 +170,6 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
       toast.error("Erro ao consultar dados. Tente novamente.");
       setStep("details");
     }
-  };
-
-  const persistForGoogle = () => {
-    sessionStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({ form, estimativa }),
-    );
   };
 
   const handleCaptureSubmit = async (data: { nome: string; telefone: string }) => {
@@ -449,7 +409,7 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
     return (
       <LimitExceededScreen
         evaluationCount={evaluationCount}
-        email={googleData?.email || ""}
+        email=""
         onRetry={() => setLimitExceeded(false)}
       />
     );
@@ -470,7 +430,6 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
           onNewValuation={() => {
             setFinalData(null);
             setEstimativa(null);
-            setGoogleData(null);
             setForm(initialForm);
             setIntention(sellerProfile ? "vender" : null);
             setStep(sellerProfile ? "address" : "intention");
@@ -584,7 +543,6 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
           <StepResultCapture
             estimativa={estimativa}
             intention={intention}
-            prefilledName={googleData?.nome}
             isSubmitting={isSubmitting}
             onSubmit={handleCaptureSubmit}
             onBack={() => setStep("details")}
