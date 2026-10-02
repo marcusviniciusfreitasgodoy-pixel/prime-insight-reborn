@@ -26,46 +26,46 @@ import {
 } from "lucide-react";
 import godoyLogo from "@/assets/godoy-logo-symbol.png";
 
-// FAQ sobre Dados Oficiais, Metodologia, Uso Prático, Aspectos Legais e Tecnologia
+// FAQ sobre Dados de Transações Reais, Metodologia, Uso Prático, Aspectos Legais e Tecnologia
 const FAQ_DATA = [
-  // Categoria: Dados Oficiais - O que é e Por que usar
+  // Categoria: Dados de Transações Reais - O que é e Por que usar
   {
-    category: "itbi",
+    category: "dados",
     question: "O que são os registros de transações reais?",
     answer: "São registros de transações imobiliárias efetivadas na cidade do Rio de Janeiro. São coletados quando há transferência de propriedade de um imóvel (compra e venda), calculados sobre o valor de mercado no momento da transação, tornando esses registros uma fonte extremamente confiável de dados reais.",
   },
   {
-    category: "itbi",
+    category: "dados",
     question: "Por que usar transações reais é melhor que preços de anúncios?",
     answer: "Porque os registros refletem transações reais que se concretizaram. Preços anunciados tendem a ficar acima do valor efetivamente pago. Os registros eliminam especulação e representam o que o mercado pagou. Enquanto um anúncio é uma expectativa, um registro de transação é um fato comprovado.",
   },
   {
-    category: "itbi",
+    category: "dados",
     question: "Como vocês calculam o valor usando transações reais?",
     answer: "Utilizamos transações reais registradas na cidade do Rio de Janeiro. Identificamos imóveis similares ao seu (mesmo bairro, rua ou micro-região), consideramos as variações de metragem e tipo de imóvel, e aplicamos fórmulas estatísticas para estimar o valor atual. Esse método garante que a avaliação reflete o que o mercado realmente está pagando.",
   },
   {
-    category: "itbi",
+    category: "dados",
     question: "Vocês usam a mesma avaliação do IPTU para calcular o valor?",
     answer: "Não. O IPTU usa fórmulas genéricas que resultam em valores frequentemente defasados. Já os registros refletem transações individualizadas e reais. A diferença entre esses valores é normal e esperada.",
   },
   {
-    category: "itbi",
+    category: "dados",
     question: "Por que o IPTU é tão diferente dos registros de transações?",
     answer: "Porque o IPTU usa 'lançamento em massa' - fórmulas padronizadas que não acompanham a dinâmica real do mercado. Os registros incidem apenas sobre transações específicas, com valor efetivamente negociado.",
   },
   {
-    category: "itbi",
+    category: "dados",
     question: "Qual a confiabilidade dos registros de transações?",
     answer: "Altíssima. São registros documentados na cidade do Rio de Janeiro, baseiam-se em fatos comprovados, eliminam vieses emocionais, e seguem critérios tecnicamente reconhecidos. A margem de erro é muito menor comparada a avaliações baseadas em anúncios.",
   },
   {
-    category: "itbi",
+    category: "dados",
     question: "Os registros podem ser manipulados?",
     answer: "Praticamente não. Declarar valor diferente gera risco legal (autuação da Prefeitura), risco bancário (banco não aprova financiamento) e risco para o vendedor. Em imóveis de alto padrão, os valores registrados refletem fielmente a realidade das transações.",
   },
   {
-    category: "itbi",
+    category: "dados",
     question: "Qual a diferença entre avaliação por transações reais e tradicional?",
     answer: "A avaliação tradicional examina características físicas do imóvel e usa comparáveis do mercado. A avaliação por transações reais usa estatísticas dos registros, eliminando vieses. Ambas são complementares: os registros fornecem a base de mercado, avaliações tradicionais ajustam particularidades específicas.",
   },
@@ -125,7 +125,7 @@ const FAQ_DATA = [
 
 const CATEGORY_CONFIG = [
   {
-    id: "itbi",
+    id: "dados",
     title: "Sobre Transações Reais Registradas",
     description: "Entenda como funcionam os registros de transações imobiliárias",
     icon: Building2,
