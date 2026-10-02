@@ -35,7 +35,7 @@ export function LimitExceededScreen({ evaluationCount, email, onRetry }: LimitEx
           <ul className="text-sm text-muted-foreground space-y-2">
             <li className="flex items-start gap-2">
               <span className="text-accent">✓</span>
-              Análise de Valor Real baseada em transações oficiais
+              Análise de Valor Real baseada em transações reais registradas
             </li>
             <li className="flex items-start gap-2">
               <span className="text-accent">✓</span>

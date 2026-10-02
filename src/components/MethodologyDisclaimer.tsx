@@ -21,7 +21,7 @@ export function MethodologyDisclaimer() {
             <p className="font-semibold">Fonte e Metodologia</p>
             <ul className="space-y-1 list-disc list-inside">
               <li>
-                <strong>Fonte:</strong> Transações Oficiais Registradas na Cidade do Rio de Janeiro
+                <strong>Fonte:</strong> Transações Reais Registradas na Cidade do Rio de Janeiro
               </li>
               <li>
                 <strong>Filtro:</strong> Apenas transações com ≥90% de transferência
@@ -40,8 +40,8 @@ export function MethodologyDisclaimer() {
               </li>
             </ul>
             <p className="text-muted-foreground italic pt-1 border-t border-border">
-              Aviso: Esta é uma ferramenta estatística e não substitui laudo
-              PTAM.
+              Aviso: Esta é uma ferramenta estatística e não substitui um
+              Parecer Técnico.
             </p>
           </div>
         </TooltipContent>

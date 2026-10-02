@@ -498,7 +498,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
                 Qual é o seu objetivo?
               </h2>
               <p className="text-xs sm:text-sm text-[#4A443C]">
-                Mesma base de dados oficiais, dois enquadramentos diferentes.
+                Mesma base de transações reais registradas, dois enquadramentos diferentes.
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

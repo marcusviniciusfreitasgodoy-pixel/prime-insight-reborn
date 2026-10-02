@@ -1,0 +1,15 @@
+---
+name: Regras de conformidade R6 (cópia pública)
+description: Palavras e números proibidos em textos públicos do site (home, avaliacao-direta, FAQ, resultado) — trava para mídia paga
+type: constraint
+---
+R6 — regra de conformidade para QUALQUER texto público (páginas, meta tags, llms.txt, FAQ):
+
+1. "+80.000 transações oficiais" → substituir por "transações reais registradas na cidade do Rio de Janeiro".
+2. Proibido apresentar como diferença ou economia prometida: "30%", "R$ 700 mil", "R$ 400.000", e QUALQUER percentual de economia (ex.: "12% a 25%", "8-15%", "15% a 30%", "17% a 30%"), mesmo como histórico/comparativo.
+3. Palavras proibidas em texto público: cheque, ITBI, cartório, oficial, oficiais. Termos preferidos: "transações reais registradas na cidade do Rio de Janeiro", "registros de transações".
+4. "Laudo" também é proibido em texto público; usar "Parecer Técnico".
+5. Números de exemplo de estimativa (hero card R$ 1.180.000 etc.) e "Potencial R$ 180-450 mil" (claim do Parecer, definido pelo usuário) permanecem.
+6. Margem de erro técnica (±10% a 15%) pode permanecer; só percentuais de economia/diferença prometida saem.
+
+Aplicado em: AvaliacaoPublica.tsx, AvaliacaoDireta.tsx, FAQ.tsx, QuickValuationResult/Form, PeritEvaluationSection, RealCaseComparison, LimitExceededScreen, MethodologyDisclaimer, ValuationWizard, index.html, llms.txt.

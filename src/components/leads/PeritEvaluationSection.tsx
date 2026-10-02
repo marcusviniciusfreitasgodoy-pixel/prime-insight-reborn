@@ -25,7 +25,7 @@ const parecerEntregas = [
   {
     icon: Search,
     title: "Análise de Valor Real",
-    description: "Cruzamos dados oficiais de transações com anúncios e histórico para descobrir o verdadeiro valor de mercado.",
+    description: "Cruzamos transações reais registradas com anúncios e histórico para descobrir o verdadeiro valor de mercado.",
   },
   {
     icon: Home,
@@ -49,7 +49,7 @@ const credenciais = [
   { label: "CRECI PJ 11841 RJ | CRECI PF 80199 RJ", icon: CheckCircle },
   { label: "Primeiro Personal Shopper Imobiliário do Rio de Janeiro", icon: Shield },
   { label: "Especialização Exclusiva: Barra da Tijuca", icon: MapPin },
-  { label: "Dados reais e oficiais registrados na cidade do Rio de Janeiro", icon: Database },
+  { label: "Transações reais registradas na cidade do Rio de Janeiro", icon: Database },
 ];
 
 const primeBuyerPhases = [
@@ -218,7 +218,7 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
             <div className="p-2 bg-[#D4AF37]/10 rounded-[2px] w-fit">
               <Database className="h-5 w-5 text-[#D4AF37]" />
             </div>
-            <h5 className="font-semibold text-foreground text-sm"><span className="font-mono font-medium tracking-tight">80.000+</span> transações oficiais analisadas</h5>
+            <h5 className="font-semibold text-foreground text-sm">Transações reais registradas na cidade do Rio de Janeiro</h5>
             <p className="text-xs text-muted-foreground">Nossa base é formada por dados reais de compra e venda registrados, não por preços de anúncios ou estimativas de portais.</p>
           </div>
 
@@ -367,8 +367,8 @@ export function PeritEvaluationSection({ valorPedido, valorMercado, onRequestPar
 
         <div className="text-center space-y-3 sm:space-y-4">
           <p className="text-white/80 text-xs sm:text-sm">
-            <strong className="text-[#D4AF37]">A Diferença Matemática:</strong> Compradores que usam Personal Shopper Imobiliário 
-            economizam em média <span className="font-mono font-medium tracking-tight">8-15%</span> no valor final, economizam tempo e evitam surpresas futuras.
+            <strong className="text-[#D4AF37]">A Diferença Técnica:</strong> Compradores que usam Personal Shopper Imobiliário
+            negociam com dados técnicos em mãos, economizam tempo e evitam surpresas futuras.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center items-stretch sm:items-center">

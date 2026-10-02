@@ -26,54 +26,54 @@ import {
 } from "lucide-react";
 import godoyLogo from "@/assets/godoy-logo-symbol.png";
 
-// FAQ sobre Dados Oficiais, Metodologia, Uso Prático, Aspectos Legais e Tecnologia
+// FAQ sobre Dados de Transações Reais, Metodologia, Uso Prático, Aspectos Legais e Tecnologia
 const FAQ_DATA = [
-  // Categoria: Dados Oficiais - O que é e Por que usar
+  // Categoria: Dados de Transações Reais - O que é e Por que usar
   {
-    category: "itbi",
-    question: "O que são os dados oficiais de transações?",
-    answer: "São registros oficiais de transações imobiliárias registradas na cidade do Rio de Janeiro. São coletados quando há transferência de propriedade de um imóvel (compra e venda), calculados sobre o valor de mercado no momento da transação, tornando esses registros uma fonte extremamente confiável de dados reais.",
+    category: "dados",
+    question: "O que são os registros de transações reais?",
+    answer: "São registros de transações imobiliárias efetivadas na cidade do Rio de Janeiro. São coletados quando há transferência de propriedade de um imóvel (compra e venda), calculados sobre o valor de mercado no momento da transação, tornando esses registros uma fonte extremamente confiável de dados reais.",
   },
   {
-    category: "itbi",
-    question: "Por que usar dados oficiais é melhor que preços de anúncios?",
-    answer: "Porque os dados oficiais refletem transações reais que se concretizaram. Estudos comprovam que preços anunciados são, em média, 17% a 30% mais altos que o valor efetivamente pago. Os dados oficiais eliminam especulação e representam exatamente o que o mercado pagou. Enquanto um anúncio é uma expectativa, um registro oficial é um fato comprovado.",
+    category: "dados",
+    question: "Por que usar transações reais é melhor que preços de anúncios?",
+    answer: "Porque os registros refletem transações reais que se concretizaram. Preços anunciados tendem a ficar acima do valor efetivamente pago. Os registros eliminam especulação e representam o que o mercado pagou. Enquanto um anúncio é uma expectativa, um registro de transação é um fato comprovado.",
   },
   {
-    category: "itbi",
-    question: "Como vocês calculam o valor usando dados oficiais?",
-    answer: "Utilizamos dados de transações reais oficialmente registradas na cidade do Rio de Janeiro. Identificamos imóveis similares ao seu (mesmo bairro, rua ou micro-região), consideramos as variações de metragem e tipo de imóvel, e aplicamos fórmulas estatísticas para estimar o valor atual. Esse método garante que a avaliação reflete o que o mercado realmente está pagando.",
+    category: "dados",
+    question: "Como vocês calculam o valor usando transações reais?",
+    answer: "Utilizamos transações reais registradas na cidade do Rio de Janeiro. Identificamos imóveis similares ao seu (mesmo bairro, rua ou micro-região), consideramos as variações de metragem e tipo de imóvel, e aplicamos fórmulas estatísticas para estimar o valor atual. Esse método garante que a avaliação reflete o que o mercado realmente está pagando.",
   },
   {
-    category: "itbi",
+    category: "dados",
     question: "Vocês usam a mesma avaliação do IPTU para calcular o valor?",
-    answer: "Não. O IPTU usa fórmulas genéricas que resultam em valores frequentemente defasados. Já os dados oficiais refletem transações individualizadas e reais. A diferença entre esses valores é normal e esperada.",
+    answer: "Não. O IPTU usa fórmulas genéricas que resultam em valores frequentemente defasados. Já os registros refletem transações individualizadas e reais. A diferença entre esses valores é normal e esperada.",
   },
   {
-    category: "itbi",
-    question: "Por que o IPTU é tão diferente dos dados oficiais?",
-    answer: "Porque o IPTU usa 'lançamento em massa' - fórmulas padronizadas que não acompanham a dinâmica real do mercado. Os dados oficiais incidem apenas sobre transações específicas, com valor efetivamente negociado.",
+    category: "dados",
+    question: "Por que o IPTU é tão diferente dos registros de transações?",
+    answer: "Porque o IPTU usa 'lançamento em massa' - fórmulas padronizadas que não acompanham a dinâmica real do mercado. Os registros incidem apenas sobre transações específicas, com valor efetivamente negociado.",
   },
   {
-    category: "itbi",
-    question: "Qual a confiabilidade dos dados oficiais?",
-    answer: "Altíssima. São registros fiscais oficiais documentados em cartório, baseiam-se em fatos comprovados, eliminam vieses emocionais, e seguem critérios tecnicamente reconhecidos (normas ABNT NBR 14653). A margem de erro é muito menor comparada a avaliações baseadas em anúncios.",
+    category: "dados",
+    question: "Qual a confiabilidade dos registros de transações?",
+    answer: "Altíssima. São registros documentados na cidade do Rio de Janeiro, baseiam-se em fatos comprovados, eliminam vieses emocionais, e seguem critérios tecnicamente reconhecidos. A margem de erro é muito menor comparada a avaliações baseadas em anúncios.",
   },
   {
-    category: "itbi",
-    question: "Os dados oficiais podem ser manipulados?",
-    answer: "Praticamente não. Declarar valor diferente gera risco legal (autuação da Prefeitura), risco bancário (banco não aprova financiamento) e risco para o vendedor. Em imóveis de alto padrão, os valores registrados oficialmente refletem fielmente a realidade das transações.",
+    category: "dados",
+    question: "Os registros podem ser manipulados?",
+    answer: "Praticamente não. Declarar valor diferente gera risco legal (autuação da Prefeitura), risco bancário (banco não aprova financiamento) e risco para o vendedor. Em imóveis de alto padrão, os valores registrados refletem fielmente a realidade das transações.",
   },
   {
-    category: "itbi",
-    question: "Qual a diferença entre avaliação por dados oficiais e tradicional?",
-    answer: "A avaliação tradicional examina características físicas do imóvel e usa comparáveis do mercado. A avaliação por dados oficiais usa estatísticas de transações reais, eliminando vieses. Ambas são complementares: dados oficiais fornecem a base de mercado, avaliações tradicionais ajustam particularidades específicas.",
+    category: "dados",
+    question: "Qual a diferença entre avaliação por transações reais e tradicional?",
+    answer: "A avaliação tradicional examina características físicas do imóvel e usa comparáveis do mercado. A avaliação por transações reais usa estatísticas dos registros, eliminando vieses. Ambas são complementares: os registros fornecem a base de mercado, avaliações tradicionais ajustam particularidades específicas.",
   },
   // Categoria: Uso Prático
   {
     category: "uso",
     question: "Posso usar essa avaliação para financiamento bancário?",
-    answer: "Nossa avaliação baseada em dados oficiais é um excelente ponto de partida e justificativa. Bancos fazem avaliação própria, mas você pode apresentar nossa análise como fundamentação. Para financiamento, você precisará de avaliação técnica feita por avaliador credenciado pelo banco, mas nossa análise ajuda a negociar se houver diferença.",
+    answer: "Nossa avaliação baseada em transações reais é um excelente ponto de partida e justificativa. Bancos fazem avaliação própria, mas você pode apresentar nossa análise como fundamentação. Para financiamento, você precisará de avaliação técnica feita por avaliador credenciado pelo banco, mas nossa análise ajuda a negociar se houver diferença.",
   },
   {
     category: "uso",
@@ -92,42 +92,42 @@ const FAQ_DATA = [
   },
   {
     category: "uso",
-    question: "A avaliação é aceita por cartórios e órgãos públicos?",
-    answer: "Sim. Cartórios usam para referência, a Prefeitura aceita como suporte em contestações, o Poder Judiciário aceita como prova técnica, e bancos aceitam como complemento. É especialmente útil para argumentar e justificar valores perante essas instituições.",
+    question: "A avaliação é aceita por instituições e órgãos públicos?",
+    answer: "Sim. A Prefeitura aceita como suporte em contestações, o Poder Judiciário aceita como prova técnica, e bancos aceitam como complemento. É especialmente útil para argumentar e justificar valores perante essas instituições.",
   },
   {
     category: "uso",
     question: "Essa ferramenta substitui uma avaliação técnica tradicional?",
-    answer: "Não completamente, mas é um excelente complemento. A avaliação baseada em dados oficiais é feita com transações reais, usa método científico reconhecido e tem custo muito menor. Para imóveis com características únicas, reformas especiais ou localização premium, recomendamos complementar com avaliação técnica presencial.",
+    answer: "Não completamente, mas é um excelente complemento. A avaliação baseada em transações reais usa método científico reconhecido e tem custo muito menor. Para imóveis com características únicas, reformas especiais ou localização premium, recomendamos complementar com avaliação técnica presencial.",
   },
   // Categoria: Tecnologia
   {
     category: "tecnologia",
-    question: "Como vocês acessam os dados oficiais de transações?",
-    answer: "Os dados são públicos e oficiais. Compilamos dados de transações registradas na cidade do Rio de Janeiro, disponíveis em portais públicos, e os cruzamos com informações de mercado para análises mais precisas.",
+    question: "Como vocês acessam os dados de transações?",
+    answer: "Os dados são públicos. Compilamos transações registradas na cidade do Rio de Janeiro, disponíveis em portais públicos, e as cruzamos com informações de mercado para análises mais precisas.",
   },
   {
     category: "tecnologia",
     question: "Vocês usam inteligência artificial?",
-    answer: "Sim. Usamos tecnologia avançada: integração com bases públicas de transações oficiais, algoritmos para identificar imóveis similares, modelos de regressão para estimar valores, validação com múltiplas fontes, e dashboards interativos.",
+    answer: "Sim. Usamos tecnologia avançada: integração com bases públicas de transações registradas, algoritmos para identificar imóveis similares, modelos de regressão para estimar valores, validação com múltiplas fontes, e dashboards interativos.",
   },
   {
     category: "tecnologia",
     question: "Com qual frequência os dados são atualizados?",
-    answer: "Os dados oficiais de transações são atualizados continuamente. Consolidamos mensalmente os dados mais recentes, indicamos a data de atualização em cada análise, e mantemos séries históricas para análise de tendências.",
+    answer: "Os dados de transações são atualizados continuamente. Consolidamos mensalmente os dados mais recentes, indicamos a data de atualização em cada análise, e mantemos séries históricas para análise de tendências.",
   },
   {
     category: "tecnologia",
     question: "Qual é o nível de precisão dessa avaliação?",
-    answer: "Margem de erro típica: ±10% a 15% (excelente para real estate). Comparação: preços de anúncio têm margem de ~20-30%, dados oficiais ~10-15%, e avaliação técnica detalhada ~5%. Nossa ferramenta oferece precisão muito superior aos anúncios e é economicamente mais viável que avaliação técnica.",
+    answer: "Margem de erro típica: ±10% a 15% (excelente para real estate). É significativamente menor que avaliações baseadas em anúncios e mais viável economicamente que avaliação técnica detalhada. Nossa ferramenta oferece precisão muito superior aos anúncios.",
   },
 ];
 
 const CATEGORY_CONFIG = [
   {
-    id: "itbi",
-    title: "Sobre Dados Oficiais de Transações",
-    description: "Entenda como funcionam os dados oficiais de transações imobiliárias",
+    id: "dados",
+    title: "Sobre Transações Reais Registradas",
+    description: "Entenda como funcionam os registros de transações imobiliárias",
     icon: Building2,
     color: "purple",
   },
@@ -149,8 +149,8 @@ const CATEGORY_CONFIG = [
 
 const SEO_CONFIG = {
   title: "FAQ Avaliação Imobiliária | Godoy Prime",
-  description: "Tire suas dúvidas sobre avaliação imobiliária, dados oficiais, metodologia e aspectos legais da Godoy Prime.",
-  keywords: "FAQ avaliação imobiliária, dúvidas dados oficiais, como funciona avaliação, transações oficiais, metodologia avaliação",
+  description: "Tire suas dúvidas sobre avaliação imobiliária, dados de transações reais, metodologia e aspectos legais da Godoy Prime.",
+  keywords: "FAQ avaliação imobiliária, dúvidas avaliação, como funciona avaliação, transações reais registradas, metodologia avaliação",
   canonical: "https://avaliacao.godoyprime.com.br/faq",
 };
 
@@ -228,7 +228,7 @@ export default function FAQ() {
             </h2>
             <p className="text-lg text-white/80 max-w-2xl mx-auto">
               Tire todas as suas dúvidas sobre nossa metodologia de avaliação,
-              dados oficiais e aspectos legais.
+              dados de transações reais e aspectos legais.
             </p>
           </div>
         </section>
@@ -344,8 +344,8 @@ export default function FAQ() {
                   </div>
                 </div>
                 <p className="text-white/60 text-sm max-w-md">
-                  Especialistas em imóveis de alto padrão na Barra da Tijuca. 
-                  Avaliações baseadas em dados oficiais de transações registradas na cidade do Rio de Janeiro.
+                  Especialistas em imóveis de alto padrão na Barra da Tijuca.
+                  Avaliações baseadas em transações reais registradas na cidade do Rio de Janeiro.
                 </p>
               </div>
 

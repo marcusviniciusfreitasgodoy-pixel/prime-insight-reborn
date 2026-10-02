@@ -84,7 +84,7 @@ export function RealCaseComparison() {
           <div className="flex items-center justify-center gap-2 mb-2">
             <AlertTriangle className="h-5 w-5 text-[#D4AF37]" />
             <p className="text-white font-bold text-base sm:text-lg">
-              Diferença de até <span className="font-mono font-medium tracking-tight text-[#D4AF37]">R$ 700 mil</span> no mesmo imóvel
+              Duas fontes, valores muito diferentes para o mesmo imóvel
             </p>
           </div>
           <p className="text-white/70 text-sm">
@@ -108,7 +108,7 @@ export function RealCaseComparison() {
             <div>
               <p className="font-semibold text-sm text-[#0C2340] mb-1">Godoy Prime</p>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Usa dados oficiais de transações reais registradas o valor que foi efetivamente pago após toda negociação. Objetivo de ajudar a comprar pelo preço justo.
+                Usa transações reais registradas na cidade do Rio de Janeiro, com o valor efetivamente pago após toda negociação. O objetivo é ajudar a comprar pelo preço justo.
               </p>
             </div>
           </div>
