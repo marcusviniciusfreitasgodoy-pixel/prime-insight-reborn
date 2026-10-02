@@ -114,7 +114,7 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
     const n = map[step];
     if (n) trackWizardStep(n);
     if (step === "result") {
-      trackFunnelStep("Resultado_Visto");
+      fireFunnelStepOnce("Resultado_Visto");
       (window as any).dataLayer = (window as any).dataLayer || [];
       (window as any).dataLayer.push({ event: "avaliacao_concluida" });
     }
@@ -138,7 +138,7 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
   const progress = (currentStep / totalSteps) * 100;
 
   const runAnalysis = async () => {
-    trackFunnelStep("Passo3_Dados");
+    fireFunnelStepOnce("Passo3_Dados");
     setStep("analyzing");
     const start = Date.now();
     const areaNum = parseFloat(form.area);
