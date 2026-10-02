@@ -495,7 +495,9 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
                   type="button"
                   onClick={() => {
                     setIntention(key);
-                    trackFunnelStep("Passo1_Objetivo", { objetivo: key });
+                    if (!sellerProfile) {
+                      fireFunnelStepOnce("Passo1_Objetivo", { objetivo: key });
+                    }
                     setStep("address");
                   }}
                   className="group text-left rounded-[2px] border border-[#0C2340]/15 bg-white p-5 sm:p-6 transition-all duration-200 hover:border-[#C9A84C] hover:-translate-y-0.5"
@@ -530,7 +532,7 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
             quartos={form.quartos}
             onChange={(p) => setForm((f) => ({ ...f, ...p }))}
             onNext={() => {
-              trackFunnelStep("Passo2_Tipo", { tipologia: form.tipologia });
+              fireFunnelStepOnce("Passo2_Tipo", { tipologia: form.tipologia });
               setStep("details");
             }}
             onBack={() => setStep("address")}
