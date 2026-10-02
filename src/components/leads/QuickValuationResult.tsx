@@ -45,17 +45,17 @@ import { PHONE, WHATSAPP_MESSAGES, whatsappUrl, CTA_LABELS } from "@/config/cont
 const PropertyMap = lazy(() => import("@/components/map/PropertyMap").then(m => ({ default: m.PropertyMap })));
 
 const PARECER_FAQ = [
-  { category: "servico", question: "O que exatamente é o Parecer Técnico Godoy Prime?", answer: "É uma análise completa e personalizada do seu imóvel, elaborada por Marcus Godoy, perito avaliador credenciado pelo Tribunal de Justiça do Rio de Janeiro. Inclui visita técnica, análise de 26 características que impactam o valor, comparativo com transações reais e oficiais, e um documento profissional que você pode usar em negociações, financiamentos e processos judiciais." },
-  { category: "servico", question: "Qual a diferença entre a avaliação gratuita e o Parecer Técnico?", answer: "A avaliação gratuita usa médias estatísticas da região. O Parecer Técnico considera os diferenciais ESPECÍFICOS do seu imóvel: vista, andar, reforma, estado de conservação, posição solar, infraestrutura do condomínio, etc. Essas características podem representar uma diferença de 15% a 30% no valor final." },
+  { category: "servico", question: "O que exatamente é o Parecer Técnico Godoy Prime?", answer: "É uma análise completa e personalizada do seu imóvel, elaborada por Marcus Godoy, perito avaliador credenciado pelo Tribunal de Justiça do Rio de Janeiro. Inclui visita técnica, análise de 26 características que impactam o valor, comparativo com transações reais registradas, e um documento profissional que você pode usar em negociações, financiamentos e processos judiciais." },
+  { category: "servico", question: "Qual a diferença entre a avaliação gratuita e o Parecer Técnico?", answer: "A avaliação gratuita usa médias estatísticas da região. O Parecer Técnico considera os diferenciais ESPECÍFICOS do seu imóvel: vista, andar, reforma, estado de conservação, posição solar, infraestrutura do condomínio, etc. Essas características podem representar uma diferença relevante no valor final." },
   { category: "servico", question: "O Parecer Técnico tem validade jurídica?", answer: "Sim. O Parecer é assinado por perito avaliador credenciado, seguindo a metodologia NBR 14653-2 da ABNT. Pode ser usado em inventários, divórcios, financiamentos bancários, disputas judiciais e qualquer situação que exija comprovação técnica do valor do imóvel." },
-  { category: "processo", question: "Como funciona o processo do Parecer Técnico?", answer: "1) Você solicita pelo WhatsApp; 2) Agendamos uma visita técnica ao imóvel (duração: 1 a 2 horas); 3) Analisamos os dados e comparamos com transações reais e oficiais recentes; 4) Em até 7 dias úteis após a vistoria, você recebe o Parecer completo em PDF com todos os detalhes da avaliação, inclusive fotos." },
+  { category: "processo", question: "Como funciona o processo do Parecer Técnico?", answer: "1) Você solicita pelo WhatsApp; 2) Agendamos uma visita técnica ao imóvel (duração: 1 a 2 horas); 3) Analisamos os dados e comparamos com transações reais recentes; 4) Em até 7 dias úteis após a vistoria, você recebe o Parecer completo em PDF com todos os detalhes da avaliação, inclusive fotos." },
   { category: "processo", question: "Preciso estar presente na visita técnica?", answer: "Recomendamos que você ou alguém de confiança esteja presente para esclarecer dúvidas sobre reformas realizadas, histórico do imóvel e características que não são visíveis. Mas se não for possível, podemos realizar a vistoria com acesso ao imóvel." },
   { category: "processo", question: "Quanto tempo leva para receber o Parecer?", answer: "O prazo padrão é de 7 dias úteis após a vistoria. Em casos urgentes (inventários, propostas em andamento), oferecemos opção expressa com entrega em 48 horas mediante taxa adicional." },
   { category: "investimento", question: "Quanto custa o Parecer Técnico?", answer: "O investimento varia de acordo com a tipologia e complexidade do imóvel. Apartamentos padrão partem de R$ 4.900. Casas, coberturas e imóveis de alto padrão têm valores específicos. Entre em contato para um orçamento personalizado sem compromisso." },
-  { category: "investimento", question: "Vale a pena investir no Parecer Técnico?", answer: "Considere: a diferença entre precificar corretamente e errar pode ser de R$ 50.000 a R$ 500.000 ou mais. Clientes que usam nosso parecer garantem economia e argumentos para uma boa negociação. O investimento se paga dezenas de vezes." },
+  { category: "investimento", question: "Vale a pena investir no Parecer Técnico?", answer: "Considere: a diferença entre precificar corretamente e errar pode ser de R$ 50.000 a R$ 500.000 ou mais. Clientes que usam nosso parecer têm argumentos sólidos para uma boa negociação. O investimento se paga dezenas de vezes." },
   { category: "investimento", question: "E se eu não concordar com o valor do Parecer?", answer: "Oferecemos garantia de satisfação. Se você discordar fundamentadamente do valor apresentado, agendamos uma reunião para revisar os critérios. Nossa metodologia é transparente: você vê exatamente como chegamos a cada número. Em casos excepcionais, podemos refazer a análise sem custo adicional." },
   { category: "confianca", question: "Quem é Marcus Godoy?", answer: "Marcus Godoy é corretor de imóveis (CRECI 80.199) e perito avaliador credenciado pelo Tribunal de Justiça do Rio de Janeiro, com especialização em imóveis de alto padrão na Barra da Tijuca. A Godoy Prime Realty (CRECI 11841-PJ) é sua empresa especializada em consultoria imobiliária premium." },
-  { category: "confianca", question: "Vocês têm alguma certificação ou credenciamento?", answer: "Sim. Somos registrados no CRECI-RJ (11841-PJ), Perito Avaliador credenciado junto ao Tribunal de Justiça do Rio de Janeiro. Seguimos a metodologia NBR 14653-2 da ABNT para avaliações, e utilizamos transações reais e oficiais registradas na cidade do Rio de Janeiro. Nossos Pareceres são aceitos por bancos e tribunais." },
+  { category: "confianca", question: "Vocês têm alguma certificação ou credenciamento?", answer: "Sim. Somos registrados no CRECI-RJ (11841-PJ), Perito Avaliador credenciado junto ao Tribunal de Justiça do Rio de Janeiro. Seguimos a metodologia NBR 14653-2 da ABNT para avaliações, e utilizamos transações reais registradas na cidade do Rio de Janeiro. Nossos Pareceres são aceitos por bancos e tribunais." },
   { category: "confianca", question: "Posso ver exemplos de Pareceres anteriores?", answer: "Por questões de confidencialidade, não compartilhamos Pareceres de outros clientes. Porém, podemos mostrar a estrutura e o nível de detalhe do documento durante nossa conversa no WhatsApp, para que você veja exatamente o que receberá." },
 ];
 
@@ -254,7 +254,7 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
                 Comparação: Preço Pedido vs. Mercado Real
               </h3>
               <p className="text-sm text-muted-foreground">
-                Baseado em {data.itbiData!.transaction_count} transações oficiais registradas
+                Baseado em {data.itbiData!.transaction_count} transações reais registradas na região
               </p>
             </div>
 
@@ -445,7 +445,7 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
                 </div>
                 <div className="flex items-center justify-between py-2">
                   <span className="text-[#0C2340]/80">Base de dados</span>
-                  <span className="font-mono text-[#0C2340] text-right text-[11px] sm:text-xs">Transações reais e oficiais registradas</span>
+                  <span className="font-mono text-[#0C2340] text-right text-[11px] sm:text-xs">Transações reais registradas na cidade do Rio de Janeiro</span>
                 </div>
               </div>
             </div>
@@ -526,7 +526,7 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
       {/* Aviso de limitação técnica */}
       <div className="bg-amber-50/80 border border-amber-200/60 rounded-lg p-3 sm:p-4 text-sm text-amber-800">
         <p>
-          Estimativa baseada em transações reais e oficiais registradas. Uma análise técnica presencial considera diferenciais específicos do imóvel e pode representar diferença de 15% a 30% no valor final.
+          Estimativa baseada em transações reais registradas na cidade do Rio de Janeiro. Uma análise técnica presencial considera diferenciais específicos do imóvel e pode apontar um valor diferente da média da região.
         </p>
       </div>
 
@@ -571,7 +571,7 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
           })}
           <div className="pt-4 border-t border-border">
             <div className="text-center">
-              <p className="text-sm text-muted-foreground mb-3">Tem dúvidas sobre dados oficiais, metodologia ou aspectos legais?</p>
+              <p className="text-sm text-muted-foreground mb-3">Tem dúvidas sobre os dados, a metodologia ou aspectos legais?</p>
               <Link to="/faq">
                 <Button variant="outline" size="sm" className="gap-2">
                   <HelpCircle className="h-4 w-4" />
