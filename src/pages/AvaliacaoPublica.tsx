@@ -180,7 +180,7 @@ export default function AvaliacaoPublica() {
             "@context": "https://schema.org",
             "@type": "RealEstateAgent",
             name: "Godoy Prime Realty",
-            description: "Avaliação imobiliária premium baseada em dados oficiais de transações",
+            description: "Avaliação imobiliária premium baseada em transações reais registradas na cidade do Rio de Janeiro",
             url: SEO_CONFIG.canonical,
             logo: "https://avaliacao.godoyprime.com.br/godoy-logo.png",
             telephone: PHONE.intl,

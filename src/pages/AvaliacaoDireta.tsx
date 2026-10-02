@@ -53,8 +53,8 @@ export default function AvaliacaoDireta() {
               style={{ fontFamily: "'Playfair Display', serif" }}
             >
               Avaliação do seu imóvel com{" "}
-              <span className="text-[#C9A84C]">dados oficiais</span> de
-              transações reais
+              <span className="text-[#C9A84C]">transações reais</span>{" "}
+              registradas na cidade do Rio de Janeiro
             </h1>
             <p className="text-slate-500 text-base sm:text-lg">
               Em 4 passos rápidos. Sem cadastro até ver o resultado.
