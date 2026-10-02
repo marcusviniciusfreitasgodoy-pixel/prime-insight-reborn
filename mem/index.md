@@ -73,3 +73,4 @@
 - [Z-API WhatsApp automation](mem://integrations/z-api-whatsapp-automation) — Triggers and Edge Function configuration
 - [Contact config central](mem://architecture/contact-config-central) — Single source of truth for phone, tel:, wa.me URLs and standard messages
 - [Avaliação Direta route](mem://features/avaliacao-direta-route) — /avaliacao-direta para leads quentes (Meta/WhatsApp), pula página de venda
+- [Funil de Pixel Meta](mem://features/pixel-funnel-avaliacao-direta) — trackSingleCustom no pixel 130; guard once-per-load; seller pula Passo1
