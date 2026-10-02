@@ -47,7 +47,7 @@ import luxuryBleed from "@/assets/luxury-interior-bleed.jpg";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const HERO_STATS = [
-  { value: "80.000+", label: "Transações Oficiais", icon: FileSearch },
+  { value: "RJ", label: "Transações Reais Registradas", icon: FileSearch },
   { value: "5 Anos", label: "De Dados Históricos", icon: Clock },
   { value: "142", label: "Bairros do Rio", icon: Building2 },
 ];
@@ -55,11 +55,11 @@ const HERO_STATS = [
 const PROBLEMS = [
   { icon: Eye, title: "Anúncios refletem o desejo de proprietários", description: "Preços de anúncios não refletem o valor real de venda. Vendedores pedem mais, compradores oferecem menos." },
   { icon: Calculator, title: "Algoritmos genéricos", description: "Ferramentas online usam fórmulas simplistas que ignoram os diferenciais únicos de cada imóvel e se baseiam em valores anunciados, com objetivo de atrair novos anunciantes." },
-  { icon: Target, title: "Falta de dados oficiais", description: "Sem acesso a transações reais, você negocia no escuro e pode perder dinheiro." },
+  { icon: Target, title: "Falta de dados reais", description: "Sem acesso a transações reais, você negocia no escuro e pode perder dinheiro." },
 ];
 
 const SOLUTIONS = [
-  { icon: Shield, title: "Dados Oficiais de Transações", description: "Usamos transações reais registradas e não apenas preços de anúncios, além disso tratamos estatisticamente a nossa base para evitar desvios de avaliação com base em metodologias da NBR.", highlight: "Fonte oficial confiável" },
+  { icon: Shield, title: "Transações Reais Registradas", description: "Usamos transações reais registradas e não apenas preços de anúncios, além disso tratamos estatisticamente a nossa base para evitar desvios de avaliação com base em metodologias da NBR.", highlight: "Base confiável e imparcial" },
   { icon: Award, title: "Especialistas em Alto Padrão", description: "Receba avaliações de qualquer Bairro do RJ, porém nosso foco é na região da Barra da Tijuca.", highlight: "Conhecimento local profundo" },
   { icon: BarChart3, title: "Metodologia Transparente", description: "Você vê exatamente como calculamos: base de dados, filtros aplicados e período analisado.", highlight: "Sem caixas-pretas" },
 ];
@@ -77,7 +77,7 @@ const WRONG_PRICE_SELLER = [
 ];
 
 const WRONG_PRICE_BUYER = [
-  { icon: Wallet, title: "Pagar Acima do Mercado", description: "Sem dados reais de transações, você corre o risco de pagar 20-30% acima do valor justo." },
+  { icon: Wallet, title: "Pagar Acima do Mercado", description: "Sem dados reais de transações, você corre o risco de pagar bem acima do valor justo." },
   { icon: Clock, title: "Oportunidades Perdidas", description: "Enquanto negocia um imóvel supervalorizado, outros compradores fecham as melhores ofertas." },
   { icon: Ban, title: "Financiamento Travado", description: "Banco financia pelo valor de mercado. Preço inflado exige que você cubra a diferença do próprio bolso." },
 ];
@@ -85,18 +85,18 @@ const WRONG_PRICE_BUYER = [
 const FAQ_DATA = [
   { category: "usabilidade", icon: Zap, question: "Como funciona a avaliação? É complicado?", answer: "É muito simples! Você preenche seus dados de contato, informa o bairro, endereço e área do imóvel, e em 30 segundos recebe uma estimativa de valor baseada em transações reais. Não precisa de cadastro complexo, download de aplicativo ou conhecimento técnico." },
   { category: "usabilidade", icon: Calculator, question: "Posso fazer quantas consultas quiser?", answer: "Você pode fazer até 2 consultas gratuitas por email. Isso permite avaliar imóveis diferentes ou testar cenários. Se precisar de mais consultas ou uma análise mais detalhada, oferecemos o Parecer Técnico Godoy Prime com análise completa por um especialista." },
-  { category: "confianca", icon: Shield, question: "De onde vêm os dados? São confiáveis?", answer: "Usamos dados analisados e registrados oficialmente pelas autoridades no Rio de Janeiro. São registros reais de compra e venda, não preços de anúncios inflacionados. Dados 100% oficiais." },
-  { category: "confianca", icon: BadgeCheck, question: "Por que dados oficiais são melhores que preços de anúncios?", answer: "Anúncios mostram o preço que o vendedor DESEJA receber, não o valor real de venda. Pesquisas mostram que a diferença pode chegar a 20-30%. Já os dados oficiais registram o valor que efetivamente foi pago na transação, depois de toda negociação. É o valor real de mercado." },
+  { category: "confianca", icon: Shield, question: "De onde vêm os dados? São confiáveis?", answer: "Usamos registros reais de compra e venda, documentados na cidade do Rio de Janeiro. São transações concretizadas, não preços de anúncios inflacionados." },
+  { category: "confianca", icon: BadgeCheck, question: "Por que transações reais são melhores que preços de anúncios?", answer: "Anúncios mostram o preço que o vendedor DESEJA receber, não o valor real de venda. Registros de transações mostram o valor que efetivamente foi pago depois de toda negociação. É o valor real de mercado." },
   { category: "confianca", icon: Lock, question: "Meus dados estão seguros? Vocês vendem informações?", answer: "Seus dados são protegidos com criptografia e armazenados em servidores seguros. Não vendemos, compartilhamos ou divulgamos suas informações para terceiros. Usamos apenas para enviar sua avaliação e, se você autorizar, informações relevantes sobre o mercado imobiliário." },
   { category: "beneficios", icon: TrendingUp, question: "Como essa avaliação me ajuda a vender meu imóvel?", answer: "Conhecendo o valor real de mercado, você pode precificar corretamente seu imóvel desde o início. Imóveis com preço justo vendem em média 3x mais rápido. Você evita perder meses com um preço irrealista e também evita vender abaixo do valor por desconhecimento." },
   { category: "beneficios", icon: DollarSign, question: "Como essa avaliação me ajuda a comprar um imóvel?", answer: "Antes de fazer uma proposta, você descobre se o preço pedido está dentro da realidade de mercado. Com dados reais em mãos, você tem argumentos sólidos para negociar e pode economizar dezenas ou centenas de milhares de reais pagando o valor justo." },
-  { category: "beneficios", icon: Target, question: "Qual a vantagem em relação a outras ferramentas online?", answer: "A maioria das ferramentas usa algoritmos genéricos baseados em preços de anúncios. Nossa ferramenta usa dados oficiais de transações reais, específicos para cada região do Rio de Janeiro, com metodologia transparente. Você vê exatamente quantas transações embasam sua estimativa." },
+  { category: "beneficios", icon: Target, question: "Qual a vantagem em relação a outras ferramentas online?", answer: "A maioria das ferramentas usa algoritmos genéricos baseados em preços de anúncios. Nossa ferramenta usa dados de transações reais, específicos para cada região do Rio de Janeiro, com metodologia transparente. Você vê exatamente quantas transações embasam sua estimativa." },
 ];
 
 const SEO_CONFIG = {
   title: "Avaliação Imóvel Barra da Tijuca em 30s | Godoy Prime",
-  description: "Descubra o valor real do seu imóvel na Barra da Tijuca em 30s, com base em +80.000 transações oficiais. Gratuito e sem compromisso.",
-  keywords: "avaliação imóvel gratuita, valor imóvel Barra da Tijuca, preço m2 Rio de Janeiro, quanto vale meu apartamento, transações oficiais, avaliação online, valor real imóvel",
+  description: "Descubra o valor real do seu imóvel na Barra da Tijuca em 30s, com base em transações reais registradas na cidade do Rio de Janeiro. Gratuito e sem compromisso.",
+  keywords: "avaliação imóvel gratuita, valor imóvel Barra da Tijuca, preço m2 Rio de Janeiro, quanto vale meu apartamento, transações reais registradas, avaliação online, valor real imóvel",
   canonical: "https://avaliacao.godoyprime.com.br",
   ogImage: "https://avaliacao.godoyprime.com.br/og-image.jpg",
 };
@@ -196,7 +196,7 @@ export default function AvaliacaoPublica() {
             "@context": "https://schema.org",
             "@type": "Service",
             name: "Avaliação Imobiliária Gratuita",
-            description: "Descubra o valor real do seu imóvel baseado em +80.000 transações oficiais registradas",
+            description: "Descubra o valor real do seu imóvel baseado em transações reais registradas na cidade do Rio de Janeiro",
             provider: { "@type": "RealEstateAgent", name: "Godoy Prime Realty" },
             areaServed: { "@type": "City", name: "Rio de Janeiro" },
             offers: { "@type": "Offer", price: "0", priceCurrency: "BRL" },
@@ -258,13 +258,13 @@ export default function AvaliacaoPublica() {
             <div className="max-w-3xl mx-auto space-y-6">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[11px] sm:text-xs font-semibold tracking-wider uppercase text-[#D4AF37] animate-fade-in">
                 <BadgeCheck className="h-3.5 w-3.5" />
-                <span className="font-mono font-medium tracking-tight normal-case">+80.000</span> transações oficiais analisadas
+                <span>Transações reais registradas na cidade do Rio de Janeiro</span>
               </div>
 
               <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight animate-fade-in [animation-delay:150ms]">
                 <span className="text-white">Saiba quanto vale seu imóvel com </span>
-                <span className="text-[#D4AF37]">dados oficiais</span>
-                <span className="text-white"> de transações reais</span>
+                <span className="text-[#D4AF37]">transações reais</span>
+                <span className="text-white"> registradas</span>
               </h2>
 
               <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto animate-fade-in [animation-delay:300ms]">
@@ -412,7 +412,7 @@ export default function AvaliacaoPublica() {
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />
               <h3 className="font-serif text-xl sm:text-2xl md:text-4xl font-bold text-[#0C2340] mb-3 sm:mb-4 leading-tight px-2">Por Que Você Está Negociando no Escuro?</h3>
               <p className="text-left text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-2">
-                A diferença entre o preço anunciado e o valor real de venda pode chegar a <span className="font-mono font-medium tracking-tight text-[#D4AF37]">30%</span>, isto significa diferenças de até <span className="font-mono font-medium tracking-tight text-[#D4AF37]">R$ 400.000</span> ou mais.
+                A diferença entre o preço anunciado e o valor real de venda pode ser expressiva. Negociar sem conhecer o valor de transação custa caro.
               </p>
             </div>
             <div ref={problemReveal.ref} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 items-stretch">
@@ -602,7 +602,7 @@ export default function AvaliacaoPublica() {
                 <h4 className="font-serif font-bold text-lg sm:text-xl text-white mb-2 text-left">Parecer Godoy Prime</h4>
                 <p className="text-white/60 text-xs sm:text-sm text-left leading-relaxed whitespace-pre-line">
                   Você já tem um imóvel em vista e quer saber se o preço é justo{"\n"}
-                  Laudo técnico completo com vistoria presencial, análise de valor real e recomendação de preço justo para negociar com fundamento técnico.
+                  Parecer técnico completo com vistoria presencial, análise de valor real e recomendação de preço justo para negociar com fundamento técnico.
                 </p>
               </div>
 
@@ -737,7 +737,7 @@ export default function AvaliacaoPublica() {
                     <p className="text-xs text-[#D4AF37]">CRECI 11841/PJ - 80199/PF</p>
                   </div>
                 </div>
-                <p className="text-white/60 text-sm max-w-md">Especialistas em imóveis de alto padrão na Barra da Tijuca. Avaliações baseadas em transações oficiais da cidade do Rio de Janeiro.</p>
+                <p className="text-white/60 text-sm max-w-md">Especialistas em imóveis de alto padrão na Barra da Tijuca. Avaliações baseadas em transações reais registradas na cidade do Rio de Janeiro.</p>
               </div>
               <div className="text-center md:text-right">
                 <p className="text-white/80 text-sm mb-2">Av. das Américas, 10101 - Bloco 2, Sala 316</p>
@@ -749,7 +749,7 @@ export default function AvaliacaoPublica() {
             </div>
             <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
               <p className="text-white/40 text-xs">© {new Date().getFullYear()} Godoy Prime Realty. Todos os direitos reservados.</p>
-              <p className="text-white/30 text-[10px] leading-relaxed max-w-xl">Aviso: Esta é uma estimativa automática baseada em dados históricos de transações oficiais. Não substitui um Parecer técnico assinado por perito avaliador.</p>
+              <p className="text-white/30 text-[10px] leading-relaxed max-w-xl">Aviso: Esta é uma estimativa automática baseada em dados históricos de transações reais registradas na cidade do Rio de Janeiro. Não substitui um Parecer técnico assinado por perito avaliador.</p>
               <div className="flex items-center gap-4">
                 <Link to="/politica-privacidade" className="text-white/40 text-xs hover:text-[#D4AF37] transition-colors">Política de Privacidade</Link>
                 <span className="text-white/20">|</span>
