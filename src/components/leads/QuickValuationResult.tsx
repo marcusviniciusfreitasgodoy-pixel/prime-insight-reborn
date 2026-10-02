@@ -181,7 +181,7 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
           </div>
           <div className="min-w-0">
             <p className="font-medium text-green-800 text-sm sm:text-base truncate">{data.leadName}</p>
-            <p className="text-xs text-green-600 truncate">{data.leadEmail}</p>
+            <p className="text-xs text-green-600 truncate">WhatsApp confirmado</p>
           </div>
         </div>
         <Badge variant="secondary" className="bg-green-100 text-green-700 text-xs flex-shrink-0">Cadastro Confirmado</Badge>

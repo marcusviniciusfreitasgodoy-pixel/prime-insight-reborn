@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { ValuationWizard } from "@/components/leads/wizard/ValuationWizard";
 import logoSymbol from "@/assets/godoy-logo-symbol.png";
 import { BRAND } from "@/config/contact";
@@ -76,29 +76,10 @@ export default function AvaliacaoDireta() {
           </div>
         </main>
 
-        {/* Rodapé minimalista */}
-        <footer className="py-8 px-6 border-t border-slate-200">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.15em] text-slate-400 font-bold">
-            <p className="text-center md:text-left">
-              © {new Date().getFullYear()} {BRAND.name}, {BRAND.creci}
-            </p>
-            <div className="flex flex-wrap justify-center gap-6 sm:gap-8">
-              <a
-                href={whatsappUrl(WHATSAPP_MESSAGES.generico())}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-[#C9A84C] transition-colors"
-              >
-                WhatsApp {PHONE.display}
-              </a>
-              <Link
-                to="/politica-privacidade"
-                className="hover:text-[#C9A84C] transition-colors"
-              >
-                Política de Privacidade
-              </Link>
-            </div>
-          </div>
+        <footer className="py-6 px-6 border-t border-[#0C2340]/10">
+          <p className="text-center text-[10px] uppercase tracking-[0.15em] text-[#0C2340]/45 font-bold">
+            © {new Date().getFullYear()} {BRAND.name}, {BRAND.creci}
+          </p>
         </footer>
       </div>
     </>

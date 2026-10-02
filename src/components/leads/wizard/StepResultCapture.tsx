@@ -143,21 +143,6 @@ export function StepResultCapture({
 
         <div className="space-y-3">
           <div>
-             <label className="block text-[11px] uppercase tracking-wider text-[#0C2340]/70 mb-1">Nome <span className="normal-case tracking-normal">(opcional)</span></label>
-            <input
-              type="text"
-              value={nome}
-              onChange={(ev) => setNome(ev.target.value)}
-              placeholder="Seu nome completo"
-              autoComplete="name"
-              className="w-full h-11 px-3 rounded-[2px] border border-[#0C2340]/20 bg-white text-[#0C2340] placeholder:text-[#0C2340]/40 focus:outline-none focus:border-[#C9A84C]"
-            />
-             {touched && !nomeOk && (
-               <p className="mt-1 text-[11px] text-[#6B5B3E]">Use no máximo 100 caracteres.</p>
-            )}
-          </div>
-
-          <div>
             <label className="block text-[11px] uppercase tracking-wider text-[#0C2340]/70 mb-1">WhatsApp</label>
             <input
               type="tel"
@@ -170,6 +155,21 @@ export function StepResultCapture({
             />
             {touched && !telefoneOk && (
               <p className="mt-1 text-[11px] text-[#6B5B3E]">Informe um WhatsApp com DDD.</p>
+            )}
+          </div>
+
+          <div>
+             <label className="block text-[11px] uppercase tracking-wider text-[#0C2340]/70 mb-1">Nome <span className="normal-case tracking-normal">(opcional)</span></label>
+            <input
+              type="text"
+              value={nome}
+              onChange={(ev) => setNome(ev.target.value)}
+              placeholder="Seu nome completo"
+              autoComplete="name"
+              className="w-full h-11 px-3 rounded-[2px] border border-[#0C2340]/20 bg-white text-[#0C2340] placeholder:text-[#0C2340]/40 focus:outline-none focus:border-[#C9A84C]"
+            />
+             {touched && !nomeOk && (
+               <p className="mt-1 text-[11px] text-[#6B5B3E]">Use no máximo 100 caracteres.</p>
             )}
           </div>
         </div>
