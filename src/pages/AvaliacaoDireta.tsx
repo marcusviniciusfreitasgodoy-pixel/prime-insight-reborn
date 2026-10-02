@@ -12,7 +12,7 @@ export default function AvaliacaoDireta() {
         <meta name="robots" content="noindex,nofollow" />
         <meta
           name="description"
-          content="Avaliação imobiliária baseada em transações reais (ITBI). Preencha o formulário e receba sua estimativa na hora."
+          content="Avaliação imobiliária baseada em transações reais registradas na cidade do Rio de Janeiro. Preencha o formulário e receba sua estimativa na hora."
         />
       </Helmet>
 

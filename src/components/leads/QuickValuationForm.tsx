@@ -855,7 +855,7 @@ export function QuickValuationForm({ onComplete, onBairroChange, onLogradouroCha
           </div>
 
           <p className="text-xs text-muted-foreground text-center pt-1">
-            Etapa {currentStep} de 4 • ⚡ Resultado instantâneo baseado em transações oficiais
+            Etapa {currentStep} de 4 • ⚡ Resultado instantâneo baseado em transações reais
           </p>
         </form>
       </CardContent>
