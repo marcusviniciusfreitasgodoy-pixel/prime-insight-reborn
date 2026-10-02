@@ -59,9 +59,11 @@ export function trackWizardStep(step: 1 | 2 | 3 | 4) {
 }
 
 /**
- * Funil R8 — eventos nomeados por passo CONCLUÍDO:
+ * Funil R8 — eventos nomeados por passo CONCLUÍDO, disparados SOMENTE no
+ * pixel secundário 1306687940478470 via trackSingleCustom:
  * Passo1_Objetivo, Passo2_Tipo, Passo3_Dados, Resultado_Visto.
- * O evento padrão "Lead" continua restrito ao envio efetivo do contato.
+ * O evento padrão "Lead" continua restrito ao envio efetivo do contato
+ * (trackLead abaixo já entrega via trackSingle nos dois pixels).
  */
 export type FunnelStepEvent =
   | "Passo1_Objetivo"
@@ -73,7 +75,7 @@ export function trackFunnelStep(
   name: FunnelStepEvent,
   params?: Record<string, unknown>,
 ) {
-  safeFbq("trackCustom", name, params ?? {});
+  safeFbq("trackSingleCustom", PIXEL_SECONDARY, name, params ?? {});
 }
 
 /** Wizard — estimativa renderizada após loader. */
