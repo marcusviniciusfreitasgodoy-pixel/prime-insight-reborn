@@ -1,0 +1,75 @@
+# Project Memory
+
+## Core
+- **Conformidade R6:** Em texto público: proibido "oficial/oficiais", "ITBI", "cartório", "cheque", "laudo"; proibidos "+80.000 transações oficiais" (usar "transações reais registradas na cidade do Rio de Janeiro") e percentuais de economia/diferença (30%, R$ 700 mil, R$ 400.000, "15% a 30%"). Ver mem/constraints/public-copy-compliance-r6.
+- **Contact:** (21) 96407-5124, marcus@godoyprime.com.br. Edit only via `src/config/contact.ts` + `supabase/functions/_shared/contact.ts` — never hardcode in components.
+- **Tech Stack:** React, Supabase (RLS enforced), PWA, Resend, Z-API, Meta Pixel, Google Maps.
+- **Style:** Premium Minimalist. Navy (#0C2340) & Gold (#C9A84C). Max vertical spacing 60px.
+- **UI:** Popover + ScrollArea for selectors (z-[100]). Close dropdowns via onBlur(200ms)+onFocus, NOT mousedown.
+- **Data Security:** Public queries must use `itbi_stats_bairro` or `itbi_stats_recent` views, not raw transactions.
+- **Roles:** admin, corretor, gerente. UUIDs for core resources.
+- **Edge Functions:** Require 'Authorization' header or 'x-cron-secret' for cron tasks.
+
+## Memories
+- [Compliance R6 copy](mem/constraints/public-copy-compliance-r6) — Full R6 rule set with applied file list and allowed exceptions
+- [Primary contact number](mem://content/primary-contact-number) — Official phone formatting for CTAs
+- [Rio real estate copy](mem://content/rio-real-estate-price-difference-messaging) — Messaging about announced vs real sale values
+- [Valuation differentials](mem://content/valuation-differentials-warning) — Warning snippet about technical limitations
+- [Real case comparison](mem://features/real-case-comparison) — Strategy for explaining portal vs real transaction prices
+- [Footer disclaimer](mem://content/disclaimer-footer-positioning) — Legal notice placement in public pages
+- [Mobile responsiveness](mem://design/mobile-responsiveness-priority) — Mobile optimization rules
+- [Hero section layout](mem://design/hero-section-layout-messaging) — Badges, headlines, and guarantees in hero
+- [Premium visual direction](mem://style/premium-visual-direction) — Navy/Gold colors and Wave dividers
+- [Layout spacing constraints](mem://style/layout-spacing-constraints) — Standardized vertical section spacing
+- [Scroll animation system](mem://architecture/scroll-animation-system) — useScrollReveal hook and staggered animations
+- [Animation scroll stability](mem://architecture/animation-scroll-stability) — CSS fallback for observer animations
+- [Form input stability](mem://architecture/form-input-interaction-stability) — Event listener patterns for stable dropdowns
+- [Selector component pattern](mem://architecture/selector-component-pattern) — Popover + ScrollArea component details
+- [Public valuation UX](mem://features/public-valuation-form-ux) — z-index and collision avoidance for forms
+- [Street search loading](mem://features/street-search-loading-state) — Skeleton and error state for logradouro search
+- [Parecer Técnico pricing](mem://features/parecer-tecnico-pricing-investment) — R$ 4.900, CRECI credentials, NBR 14653-2
+- [FAQ structure](mem://features/faq-structure) — Public vs Service-specific FAQ split
+- [ITBI data foundation](mem://features/itbi-data-foundation) — IQR filter, P10/P90 logic, 18-month historical data
+- [Evaluation rate limits](mem://constraints/evaluation-rate-limits) — MAX_FREE_EVALUATIONS = 2 per email
+- [Automated email system](mem://features/automated-email-system) — Resend triggers for confirmations and follow-ups
+- [Historical market analysis](mem://features/historical-market-analysis) — Strategy focusing on Barra da Tijuca
+- [Map price categorization](mem://features/map-price-categorization) — Typologies and color-coding for map results
+- [Geocoding engine logic](mem://architecture/geocoding-engine-logic) — Multi-layered street geocoding and cron scheduling
+- [Follow-up metrics dashboard](mem://features/follow-up-metrics-dashboard) — KPIs for automated emails
+- [Bairro selector error handling](mem://features/bairro-selector-error-handling) — Retry mechanisms for missing data
+- [Public data search logic](mem://architecture/public-data-search-logic) — itbi_stats_bairro usage
+- [Admin analytics dashboard](mem://features/admin-analytics-dashboard) — Pixel event tracking in admin panel
+- [Event persistence logic](mem://analytics/event-persistence-logic) — saveAnalyticsEvent function details
+- [Security scan remediation](mem://architecture/security-scan-remediation-policy) — Supabase Edge Function security policies
+- [Street search logic](mem://architecture/street-search-logic) — RPC get_street_suggestions and fallbacks
+- [User roles tenancy](mem://architecture/user-roles-tenancy-model) — RLS and role structure
+- [Parecer Técnico payment](mem://features/parecer-tecnico-payment-status) — Manual tracking without payment gateway
+- [PWA version control](mem://architecture/pwa-version-control-strategy) — NetworkFirst and PWA update toasts
+- [Edge function authorization](mem://architecture/edge-function-authorization-standard) — Headers and secrets for edge/cron access
+- [Analytics data integrity](mem://architecture/analytics-data-integrity) — Table constraints for analytics_events
+- [Admin sidebar config](mem://features/admin-sidebar-configuration) — Sidebar links for evaluation module
+- [Professional valuation engine](mem://features/professional-valuation-engine) — 6-step NBR 14653-2 compliant wizard
+- [PWA dev bootstrap](mem://architecture/pwa-development-bootstrap) — Clearing service workers in dev
+- [Sofia assistant personality](mem://features/sofia-assistant-personality) — Bot tone and formatting rules
+- [Knowledge base management](mem://features/knowledge-base-management) — JSON import/export for Sofia
+- [Valuation history tracking](mem://features/valuation-history-tracking) — public vs professional origins in valuations table
+- [Public environment variables](mem://integrations/environment-variables-public) — Frontend VITE_ configuration
+- [Public evaluation module](mem://features/public-evaluation-module) — Funnel architecture for conversions
+- [Public conversion strategy](mem://strategy/fluxo-conversao-publico) — Bot removal and WhatsApp optimization
+- [Stagnant owners persona](mem://strategy/persona-proprietarios-estagnados) — Target audience strategy
+- [Valuation ROI calculation](mem://features/public-valuation-roi-calculation) — Value delta calculation formula
+- [Scarcity counter](mem://features/valuation-scarcity-counter) — Logic for the weekly free evaluation limit
+- [Institutional trust signals](mem://features/institutional-trust-signals) — Pillars of market credibility
+- [Post-valuation service tiers](mem://features/post-valuation-service-tiers) — 3 tiers: Parecer, Compra Blindada, Prime Buyer
+- [Minimalist feedback system](mem://features/feedback-system-minimalist-integration) — Footer-only feedback collection
+- [Contextual spread messaging](mem://features/valuation-spread-contextual-messaging) — Price spread conversion triggers
+- [Public result hierarchy](mem://features/public-result-flow-hierarchy-order) — 13-step results page structure
+- [Meta Pixel integration](mem://analytics/meta-pixel-integration) — Dual pixel setup and initialization
+- [Meta Pixel tracking events](mem://analytics/meta-pixel-tracking-events) — High-value custom tracking events
+- [Local caching strategy](mem://architecture/local-caching-strategy) — 24h localStorage TTL for neighborhoods
+- [Security measures production](mem://architecture/security-measures-production) — Anonymous vs authenticated RLS logic
+- [Core third-party services](mem://integrations/core-third-party-services) — Service integrations list
+- [Calendly scheduling link](mem://integrations/calendly-scheduling-link) — Interview scheduling URL
+- [Z-API WhatsApp automation](mem://integrations/z-api-whatsapp-automation) — Triggers and Edge Function configuration
+- [Contact config central](mem://architecture/contact-config-central) — Single source of truth for phone, tel:, wa.me URLs and standard messages
+- [Avaliação Direta route](mem://features/avaliacao-direta-route) — /avaliacao-direta para leads quentes (Meta/WhatsApp), pula página de venda
