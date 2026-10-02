@@ -12,6 +12,7 @@ import {
   trackWizardEstimateShown,
   trackWizardLeadCaptured,
   trackFunnelStep,
+  type FunnelStepEvent,
 } from "@/lib/metaPixel";
 import { StepAddress } from "./StepAddress";
 import { StepProperty } from "./StepProperty";
@@ -75,6 +76,14 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
   const [evaluationCount, setEvaluationCount] = useState(0);
   const [finalData, setFinalData] = useState<QuickValuationData | null>(null);
   const topRef = useRef<HTMLDivElement>(null);
+  // Guard R8: cada evento de funil dispara UMA única vez por sessão da página,
+  // nunca em re-render ou volta de etapa.
+  const firedFunnelSteps = useRef<Set<string>>(new Set());
+  const fireFunnelStepOnce = (name: FunnelStepEvent, params?: Record<string, unknown>) => {
+    if (firedFunnelSteps.current.has(name)) return;
+    firedFunnelSteps.current.add(name);
+    trackFunnelStep(name, params);
+  };
 
   // Pre-select tipologia from query string (?tipo=apartamento|casa|cobertura)
   useEffect(() => {
