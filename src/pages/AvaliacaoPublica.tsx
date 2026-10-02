@@ -584,7 +584,7 @@ export default function AvaliacaoPublica() {
         </section>
 
         {/* ============ O QUE ACONTECE APÓS ============ */}
-        <section className="py-10 sm:py-12 md:py-14 px-4 bg-[#0C2340]">
+        <section id="servicos" className="py-10 sm:py-12 md:py-14 px-4 bg-[#0C2340] scroll-mt-20">
           <div className="container mx-auto max-w-5xl">
             <div className="text-center mb-8 sm:mb-10">
               <div className="w-12 h-px bg-[#D4AF37] mx-auto mb-6" />

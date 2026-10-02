@@ -1,5 +1,5 @@
-import { useState, lazy, Suspense } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -36,11 +36,9 @@ import {
   Minus,
   Info,
 } from "lucide-react";
-import { PeritEvaluationSection } from "./PeritEvaluationSection";
 import { HistoricalAnalysisChart } from "@/components/valuation/HistoricalAnalysisChart";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
-import { PHONE, WHATSAPP_MESSAGES, whatsappUrl, CTA_LABELS } from "@/config/contact";
+import { WHATSAPP_MESSAGES, whatsappUrl } from "@/config/contact";
+import { trackCtaClick } from "@/lib/metaPixel";
 
 const PropertyMap = lazy(() => import("@/components/map/PropertyMap").then(m => ({ default: m.PropertyMap })));
 
@@ -93,9 +91,6 @@ interface QuickValuationResultProps {
 }
 
 export function QuickValuationResult({ data, intention, onNewValuation }: QuickValuationResultProps) {
-  const navigate = useNavigate();
-  const [parecerRequested, setParecerRequested] = useState(false);
-  const [isRequesting, setIsRequesting] = useState(false);
 
   const formatCurrency = (value: number, compact = false) => {
     if (compact && value >= 1000000) return `R$ ${(value / 1000000).toFixed(1).replace('.', ',')} mi`;
@@ -149,60 +144,11 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
   const gapPercent = hasGap ? ((gapValue / data.estimativa!.med) * 100) : 0;
   const gapDirection = gapValue > 0 ? "above" : gapValue < 0 ? "below" : "fair";
 
-  const handleRequestParecer = async () => {
-    setIsRequesting(true);
-    try {
-      const { error } = await supabase.functions.invoke('send-lead-notification', {
-        body: {
-          type: 'complete',
-          leadId: '',
-          leadName: data.leadName,
-          leadEmail: data.leadEmail,
-          leadPhone: data.leadPhone,
-          interesse: 'compra',
-          bairro: data.bairro,
-          area: data.area_m2,
-          tipologia: data.tipologia,
-          quartos: data.quartos,
-          banheiros: data.banheiros,
-          suites: data.suites,
-          vagas: data.vagas,
-          estimativaMin: data.estimativa?.min,
-          estimativaMed: data.estimativa?.med,
-          estimativaMax: data.estimativa?.max,
-        }
-      });
-      if (error) {
-        console.error('Error sending notification:', error);
-        toast.error("Erro ao enviar solicitação. Tente pelo WhatsApp.");
-      } else {
-        toast.success("Solicitação enviada com sucesso!");
-      }
-      setParecerRequested(true);
-      setTimeout(() => {
-        window.open(
-          whatsappUrl(
-            WHATSAPP_MESSAGES.parecerCompleto({
-              nome: data.leadName,
-              tipologia: data.tipologia,
-              area: data.area_m2,
-              bairro: data.bairro,
-              estimativaMin: data.estimativa?.min || 0,
-              estimativaMax: data.estimativa?.max || 0,
-              telefone: data.leadPhone,
-              email: data.leadEmail,
-            })
-          ),
-          '_blank'
-        );
-      }, 500);
-    } catch (err) {
-      console.error('Request error:', err);
-      toast.error("Erro ao enviar. Tente pelo WhatsApp.");
-    } finally {
-      setIsRequesting(false);
-    }
-  };
+  const specialistUrl = whatsappUrl(WHATSAPP_MESSAGES.resultadoEspecialista({
+    tipologia: data.tipologia,
+    estimativaMin: data.estimativa?.min || 0,
+    estimativaMax: data.estimativa?.max || 0,
+  }));
 
   if (!hasData) {
     return (
@@ -235,7 +181,7 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
           </div>
           <div className="min-w-0">
             <p className="font-medium text-green-800 text-sm sm:text-base truncate">{data.leadName}</p>
-            <p className="text-xs text-green-600 truncate">{data.leadEmail}</p>
+            <p className="text-xs text-green-600 truncate">WhatsApp confirmado</p>
           </div>
         </div>
         <Badge variant="secondary" className="bg-green-100 text-green-700 text-xs flex-shrink-0">Cadastro Confirmado</Badge>
@@ -467,61 +413,23 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
         </CardContent>
       </Card>
 
-      {/* ===== SOLICITAR PARECER TÉCNICO, CTA destacado ===== */}
-      {!parecerRequested && (
-        <div className="bg-gradient-to-br from-[#0C2340] to-[#1a3a5c] rounded-2xl p-6 sm:p-8 text-center space-y-4 shadow-xl">
-          <div className="mx-auto w-14 h-14 rounded-full bg-[#D4AF37]/20 flex items-center justify-center">
-            <Shield className="h-7 w-7 text-[#D4AF37]" />
-          </div>
-          <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
-            {intention === "vender"
-              ? "Anuncie no preço certo, sem deixar dinheiro na mesa"
-              : intention === "comprar"
-              ? "Negocie com a margem certa, sem pagar a mais"
-              : spreadPercent >= 30
-              ? "Intervalo amplo, você precisa de precisão"
-              : spreadPercent >= 15
-              ? "Quer saber exatamente onde seu imóvel se posiciona?"
-              : "Proteja seu patrimônio com uma análise completa"}
-          </h3>
-          <p className="text-white/70 text-sm max-w-lg mx-auto">
-            {intention === "vender"
-              ? "O Parecer Técnico define o valor exato para anunciar: nem alto demais (que afasta proposta), nem baixo demais (que deixa dinheiro na mesa)."
-              : intention === "comprar"
-              ? "O Parecer Técnico calcula o teto justo de proposta e a margem real de negociação, com base em transações registradas e nas características do imóvel."
-              : spreadPercent >= 30
-              ? "Com essa variação, a estimativa online não é suficiente. Um Parecer Técnico presencial analisa os diferenciais do seu imóvel e define o valor com precisão."
-              : "O Parecer Técnico Godoy Prime analisa 26 características específicas do seu imóvel para posicioná-lo com precisão dentro da faixa de mercado."}
-          </p>
-          <Button
-            onClick={handleRequestParecer}
-            disabled={isRequesting}
-            size="lg"
-            className="bg-[#D4AF37] hover:bg-[#c9a432] text-[#0C2340] tracking-widest uppercase text-xs font-semibold px-8 py-4 rounded-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-          >
-            <MessageCircle className="mr-2 h-5 w-5" />
-            {isRequesting
-              ? "Enviando..."
-              : intention === "vender"
-              ? "Quero anunciar no preço certo"
-              : intention === "comprar"
-              ? "Quero o teto justo de proposta"
-              : "Solicitar Parecer Técnico"}
-          </Button>
-          <p className="text-white/40 text-xs">Sem compromisso • Orçamento gratuito • Retorno em até 2h</p>
-        </div>
-      )}
-      <Card className="border-border shadow-lg">
-        <CardContent className="py-6">
-          <PeritEvaluationSection
-            valorPedido={data.valorPedidoVendedor}
-            valorMercado={data.estimativa?.med}
-            onRequestParecer={handleRequestParecer}
-            isRequesting={isRequesting}
-          />
-        </CardContent>
-      </Card>
-
+      <div className="bg-[#0C2340] rounded-[2px] p-6 sm:p-8 text-center space-y-4">
+        <h3 className="font-serif text-xl sm:text-2xl font-bold text-primary-foreground">
+          Sua análise está pronta para a próxima etapa
+        </h3>
+        <p className="text-primary-foreground/70 text-sm max-w-lg mx-auto">
+          Continue no WhatsApp para receber a análise completa e falar diretamente com o especialista.
+        </p>
+        <Button asChild size="lg" className="h-auto min-h-12 whitespace-normal px-6 py-3">
+          <a href={specialistUrl} target="_blank" rel="noopener noreferrer" onClick={() => trackCtaClick("ClickWhatsApp", { source: "resultado_avaliacao", tipologia: data.tipologia })}>
+            <MessageCircle className="mr-2 h-5 w-5 shrink-0" />
+            Receber a análise completa e falar com o especialista no WhatsApp
+          </a>
+        </Button>
+        <Link to="/#servicos" className="block text-xs text-primary-foreground/55 underline underline-offset-4 hover:text-[#C9A84C]">
+          Conhecer Parecer, Compra Blindada e Prime Buyer
+        </Link>
+      </div>
 
       {/* Aviso de limitação técnica */}
       <div className="bg-amber-50/80 border border-amber-200/60 rounded-lg p-3 sm:p-4 text-sm text-amber-800">
@@ -569,98 +477,12 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
               </div>
             );
           })}
-          <div className="pt-4 border-t border-border">
-            <div className="text-center">
-              <p className="text-sm text-muted-foreground mb-3">Tem dúvidas sobre os dados, a metodologia ou aspectos legais?</p>
-              <Link to="/faq">
-                <Button variant="outline" size="sm" className="gap-2">
-                  <HelpCircle className="h-4 w-4" />
-                  Ver FAQ Completa
-                  <ExternalLink className="h-3 w-3" />
-                </Button>
-              </Link>
-            </div>
-          </div>
         </CardContent>
       </Card>
 
-      {/* Parecer CTA */}
-      {parecerRequested ? (
-        <Card className="border-green-500/30 bg-green-50">
-          <CardContent className="py-8">
-            <div className="text-center space-y-4">
-              <div className="mx-auto w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center">
-                <Shield className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="text-xl font-bold text-green-800">Solicitação de Parecer Técnico Enviada!</h3>
-              <p className="text-green-700">Obrigado, <strong>{data.leadName}</strong>! Nossa equipe entrará em contato em breve para iniciar a proteção do seu patrimônio.</p>
-              <p className="text-sm text-green-600">Também abrimos o WhatsApp para você enviar uma mensagem direta.</p>
-              <Button onClick={onNewValuation} variant="outline" className="mt-4">Fazer Nova Consulta de Valor</Button>
-            </div>
-          </CardContent>
-        </Card>
-      ) : (
-        <Card className="border-0 overflow-hidden" style={{ backgroundColor: '#0C2340' }}>
-          <CardContent className="py-10 px-6">
-            <div className="text-center space-y-5 max-w-2xl mx-auto">
-              <div className="inline-flex items-center gap-2 bg-[#C9A84C]/15 border border-[#C9A84C]/30 rounded-full px-3 py-1">
-                <Shield className="h-3.5 w-3.5 text-[#C9A84C]" />
-                <span className="text-[#C9A84C] text-xs font-semibold uppercase tracking-wider">
-                  Próximo Passo · Validação Técnica
-                </span>
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-white leading-tight">
-                Garanta seu Parecer Técnico antes de fechar negócio
-              </h3>
-              <p className="text-white/75 text-sm sm:text-base">
-                Proteja seu patrimônio com o <strong className="text-white">Parecer Técnico Godoy Prime</strong>.
-                Potencial de economia de <strong className="text-[#C9A84C]">R$ 180-450 mil</strong> por imóvel analisado.
-                Investimento a partir de <strong className="text-white">R$ 4.900</strong> com garantia de reembolso 100%.
-              </p>
-              <div className="flex justify-center pt-2">
-                <Button
-                  onClick={handleRequestParecer}
-                  disabled={isRequesting}
-                  size="lg"
-                  className="bg-[#C9A84C] hover:bg-[#b8963f] text-[#0C2340] font-semibold shadow-lg"
-                >
-                  <Shield className="mr-2 h-5 w-5" />
-                  {isRequesting ? CTA_LABELS.enviando : CTA_LABELS.solicitarParecerAgora}
-                </Button>
-              </div>
-              <p className="text-xs text-white/60">
-                Prefere falar direto?{" "}
-                <button
-                  type="button"
-                  onClick={() => window.open(whatsappUrl(WHATSAPP_MESSAGES.parecerComNome(data.leadName)), "_blank")}
-                  className="underline underline-offset-2 hover:text-white transition-colors"
-                >
-                  Abrir conversa no WhatsApp
-                </button>{" "}
-                ou{" "}
-                <a href={PHONE.tel} className="underline underline-offset-2 hover:text-white transition-colors">
-                  ligar {PHONE.display}
-                </a>
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-white/60 pt-2">
-                <span>Garantia 100%</span>
-                <span className="text-white/30">•</span>
-                <span>Resposta em 2h úteis</span>
-                <span className="text-white/30">•</span>
-                <span>Sem compromisso</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
       {/* Rodapé discreto */}
-      <div className="text-center pt-[100px] pb-4">
-        {!parecerRequested && (
-          <button onClick={onNewValuation} className="text-muted-foreground/40 transition-colors hover:text-muted-foreground/60" style={{ fontSize: '12px', color: '#999' }}>
-            ← Voltar e fazer nova consulta
-          </button>
-        )}
+      <div className="text-center pt-10 pb-4">
+        <span className="text-xs text-muted-foreground/50">Godoy Prime Realty</span>
       </div>
     </div>
   );

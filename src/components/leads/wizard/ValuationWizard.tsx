@@ -62,14 +62,14 @@ const initialForm: FormData = {
 
 interface Props {
   origem?: string;
+  sellerProfile?: boolean;
 }
 
-export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
-  const [step, setStep] = useState<WizardStep>("intention");
-  const [intention, setIntention] = useState<Intention | null>(null);
+export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = false }: Props) {
+  const [step, setStep] = useState<WizardStep>(sellerProfile ? "address" : "intention");
+  const [intention, setIntention] = useState<Intention | null>(sellerProfile ? "vender" : null);
   const [form, setForm] = useState<FormData>(initialForm);
   const [estimativa, setEstimativa] = useState<EstimativaState | null>(null);
-  const [googleData, setGoogleData] = useState<{ email: string; nome: string } | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [limitExceeded, setLimitExceeded] = useState(false);
   const [evaluationCount, setEvaluationCount] = useState(0);
@@ -90,38 +90,6 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
     if (normalized) setForm((f) => ({ ...f, tipologia: normalized }));
   }, []);
 
-  // Restore from Google OAuth redirect
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    const fromGoogle = url.searchParams.get("from") === "google";
-    const stored = sessionStorage.getItem(STORAGE_KEY);
-    if (!stored) return;
-    // Restaura se vier explicitamente do Google OU se houver sessão Supabase ativa
-    // (cobre o caso novo em que redirect_uri não carrega mais ?from=google).
-    const tryRestore = async () => {
-      try {
-        const { data } = await supabase.auth.getUser();
-        if (!fromGoogle && !data.user) return;
-        const saved = JSON.parse(stored);
-        setForm(saved.form);
-        setEstimativa(saved.estimativa);
-        setStep("result");
-        if (data.user) {
-          setGoogleData({
-            email: data.user.email || "",
-            nome: (data.user.user_metadata?.full_name as string) || "",
-          });
-        }
-        if (fromGoogle) {
-          url.searchParams.delete("from");
-          window.history.replaceState({}, "", url.toString());
-        }
-      } catch {
-        sessionStorage.removeItem(STORAGE_KEY);
-      }
-    };
-    tryRestore();
-  }, []);
 
   // Tracking per step
   useEffect(() => {
@@ -153,7 +121,12 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
     result: 4,
     thanks: 4,
   };
-  const progress = (stepIndex[step] / 4) * 100;
+  const sellerStepIndex: Record<WizardStep, number> = {
+    intention: 1, address: 1, property: 2, details: 3, analyzing: 3, result: 3, thanks: 3,
+  };
+  const totalSteps = sellerProfile ? 3 : 4;
+  const currentStep = sellerProfile ? sellerStepIndex[step] : stepIndex[step];
+  const progress = (currentStep / totalSteps) * 100;
 
   const runAnalysis = async () => {
     trackFunnelStep("Passo3_Dados");
@@ -199,26 +172,14 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
     }
   };
 
-  const persistForGoogle = () => {
-    sessionStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({ form, estimativa }),
-    );
-  };
-
-  const handleCaptureSubmit = async (data: {
-    email: string;
-    nome: string;
-    telefone: string;
-    googleVerified: boolean;
-  }) => {
-    console.log("[WIZARD] handleCaptureSubmit start", { email: data.email, nome: data.nome, googleVerified: data.googleVerified });
+  const handleCaptureSubmit = async (data: { nome: string; telefone: string }) => {
+    const internalEmail = `${data.telefone}@whatsapp.godoyprime.local`;
     if (!estimativa) return;
     setIsSubmitting(true);
     const areaNum = parseFloat(form.area);
     const bairroNorm = normalizeBairro(form.bairro) || "BARRA DA TIJUCA";
     const { itbiData, estimativa: est } = estimativa;
-    const finalOrigem = data.googleVerified ? `${origem}_google` : origem;
+    const finalOrigem = origem;
 
     const diferenciais = [
       form.details.vistaMar && "Vista mar",
@@ -232,7 +193,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
     try {
       // Check limit
       const { data: leadCheck } = await supabase.rpc("check_lead_exists", {
-        lead_email: data.email,
+         lead_email: internalEmail,
       });
       const existing = leadCheck && leadCheck.length > 0 && leadCheck[0].exists_flag;
       const count = existing ? leadCheck[0].current_count : 0;
@@ -251,7 +212,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
       if (existing) {
         console.log("[WIZARD] updating existing lead");
         await supabase.rpc("update_lead_by_email", {
-          p_email: data.email,
+           p_email: internalEmail,
           p_nome: data.nome,
           p_telefone: data.telefone,
           p_bairro_interesse: bairroNorm,
@@ -263,12 +224,12 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
           p_diferenciais_imovel: diferenciais || null,
           p_endereco_imovel_analise: enderecoCompleto || null,
         });
-        await supabase.rpc("increment_lead_evaluation", { lead_email: data.email });
+         await supabase.rpc("increment_lead_evaluation", { lead_email: internalEmail });
       } else {
         console.log("[WIZARD] inserting new lead");
         const { error: insErr } = await supabase.from("leads").insert({
           nome: data.nome,
-          email: data.email,
+           email: internalEmail,
           telefone: data.telefone,
           bairro_interesse: bairroNorm,
           area_interesse: areaNum,
@@ -278,7 +239,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
           vagas: form.details.vagas || null,
           diferenciais_imovel: diferenciais || null,
           endereco_imovel_analise: enderecoCompleto || null,
-          interesse: "compra",
+           interesse: intention === "vender" ? "venda" : "compra",
           origem: finalOrigem,
           evaluation_count: 1,
         });
@@ -335,9 +296,9 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
             type: existing ? "returning" : "initial",
             leadId: "",
             leadName: data.nome,
-            leadEmail: data.email,
+             leadEmail: internalEmail,
             leadPhone: data.telefone,
-            interesse: "compra",
+             interesse: intention === "vender" ? "venda" : "compra",
             bairro: bairroNorm,
             area: areaNum,
             tipologia: form.tipologia,
@@ -372,7 +333,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
 
       sendLeadToCrm("avaliacao_direta_wizard", {
         nome: data.nome,
-        email: data.email,
+         email: internalEmail,
         telefone: data.telefone,
         bairro: bairroNorm,
         logradouro: form.logradouro.trim() || null,
@@ -387,8 +348,8 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
         vista_mar: form.details.vistaMar,
         reformado: form.details.reformado,
         varanda_gourmet: form.details.varandaGourmet,
-        google_verified: data.googleVerified,
-        interesse: "compra",
+         google_verified: false,
+         interesse: intention === "vender" ? "venda" : "compra",
         origem: finalOrigem,
         is_returning_lead: !!existing,
         evaluation_number: existing ? count + 1 : 1,
@@ -398,7 +359,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
       });
 
       // Meta Pixel
-      trackWizardLeadCaptured(est.med, data.googleVerified ? "google" : "manual");
+       trackWizardLeadCaptured(est.med, "manual");
       if (existing) {
         trackEvent("ReturningLeadEvaluation", {
           content_name: "avaliacao_direta_wizard",
@@ -431,7 +392,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
         itbiData,
         estimativa: est,
         leadName: data.nome,
-        leadEmail: data.email,
+         leadEmail: "",
         leadPhone: data.telefone,
       });
       setStep("thanks");
@@ -448,7 +409,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
     return (
       <LimitExceededScreen
         evaluationCount={evaluationCount}
-        email={googleData?.email || ""}
+        email=""
         onRetry={() => setLimitExceeded(false)}
       />
     );
@@ -469,10 +430,9 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
           onNewValuation={() => {
             setFinalData(null);
             setEstimativa(null);
-            setGoogleData(null);
             setForm(initialForm);
-            setIntention(null);
-            setStep("intention");
+            setIntention(sellerProfile ? "vender" : null);
+            setStep(sellerProfile ? "address" : "intention");
           }}
         />
       </Suspense>
@@ -484,7 +444,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
       <CardContent className="p-0">
         <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-[#0C2340]/10 px-5 sm:px-7 py-3 space-y-1.5">
           <div className="flex items-center justify-between font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.16em] text-[#0C2340]/70">
-            <span>Passo {stepIndex[step]} de 4</span>
+             <span>Passo {currentStep} de {totalSteps}</span>
             <span className="text-[#C9A84C]">{Math.round(progress)}%</span>
           </div>
           <Progress value={progress} className="h-1 [&>div]:bg-[#C9A84C]" />
@@ -583,9 +543,6 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
           <StepResultCapture
             estimativa={estimativa}
             intention={intention}
-            prefilledEmail={googleData?.email}
-            prefilledName={googleData?.nome}
-            googleVerified={!!googleData}
             isSubmitting={isSubmitting}
             onSubmit={handleCaptureSubmit}
             onBack={() => setStep("details")}

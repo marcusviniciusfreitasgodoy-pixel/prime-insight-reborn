@@ -100,6 +100,10 @@ export const WHATSAPP_MESSAGES = {
       detalhes ? ` (${detalhes})` : ""
     }.${linhaEst}\n\nQuero receber a análise preliminar completa do especialista por aqui.`;
   },
+
+  /** CTA único exibido após a análise completa. */
+  resultadoEspecialista: (p: { tipologia: string; estimativaMin: number; estimativaMax: number }) =>
+    `Olá! Concluí a avaliação de um ${p.tipologia.toLowerCase()}. A faixa calculada foi de ${formatBRL(p.estimativaMin)} a ${formatBRL(p.estimativaMax)}. Quero receber a análise completa e falar com o especialista.`,
 } as const;
 
 // === Rótulos / copy dos CTAs ===
