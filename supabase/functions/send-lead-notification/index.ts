@@ -68,7 +68,7 @@ const formatCurrency = (value: number | undefined) => {
 
 // Função para enviar e-mail de confirmação ao cliente
 async function sendClientConfirmationEmail(data: LeadNotificationRequest) {
-  if (!data.leadEmail) {
+  if (!data.leadEmail || data.leadEmail.endsWith("@whatsapp.godoyprime.local")) {
     console.log("No client email provided, skipping confirmation");
     return null;
   }
@@ -303,7 +303,7 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     // Public endpoint (called from the anonymous /avaliacao-direta flow), but
-    // we require that the leadEmail already exists in the `leads` table before
+    // we require that the leadPhone already exists in the `leads` table before
     // sending anything. This prevents attackers from calling this function to
     // spam arbitrary recipients via our Resend domain.
 
@@ -311,16 +311,16 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Received notification request:", JSON.stringify(data, null, 2));
     
     // Validate required fields
-    if (!data.leadName || !data.leadEmail || !data.leadPhone) {
-      console.error("Missing required fields:", { name: data.leadName, email: data.leadEmail, phone: data.leadPhone });
+    if (!data.leadName || !data.leadPhone) {
+      console.error("Missing required fields");
       return new Response(
-        JSON.stringify({ error: "Missing required fields: leadName, leadEmail, leadPhone" }),
+        JSON.stringify({ error: "Missing required fields: leadName, leadPhone" }),
         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
     // Verify the lead was actually created via the validated public form
-    // (which is RLS-protected and rate-limited). If the email is not present
+    // (which is RLS-protected and rate-limited). If the phone is not present
     // in the leads table, refuse to send.
     try {
       const adminClient = createClient(
@@ -330,11 +330,11 @@ const handler = async (req: Request): Promise<Response> => {
       const { data: leadRow, error: leadErr } = await adminClient
         .from("leads")
         .select("id")
-        .eq("email", String(data.leadEmail).toLowerCase().trim())
+        .eq("telefone", String(data.leadPhone).replace(/\D/g, ""))
         .limit(1)
         .maybeSingle();
       if (leadErr || !leadRow) {
-        console.error("Lead not found for email, refusing to send:", data.leadEmail, leadErr);
+        console.error("Lead not found for phone, refusing to send", leadErr);
         return new Response(
           JSON.stringify({ error: "Unauthorized: lead not found" }),
           { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
