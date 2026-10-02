@@ -130,7 +130,14 @@ export function StepResultCapture({
       </div>
 
       <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_180px] items-stretch">
-       <form onSubmit={handleSubmit} className="rounded-[2px] border border-[#0C2340]/15 bg-white p-4 sm:p-5 space-y-4">
+       <aside className="md:order-2 rounded-[2px] border border-[#0C2340]/15 bg-[#F3EBE0] p-3 flex md:flex-col items-center gap-3 text-left md:text-center">
+        <img src={marcusGodoyImg} alt="Marcus Godoy" className="h-16 w-14 md:h-24 md:w-20 object-cover object-top grayscale rounded-[2px] shrink-0" />
+        <div>
+          <h3 className="font-serif text-base md:text-lg font-bold text-[#0C2340]">Marcus Godoy</h3>
+          <p className="font-mono text-[9px] uppercase tracking-[0.08em] leading-relaxed text-[#4A443C]">Perito Avaliador credenciado TJRJ, CRECI PF 80.199</p>
+        </div>
+       </aside>
+       <form onSubmit={handleSubmit} className="md:order-1 rounded-[2px] border border-[#0C2340]/15 bg-white p-4 sm:p-5 space-y-4">
         <div className="text-center">
           <div className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[#C9A84C] font-semibold mb-1">
             Próximo passo
@@ -191,13 +198,6 @@ export function StepResultCapture({
            Seus dados ficam seguros e não são compartilhados. Você recebe a análise e nada mais sem o seu ok.
         </p>
        </form>
-       <aside className="rounded-[2px] border border-[#0C2340]/15 bg-[#F3EBE0] p-3 flex md:flex-col items-center gap-3 text-left md:text-center">
-        <img src={marcusGodoyImg} alt="Marcus Godoy" className="h-20 w-16 md:h-24 md:w-20 object-cover object-top grayscale rounded-[2px] shrink-0" />
-        <div>
-          <h3 className="font-serif text-lg font-bold text-[#0C2340]">Marcus Godoy</h3>
-          <p className="font-mono text-[9px] uppercase tracking-[0.08em] leading-relaxed text-[#4A443C]">Perito Avaliador credenciado TJRJ, CRECI PF 80.199</p>
-        </div>
-       </aside>
       </div>
     </div>
   );
