@@ -58,6 +58,24 @@ export function trackWizardStep(step: 1 | 2 | 3 | 4) {
   safeFbq("trackCustom", `WizardStep${step}`, { step });
 }
 
+/**
+ * Funil R8 — eventos nomeados por passo CONCLUÍDO:
+ * Passo1_Objetivo, Passo2_Tipo, Passo3_Dados, Resultado_Visto.
+ * O evento padrão "Lead" continua restrito ao envio efetivo do contato.
+ */
+export type FunnelStepEvent =
+  | "Passo1_Objetivo"
+  | "Passo2_Tipo"
+  | "Passo3_Dados"
+  | "Resultado_Visto";
+
+export function trackFunnelStep(
+  name: FunnelStepEvent,
+  params?: Record<string, unknown>,
+) {
+  safeFbq("trackCustom", name, params ?? {});
+}
+
 /** Wizard — estimativa renderizada após loader. */
 export function trackWizardEstimateShown(value: number) {
   safeFbq("trackCustom", "WizardEstimateShown", { value, currency: "BRL" });

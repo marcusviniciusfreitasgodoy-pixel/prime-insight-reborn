@@ -11,6 +11,7 @@ import {
   trackWizardStep,
   trackWizardEstimateShown,
   trackWizardLeadCaptured,
+  trackFunnelStep,
 } from "@/lib/metaPixel";
 import { StepAddress } from "./StepAddress";
 import { StepProperty } from "./StepProperty";
@@ -136,6 +137,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
     const n = map[step];
     if (n) trackWizardStep(n);
     if (step === "result") {
+      trackFunnelStep("Resultado_Visto");
       (window as any).dataLayer = (window as any).dataLayer || [];
       (window as any).dataLayer.push({ event: "avaliacao_concluida" });
     }
@@ -154,6 +156,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
   const progress = (stepIndex[step] / 4) * 100;
 
   const runAnalysis = async () => {
+    trackFunnelStep("Passo3_Dados");
     setStep("analyzing");
     const start = Date.now();
     const areaNum = parseFloat(form.area);
@@ -523,6 +526,7 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
                   type="button"
                   onClick={() => {
                     setIntention(key);
+                    trackFunnelStep("Passo1_Objetivo", { objetivo: key });
                     setStep("address");
                   }}
                   className="group text-left rounded-[2px] border border-[#0C2340]/15 bg-white p-5 sm:p-6 transition-all duration-200 hover:border-[#C9A84C] hover:-translate-y-0.5"
@@ -556,7 +560,10 @@ export function ValuationWizard({ origem = "avaliacao_direta" }: Props) {
             area={form.area}
             quartos={form.quartos}
             onChange={(p) => setForm((f) => ({ ...f, ...p }))}
-            onNext={() => setStep("details")}
+            onNext={() => {
+              trackFunnelStep("Passo2_Tipo", { tipologia: form.tipologia });
+              setStep("details");
+            }}
             onBack={() => setStep("address")}
           />
         )}
