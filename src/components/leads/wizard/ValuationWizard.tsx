@@ -12,6 +12,7 @@ import {
   trackWizardEstimateShown,
   trackWizardLeadCaptured,
   trackFunnelStep,
+  type FunnelStepEvent,
 } from "@/lib/metaPixel";
 import { StepAddress } from "./StepAddress";
 import { StepProperty } from "./StepProperty";
@@ -75,6 +76,14 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
   const [evaluationCount, setEvaluationCount] = useState(0);
   const [finalData, setFinalData] = useState<QuickValuationData | null>(null);
   const topRef = useRef<HTMLDivElement>(null);
+  // Guard R8: cada evento de funil dispara UMA única vez por sessão da página,
+  // nunca em re-render ou volta de etapa.
+  const firedFunnelSteps = useRef<Set<string>>(new Set());
+  const fireFunnelStepOnce = (name: FunnelStepEvent, params?: Record<string, unknown>) => {
+    if (firedFunnelSteps.current.has(name)) return;
+    firedFunnelSteps.current.add(name);
+    trackFunnelStep(name, params);
+  };
 
   // Pre-select tipologia from query string (?tipo=apartamento|casa|cobertura)
   useEffect(() => {
@@ -105,7 +114,7 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
     const n = map[step];
     if (n) trackWizardStep(n);
     if (step === "result") {
-      trackFunnelStep("Resultado_Visto");
+      fireFunnelStepOnce("Resultado_Visto");
       (window as any).dataLayer = (window as any).dataLayer || [];
       (window as any).dataLayer.push({ event: "avaliacao_concluida" });
     }
@@ -129,7 +138,7 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
   const progress = (currentStep / totalSteps) * 100;
 
   const runAnalysis = async () => {
-    trackFunnelStep("Passo3_Dados");
+    fireFunnelStepOnce("Passo3_Dados");
     setStep("analyzing");
     const start = Date.now();
     const areaNum = parseFloat(form.area);
@@ -486,7 +495,9 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
                   type="button"
                   onClick={() => {
                     setIntention(key);
-                    trackFunnelStep("Passo1_Objetivo", { objetivo: key });
+                    if (!sellerProfile) {
+                      fireFunnelStepOnce("Passo1_Objetivo", { objetivo: key });
+                    }
                     setStep("address");
                   }}
                   className="group text-left rounded-[2px] border border-[#0C2340]/15 bg-white p-5 sm:p-6 transition-all duration-200 hover:border-[#C9A84C] hover:-translate-y-0.5"
@@ -521,7 +532,7 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
             quartos={form.quartos}
             onChange={(p) => setForm((f) => ({ ...f, ...p }))}
             onNext={() => {
-              trackFunnelStep("Passo2_Tipo", { tipologia: form.tipologia });
+              fireFunnelStepOnce("Passo2_Tipo", { tipologia: form.tipologia });
               setStep("details");
             }}
             onBack={() => setStep("address")}
