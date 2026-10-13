@@ -56,20 +56,21 @@ export function useStreetComparison(logradouros: string[], periodoMeses: number 
       const outlierLimit = bairro ? getOutlierLimit(bairro) : OUTLIER_LIMITS['DEFAULT'];
 
       const results: StreetComparisonData[] = [];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const withBairro = <T,>(q: T): T => (bairro ? (q as any).eq('bairro', bairro.toUpperCase()) : q);
 
       for (const logradouro of logradouros) {
         if (!logradouro) continue;
 
-        const { data: currentData, error: currentError } = await supabase
+        const { data: currentData, error: currentError } = await withBairro(supabase
           .from('itbi_transactions')
           .select('valor_m2, total_transacoes, data_transacao')
           .eq('uso', 'Residencial')
           .ilike('logradouro', `%${logradouro}%`)
-          .eq('bairro', bairro ? bairro.toUpperCase() : undefined as unknown as string)
           .gte('percentual_transferido', 90)
           .gte('data_transacao', startDateStr)
           .not('valor_m2', 'is', null)
-          .lte('valor_m2', outlierLimit);
+          .lte('valor_m2', outlierLimit));
 
         if (currentError) {
           console.error('Erro ao buscar dados:', currentError);
@@ -95,17 +96,16 @@ export function useStreetComparison(logradouros: string[], periodoMeses: number 
           ? Math.round((valores[valores.length / 2 - 1] + valores[valores.length / 2]) / 2)
           : Math.round(valores[Math.floor(valores.length / 2)]);
 
-        const { data: previousData } = await supabase
+        const { data: previousData } = await withBairro(supabase
           .from('itbi_transactions')
           .select('valor_m2, total_transacoes')
           .eq('uso', 'Residencial')
           .ilike('logradouro', `%${logradouro}%`)
-          .eq('bairro', bairro ? bairro.toUpperCase() : undefined as unknown as string)
           .gte('percentual_transferido', 90)
           .gte('data_transacao', previousStartDate.toISOString().split('T')[0])
           .lt('data_transacao', previousEndDate.toISOString().split('T')[0])
           .not('valor_m2', 'is', null)
-          .lte('valor_m2', outlierLimit);
+          .lte('valor_m2', outlierLimit));
 
         let variacao_periodo: number | null = null;
         if (previousData && previousData.length > 0) {
