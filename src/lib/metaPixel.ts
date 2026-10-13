@@ -41,6 +41,24 @@ export function trackLead(params?: Record<string, unknown>) {
   );
 }
 
+/**
+ * Conclusão do passo final do formulário (fim do passo 4 do wizard de
+ * avaliação direta). Evento padrão CompleteRegistration do Meta, entregue uma
+ * única vez por pixel via trackSingle (mesmo motivo do trackLead: evitar
+ * duplicação entre os pixels inicializados). Disparar APENAS no runtime do
+ * usuário, dentro do handler de conclusão do passo.
+ */
+export function trackCompleteRegistration(params?: Record<string, unknown>) {
+  console.log("[Pixel] CompleteRegistration disparado", params ?? {});
+  safeFbq("trackSingle", PIXEL_MAIN, "CompleteRegistration", params ?? {});
+  safeFbq(
+    "trackSingle",
+    PIXEL_SECONDARY,
+    "CompleteRegistration",
+    { ...(params ?? {}), content_name: "AvaliacaoConcluida" },
+  );
+}
+
 /** Clique em CTA / intenção de contato — NÃO é Lead. */
 export function trackCtaClick(
   name: "ClickWhatsApp" | "ClickParecer" | "ClickCalendly" | string,
