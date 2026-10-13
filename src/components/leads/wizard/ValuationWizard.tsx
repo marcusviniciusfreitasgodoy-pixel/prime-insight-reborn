@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { sendLeadToCrm } from "@/lib/crmWebhook";
 import {
-  trackLead,
+  trackCompleteRegistration,
   trackEvent,
   trackWizardStep,
   trackWizardEstimateShown,
@@ -369,6 +369,14 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
 
       // Meta Pixel
        trackWizardLeadCaptured(est.med, "manual");
+      // Conclusão do passo final do formulário (fim do passo 4) — evento de
+      // conversão CompleteRegistration, disparado só aqui no runtime do usuário
+      // após o insert/update do lead ter sido bem-sucedido.
+      trackCompleteRegistration({
+        content_name: "avaliacao_direta_wizard",
+        value: est.med,
+        currency: "BRL",
+      });
       if (existing) {
         trackEvent("ReturningLeadEvaluation", {
           content_name: "avaliacao_direta_wizard",
@@ -376,14 +384,10 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
           value: est.med,
           currency: "BRL",
         });
-      } else {
-        trackLead({
-          content_name: "avaliacao_direta_wizard",
-          content_category: "new_lead",
-          value: est.med,
-          currency: "BRL",
-        });
       }
+      // OPÇÃO 1: Lead é disparado apenas no clique do WhatsApp
+      // (QuickValuationResult.tsx). Aqui, no fim do passo 4, fica só o
+      // CompleteRegistration acima. Não disparar trackLead neste handler.
 
       sessionStorage.removeItem(STORAGE_KEY);
 

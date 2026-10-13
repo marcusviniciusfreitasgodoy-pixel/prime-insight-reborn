@@ -38,7 +38,7 @@ import {
 } from "lucide-react";
 import { HistoricalAnalysisChart } from "@/components/valuation/HistoricalAnalysisChart";
 import { WHATSAPP_MESSAGES, whatsappUrl } from "@/config/contact";
-import { trackCtaClick } from "@/lib/metaPixel";
+import { trackCtaClick, trackLead } from "@/lib/metaPixel";
 
 const PropertyMap = lazy(() => import("@/components/map/PropertyMap").then(m => ({ default: m.PropertyMap })));
 
@@ -421,7 +421,7 @@ export function QuickValuationResult({ data, intention, onNewValuation }: QuickV
           Continue no WhatsApp para receber a análise completa e falar diretamente com o especialista.
         </p>
         <Button asChild size="lg" className="h-auto min-h-12 whitespace-normal px-6 py-3">
-          <a href={specialistUrl} target="_blank" rel="noopener noreferrer" onClick={() => trackCtaClick("ClickWhatsApp", { source: "resultado_avaliacao", tipologia: data.tipologia })}>
+          <a href={specialistUrl} target="_blank" rel="noopener noreferrer" onClick={() => { trackCtaClick("ClickWhatsApp", { source: "resultado_avaliacao", tipologia: data.tipologia }); trackLead({ content_name: "ClickWhatsApp_resultado", content_category: "contato_whatsapp", tipologia: data.tipologia }); }}>
             <MessageCircle className="mr-2 h-5 w-5 shrink-0" />
             Receber a análise completa e falar com o especialista no WhatsApp
           </a>
