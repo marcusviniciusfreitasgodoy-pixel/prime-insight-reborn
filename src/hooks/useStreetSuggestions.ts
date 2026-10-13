@@ -63,7 +63,11 @@ export function useStreetSuggestions(query: string, bairro: string = 'BARRA DA T
       });
 
       // Adicionar condomínios que correspondem à busca mas não estão nos resultados ITBI
-      addCondominioSuggestions(suggestions, condominioMap, searchVariations);
+      // Condomínio table has no bairro column (mapped in Barra/Recreio only):
+      // only add condo-only rows there, to avoid cross-neighborhood suggestions.
+      if (/BARRA DA TIJUCA|RECREIO/.test(bairroNormalized)) {
+        addCondominioSuggestions(suggestions, condominioMap, searchVariations);
+      }
 
       // 4. Se não houver resultados, tentar API da Prefeitura como fallback
       if (suggestions.length === 0) {

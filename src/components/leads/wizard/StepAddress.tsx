@@ -182,7 +182,7 @@ export function StepAddress({ tipologia, bairro, logradouro, numero, onChange, o
                     key={`${s.logradouro}-${i}`}
                     type="button"
                     onClick={() => {
-                      onChange({ logradouro: s.nome_condominio || s.logradouro });
+                      onChange({ logradouro: s.logradouro });
                       setShowSuggestions(false);
                       setStreetSelected(true);
                     }}
