@@ -11,6 +11,7 @@ import {
   trackWizardStep,
   trackWizardEstimateShown,
   trackWizardLeadCaptured,
+  trackLeadWithEventId,
   trackFunnelStep,
   type FunnelStepEvent,
 } from "@/lib/metaPixel";
@@ -369,6 +370,12 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
 
       // Meta Pixel
        trackWizardLeadCaptured(est.med, "manual");
+      // Lead padrão: uma única vez por submissão, no mesmo ponto do WizardLeadCaptured.
+      const leadEventId =
+        typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+          ? crypto.randomUUID()
+          : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      trackLeadWithEventId(leadEventId);
       // Conclusão do passo final do formulário (fim do passo 4) — evento de
       // conversão CompleteRegistration, disparado só aqui no runtime do usuário
       // após o insert/update do lead ter sido bem-sucedido.
@@ -385,9 +392,6 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
           currency: "BRL",
         });
       }
-      // OPÇÃO 1: Lead é disparado apenas no clique do WhatsApp
-      // (QuickValuationResult.tsx). Aqui, no fim do passo 4, fica só o
-      // CompleteRegistration acima. Não disparar trackLead neste handler.
 
       sessionStorage.removeItem(STORAGE_KEY);
 
