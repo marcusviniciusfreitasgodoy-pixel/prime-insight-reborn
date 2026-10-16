@@ -184,7 +184,7 @@ export function ValuationWizard({ origem = "avaliacao_direta", sellerProfile = f
 
   const handleCaptureSubmit = async (data: { nome: string; telefone: string }) => {
     const internalEmail = `${data.telefone}@whatsapp.godoyprime.local`;
-    if (!estimativa) return;
+    if (!estimativa || isSubmitting) return;
     setIsSubmitting(true);
     const areaNum = parseFloat(form.area);
     const bairroNorm = normalizeBairro(form.bairro) || "BARRA DA TIJUCA";
