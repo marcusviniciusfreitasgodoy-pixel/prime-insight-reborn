@@ -59,6 +59,14 @@ export function trackCompleteRegistration(params?: Record<string, unknown>) {
   );
 }
 
+/**
+ * Lead da avaliação direta: UM disparo por submissão, com eventID único
+ * (para deduplicação caso um envio pela Conversions API seja adicionado).
+ */
+export function trackLeadWithEventId(eventID: string) {
+  safeFbq("track", "Lead", {}, { eventID });
+}
+
 /** Clique em CTA / intenção de contato — NÃO é Lead. */
 export function trackCtaClick(
   name: "ClickWhatsApp" | "ClickParecer" | "ClickCalendly" | string,
